@@ -12,12 +12,12 @@ type StatCardProps = {
 export function StatCard({ title, value, icon, className }: StatCardProps) {
   return (
     <Card className={`overflow-hidden ${className}`}>
-      <CardContent className="p-6 flex items-center gap-4">
-        <div className="rounded-full p-3 bg-blue-50">
+      <CardContent className="p- space-y-2">
+        <div className="rounded-full p-3 bg-blue-50 w-fit">
           {icon}
         </div>
-        <div>
-          <h3 className="text-4xl font-bold">{value}</h3>
+        <div className='space-y-2'>
+          <h3 className="text-2xl font-bold">{value}</h3>
           <p className="text-sm text-muted-foreground">{title}</p>
         </div>
       </CardContent>
@@ -31,22 +31,22 @@ export function DashboardCards() {
       <StatCard 
         title="Hospitals" 
         value={52} 
-        icon={<Building className="h-6 w-6 text-blue-500" />} 
+        icon={<Building className="h-5 w-5 text-blue-500" />} 
       />
       <StatCard 
         title="Active Hospitals" 
         value={35} 
-        icon={<Building2 className="h-6 w-6 text-green-500" />} 
+        icon={<Building2 className="h-5 w-5 text-green-500" />} 
       />
       <StatCard 
         title="Inactive Hospitals" 
         value={27} 
-        icon={<Building className="h-6 w-6 text-red-500" />} 
+        icon={<Building className="h-5 w-5 text-red-500" />} 
       />
       <StatCard 
         title="Our Staff" 
         value={20} 
-        icon={<Users className="h-6 w-6 text-purple-500" />} 
+        icon={<Users className="h-5 w-5 text-purple-500" />} 
       />
     </div>
   );

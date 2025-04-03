@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import * as React from "react";
@@ -9,8 +10,10 @@ import { FieldProps, useForge } from "@/lib/forge";
 import { TextInput, TextInputProps } from "@/components/FormInputs/TextInput";
 import Link from "next/link";
 import { FcGoogle } from "react-icons/fc";
+import { useRouter } from "next/navigation";
 
 export function LoginForm() {
+  const router = useRouter()
   const renderInputs: FieldProps<TextInputProps>[] = [
     {
       name: "username",
@@ -35,6 +38,11 @@ export function LoginForm() {
     fieldProps: renderInputs,
   });
 
+  const handleClick = (e: any) => {
+    e.preventDefault()
+    router.push('/super-admin/dashboard')
+  }
+
   return (
     <div className="min-w-sm">
       <header className="self-start">
@@ -53,7 +61,7 @@ export function LoginForm() {
             </Link>
           </div>
 
-          <Button className="gap-2.5 self-stretch p-2.5 mt-5 w-full font-semibold whitespace-nowrap rounded-md bg-slate-400 text-slate-200 hover:bg-slate-500">
+          <Button onClick={handleClick} className="gap-2.5 self-stretch p-2.5 mt-5 w-full font-semibold whitespace-nowrap rounded-md bg-slate-400 text-slate-200 hover:bg-slate-500">
             Login
           </Button>
         </CardContent>

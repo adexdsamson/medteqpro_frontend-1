@@ -1,100 +1,138 @@
+'use client'
+
 import {
   Sidebar,
   SidebarContent,
-  SidebarFooter,
   SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
+  SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar"
-import { 
-  LayoutDashboard, 
-  Users, 
-  Settings, 
-  FileText, 
-  HelpCircle, 
-  UserCog, 
-  LogOut 
-} from "lucide-react"
-import Image from "next/image"
-import Link from "next/link"
+} from "@/components/ui/sidebar";
+import {
+  LayoutDashboard,
+  Users,
+  Settings,
+  FileText,
+  HelpCircle,
+  UserCog,
+  LogOut,
+} from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export function AppSidebar() {
+  const pathname = usePathname();
+  
+  // Function to check if the current path matches the menu item's href
+  const isItemActive = (href: string) => {
+    // Check if the current path starts with the super-admin prefix and the href
+    return pathname?.startsWith(`/super-admin${href}`);
+  };
+
+  const menuItems = [
+    {
+      label: "Dashboard",
+      icon: LayoutDashboard,
+      href: "/dashboard",
+    },
+    {
+      label: "Clients Management",
+      icon: Users,
+      href: "/clients",
+    },
+    {
+      label: "Staff Management",
+      icon: Users,
+      href: "/staff",
+    },
+    {
+      label: "System Settings",
+      icon: Settings,
+      href: "/settings",
+    },
+    {
+      label: "Reports",
+      icon: FileText,
+      href: "/reports",
+    },
+    {
+      label: "Support",
+      icon: HelpCircle,
+      href: "/support",
+    },
+  ];
+
+  const menuItems2 = [
+    {
+      label: "Profile Settings",
+      icon: UserCog,
+      href: "/dashboard",
+      
+    },
+    {
+      label: 'Logout',
+      icon: LogOut,
+      href: '/sign-out'
+    }
+  ]
+
   return (
-    <Sidebar>
+    <Sidebar className="!bg-white">
       <SidebarHeader className="p-4">
         <div className="flex items-center">
-          <span className="text-xl font-bold text-primary">
+          <span className="text-xl font-bold text-primary mx-auto">
             <span className="text-[#16232E]">Medteq</span>
             <span className="text-[#16C2D5]">Pro</span>
           </span>
         </div>
       </SidebarHeader>
+
       <SidebarContent>
-        <SidebarMenu>MENU</SidebarMenu>
         <SidebarGroup>
-          <SidebarMenu>
-            <SidebarMenuItem asChild active>
-              <Link href="/super-admin/dashboard">
-                <LayoutDashboard className="h-4 w-4" />
-                <span>Dashboard</span>
-              </Link>
-            </SidebarMenuItem>
-            <SidebarMenuItem asChild>
-              <Link href="/super-admin/clients">
-                <Users className="h-4 w-4" />
-                <span>Client Management</span>
-              </Link>
-            </SidebarMenuItem>
-            <SidebarMenuItem asChild>
-              <Link href="/super-admin/staff">
-                <Users className="h-4 w-4" />
-                <span>Staff Management</span>
-              </Link>
-            </SidebarMenuItem>
-            <SidebarMenuItem asChild>
-              <Link href="/super-admin/settings">
-                <Settings className="h-4 w-4" />
-                <span>System Settings</span>
-              </Link>
-            </SidebarMenuItem>
-            <SidebarMenuItem asChild>
-              <Link href="/super-admin/reports">
-                <FileText className="h-4 w-4" />
-                <span>Reports</span>
-              </Link>
-            </SidebarMenuItem>
-            <SidebarMenuItem asChild>
-              <Link href="/super-admin/support">
-                <HelpCircle className="h-4 w-4" />
-                <span>Support</span>
-              </Link>
-            </SidebarMenuItem>
-          </SidebarMenu>
+          <SidebarGroupLabel>MENU</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {menuItems.map((item) => (
+                <SidebarMenuItem key={item.label}>
+                  <SidebarMenuButton 
+                    className="h-10 text-sm font-semibold" 
+                    isActive={isItemActive(item.href)} 
+                    asChild>
+                    <Link href={`/super-admin${item.href}`}>
+                      <item.icon className="h-5 w-5" />
+                      <span>{item.label}</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
         </SidebarGroup>
-        
-        <SidebarMenu className="mt-6">SETTINGS</SidebarMenu>
-        <SidebarGroup>
-          <SidebarMenu>
-            <SidebarMenuItem asChild>
-              <Link href="/super-admin/profile">
-                <UserCog className="h-4 w-4" />
-                <span>Profile Settings</span>
-              </Link>
-            </SidebarMenuItem>
-            <SidebarMenuItem asChild>
-              <Link href="/sign-out" className="text-red-500 hover:text-red-600">
-                <LogOut className="h-4 w-4" />
-                <span>Logout</span>
-              </Link>
-            </SidebarMenuItem>
-          </SidebarMenu>
+
+        <SidebarGroup className="mt-6">
+          <SidebarGroupLabel>SETTINGS</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {menuItems2.map((item) => (
+                <SidebarMenuItem key={item.label}>
+                  <SidebarMenuButton 
+                    className="h-10 text-sm font-semibold" 
+                    isActive={isItemActive(item.href)} 
+                    asChild>
+                    <Link href={`/super-admin${item.href}`}>
+                      <item.icon className="h-5 w-5" />
+                      <span>{item.label}</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter className="p-4 text-xs text-muted-foreground">
-        <div>© 2024 MedTeqPro. All rights reserved.</div>
-      </SidebarFooter>
     </Sidebar>
-  )
+  );
 }
-  

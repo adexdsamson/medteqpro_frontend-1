@@ -23,23 +23,23 @@ export type TextAreaProps = React.InputHTMLAttributes<HTMLTextAreaElement> & {
   rows?: number;
 };
 
-export const TextInput = (props: TextInputProps) => {
+export const TextInput = ({ containerClass, startAdornment, endAdornment, ...props }: TextInputProps) => {
   return (
     <div
       className={`flex flex-col font-medium w-full relative ${
-        props.containerClass ?? ""
+        containerClass ?? ""
       }`}
     >
       <Label className="text-sm whitespace-nowrap text-stone-900">
         {props.label}
       </Label>
       <div className="flex items-center bg-white rounded-lg border border-solid border-stone-300 py-1 mt-2 px-3 gap-1">
-        <span>{props.startAdornment}</span>
+        <span>{startAdornment}</span>
         <Input
           {...props}
           className="w-full text-sm leading-5 border-0 text-stone-400 !focus-visible:ring-0 !ring-0 !focus:border-0 !focus:outline-none px-0 placeholder:text-xs placeholder:text-gray-300 flex-1 focus-visible:ring-offset-0"
         />
-        <span>{props.endAdornment}</span>
+        <span>{endAdornment}</span>
       </div>
       <span className="text-xs text-red-500 mt-1">{props.error}</span>
     </div>
