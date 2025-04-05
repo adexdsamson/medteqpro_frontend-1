@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, {
   ReactNode,
@@ -104,20 +105,20 @@ export const useForge = <
     (
       { className, children, onSubmit, onError, control = "form" },
       ref
-    ): JSX.Element => {
+    ): any => {
       const updatedChildren = Children.map(children, (child) => {
         if (isButtonSlot(child)) {
           return cloneElement(child, {
             onClick: formProps.handleSubmit(onSubmit, onError),
-          });
+          } as any);
         }
 
         if (isInputSlot(child) && control === "form") {
           return React.createElement(child.type, {
             ...{
-              ...child.props,
-              ...formProps.register(child.props.name),
-              key: child.props.name,
+              ...(child.props as any),
+              ...formProps.register((child.props as any).name),
+              key: (child as any).props.name,
             },
           });
         }
@@ -125,12 +126,12 @@ export const useForge = <
         if (isNestedSlot(child)) {
           return createElement(child.type, {
             ...{
-              ...child.props,
-              children: Children.map(child.props.children, (child) => {
+              ...(child.props as any),
+              children: Children.map((child as any).props.children, (child) => {
                 return isButtonSlot(child)
                   ? cloneElement(child, {
                       onClick: formProps.handleSubmit(onSubmit, onError),
-                    })
+                    } as any)
                   : child;
               }),
             },
@@ -138,7 +139,7 @@ export const useForge = <
         }
 
         return isElementSlot(child)
-          ? cloneElement(child, { control: formProps.control })
+          ? cloneElement(child, { control: formProps.control } as any)
           : undefined;
       });
 

@@ -35,7 +35,9 @@ export function useSubscribe<T>(props: Props<T>) {
       });
 
     return () => {
-      subscription && subscription.unsubscribe();
+      if(subscription) {
+        subscription?.unsubscribe?.();
+      }
     };
   }, [props.disabled]);
 }

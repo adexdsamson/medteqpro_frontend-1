@@ -108,6 +108,8 @@ const MemorizeController = memo<ForgeProps>(
   }
 );
 
+MemorizeController.displayName = 'MemorizeController';
+
 export const Forger = (props: ForgerProps) => {
   const methods = useFormContext();
 

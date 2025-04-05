@@ -1,5 +1,7 @@
-/* eslint-disable @typescript-eslint/ban-types */
-/* eslint-disable no-prototype-builtins */
+/* eslint-disable @typescript-eslint/no-unsafe-function-type */
+/* eslint-disable @typescript-eslint/no-empty-object-type */
+ 
+ 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, {
   Children,
@@ -376,14 +378,14 @@ export function Slot({ children, ...props }: SlotProps) {
   }
 
   if (React.isValidElement(children)) {
-    const customChildStyle = children?.props?.style ?? [];
+    const customChildStyle = (children?.props as any)?.style  ?? [];
     const style = props?.style ?? [];
 
     return React.cloneElement(children, {
       ...props,
-      ...children.props,
+      ...(children.props as object),
       style: isWeb ? style : [...style, ...customChildStyle],
-    });
+    } as any);
   }
 
   return null;
@@ -394,7 +396,7 @@ export type AsChildProps<DefaultElementProps, CustomProps> =
   | ({ asChild: true; children: React.ReactNode } & CustomProps);
 
 export function isButtonSlot(child: ReactNode): child is ReactElement {
-  return isValidElement(child) && child.props.type === "submit";
+  return isValidElement(child) && (child as any).props.type === "submit";
 }
 export function isElementSlot(child: ReactNode): child is ReactElement {
   return isValidElement(child);
@@ -410,5 +412,5 @@ export function isNestedSlot(child: ReactNode): child is ReactElement {
 }
 
 export function isInputSlot(child: ReactNode): child is ReactElement {
-  return isValidElement(child) && child.props.name;
+  return isValidElement(child) && (child as any).props.name;
 }

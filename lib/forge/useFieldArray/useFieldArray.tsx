@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 import React, { useState, useRef, useEffect } from "react";
 import { useSubscribe } from "../useSubscribe";
 import {
@@ -108,7 +110,7 @@ export const useFieldArray = <
       updatedFieldArrayValues: T
     ) => {
       _actioned.current = true;
-      control._updateFieldArray(name, updatedFieldArrayValues);
+      (control as any)._updateFieldArray(name, updatedFieldArrayValues);
     },
     [control, name]
   );
@@ -132,7 +134,7 @@ export const useFieldArray = <
     ids.current = appendAt(ids.current, appendValue.map(generateId));
     updateValues(updatedFieldArrayValues);
     setFields(updatedFieldArrayValues);
-    control._updateFieldArray(name, updatedFieldArrayValues, appendAt, {
+    (control as any)._updateFieldArray(name, updatedFieldArrayValues, appendAt, {
       argA: fillEmptyArray(value),
     });
   };
@@ -144,7 +146,7 @@ export const useFieldArray = <
     ids.current = removeArrayAt(ids.current, index);
     updateValues(updatedFieldArrayValues);
     setFields(updatedFieldArrayValues);
-    control._updateFieldArray(name, updatedFieldArrayValues, removeArrayAt, {
+    (control as any)._updateFieldArray(name, updatedFieldArrayValues, removeArrayAt, {
       argA: index,
     });
   };
@@ -163,7 +165,7 @@ export const useFieldArray = <
         control._formState.isSubmitted)
     ) {
       if (control._options.resolver) {
-        control._executeSchema([name]).then((result) => {
+        (control as any)._executeSchema([name]).then((result: any) => {
           const error = get(result.errors, name);
           const existingError = get(control._formState.errors, name);
 
@@ -214,7 +216,7 @@ export const useFieldArray = <
       }
     }
 
-    control._subjects.values.next({
+    (control as any)._subjects.values.next({
       name,
       values: { ...control._formValues },
     });
@@ -234,7 +236,7 @@ export const useFieldArray = <
 
     control._names.focus = "";
 
-    control._updateValid();
+    (control as any)._updateValid();
     _actioned.current = false;
   }, [fields, name, control]);
 

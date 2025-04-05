@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Label } from "@/components/ui/label";
 import {
   Select,
@@ -10,7 +11,7 @@ import { RegisterOptions } from "react-hook-form";
 
 export type TextSelectProps = {
   name: string;
-  label?: string | JSX.Element;
+  label?: string | any;
   containerClass?: string;
   error?: string;
   options: { label: string; value: string }[];
