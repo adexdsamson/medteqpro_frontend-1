@@ -1,3 +1,5 @@
+'use client'
+
 import { DataTable } from "@/components/DataTable";
 import { Button } from "@/components/ui/button";
 import React from "react";
