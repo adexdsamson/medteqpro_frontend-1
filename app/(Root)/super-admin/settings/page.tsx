@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Subheader from "../../_components/Subheader";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Plan from "./layout/Plan";
@@ -10,6 +10,7 @@ import Integration from "./layout/Integration";
 import Security from "./layout/Security";
 
 export default function Settings() {
+  const [tab, setTab] = useState('plan')
   const tabs = [
     {
       value: "plan",
@@ -40,10 +41,10 @@ export default function Settings() {
 
   return (
     <>
-      <Subheader title="System Settings / Billing" />
+      <Subheader title={`System Settings / ${tab === 'plan' ? 'Billing' : tab}`} />
 
       <div className="px-6 mt-6 space-y-5">
-        <Tabs defaultValue={tabs[0].value}>
+        <Tabs value={tab} onValueChange={(value) => setTab(value)}>
           <TabsList className="h-auto rounded-none border-none bg-transparent p-0 mb-5 gap-6">
             {tabs.map((item) => (
               <TabsTrigger
