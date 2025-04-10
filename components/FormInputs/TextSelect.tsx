@@ -25,7 +25,7 @@ export const TextSelect = ({ label, ...rest }: TextSelectProps) => {
     <div className={rest?.containerClass ?? ""}>
       <Label
         htmlFor={typeof label === "string" ? label : ""}
-        className="mb-3 block text-sm text-stone-900"
+        className="mb-2 block text-sm text-stone-900"
       >
         {label}
       </Label>
@@ -36,9 +36,9 @@ export const TextSelect = ({ label, ...rest }: TextSelectProps) => {
           rest?.onChange?.({ target: { name: rest.name ?? "", value } })
         }
       >
-        <SelectTrigger className="w-full 1text-xs !text-stone-400">
+        <SelectTrigger className="w-full 1text-xs !text-stone-400 !h-12">
           <SelectValue
-            className="1text-xs !text-gray-300"
+            className="1text-xs !text-gray-300 "
             placeholder={rest?.placeholder}
           />
         </SelectTrigger>

@@ -12,16 +12,6 @@ const nextConfig: NextConfig = {
       },
     ]
   },
-
-  images: {
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "cdn.builder.io",
-        port: "",
-      }
-    ]
-  }
 };
 
 export default nextConfig;
