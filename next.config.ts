@@ -8,10 +8,19 @@ const nextConfig: NextConfig = {
       {
         source: '/',
         destination: '/sign-in',
-        permanent: true,
+        permanent: false,
       },
     ]
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "avatar.iran.liara.run",
+        port: "",
+      },
+    ]
+  }
 };
 
 export default nextConfig;

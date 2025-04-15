@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { DataTable } from "@/components/DataTable";
 import { Button } from "@/components/ui/button";
@@ -7,6 +7,9 @@ import Subheader from "../../_components/Subheader";
 import { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
 import { makeArrayDataWithLength } from "@/demo";
+import { StatCard } from "../dashboard/_components";
+import { Building, Building2, Users } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export type ReportType = {
   id: string;
@@ -32,6 +35,8 @@ const getSampleReportData = makeArrayDataWithLength<ReportType>(
 );
 
 export default function Reports() {
+  const router = useRouter();
+
   const columns: ColumnDef<ReportType>[] = [
     {
       accessorKey: "id",
@@ -70,8 +75,17 @@ export default function Reports() {
     {
       id: "action",
       header: "Action",
-      cell() {
-        return <Button variant={"link"}>View report</Button>;
+      cell({ row }) {
+        return (
+          <Button
+            onClick={() =>
+              router.push(`/super-admin/reports/${row.original.id}`)
+            }
+            variant={"link"}
+          >
+            View report
+          </Button>
+        );
       },
     },
   ];
@@ -81,10 +95,35 @@ export default function Reports() {
       <Subheader title="Reports" />
 
       <div className="px-6 mt-6 space-y-5">
-        <div className="flex items-end border-b py-2"></div>
+        <div className="flex items-end border-b py-2">
+          <h4 className="text-sm font-bold">All Report</h4>
+        </div>
 
-        <div className="flex items-end py-2">
-          <Button>Register Hospital</Button>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <StatCard
+            title="No of Hospitals"
+            value={52}
+            icon={<Building className="h-5 w-5 text-blue-500" />}
+          />
+          <StatCard
+            title="Revenue in Subscription"
+            value={`N35+m`}
+            icon={<Building2 className="h-5 w-5 text-green-500" />}
+          />
+          <StatCard
+            title="No of Doctors"
+            value={501}
+            icon={<Building className="h-5 w-5 text-red-500" />}
+          />
+          <StatCard
+            title="Patients"
+            value={10000}
+            icon={<Users className="h-5 w-5 text-purple-500" />}
+          />
+        </div>
+
+        <div className="flex justify-end w-full py-2">
+          <Button>Download</Button>
         </div>
 
         <div className="bg-white p-1.5 rounded-lg">

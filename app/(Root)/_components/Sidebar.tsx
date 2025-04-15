@@ -69,7 +69,7 @@ export function AppSidebar() {
     {
       label: "Profile Settings",
       icon: UserCog,
-      href: "/dashboard",
+      href: "/profile",
       
     },
     {
