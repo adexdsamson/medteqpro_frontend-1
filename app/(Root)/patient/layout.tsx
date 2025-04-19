@@ -1,19 +1,26 @@
+import React from "react";
+import { Metadata } from "next";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "../_components/Sidebar";
 import { AppHeader } from "../_components/AppHeader";
 
-export default function DashboardLayout({
+export const metadata: Metadata = {
+  title: "Patient Portal | MedTeqPro",
+  description: "Patient dashboard and management",
+};
+
+export default function PatientLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <SidebarProvider>
-      <AppSidebar moduleKey="super-admin" />
+      <AppSidebar moduleKey="patient" />
       <main className="w-full bg-gray-50">
         <AppHeader />
         {children}
       </main>
     </SidebarProvider>
   );
-}
+} 

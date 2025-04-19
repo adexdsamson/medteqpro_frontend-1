@@ -12,8 +12,12 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { BellIcon, Calendar, LogOut, Settings, User } from "lucide-react";
+import { useModule } from "@/hooks/useModule";
 
 export function AppHeader() {
+  // Use our custom hook to access the current module configuration
+  const { moduleConfig, userProfile, getModulePath } = useModule();
+
   // Get current date in the format: Monday, 2 April 2024
   const getCurrentDate = () => {
     const date = new Date();
@@ -49,14 +53,14 @@ export function AppHeader() {
               <div className="flex items-center gap-3 cursor-pointer">
                 <Avatar>
                   <AvatarImage
-                    src="https://avatar.iran.liara.run/public/14"
-                    alt="Henry Audu"
+                    src={userProfile.avatar}
+                    alt={userProfile.name}
                   />
-                  <AvatarFallback>HA</AvatarFallback>
+                  <AvatarFallback>{userProfile.name.substring(0, 2).toUpperCase()}</AvatarFallback>
                 </Avatar>
                 <div className="text-right hidden md:block">
-                  <p className="text-sm font-medium">Hi, Henry Audu</p>
-                  <p className="text-xs text-muted-foreground">Super Admin</p>
+                  <p className="text-sm font-medium">Hi, {userProfile.name}</p>
+                  <p className="text-xs text-muted-foreground">{userProfile.role}</p>
                 </div>
               </div>
             </DropdownMenuTrigger>
