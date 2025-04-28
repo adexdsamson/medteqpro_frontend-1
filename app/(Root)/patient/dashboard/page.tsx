@@ -5,25 +5,30 @@ import {
   AppointmentsSection,
   LabResultsSection,
 } from "./_components";
+import Subheader from "../../_components/Subheader";
 
 function PatientDashboard() {
   return (
-    <div className="p-6 space-y-6 min-h-screen">
-      <div className="flex flex-col lg:flex-row gap-6">
-        <div className="w-full lg:w-2/3">
+    <>
+      <Subheader title="Dashboard" />
+      <div className="p-6 space-y-6 min-h-screen">
+        <div className="flex justify-end gap-6">
           <WalletBalance />
         </div>
-      </div>
 
-      <div className="space-y-6">
-        <VitalsSection />
-        
-        <AppointmentsSection />
-        
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="w-full">
+            <VitalsSection />
+          </div>
+          <div className="w-full">
+            <AppointmentsSection />
+          </div>
+        </div>
+
         <LabResultsSection />
       </div>
-    </div>
+    </>
   );
 }
 
-export default PatientDashboard; 
+export default PatientDashboard;

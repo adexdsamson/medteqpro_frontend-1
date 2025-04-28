@@ -30,36 +30,36 @@ const appointmentsData = [
 
 const AppointmentsSection = () => {
   return (
-    <div>
-      <h2 className="text-base font-semibold mb-3">Upcoming Appointments</h2>
-      <div className="bg-white rounded-lg shadow-sm">
-        <div className="divide-y">
+    <div className="w-full h-full">
+      <h2 className="text-base font-semibold mb-3 text-black">Upcoming Appointments</h2>
+      <div className="bg-white rounded-lg h-full">
+        <div className="space-y-3">
           {appointmentsData.map((appointment) => (
-            <div key={appointment.id} className="p-4 flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="h-12 w-12 rounded-full overflow-hidden">
-                  <Image
-                    src={appointment.avatar}
-                    alt={appointment.doctorName}
-                    width={48}
-                    height={48}
-                    className="h-full w-full object-cover"
-                  />
-                </div>
+            <div key={appointment.id} className="p-3 flex items-center gap-3 border-b border-[#F1F4F8]">
+              <div className="h-12 w-12 rounded-full overflow-hidden">
+                <Image
+                  src={appointment.avatar}
+                  alt={appointment.doctorName}
+                  width={48}
+                  height={48}
+                  className="h-full w-full object-cover"
+                />
+              </div>
+              <div className="flex items-center gap-9">
                 <div>
-                  <h3 className="text-sm font-medium">Whom to see</h3>
-                  <p className="text-sm text-gray-600">{appointment.doctorName}</p>
+                  <h3 className="text-xs font-semibold text-[#118795]">Whom to see</h3>
+                  <p className="text-sm text-[#10151E]">{appointment.doctorName}</p>
                 </div>
-              </div>
-              
-              <div>
-                <h3 className="text-sm font-medium">Designation</h3>
-                <p className="text-sm text-gray-600">{appointment.designation}</p>
-              </div>
-              
-              <div>
-                <h3 className="text-sm font-medium">Date & Time</h3>
-                <p className="text-sm text-gray-600">{appointment.date} {appointment.time}</p>
+                
+                <div>
+                  <h3 className="text-xs font-semibold text-[#118795]">Designation</h3>
+                  <p className="text-sm text-[#10151E]">{appointment.designation}</p>
+                </div>
+                
+                <div>
+                  <h3 className="text-xs font-semibold text-[#118795]">Date & Time</h3>
+                  <p className="text-sm text-[#10151E]">{appointment.date} {appointment.time}</p>
+                </div>
               </div>
             </div>
           ))}

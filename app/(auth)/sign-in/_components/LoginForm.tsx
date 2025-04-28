@@ -11,9 +11,18 @@ import { TextInput, TextInputProps } from "@/components/FormInputs/TextInput";
 import Link from "next/link";
 import { FcGoogle } from "react-icons/fc";
 import { useRouter } from "next/navigation";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
 
 export function LoginForm() {
-  const router = useRouter()
+  const router = useRouter();
+  const [open, setOpen] = React.useState(false);
+  
   const renderInputs: FieldProps<TextInputProps>[] = [
     {
       name: "username",
@@ -39,9 +48,32 @@ export function LoginForm() {
   });
 
   const handleClick = (e: any) => {
-    e.preventDefault()
-    router.push('/super-admin/dashboard')
-  }
+    e.preventDefault();
+    setOpen(true);
+  };
+
+  const handleRoleSelect = (role: string) => {
+    setOpen(false);
+    switch (role) {
+      case "super-admin":
+        router.push("/super-admin/dashboard");
+        break;
+      case "admin":
+        router.push("/admin/dashboard");
+        break;
+      case "doctor":
+        router.push("/doctor/dashboard");
+        break;
+      case "nurse":
+        router.push("/nurse/dashboard");
+        break;
+      case "patient":
+        router.push("/patient/dashboard");
+        break;
+      default:
+        router.push("/dashboard");
+    }
+  };
 
   return (
     <div className="min-w-sm">
@@ -76,6 +108,44 @@ export function LoginForm() {
         <SocialIcon icon={<FaApple size={24} />} onClick={() => {}} />
         <SocialIcon icon={<FcGoogle size={24} />} onClick={() => {}} />
       </div>
+
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Select Role</DialogTitle>
+            <DialogDescription>
+              Choose a role to access the dashboard
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <RoleOption
+              title="Super Admin"
+              description="Full system access and management"
+              onClick={() => handleRoleSelect("super-admin")}
+            />
+            <RoleOption
+              title="Admin"
+              description="Hospital administration and management"
+              onClick={() => handleRoleSelect("admin")}
+            />
+            <RoleOption
+              title="Doctor"
+              description="Patient care and medical services"
+              onClick={() => handleRoleSelect("doctor")}
+            />
+            <RoleOption
+              title="Nurse"
+              description="Patient care support and assistance"
+              onClick={() => handleRoleSelect("nurse")}
+            />
+            <RoleOption
+              title="Patient"
+              description="Front desk operations and scheduling"
+              onClick={() => handleRoleSelect("patient")}
+            />
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
@@ -89,6 +159,24 @@ const SocialIcon = ({ onClick, icon }: SocialIconProps) => {
   return (
     <div onClick={onClick} className="border border-gray-400 rounded-full p-3 cursor-pointer">
       {icon}
+    </div>
+  );
+};
+
+type RoleOptionProps = {
+  title: string;
+  description: string;
+  onClick: () => void;
+}
+
+const RoleOption = ({ title, description, onClick }: RoleOptionProps) => {
+  return (
+    <div 
+      onClick={onClick}
+      className="flex flex-col p-4 border rounded-md cursor-pointer hover:bg-slate-50 transition-colors"
+    >
+      <h3 className="font-medium text-sm">{title}</h3>
+      <p className="text-xs text-gray-500">{description}</p>
     </div>
   );
 };
