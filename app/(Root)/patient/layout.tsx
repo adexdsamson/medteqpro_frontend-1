@@ -17,7 +17,7 @@ export default function PatientLayout({
   return (
     <SidebarProvider>
       <AppSidebar moduleKey="patient" />
-      <main className="w-full bg-gray-50">
+      <main className="w-full bg-[#F1F4F8]">
         <AppHeader />
         {children}
       </main>

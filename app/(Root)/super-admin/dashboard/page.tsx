@@ -12,7 +12,7 @@ import DateTextInput from "@/components/comp-41";
 function Dashboard() {
   return (
     <>
-      <div className="bg-white py-1  px-5 flex items-center justify-between">
+      <div className="bg-white py-1 px-5 flex items-center justify-between">
         <h1 className="text-lg font-bold">Dashboard</h1>
         <DateTextInput />
       </div>

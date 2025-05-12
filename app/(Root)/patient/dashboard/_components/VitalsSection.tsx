@@ -35,13 +35,13 @@ const vitalData = [
 
 const VitalsSection = () => {
   return (
-    <div className="w-full h-full">
+    <div className="w-full h-fit">
       <h2 className="text-base font-semibold mb-3 text-[#10151E]">Last Recorded Vitals</h2>
       <div className="grid grid-cols-2 gap-3 h-full">
         {vitalData.map((vital) => (
-          <div key={vital.id} className="bg-white p-4 rounded-lg flex-1">
-            <div className="flex items-center gap-3">
-              <div className="bg-[#E8F9FB] p-3 rounded-full">
+          <div key={vital.id} className="bg-white p-6 rounded-lg flex-1">
+            <div className="flex flex-col gap-3">
+              <div className="bg-[#E8F9FB] p-3 rounded-full w-fit h-fit">
                 {vital.icon}
               </div>
               <div>

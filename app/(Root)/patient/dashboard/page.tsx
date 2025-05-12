@@ -11,16 +11,16 @@ function PatientDashboard() {
   return (
     <>
       <Subheader title="Dashboard" />
-      <div className="p-6 space-y-6 min-h-screen">
-        <div className="flex justify-end gap-6">
+      <div className="p-6 lg:max-w-7xl mx-auto h-full">
+        <div className="flex justify-end gap-6 mb-8">
           <WalletBalance />
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="w-full">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-fit px-2 mb-4">
+          <div className="w-full h-full pb-2">
             <VitalsSection />
           </div>
-          <div className="w-full">
+          <div className="w-full h-full">
             <AppointmentsSection />
           </div>
         </div>

@@ -15,7 +15,6 @@ import {
   UserPlus,
   Calendar,
   Database,
-  ShieldCheck,
   Stethoscope
 } from "lucide-react";
 import { LucideIcon } from "lucide-react";
@@ -180,9 +179,9 @@ export const moduleConfigs: ModuleConfig[] = [
     },
   },
   {
-    key: 'hospital-admin',
-    displayName: 'Hospital Admin',
-    pathPrefix: '/hospital-admin',
+    key: 'admin',
+    displayName: 'Admin',
+    pathPrefix: '/admin',
     menuItems: [
       {
         label: "Dashboard",
@@ -190,29 +189,34 @@ export const moduleConfigs: ModuleConfig[] = [
         href: "/dashboard",
       },
       {
-        label: "Staff",
+        label: "Patient",
         icon: Users,
-        href: "/staff",
-      },
-      {
-        label: "Departments",
-        icon: Building,
-        href: "/departments",
-      },
-      {
-        label: "Patients",
-        icon: UserPlus,
         href: "/patients",
       },
       {
-        label: "Hospital Analytics",
-        icon: Activity,
-        href: "/analytics",
+        label: "Bed Management",
+        icon: Building,
+        href: "/bed-management",
       },
       {
-        label: "Settings",
+        label: "Payroll Management",
+        icon: UserPlus,
+        href: "/payroll-management",
+      },
+      {
+        label: "Queuuing System",
+        icon: Activity,
+        href: "/queuing-system",
+      },
+      {
+        label: "Staff Management",
         icon: Settings,
-        href: "/settings",
+        href: "/staff-management",
+      },
+      {
+        label: "Appointment",
+        icon: Settings,
+        href: "/appointment",
       },
     ],
     settingsItems: commonSettingsItems,
