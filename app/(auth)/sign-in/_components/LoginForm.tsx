@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { UserIcon, LockIcon } from "lucide-react";
 import { FaApple } from "react-icons/fa";
-import { FieldProps, useForge } from "@/lib/forge";
+import { FieldProps, Forge, useForge } from "@/lib/forge";
 import { TextInput, TextInputProps } from "@/components/FormInputs/TextInput";
 import Link from "next/link";
 import { FcGoogle } from "react-icons/fc";
@@ -22,7 +22,7 @@ import {
 export function LoginForm() {
   const router = useRouter();
   const [open, setOpen] = React.useState(false);
-  
+
   const renderInputs: FieldProps<TextInputProps>[] = [
     {
       name: "username",
@@ -43,8 +43,12 @@ export function LoginForm() {
     },
   ];
 
-  const { ForgeForm } = useForge({
-    fieldProps: renderInputs,
+  const { control } = useForge({
+    fields: renderInputs,
+    defaultValues: {
+      username: "",
+      password: "",
+    },
   });
 
   const handleClick = (e: any) => {
@@ -86,21 +90,26 @@ export function LoginForm() {
 
       <Card className="mt-7 w-full text-xs max-w-[400px] border-none shadow-none bg-transparent">
         <CardContent className="p-0 space-y-2.5">
-          <ForgeForm onSubmit={() => {}} />
+          <Forge control={control} onSubmit={() => {}} />
           <div className="flex items-center">
             <Link href="/" className="mt- font-medium text-teal-600">
               Forgot Password?
             </Link>
           </div>
 
-          <Button onClick={handleClick} className="gap-2.5 self-stretch p-2.5 mt-5 w-full font-semibold whitespace-nowrap rounded-md bg-slate-400 text-slate-200 hover:bg-slate-500">
+          <Button
+            onClick={handleClick}
+            className="gap-2.5 self-stretch p-2.5 mt-5 w-full font-semibold whitespace-nowrap rounded-md bg-slate-400 text-slate-200 hover:bg-slate-500"
+          >
             Login
           </Button>
         </CardContent>
       </Card>
 
       <div className="mt-10 mb-10 relative">
-        <span className="bg-[#F1F4F8] px-4 absolute -top-2.5 mx-auto w-fit block text-xs right-5/12">or with</span>
+        <span className="bg-[#F1F4F8] px-4 absolute -top-2.5 mx-auto w-fit block text-xs right-5/12">
+          or with
+        </span>
         <hr className="" />
       </div>
 
@@ -153,11 +162,14 @@ export function LoginForm() {
 type SocialIconProps = {
   onClick: () => void;
   icon: React.ReactNode;
-}
+};
 
 const SocialIcon = ({ onClick, icon }: SocialIconProps) => {
   return (
-    <div onClick={onClick} className="border border-gray-400 rounded-full p-3 cursor-pointer">
+    <div
+      onClick={onClick}
+      className="border border-gray-400 rounded-full p-3 cursor-pointer"
+    >
       {icon}
     </div>
   );
@@ -167,11 +179,11 @@ type RoleOptionProps = {
   title: string;
   description: string;
   onClick: () => void;
-}
+};
 
 const RoleOption = ({ title, description, onClick }: RoleOptionProps) => {
   return (
-    <div 
+    <div
       onClick={onClick}
       className="flex flex-col p-4 border rounded-md cursor-pointer hover:bg-slate-50 transition-colors"
     >

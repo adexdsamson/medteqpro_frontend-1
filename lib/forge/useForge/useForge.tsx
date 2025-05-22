@@ -1,11 +1,7 @@
-'use strict';
+"use strict";
 
-import {
-  FieldValues,
-  createFormControl
-} from "react-hook-form";
-import { ForgeProps, UseForgeResult } from "../types";
-
+import { FieldValues, createFormControl, useFormState } from "react-hook-form";
+import { UseForgeProps, UseForgeResult } from "../types";
 
 /**
  * A custom hook that returns a form component and form control functions using the `react-hook-form` library.
@@ -21,11 +17,17 @@ export const useForge = <
   mode,
   fields,
   ...props
-}: ForgeProps<TFieldProps, TFieldValues>): UseForgeResult<TFieldValues> => {
-  const { formControl: _, ...methods } = createFormControl<TFieldValues>({ defaultValues, resolver, mode, ...props });
+}: UseForgeProps<TFieldProps, TFieldValues>): UseForgeResult<TFieldValues> => {
+  const { formControl: _, ...methods } = createFormControl<TFieldValues>({
+    defaultValues,
+    resolver,
+    mode,
+    ...props,
+  });
+  const formState = useFormState({ control: _.control })
 
   const hasFields =
-    typeof fieldProps !== "undefined" && fieldProps?.length !== 0 && _;
+    (typeof fields !== "undefined" && fields?.length !== 0) ?? false;
 
-  return { ...methods, control: { ...methods.control, hasFields, fields } };
+  return { ...methods, formState, control: { ...methods.control, hasFields, fields } };
 };

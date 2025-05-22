@@ -89,18 +89,18 @@ export type UseForgeProps<
   mode?: "onBlur" | "onChange" | "onSubmit" | "onTouched" | "all";
 };
 
-export type UseForgeResult<T extends FieldValues> = Omit<
+export type UseForgeResult<T extends FieldValues, TFieldProps = unknown> = Omit<
   UseFormReturn<T>,
   "control"
 > & {
-  control: ForgeControl<T>;
+  control: ForgeControl<T, TFieldProps>;
 };
 
-export type ForgeProps<TFieldValues extends FieldValues> = {
+export type ForgeProps<TFieldValues extends FieldValues, TFieldProps = unknown> = {
   onSubmit: (submit: TFieldValues) => void;
   className?: string;
   children?: ReactNode;
-  control: ForgeControl<TFieldValues>;
+  control: ForgeControl<TFieldValues, TFieldProps>;
   ref?: RefObject<FormPropsRef | null>;
   isNative?: boolean;
 };

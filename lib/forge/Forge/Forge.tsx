@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { Children, cloneElement, createElement, ReactNode, useImperativeHandle } from "react";
+import { Children, cloneElement, createElement, useImperativeHandle } from "react";
 import { FieldValues, FormProvider } from "react-hook-form";
 import { ForgeProps } from "../types";
 import { isButtonSlot, isElementSlot, isInputSlot, isNestedSlot } from "../utils";
+import { Forger } from "../Forger";
 
 export const Forge = <TFieldValues extends FieldValues = FieldValues>({
   className,
@@ -62,7 +63,7 @@ export const Forge = <TFieldValues extends FieldValues = FieldValues>({
   );
 
   const renderFieldProps = control.hasFields
-    ? control.fields.map((inputs, index) => <Forger key={index} {...inputs} />)
+    ? control?.fields?.map((inputs, index) => <Forger key={index} {...inputs} />)
     : null;
 
   return (

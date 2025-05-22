@@ -63,7 +63,7 @@ const MemorizeController = memo<ForgerControllerProps<FieldValues>>(
     const { methods, ...others } = next;
     const { methods: _, ...rest } = prev;
 
-    if (_.formState.isDirty === methods.formState.isDirty) {
+    if (_.formState?.isDirty === methods.formState?.isDirty) {
       return true;
     }
 
@@ -79,6 +79,9 @@ MemorizeController.displayName = "MemorizeController";
 
 export const Forger = (props: ForgerProps<FieldValues>) => {
   const methods = useFormContext();
+
+  
+  console.log({ methods })
 
   return (
     <Slot>
