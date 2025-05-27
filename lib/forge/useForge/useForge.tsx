@@ -1,4 +1,4 @@
-"use strict";
+"use client";
 
 import { FieldValues, createFormControl, useFormState } from "react-hook-form";
 import { UseForgeProps, UseForgeResult } from "../types";

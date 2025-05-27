@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+"use client";
 import React from "react";
 import Subheader from "../../_components/Subheader";
 import { Card, CardContent } from "@/components/ui/card";
@@ -51,7 +52,7 @@ export default function Profile() {
 
       <div className="px-6 mt-6 space-y-5">
         <Card>
-          <CardContent className="flex">
+          <CardContent className="flex gap-4">
             <div className="w-40 h-40">
               <Image
                 width={160}
@@ -107,9 +108,9 @@ export default function Profile() {
           </TabsList>
           <TabsContent value="personal">
             <Card>
-              <CardContent className="grid grid-cols-1 md:grid-cols-2">
-                <Forge control={control} onSubmit={handleSubmit} />
-                <div className="flex justify-end">
+              <CardContent>
+                <Forge control={control} className="grid grid-cols-1 md:grid-cols-2 gap-3" onSubmit={handleSubmit} />
+                <div className="flex justify-end mt-5">
                   {/* <Button>Update</Button> */}
                   <Button>Save</Button>
                 </div>
