@@ -13,8 +13,10 @@
 14. Use `@faker-js/faker` for demo data to render on the pages.
 15. The Sidebar and the Header component already exist in the project. The SubHeader component is always added under the Header component.
 16. **IMPORTANT:** Do not change or modify UI elements **outside the scope of your assigned implementation**.
-17. **Download UI assets** (icons, images, etc.) from Figma, move them to the `/public` folder, and reference them in the code.
-18. Use the `/hooks/useToaster` hook for displaying toasts.
+17. Use the `/hooks/useToaster` hook for displaying toasts.
+
+# Design structure
+This is the basic structure of the Image design, it comprises of the sidebar and header already created and add to the dashboard component, under the header is Subheader component that can be extended to pass data, stays under the header
 
 # Form State Management
 1. Always use the **`useForge`** hook from **`/lib/forge`** for form state management.

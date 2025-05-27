@@ -80,9 +80,6 @@ MemorizeController.displayName = "MemorizeController";
 export const Forger = (props: ForgerProps<FieldValues>) => {
   const methods = useFormContext();
 
-  
-  console.log({ methods })
-
   return (
     <Slot>
       <MemorizeController

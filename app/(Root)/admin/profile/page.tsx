@@ -7,6 +7,7 @@ import Image from "next/image";
 import { InfoSection } from "./_components/InfoSection";
 import { Forge, useForge } from "@/lib/forge";
 import { TextInput } from "@/components/FormInputs/TextInput";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function Profile() {
   const { control } = useForge({
@@ -16,28 +17,28 @@ export default function Profile() {
         label: "First Name",
         type: "text",
         placeholder: "John",
-        component: TextInput
+        component: TextInput,
       },
       {
         name: "lastName",
         label: "Last Name",
         type: "text",
         placeholder: "Doe",
-        component: TextInput
+        component: TextInput,
       },
       {
         name: "email",
         label: "Email",
         type: "email",
-        component: TextInput
+        component: TextInput,
       },
       {
         name: "phoneNumber",
         label: "Phone Number",
         type: "text",
-        component: TextInput
-      }
-    ]
+        component: TextInput,
+      },
+    ],
   });
 
   const handleSubmit = (values: any) => {
@@ -89,15 +90,44 @@ export default function Profile() {
           </CardContent>
         </Card>
 
-        <Card>
-          <CardContent className="grid grid-cols-1 md:grid-cols-2">
-            <Forge control={control} onSubmit={handleSubmit} />
-            <div className="flex justify-end">
-                {/* <Button>Update</Button> */}
-                <Button>Save</Button>
-            </div>
-          </CardContent>
-        </Card>
+        <Tabs defaultValue="personal">
+          <TabsList className="bg-transparent p-0">
+            <TabsTrigger
+              value="all"
+              className="text-gray-600 data-[state=active]:border-2 data-[state=active]:border-cyan-600 px-6 data-[state=active]:bg-cyan-200 rounded-none"
+            >
+              Personal Details
+            </TabsTrigger>
+            <TabsTrigger
+              value="security"
+              className="text-gray-600 data-[state=active]:border-2 data-[state=active]:border-cyan-600 px-6 data-[state=active]:bg-cyan-200 rounded-none"
+            >
+              Security
+            </TabsTrigger>
+          </TabsList>
+          <TabsContent value="personal">
+            <Card>
+              <CardContent className="grid grid-cols-1 md:grid-cols-2">
+                <Forge control={control} onSubmit={handleSubmit} />
+                <div className="flex justify-end">
+                  {/* <Button>Update</Button> */}
+                  <Button>Save</Button>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+          <TabsContent value="security">
+            <Card>
+              <CardContent className="grid grid-cols-1 md:grid-cols-2">
+                <Forge control={control} onSubmit={handleSubmit} />
+                <div className="flex justify-end">
+                  {/* <Button>Update</Button> */}
+                  <Button>Save</Button>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+        </Tabs>
       </div>
     </>
   );
