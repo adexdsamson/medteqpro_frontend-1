@@ -3,16 +3,16 @@ import { Card, CardContent } from "@/components/ui/card";
 
 const PayDayCard = () => {
   return (
-    <Card className="bg-white border shadow-sm">
-      <CardContent className="p-6 flex flex-col items-center justify-center text-center">
-        <h3 className="text-gray-500 font-medium mb-2">Pay Day</h3>
-        
-        <div className="text-5xl font-bold mb-1">31</div>
-        <div className="text-gray-600 mb-4">Jul, 2024</div>
-        
-        <div className="text-sm text-gray-500 font-medium">
-          200 Employees
+    <Card className="border shadow-sm h-full">
+      <CardContent className="p-6 flex flex-col items-center justify-center text-center space-y-4">
+        <h3 className="text-gray-500 font-medium text-sm">Pay Day</h3>
+
+        <div className="bg-white border rounded-lg p-4 w-full">
+          <div className="text-4xl font-bold text-gray-900 mb-1">31</div>
+          <div className="text-gray-600 text-sm">Jul, 2024</div>
         </div>
+
+        <div className="text-sm text-gray-500 font-medium">200 Employees</div>
       </CardContent>
     </Card>
   );

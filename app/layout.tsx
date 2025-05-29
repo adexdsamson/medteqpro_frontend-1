@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Quicksand } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner"
+import { Providers } from "./providers";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,8 +29,10 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${quicksand.variable} antialiased`}
       >
-        {children}
-        <Toaster expand={true} richColors />
+        <Providers>
+          {children}
+          <Toaster expand={true} richColors />
+        </Providers>
       </body>
     </html>
   );

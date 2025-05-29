@@ -102,12 +102,12 @@ export default function QueuingSystem() {
 
   return (
     <>
-      <Subheader title="Queuing System" />
+      <Subheader title="Queuing System" middle={<SessionTimer onEndSession={handleEndSession} />} />
       
       <div className="p-6 space-y-6 min-h-screen w-full bg-gray-50">
         {/* Timer and Add to Queue button */}
-        <div className="flex justify-between items-center">
-          <SessionTimer onEndSession={handleEndSession} />
+        <div className="flex justify-end items-center">
+         
           
           {sessionActive ? (
             <AddToQueueDialog onAddToQueue={handleAddToQueue} />
