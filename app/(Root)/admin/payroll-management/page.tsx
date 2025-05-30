@@ -40,7 +40,7 @@ const PayrollManagement = () => {
       <div className="p-6 space-y-6 min-h-screen w-full bg-gray-50">
 
         {/* Pay Day and Payment Categories */}
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-2">
           {/* Pay Day Card */}
           <div className="lg:col-span-1">
             <PayDayCard />

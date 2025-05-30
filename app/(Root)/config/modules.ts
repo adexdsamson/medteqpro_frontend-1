@@ -15,7 +15,8 @@ import {
   UserPlus,
   Calendar,
   Database,
-  Stethoscope
+  Stethoscope,
+  ShoppingCart
 } from "lucide-react";
 import { LucideIcon } from "lucide-react";
 
@@ -264,6 +265,39 @@ export const moduleConfigs: ModuleConfig[] = [
       avatar: "/images/nurse-avatar.png",
     },
   },
+  {
+    key: 'pharmacy',
+    displayName: 'Pharmacy',
+    pathPrefix: '/pharmacy',
+    menuItems: [
+      {
+        label: "Dashboard",
+        icon: LayoutDashboard,
+        href: "/dashboard",
+      },
+      {
+        label: "Internal Pharmacy",
+        icon: Pill,
+        href: "/internal-pharmacy",
+      },
+      {
+        label: "Queuing System",
+        icon: Activity,
+        href: "/queuing-system",
+      },
+      {
+        label: "Pickup",
+        icon: ShoppingCart,
+        href: "/pickup",
+      },
+    ],
+    settingsItems: commonSettingsItems,
+    defaultUserProfile: {
+      name: "Ben Rufus",
+      role: "Pharm.",
+      avatar: "/images/pharmacy-avatar.png",
+    },
+  },
 ];
 
 // Utility functions to work with modules
@@ -279,4 +313,4 @@ export function getModuleByPathname(pathname: string | null): ModuleConfig {
 
 export function getModuleByKey(key: string): ModuleConfig {
   return moduleConfigs.find(config => config.key === key) || moduleConfigs[0];
-} 
+}

@@ -22,14 +22,14 @@ export const PeriodPayment = () => {
   const periodEnd = "31-Jul-2024";
   
   return (
-    <Card className="border shadow-sm">
-      <CardContent className="p-6">
-        <div className="flex justify-between items-center mb-6">
-          <span className="text-gray-700 font-medium">Period:</span>
-          <span className="text-gray-700">{periodStart} - {periodEnd}</span>
+    <Card className="border shadow-sm w-full">
+      <CardContent className="">
+        <div className="flex justify-center items-center mb-6">
+          <span className="text-gray-700 font-medium">Period:{" "}{" "}</span>
+          <span className="text-gray-700 ml-2">{periodStart} - {periodEnd}</span>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+        <div className="flex items-center justify-between w-full">
           <PaymentCategory 
             label="Payroll Cost" 
             amount="₦10,234,678.99" 
@@ -39,21 +39,6 @@ export const PeriodPayment = () => {
             label="Employee Net Pay" 
             amount="₦8,034,678.99" 
           />
-          
-          <PaymentCategory 
-            label="Employer Taxes" 
-            amount="₦1,200,000.00" 
-          />
-          
-          <PaymentCategory 
-            label="Benefits" 
-            amount="₦1,000,000.00" 
-          />
-          
-          <PaymentCategory 
-            label="Total Deductions" 
-            amount="₦2,200,000.00" 
-          />
         </div>
       </CardContent>
     </Card>
@@ -62,13 +47,13 @@ export const PeriodPayment = () => {
 
 export const TaxDeductionPayment = () => {
   return (
-    <Card className="border shadow-sm">
-      <CardContent className="p-6">
+    <Card className="border shadow-sm w-full">
+      <CardContent className="">
         <div className="flex justify-between items-center mb-6">
-          <span className="text-gray-700 font-medium">Tax & Deductions Summary:</span>
+          <span className="text-gray-700 font-medium text-center">Tax & Deductions Summary</span>
         </div>
          
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">          
+        <div className="flex items-center justify-between flex-1">          
           <PaymentCategory 
             label="Tax Withholdings" 
             amount="₦1,234,678.99" 
@@ -77,21 +62,6 @@ export const TaxDeductionPayment = () => {
           <PaymentCategory 
             label="Pre-Tax Deductions" 
             amount="₦834,678.99" 
-          />
-          
-          <PaymentCategory 
-            label="Post-Tax Deductions" 
-            amount="₦970,678.99" 
-          />
-          
-          <PaymentCategory 
-            label="PAYE Tax" 
-            amount="₦1,500,000.00" 
-          />
-          
-          <PaymentCategory 
-            label="Pension" 
-            amount="₦800,000.00" 
           />
         </div>
       </CardContent>
