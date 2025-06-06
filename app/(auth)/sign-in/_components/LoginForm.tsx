@@ -18,17 +18,33 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import { useLogin, LoginCredentials } from "@/features/auth/service";
+import { useToastHandler } from "@/hooks/useToaster";
+import { ApiResponseError } from "@/types";
+import { storeFunctions } from "@/store/authSlice";
+
+const schema = yup.object().shape({
+  email: yup.string().email("Please enter a valid email").required("Email is required"),
+  password: yup.string().required("Password is required"),
+});
+
+type FormValues = yup.InferType<typeof schema>;
 
 export function LoginForm() {
   const router = useRouter();
   const [open, setOpen] = React.useState(false);
+  const toast = useToastHandler();
+  const { mutateAsync, isPending } = useLogin();
+  const { setToken, setUser } = storeFunctions();
 
   const renderInputs: FieldProps<TextInputProps>[] = [
     {
-      name: "username",
-      type: "text",
-      label: "Username/Phone number",
-      placeholder: "Username",
+      name: "email",
+      type: "email",
+      label: "Email Address",
+      placeholder: "Enter your email",
       containerClass: "mb-5",
       component: TextInput,
       startAdornment: <UserIcon className="text-[#16C2D5] h-4 w-4 mr-1" />,
@@ -43,17 +59,35 @@ export function LoginForm() {
     },
   ];
 
-  const { control } = useForge({
+  const { control } = useForge<FormValues>({
+    resolver: yupResolver(schema),
     fields: renderInputs,
     defaultValues: {
-      username: "",
+      email: "",
       password: "",
     },
   });
 
-  const handleClick = (e: any) => {
-    e.preventDefault();
-    setOpen(true);
+  const handleSubmit = async (data: FormValues) => {
+    try {
+      const response = await mutateAsync(data as LoginCredentials);
+      
+      if (response.data.status) {
+        // Store authentication data
+        setToken(response.data.data.access_token);
+        setUser(response.data.data.user);
+        
+        toast.success("Login Successful", "Welcome back!");
+        setOpen(true); // Show role selection dialog
+      } else {
+        toast.error("Login Failed", response.data.message as string);
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      const err = error as ApiResponseError;
+      const errorMessage = err.response?.data?.message || "An error occurred during login";
+      toast.error("Login Failed", errorMessage as string);
+    }
   };
 
   const handleRoleSelect = (role: string) => {
@@ -74,6 +108,9 @@ export function LoginForm() {
       case "patient":
         router.push("/patient/dashboard");
         break;
+      case "pharmacy":
+        router.push("/pharmacy/dashboard");
+        break;
       default:
         router.push("/dashboard");
     }
@@ -90,7 +127,7 @@ export function LoginForm() {
 
       <Card className="mt-7 w-full text-xs max-w-[400px] border-none shadow-none bg-transparent">
         <CardContent className="p-0 space-y-2.5">
-          <Forge control={control} onSubmit={() => {}} />
+          <Forge control={control} onSubmit={handleSubmit} />
           <div className="flex items-center">
             <Link href="/" className="mt- font-medium text-teal-600">
               Forgot Password?
@@ -98,10 +135,11 @@ export function LoginForm() {
           </div>
 
           <Button
-            onClick={handleClick}
-            className="gap-2.5 self-stretch p-2.5 mt-5 w-full font-semibold whitespace-nowrap rounded-md bg-slate-400 text-slate-200 hover:bg-slate-500"
+            type="submit"
+            disabled={isPending}
+            className="gap-2.5 self-stretch p-2.5 mt-5 w-full font-semibold whitespace-nowrap rounded-md bg-slate-400 text-slate-200 hover:bg-slate-500 disabled:opacity-50"
           >
-            Login
+            {isPending ? "Logging in..." : "Login"}
           </Button>
         </CardContent>
       </Card>
@@ -151,6 +189,11 @@ export function LoginForm() {
               title="Patient"
               description="Front desk operations and scheduling"
               onClick={() => handleRoleSelect("patient")}
+            />
+            <RoleOption
+              title="Pharmacy"
+              description="Front desk operations and scheduling"
+              onClick={() => handleRoleSelect("pharmacy")}
             />
           </div>
         </DialogContent>

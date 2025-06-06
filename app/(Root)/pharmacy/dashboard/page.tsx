@@ -8,8 +8,9 @@ import { StatCard } from "../../_components/StatCard";
 import { H3, Large, P, Small } from "@/components/ui/Typography";
 import { Pill, Package, AlertTriangle, TrendingUp, CreditCard, Calendar } from "lucide-react";
 import { getFormatCurrency } from "@/lib/utils";
-import DateTextInput from "@/components/comp-41";
 import SessionTimer from "../../admin/queuing-system/_components/SessionTimer";
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
+import { PieChart, Pie } from "recharts";
 
 // Generate sample data
 const generateSampleData = () => {
@@ -110,67 +111,111 @@ const PharmacyDashboard = () => {
         <div className="space-y-4">
           <Large className="text-lg font-semibold">Revenue</Large>
           
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {/* Total Drug Sales */}
-            <Card className="bg-white p-6">
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-2">
-                  <TrendingUp className="h-5 w-5 text-[#16C2D5]" />
-                  <Small className="text-gray-600">Total Drug Sales</Small>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-fit">
+            {/* Left Column - Total Drug Sales and Payment Methods */}
+            <div className="space-y-4">
+              {/* Total Drug Sales */}
+              <Card className="bg-white p-6 h-48">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-2">
+                    <div className="w-8 h-8 bg-gray-100 rounded flex items-center justify-center">
+                      <span className="text-lg">%</span>
+                    </div>
+                    <Small className="text-gray-600">Total Drug Sales</Small>
+                  </div>
+                  <Button size="sm" className="bg-[#16C2D5] hover:bg-[#14a8b8] text-white">
+                    Buy Drugs
+                  </Button>
                 </div>
-                <Button size="sm" className="bg-[#16C2D5] hover:bg-[#14a8b8] text-white">
-                  Buy Drugs
-                </Button>
-              </div>
-              <H3 className="text-2xl font-bold">{getFormatCurrency(data.totalDrugSales)}</H3>
-            </Card>
+                <H3 className="text-2xl font-bold">{getFormatCurrency(data.totalDrugSales)}</H3>
+              </Card>
 
-            {/* Payment Methods */}
-            <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4">
-              <Card className="bg-white p-6">
-                <div className="flex items-center gap-2 mb-2">
-                  <CreditCard className="h-5 w-5 text-[#16C2D5]" />
-                  <Small className="text-gray-600">Transfers & Card Payments</Small>
-                </div>
-                <H3 className="text-xl font-bold">{getFormatCurrency(data.transfersAndCard)}</H3>
-              </Card>
-              
-              <Card className="bg-white p-6">
-                <div className="flex items-center gap-2 mb-2">
-                  <CreditCard className="h-5 w-5 text-green-500" />
-                  <Small className="text-gray-600">Cash Payments</Small>
-                </div>
-                <H3 className="text-xl font-bold">{getFormatCurrency(data.cashPayments)}</H3>
-              </Card>
+              {/* Payment Methods */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 h-40">
+                <Card className="bg-white p-6">
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="w-8 h-8 bg-gray-100 rounded flex items-center justify-center">
+                      <CreditCard className="h-4 w-4 text-[#16C2D5]" />
+                    </div>
+                    <Small className="text-gray-600">Transfers & Card Payments</Small>
+                  </div>
+                  <H3 className="text-xl font-bold">{getFormatCurrency(data.transfersAndCard)}</H3>
+                </Card>
+                
+                <Card className="bg-white p-6">
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="w-8 h-8 bg-gray-100 rounded flex items-center justify-center">
+                      <CreditCard className="h-4 w-4 text-green-500" />
+                    </div>
+                    <Small className="text-gray-600">Cash Payments</Small>
+                  </div>
+                  <H3 className="text-xl font-bold">{getFormatCurrency(data.cashPayments)}</H3>
+                </Card>
+              </div>
             </div>
 
-            {/* Revenue Chart Placeholder */}
-            <div className="lg:col-span-3">
-              <Card className="bg-white p-6">
-                <div className="flex items-center justify-center h-64 bg-gray-50 rounded-lg">
-                  <div className="text-center">
-                    <div className="w-32 h-32 mx-auto mb-4 bg-[#16C2D5] rounded-full flex items-center justify-center relative">
-                      <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center">
-                        <span className="text-2xl font-bold text-[#16C2D5]">77%</span>
-                      </div>
-                      <div className="absolute -right-4 top-8 w-16 h-16 bg-blue-900 rounded-full flex items-center justify-center">
-                        <span className="text-sm font-bold text-white">23%</span>
-                      </div>
-                    </div>
-                    <div className="flex items-center justify-center gap-4 text-sm">
-                      <div className="flex items-center gap-2">
-                        <div className="w-3 h-3 bg-[#16C2D5] rounded-full"></div>
-                        <span>Transfers & Card</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <div className="w-3 h-3 bg-blue-900 rounded-full"></div>
-                        <span>Cash</span>
-                      </div>
+            {/* Right Column - Revenue Chart */}
+            <Card className="bg-white p-6">
+              <div className="h-fit flex items-center justify-center">
+                <div className="relative">
+                  <ChartContainer
+                    config={{
+                      transfers: {
+                        label: "Transfers & Card",
+                        color: "#16C2D5",
+                      },
+                      cash: {
+                        label: "Cash",
+                        color: "#1e3a8a",
+                      },
+                    }}
+                    className="h-62 w-64"
+                  >
+                    <PieChart>
+                      <Pie
+                        data={[
+                          { name: "Transfers & Card", value: 77, fill: "#16C2D5" },
+                          { name: "Cash", value: 23, fill: "#1e3a8a" },
+                        ]}
+                        cx="50%"
+                        cy="50%"
+                        innerRadius={60}
+                        outerRadius={100}
+                        startAngle={90}
+                        endAngle={450}
+                        dataKey="value"
+                      >
+                      </Pie>
+                      <ChartTooltip content={<ChartTooltipContent />} />
+                    </PieChart>
+                  </ChartContainer>
+                  
+                  {/* Center percentage labels */}
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-[#1e3a8a] mb-1">23%</div>
                     </div>
                   </div>
+                  
+                  {/* 77% label positioned on the chart */}
+                  <div className="absolute top-12 right-8">
+                    <div className="text-2xl font-bold text-[#16C2D5]">77%</div>
+                  </div>
                 </div>
-              </Card>
-            </div>
+              </div>
+              
+              {/* Legend */}
+              <div className="flex items-center justify-center gap-6 mt-4">
+                <div className="flex items-center gap-2">
+                  <div className="w-3 h-3 bg-[#16C2D5] rounded-full"></div>
+                  <span className="text-sm text-gray-600">Transfers & Card</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-3 h-3 bg-[#1e3a8a] rounded-full"></div>
+                  <span className="text-sm text-gray-600">Cash</span>
+                </div>
+              </div>
+            </Card>
           </div>
         </div>
 
@@ -178,45 +223,41 @@ const PharmacyDashboard = () => {
         <div className="space-y-4">
           <Large className="text-lg font-semibold">Pickups</Large>
           
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
             {/* Upcoming Pickups Count */}
-            <Card className="bg-white p-6">
-              <div className="flex items-center gap-2 mb-4">
-                <Calendar className="h-5 w-5 text-[#16C2D5]" />
+            <Card className="bg-white p-6 h-fit">
+              <div className="flex items-center gap-2 mb-2">
+                <div className="w-8 h-8 bg-gray-100 rounded flex items-center justify-center">
+                  <Calendar className="h-4 w-4 text-[#16C2D5]" />
+                </div>
                 <Small className="text-gray-600">Upcoming Pickups</Small>
               </div>
-              <H3 className="text-4xl font-bold mb-2">{data.upcomingPickups}</H3>
+              <H3 className="text-4xl font-bold">{data.upcomingPickups}</H3>
               <P className="text-sm text-gray-600">Upcoming Pickups</P>
             </Card>
 
             {/* Upcoming Pickups Details */}
-            <div className="lg:col-span-2">
-              <Card className="bg-white p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <Large className="font-semibold">Upcoming Pickups</Large>
-                  <div className="flex gap-2">
-                    <Button variant="outline" size="sm">Prev</Button>
-                    <Button variant="outline" size="sm">Next</Button>
+            <Card className="bg-white p-6">
+              <div className="flex items-center justify-between mb-6">
+                <Large className="font-semibold">Upcoming Pickups</Large>
+              </div>
+              
+              <div className="space-y-6">
+                <div className="text-center">
+                  <div className="text-2xl font-bold mb-2">{data.nextPickupDate}</div>
+                  <div className="flex items-center justify-center gap-2 mb-4">
+                    <Calendar className="h-4 w-4 text-green-500" />
                   </div>
+                  <P className="text-sm text-gray-600 max-w-xs mx-auto">{data.nextPickupMessage}</P>
                 </div>
                 
-                <div className="space-y-4">
-                  <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg">
-                    <div className="flex items-center gap-2">
-                      <Calendar className="h-5 w-5 text-green-500" />
-                      <div>
-                        <P className="font-semibold">{data.nextPickupDate}</P>
-                        <Small className="text-gray-600">{data.nextPickupMessage}</Small>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div className="text-center py-4">
-                    <P className="text-sm text-gray-500">1/4</P>
-                  </div>
+                <div className="flex items-center justify-between">
+                  <Button variant="ghost" size="sm" className="text-[#16C2D5]">Prev</Button>
+                  <P className="text-sm text-gray-500">1/4</P>
+                  <Button variant="ghost" size="sm" className="text-[#16C2D5]">Next</Button>
                 </div>
-              </Card>
-            </div>
+              </div>
+            </Card>
           </div>
         </div>
       </div>

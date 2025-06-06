@@ -304,11 +304,11 @@ export const moduleConfigs: ModuleConfig[] = [
 export function getModuleByPathname(pathname: string | null): ModuleConfig {
   if (!pathname) return moduleConfigs[0];
   
-  const module = moduleConfigs.find(config => 
+  const foundModule = moduleConfigs.find(config => 
     pathname.startsWith(config.pathPrefix)
   );
   
-  return module || moduleConfigs[0]; // Default to first module if not found
+  return foundModule || moduleConfigs[0]; // Default to first module if not found
 }
 
 export function getModuleByKey(key: string): ModuleConfig {

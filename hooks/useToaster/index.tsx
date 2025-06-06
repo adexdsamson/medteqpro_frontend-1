@@ -2,7 +2,7 @@
 import { toast } from "sonner";
 // import { ApiResponseError } from "@/types";
 
-export const useToastHandlers = () => {
+export const useToastHandler = () => {
   // const { toast } = useToast();
 
   const onErrorHandler = (title: string, error?: any | string) => {

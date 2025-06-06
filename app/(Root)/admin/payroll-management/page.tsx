@@ -6,7 +6,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import EmployeeSummary from "./_components/EmployeeSummary";
 import TaxesDeductions from "./_components/TaxesDeductions";
-import PayrollHeader from "./_components/PayrollHeader";
 import PayDayCard from "./_components/PayDayCard";
 import {
   PeriodPayment,
@@ -16,14 +15,13 @@ import SessionTimer from "../queuing-system/_components/SessionTimer";
 import { useToastHandlers } from "@/hooks/useToaster";
 
 const PayrollManagement = () => {
-  const [sessionActive, setSessionActive] = useState<boolean>(true);
   const [activeTab, setActiveTab] = useState<string>("employee-summary");
 
   // Hooks
   const handler = useToastHandlers();
 
   const handleEndSession = () => {
-    setSessionActive(false);
+    // setSessionActive(false);
     handler.success(
       "Session Ended",
       "The current queue session has been ended"
