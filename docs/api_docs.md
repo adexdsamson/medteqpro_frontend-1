@@ -701,7 +701,28 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+    "status": true,
+    "message": "Dashboard analytics retrieved successfully.",
+    "data": {
+        "total_revenue": 100000,
+        "total_staff_count": 1,
+        "hospital_analytics": {
+            "total_hospitals": 0,
+            "active_hospitals": 0,
+            "inactive_hospitals": 0,
+            "top_hospitals": [],
+            "other_hospitals": {
+                "name": "Other Hospitals",
+                "percentage_of_total_patients": 0
+            }
+        },
+        "recent_hospitals": [],
+        "recent_subscriptions": []
+    }
+}
+					]
 				}
 			]
 		},

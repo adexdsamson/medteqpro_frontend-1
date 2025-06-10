@@ -1,11 +1,22 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { Children, cloneElement, createElement, useImperativeHandle } from "react";
+import {
+  Children,
+  cloneElement,
+  createElement,
+  useImperativeHandle,
+} from "react";
 import { FieldValues, FormProvider } from "react-hook-form";
 import { ForgeProps } from "../types";
-import { isButtonSlot, isElementSlot, isInputSlot, isNestedSlot } from "../utils";
+import {
+  isButtonSlot,
+  isElementSlot,
+  isInputSlot,
+  isNestedSlot,
+} from "../utils";
 import { Forger } from "../Forger";
+import { DevTool } from "@hookform/devtools";
 
 export const Forge = <TFieldValues extends FieldValues = FieldValues>({
   className,
@@ -13,7 +24,7 @@ export const Forge = <TFieldValues extends FieldValues = FieldValues>({
   onSubmit,
   control,
   ref,
-  isNative
+  isNative,
 }: ForgeProps<TFieldValues>) => {
   const updatedChildren = Children.map(children, (child) => {
     if (isButtonSlot(child)) {
@@ -52,26 +63,35 @@ export const Forge = <TFieldValues extends FieldValues = FieldValues>({
       : undefined;
   });
 
+
   useImperativeHandle(
     ref,
     () => {
       return {
-        onSubmit: control.handleSubmit(onSubmit),
+        onSubmit: () => {
+          control.handleSubmit(onSubmit)();
+        },
       };
     },
     [onSubmit, control]
   );
 
   const renderFieldProps = control.hasFields
-    ? control?.fields?.map((inputs, index) => <Forger key={index} {...inputs} />)
+    ? control?.fields?.map((inputs, index) => (
+        <Forger key={index} {...inputs} />
+      ))
     : null;
 
   return (
-    <FormProvider {...control as unknown as any} control={control as unknown as any}>
+    <FormProvider
+      {...(control as unknown as any)}
+      control={control as unknown as any}
+    >
       <div className={className}>
         {renderFieldProps}
         {updatedChildren}
       </div>
+      <DevTool control={control} />
     </FormProvider>
   );
 };

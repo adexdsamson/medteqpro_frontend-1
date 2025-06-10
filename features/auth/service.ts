@@ -17,6 +17,6 @@ export const useLogin = () => {
   return useMutation<ApiResponse<LoginResponse>, ApiResponseError, LoginCredentials>({
     mutationKey: ["login"],
     mutationFn: async (credentials) => 
-      await postRequest("/auth/login", credentials),
+      await postRequest("/auth/login/", credentials),
   });
 };

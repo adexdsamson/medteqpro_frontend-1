@@ -6,7 +6,7 @@ export const getAxiosInstance = (url?: string) => {
   const axiosInstance = axios.create();
   const { token, setReset, loginToken, user } = storeFunctions.getState();
 
-  axiosInstance.defaults.baseURL = url ?? "";
+  axiosInstance.defaults.baseURL = url ?? "https://b2p2upqndjzvncqwhnfudgiazu0navlq.lambda-url.us-east-2.on.aws/api/v1/";
 
   if (token && user !== null) {
     axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${token}`;

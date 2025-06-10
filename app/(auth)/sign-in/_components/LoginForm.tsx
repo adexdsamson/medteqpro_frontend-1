@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import * as React from "react";
@@ -6,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { UserIcon, LockIcon } from "lucide-react";
 import { FaApple } from "react-icons/fa";
-import { FieldProps, Forge, useForge } from "@/lib/forge";
+import { FieldProps, Forge, FormPropsRef, useForge } from "@/lib/forge";
 import { TextInput, TextInputProps } from "@/components/FormInputs/TextInput";
 import Link from "next/link";
 import { FcGoogle } from "react-icons/fc";
@@ -26,7 +25,10 @@ import { ApiResponseError } from "@/types";
 import { storeFunctions } from "@/store/authSlice";
 
 const schema = yup.object().shape({
-  email: yup.string().email("Please enter a valid email").required("Email is required"),
+  email: yup
+    .string()
+    .email("Please enter a valid email")
+    .required("Email is required"),
   password: yup.string().required("Password is required"),
 });
 
@@ -34,10 +36,11 @@ type FormValues = yup.InferType<typeof schema>;
 
 export function LoginForm() {
   const router = useRouter();
-  const [open, setOpen] = React.useState(false);
   const toast = useToastHandler();
+  const [open, setOpen] = React.useState(false);
   const { mutateAsync, isPending } = useLogin();
   const { setToken, setUser } = storeFunctions();
+  const formRef = React.useRef<FormPropsRef | null>(null);
 
   const renderInputs: FieldProps<TextInputProps>[] = [
     {
@@ -69,23 +72,25 @@ export function LoginForm() {
   });
 
   const handleSubmit = async (data: FormValues) => {
+    console.log("hello", data);
     try {
       const response = await mutateAsync(data as LoginCredentials);
-      
+
       if (response.data.status) {
         // Store authentication data
         setToken(response.data.data.access_token);
         setUser(response.data.data.user);
-        
+
         toast.success("Login Successful", "Welcome back!");
-        setOpen(true); // Show role selection dialog
+        handleRoleSelect(response.data.data.user.role);
       } else {
         toast.error("Login Failed", response.data.message as string);
       }
     } catch (error) {
       console.error("Login error:", error);
       const err = error as ApiResponseError;
-      const errorMessage = err.response?.data?.message || "An error occurred during login";
+      const errorMessage =
+        err.response?.data?.message || "An error occurred during login";
       toast.error("Login Failed", errorMessage as string);
     }
   };
@@ -93,7 +98,7 @@ export function LoginForm() {
   const handleRoleSelect = (role: string) => {
     setOpen(false);
     switch (role) {
-      case "super-admin":
+      case "superadmin":
         router.push("/super-admin/dashboard");
         break;
       case "admin":
@@ -127,7 +132,7 @@ export function LoginForm() {
 
       <Card className="mt-7 w-full text-xs max-w-[400px] border-none shadow-none bg-transparent">
         <CardContent className="p-0 space-y-2.5">
-          <Forge control={control} onSubmit={handleSubmit} />
+          <Forge control={control} onSubmit={handleSubmit} ref={formRef} />
           <div className="flex items-center">
             <Link href="/" className="mt- font-medium text-teal-600">
               Forgot Password?
@@ -135,8 +140,10 @@ export function LoginForm() {
           </div>
 
           <Button
-            type="submit"
-            disabled={isPending}
+            onClick={() => {
+              formRef.current?.onSubmit();
+            }}
+            loading={isPending}
             className="gap-2.5 self-stretch p-2.5 mt-5 w-full font-semibold whitespace-nowrap rounded-md bg-slate-400 text-slate-200 hover:bg-slate-500 disabled:opacity-50"
           >
             {isPending ? "Logging in..." : "Login"}

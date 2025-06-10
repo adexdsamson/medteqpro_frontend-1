@@ -1,15 +1,11 @@
+'use client';
+
 import React from 'react';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
+import { DataTable } from '@/components/DataTable';
+import { ColumnDef } from '@tanstack/react-table';
 
 type Hospital = {
-  id: number;
+  id: string;
   name: string;
   email: string;
   hospitalName: string;
@@ -19,84 +15,70 @@ type Hospital = {
   status: string;
 };
 
-const hospitals: Hospital[] = [
-  {
-    id: 1,
-    name: 'Darasimi Ogundele',
-    email: 'dele@Greenlife.com',
-    hospitalName: 'Greenlife Hospital',
-    numberOfDoctors: '12-Mar-2025',
-    dateRegistered: '12-Mar-2025',
-    location: 'Lagos',
-    status: 'Active',
-  },
-  {
-    id: 2,
-    name: 'Shekemi Marvellous',
-    email: 'marv@George.com',
-    hospitalName: 'George Hospital',
-    numberOfDoctors: '12-Mar-2025',
-    dateRegistered: '12-Mar-2025',
-    location: 'Abuja',
-    status: 'Active',
-  },
-  {
-    id: 3,
-    name: 'Bolaji Gbenga',
-    email: 'bolaji@Medicare.com',
-    hospitalName: 'Medicare Hospital',
-    numberOfDoctors: '12-Mar-2025',
-    dateRegistered: '12-Mar-2025',
-    location: 'Lagos',
-    status: 'Active',
-  },
-  {
-    id: 4,
-    name: 'George Ben',
-    email: 'ben@New.com',
-    hospitalName: 'New Hospital',
-    numberOfDoctors: '12-Mar-2025',
-    dateRegistered: '12-Mar-2025',
-    location: 'Ogun',
-    status: 'Active',
-  },
-];
+interface RecentlyRegisteredTableProps {
+  hospitals?: Hospital[];
+  isLoading?: boolean;
+}
 
-export function RecentlyRegisteredTable() {
+export function RecentlyRegisteredTable({ 
+  hospitals = [],
+  isLoading = false 
+}: RecentlyRegisteredTableProps) {
+  
+  const columns: ColumnDef<Hospital>[] = [
+    {
+      accessorKey: 'id',
+      header: 'ID',
+    },
+    {
+      accessorKey: 'name',
+      header: 'Name',
+    },
+    {
+      accessorKey: 'email',
+      header: 'Email',
+    },
+    {
+      accessorKey: 'hospitalName',
+      header: 'Hospital Name',
+    },
+    {
+      accessorKey: 'numberOfDoctors',
+      header: 'Number of Doctors',
+    },
+    {
+      accessorKey: 'dateRegistered',
+      header: 'Date Registered',
+    },
+    {
+      accessorKey: 'location',
+      header: 'Location',
+    },
+    {
+      accessorKey: 'status',
+      header: 'Status',
+      cell: ({ row }) => {
+        const status = row.getValue('status') as string;
+        return (
+          <span className={`px-2 py-1 rounded-full text-xs ${status === 'Active' ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'}`}>
+            {status}
+          </span>
+        );
+      },
+    },
+  ];
+
   return (
     <div className="rounded-md border bg-white">
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>ID</TableHead>
-            <TableHead>Name</TableHead>
-            <TableHead>Email</TableHead>
-            <TableHead>Hospital Name</TableHead>
-            <TableHead>Number of Doctors</TableHead>
-            <TableHead>Date Registered</TableHead>
-            <TableHead>Location</TableHead>
-            <TableHead>Status</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {hospitals.map((hospital) => (
-            <TableRow key={hospital.id}>
-              <TableCell>{hospital.id}</TableCell>
-              <TableCell>{hospital.name}</TableCell>
-              <TableCell>{hospital.email}</TableCell>
-              <TableCell>{hospital.hospitalName}</TableCell>
-              <TableCell>{hospital.numberOfDoctors}</TableCell>
-              <TableCell>{hospital.dateRegistered}</TableCell>
-              <TableCell>{hospital.location}</TableCell>
-              <TableCell>
-                <span className="px-2 py-1 rounded-full text-xs bg-green-100 text-green-600">
-                  {hospital.status}
-                </span>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+      <DataTable
+        data={hospitals}
+        columns={columns}
+        options={{
+          isLoading,
+          disablePagination: true,
+          disableSelection: true,
+        }}
+      />
     </div>
   );
 }

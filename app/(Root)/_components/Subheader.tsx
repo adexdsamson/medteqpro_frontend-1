@@ -1,3 +1,5 @@
+'use client';
+
 import DateTextInput from "@/components/comp-41";
 import React, { ReactNode } from "react";
 import Image from "next/image";

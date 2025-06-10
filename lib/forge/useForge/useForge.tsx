@@ -1,6 +1,6 @@
 "use client";
 
-import { FieldValues, createFormControl, useFormState } from "react-hook-form";
+import { FieldValues, createFormControl, useForm } from "react-hook-form";
 import { UseForgeProps, UseForgeResult } from "../types";
 
 /**
@@ -18,16 +18,19 @@ export const useForge = <
   fields,
   ...props
 }: UseForgeProps<TFieldProps, TFieldValues>): UseForgeResult<TFieldValues> => {
-  const { formControl: _, ...methods } = createFormControl<TFieldValues>({
+  // Create form control using createFormControl instead of useForm
+  const { formControl } = createFormControl<TFieldValues>({
     defaultValues,
     resolver,
     mode,
     ...props,
   });
-  const formState = useFormState({ control: _.control })
+  
+  // Use useForm with the created formControl to maintain the same interface
+  const methods = useForm<TFieldValues>({ formControl });
 
   const hasFields =
     (typeof fields !== "undefined" && fields?.length !== 0) ?? false;
 
-  return { ...methods, formState, control: { ...methods.control, hasFields, fields } };
+  return { ...methods, control: { ...methods.control, hasFields, fields } };
 };
