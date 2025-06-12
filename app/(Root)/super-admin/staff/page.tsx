@@ -7,11 +7,10 @@ import {
   TextSelectProps,
 } from "@/components/FormInputs/TextSelect";
 import { Button } from "@/components/ui/button";
-import { makeArrayDataWithLength } from "@/demo";
-import { FieldProps, FormPropsRef, useForge } from "@/lib/forge";
+import { FieldProps, FormPropsRef, useForge, Forge } from "@/lib/forge";
 import { ColumnDef } from "@tanstack/react-table";
 import { Edit2, SearchIcon, Trash } from "lucide-react";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { format } from "date-fns";
 import {
   DropdownMenu,
@@ -22,40 +21,43 @@ import {
 import { ConfirmAlert } from "@/components/ConfirmAlert";
 import { DialogTrigger } from "@/components/ui/dialog";
 import Subheader from "../../_components/Subheader";
+import { useStaffList, StaffMember } from "@/features/services/staffService";
+import AddUserDialog from "./_components/AddUserDialog";
 
-enum Permission {
-  Admin = "Admin",
-  Support = "Support",
-}
-
-enum Status {
-  Active = "Active",
-  Suspended = "Suspended",
-}
-
-export type StaffType = {
-  id: string;
+// Transform API data to match table structure
+type StaffTableData = {
+  id: number;
   name: string;
   email: string;
   registeredDate: string;
-  permission: Permission;
-  status: Status;
+  permission: string;
+  status: string;
+  phone_number: string | null;
 };
 
-const getSampleStaffData = makeArrayDataWithLength<StaffType>(
-  (faker) => ({
-    email: faker.internet.email(),
-    id: faker.string.uuid(),
-    name: faker.person.fullName(),
-    permission: faker.helpers.enumValue(Permission),
-    registeredDate: faker.date.anytime().toString(),
-    status: faker.helpers.enumValue(Status),
-  }),
-  5
-);
+const transformStaffData = (staffMembers: StaffMember[]): StaffTableData[] => {
+  return staffMembers.map((member) => ({
+    id: member.id,
+    name: `${member.first_name} ${member.last_name}`,
+    email: member.email,
+    registeredDate: new Date().toISOString(), // API doesn't provide registration date
+    permission: member.role.charAt(0).toUpperCase() + member.role.slice(1),
+    status: member.is_active ? "Active" : "Suspended",
+    phone_number: member.phone_number,
+  }));
+};
 
 export default function StaffManagement() {
   const formRef = useRef<FormPropsRef | null>(null);
+  const [searchParams, setSearchParams] = useState<{
+    search?: string;
+    role?: "superadmin" | "admin" | "support";
+  }>({});
+
+  const { data: staffResponse, isLoading, error } = useStaffList(searchParams);
+  const staffData = staffResponse?.data?.data
+    ? transformStaffData(staffResponse.data.data)
+    : [];
 
   const renderInput: FieldProps<TextInputProps | TextSelectProps>[] = [
     {
@@ -72,6 +74,8 @@ export default function StaffManagement() {
       label: "Select Permission",
       placeholder: "User Permission",
       options: [
+        { label: "All", value: "all" },
+        { label: "Super Admin", value: "superadmin" },
         { label: "Admin", value: "admin" },
         { label: "Support", value: "support" },
       ],
@@ -80,7 +84,7 @@ export default function StaffManagement() {
     },
   ];
 
-  const columns: ColumnDef<StaffType>[] = [
+  const columns: ColumnDef<StaffTableData>[] = [
     {
       accessorKey: "id",
       header: "ID",
@@ -119,7 +123,11 @@ export default function StaffManagement() {
       header: "Action",
       cell({ row }) {
         return (
-          <ConfirmAlert text={`You are about to delete this staff by the name of ${row.original.name}. Are you sure?`} title={`Delete ${row.original.name}`} icon={Trash}>
+          <ConfirmAlert
+            text={`You are about to delete this staff by the name of ${row.original.name}. Are you sure?`}
+            title={`Delete ${row.original.name}`}
+            icon={Trash}
+          >
             <DropdownMenu>
               <DropdownMenuTrigger>
                 <Edit2 className="h-4 w-4" />
@@ -140,11 +148,26 @@ export default function StaffManagement() {
     },
   ];
 
-  const { ForgeForm } = useForge({
-    fieldProps: renderInput,
+  // Define proper form data type
+  type SearchFormData = {
+    search: string;
+    permission: string;
+  };
+
+  const { control } = useForge<SearchFormData>({
+    defaultValues: {
+      search: "",
+      permission: "",
+    },
+    fields: renderInput,
   });
 
-  const handleSubmit = async () => {};
+  const handleSubmit = async (data: SearchFormData) => {
+    setSearchParams({
+      search: data.search || undefined,
+      role: (data.permission === 'superadmin' || data.permission === 'admin' || data.permission === 'support' ? data.permission : undefined),
+    });
+  };
 
   return (
     <>
@@ -153,11 +176,14 @@ export default function StaffManagement() {
       <div className="px-6 mt-6 space-y-5">
         <div className="flex items-center justify-between border-b py-2">
           <p>User List</p>
-          <Button>Add New User</Button>
+          <AddUserDialog>
+            <Button>Add New User</Button>
+          </AddUserDialog>
         </div>
 
         <div className="bg-white p-2 w-full flex items-center gap-3">
-          <ForgeForm
+          <Forge
+            control={control}
             ref={formRef}
             className="flex items-center w-full gap-3"
             onSubmit={handleSubmit}
@@ -166,7 +192,21 @@ export default function StaffManagement() {
         </div>
 
         <div className="bg-white p-1.5 rounded-lg">
-          <DataTable {...{ columns, data: getSampleStaffData }} />
+          {error ? (
+            <div className="flex justify-center items-center py-8">
+              <p className="text-red-600">Error loading staff data</p>
+            </div>
+          ) : (
+            <DataTable
+              {...{
+                columns,
+                data: staffData,
+                options: {
+                  isLoading,
+                },
+              }}
+            />
+          )}
         </div>
       </div>
     </>

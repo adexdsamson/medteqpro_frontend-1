@@ -9,6 +9,7 @@ import { format } from "date-fns";
 import Subheader from "../../_components/Subheader";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import RegisterHospitalDialog from "./_components/RegisterHospitalDialog";
 
 enum Status {
   Active = "Active",
@@ -158,7 +159,9 @@ export default function ClientManagement() {
       <div className="px-6 mt-6 space-y-5">
         <div className="flex items-center justify-between border-b py-2">
           <p>Client List</p>
-          <Button>Register Hospital</Button>
+          <RegisterHospitalDialog>
+            <Button>Register Hospital</Button>
+          </RegisterHospitalDialog>
         </div>
 
         <Tabs defaultValue="tab-1">

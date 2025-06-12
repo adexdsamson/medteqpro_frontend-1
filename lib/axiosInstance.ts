@@ -39,32 +39,56 @@ export const getAxiosInstance = (url?: string) => {
   return axiosInstance;
 };
 
-export const getRequest = async (url: string, config?: AxiosRequestConfig) => {
-  const res = await getAxiosInstance().get(`${url}`, config);
+export const getRequest = async ({
+  url,
+  config,
+}: {
+  url: string;
+  config?: AxiosRequestConfig;
+}) => {
+  const res = await getAxiosInstance().get(url, config);
   return res;
 };
 
-export const postRequest = async <T = unknown>(
-  url: string,
-  payload: T,
-  config?: AxiosRequestConfig
-) => {
+type RequestProps<T = unknown> = {
+  url: string;
+  payload: T;
+  config?: AxiosRequestConfig<T>;
+};
+
+export const postRequest = async <T = unknown>({
+  payload,
+  url,
+  config,
+}: RequestProps<T>) => {
   const res = await getAxiosInstance().post(`${url}`, payload, config);
   return res;
 };
 
-export const patchRequest = async <T = unknown>(url: string, payload: T) => {
-  const res = await getAxiosInstance().patch(`${url}`, payload);
+export const patchRequest = async <T = unknown>({
+  payload,
+  url,
+  config,
+}: RequestProps<T>) => {
+  const res = await getAxiosInstance().patch(`${url}`, payload, config);
   return res;
 };
 
-export const putRequest = async <T = unknown>(url: string, payload: T) => {
-  const res = await getAxiosInstance().put(`${url}`, payload);
+export const putRequest = async <T = unknown>({
+  payload,
+  url,
+  config,
+}: RequestProps<T>) => {
+  const res = await getAxiosInstance().put(`${url}`, payload, config);
   return res;
 };
 
-export const deleteRequest = async <T = unknown>(url: string, payload?: T) => {
-  const res = await getAxiosInstance().delete(`${url}`, { data: payload });
+export const deleteRequest = async <T = unknown>({
+  payload,
+  url,
+  config,
+}: Partial<RequestProps<T>>) => {
+  const res = await getAxiosInstance().delete(`${url}`, { data: payload, ...config });
   return res;
 };
 
