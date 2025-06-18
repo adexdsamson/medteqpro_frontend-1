@@ -24,21 +24,21 @@ export interface StaffListParams {
 // Hook for fetching staff list
 export const useStaffList = (params?: StaffListParams) => {
   const queryParams = new URLSearchParams();
-  
+
   if (params?.search) {
-    queryParams.append('search', params.search);
+    queryParams.append("search", params.search);
   }
-  
+
   if (params?.role) {
-    queryParams.append('role', params.role);
+    queryParams.append("role", params.role);
   }
-  
+
   const queryString = queryParams.toString();
-  const url = `/superadmin/staff/${queryString ? `?${queryString}` : ''}`;
-  
+  const url = `/superadmin/staff/${queryString ? `?${queryString}` : ""}`;
+
   return useQuery<ApiResponse<StaffMember[]>, ApiResponseError>({
     queryKey: ["staff-list", params],
-    queryFn: async () => await getRequest(url),
+    queryFn: async () => await getRequest({ url }),
     refetchOnWindowFocus: false,
     staleTime: 5 * 60 * 1000, // 5 minutes
   });

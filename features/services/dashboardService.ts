@@ -49,7 +49,7 @@ export interface DashboardAnalytics {
 export const useSuperAdminDashboard = () => {
   return useQuery<ApiResponse<DashboardAnalytics>, ApiResponseError>({
     queryKey: ["superadmin-dashboard"],
-    queryFn: async () => await getRequest("/superadmin/dashboard/"),
+    queryFn: async () => await getRequest({ url: "/superadmin/dashboard/" }),
     refetchOnWindowFocus: false,
     staleTime: 5 * 60 * 1000, // 5 minutes
   });

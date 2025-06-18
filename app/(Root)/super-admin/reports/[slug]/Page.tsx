@@ -1,33 +1,49 @@
-import Subheader from "@/app/(Root)/_components/Subheader";
+"use client";
 import { DataTable } from "@/components/DataTable";
 import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
 import Image from "next/image";
 import React from "react";
+import { useParams } from "next/navigation";
+import { useGetHospitalDetailedReport } from "@/features/services/reportsService";
+import { format } from "date-fns";
+import { getFormatCurrency } from "@/lib/utils";
+import Subheader from "../../../_components/Subheader";
 
-type Payment = {
-  month: string;
-  amount: string;
-  date: string;
-  status: string;
-};
+// Import the SubscriptionHistory type from reportsService
+import { SubscriptionHistory } from "@/features/services/reportsService";
+
 
 export default function ReportDetail() {
-  const reportData = {
-    hospital: "Greenlife Hospital",
-    subscriptionTotal: "₦3,000,000",
-    doctors: 14,
-    patients: 500,
-    reportDate: "22-Mar-2025",
-    payments: [
-      { month: "Feb", amount: "₦30,000", date: "22-Mar-2025", status: "Paid" },
-      { month: "Mar", amount: "₦30,000", date: "22-Mar-2025", status: "Paid" },
-      { month: "Apr", amount: "₦30,000", date: "22-Mar-2025", status: "Paid" },
-      { month: "May", amount: "₦30,000", date: "22-Mar-2025", status: "Paid" },
-    ],
-  };
+  const params = useParams();
+  const hospitalId = params.slug as string;
+  
+  const { data: reportData, isLoading } = useGetHospitalDetailedReport(hospitalId);
+  const report = reportData?.data?.data;
+  
+  if (isLoading) {
+    return (
+      <>
+        <Subheader title="Reports" />
+        <div className="px-6 mt-6">
+          <div className="text-center py-8">Loading...</div>
+        </div>
+      </>
+    );
+  }
+  
+  if (!report) {
+    return (
+      <>
+        <Subheader title="Reports" />
+        <div className="px-6 mt-6">
+          <div className="text-center py-8">Report not found</div>
+        </div>
+      </>
+    );
+  }
 
-  const columns: ColumnDef<Payment>[] = [
+  const columns: ColumnDef<SubscriptionHistory>[] = [
     {
       accessorKey: "id",
       header: "ID",
@@ -36,16 +52,29 @@ export default function ReportDetail() {
       },
     },
     {
-      accessorKey: "month",
-      header: "Hospital Name",
+      accessorKey: "subscription_plan",
+      header: "Subscription Plan",
     },
     {
       accessorKey: "amount",
       header: "Amount",
+      cell({ getValue }) {
+        return getFormatCurrency(getValue<number>());
+      },
     },
     {
-      accessorKey: "date",
-      header: "Date",
+      accessorKey: "start_date",
+      header: "Start Date",
+      cell({ getValue }) {
+        return format(new Date(getValue<string>()), "dd-MMM-yyyy");
+      },
+    },
+    {
+      accessorKey: "end_date",
+      header: "End Date",
+      cell({ getValue }) {
+        return format(new Date(getValue<string>()), "dd-MMM-yyyy");
+      },
     },
     {
       accessorKey: "status",
@@ -59,7 +88,7 @@ export default function ReportDetail() {
 
       <div className="px-6 mt-6 space-y-5">
         <div className="border-b border-gray-200">
-          <p className="text-sm font-bold">Greenlife Hospital</p>
+          <p className="text-sm font-bold">{report.hospital_name}</p>
         </div>
 
         <div className="flex justify-end">
@@ -86,16 +115,16 @@ export default function ReportDetail() {
               <div>
                 <p className="text-sm font-medium mb-1">Subscription Total</p>
                 <p className="text-lg font-bold">
-                  {reportData.subscriptionTotal}
+                  {getFormatCurrency(report.total_amount_paid || 0)}
                 </p>
               </div>
               <div>
                 <p className="text-sm font-medium mb-1">Doctors</p>
-                <p className="text-lg font-bold">{reportData.doctors}</p>
+                <p className="text-lg font-bold">{report.no_of_doctors || 0}</p>
               </div>
               <div>
                 <p className="text-sm font-medium mb-1">Patients</p>
-                <p className="text-lg font-bold">{reportData.patients}</p>
+                <p className="text-lg font-bold">{report.no_of_patients || 0}</p>
               </div>
             </div>
           </div>
@@ -104,13 +133,13 @@ export default function ReportDetail() {
           <div className="flex justify-end mb-6">
             <div className="text-right">
               <p className="text-sm font-medium">Date of Report</p>
-              <p className="text-sm">{reportData.reportDate}</p>
+              <p className="text-sm">{format(new Date(report.date_of_report), "dd-MMM-yyyy")}</p>
             </div>
           </div>
 
           {/* Hospital name */}
           <div className="bg-gray-50 p-3 border-t border-b">
-            <p className="text-center font-medium">{reportData.hospital}</p>
+            <p className="text-center font-medium">{report.hospital_name}</p>
           </div>
 
           {/* Report title */}
@@ -122,7 +151,7 @@ export default function ReportDetail() {
           <DataTable
             {...{
               columns,
-              data: reportData.payments,
+              data: report.subscription_history || [],
               options: { disableSelection: true },
             }}
           />

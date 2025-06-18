@@ -2,7 +2,7 @@
 
 import { DataTable } from "@/components/DataTable";
 import { Button } from "@/components/ui/button";
-import { makeArrayDataWithLength } from "@/demo";
+import { useGetHospitalList } from "@/features/services/hospitalService";
 import { ColumnDef } from "@tanstack/react-table";
 import React from "react";
 import { format } from "date-fns";
@@ -16,6 +16,8 @@ enum Status {
   Suspended = "Suspended",
 }
 
+import { HospitalListType } from "@/features/services/hospitalService";
+
 export type SubscriptionType = {
   id: string;
   hospitalName: string;
@@ -26,45 +28,11 @@ export type SubscriptionType = {
   numberOfMonths: number;
 };
 
-export type ClientType = {
-  id: string;
-  name: string;
-  email: string;
-  hospitalName: string;
-  numberOfDoctor: number;
-  registeredDate: string;
-  location: string;
-  status: Status;
-};
-
-const getSampleData = makeArrayDataWithLength<ClientType>(
-  (faker) => ({
-    id: faker.string.uuid(),
-    email: faker.internet.email(),
-    name: faker.person.fullName(),
-    hospitalName: faker.company.name(),
-    location: faker.location.state(),
-    numberOfDoctor: faker.number.int({ min: 0, max: 10 }),
-    registeredDate: faker.date.future().toString(),
-    status: faker.helpers.enumValue(Status),
-  }),
-  5
-);
-
-const getSampleSubData = makeArrayDataWithLength<SubscriptionType>(
-  (faker) => ({
-    id: faker.string.uuid(),
-    amount: faker.finance.amount({ symbol: "₦" }),
-    expiryDate: faker.date.future().toString(),
-    hospitalName: faker.company.name(),
-    numberOfMonths: faker.number.int({ min: 0, max: 10 }),
-    subscriptionDate: faker.date.future().toString(),
-    status: faker.helpers.enumValue(Status),
-  }),
-  5
-);
+export type ClientType = HospitalListType;
 
 export default function ClientManagement() {
+  const { data: hospitalList, isLoading } = useGetHospitalList();
+
   const columns: ColumnDef<ClientType>[] = [
     {
       accessorKey: "id",
@@ -74,30 +42,26 @@ export default function ClientManagement() {
       },
     },
     {
-      accessorKey: "name",
-      header: "Name",
+      accessorKey: "hospital_name",
+      header: "Hospital Name",
     },
     {
       accessorKey: "email",
       header: "Email",
     },
     {
-      accessorKey: "hospitalName",
-      header: "Hospital Name",
-    },
-    {
-      accessorKey: "numberOfDoctor",
+      accessorKey: "no_of_doctors",
       header: "Number of Doctors",
     },
     {
-      accessorKey: "registeredDate",
+      accessorKey: "date_created",
       header: "Date Registered",
       cell({ getValue }) {
-        return format(getValue<string>(), "dd-MMM-yyyy");
+        return format(new Date(getValue<string>()), "dd-MMM-yyyy");
       },
     },
     {
-      accessorKey: "location",
+      accessorKey: "state",
       header: "Location",
     },
     {
@@ -188,8 +152,8 @@ export default function ClientManagement() {
               <DataTable
                 {...{
                   columns,
-                  data: getSampleData,
-                  options: { disableSelection: true },
+                  data: hospitalList?.data?.data || [],
+                  options: { disableSelection: true, isLoading },
                 }}
               />
             </div>
@@ -200,7 +164,7 @@ export default function ClientManagement() {
               <DataTable
                 {...{
                   columns: columns2,
-                  data: getSampleSubData,
+                  data: [], // Subscription data is not available from the API yet
                   options: { disableSelection: true },
                 }}
               />

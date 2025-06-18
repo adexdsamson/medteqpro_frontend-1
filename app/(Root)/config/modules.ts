@@ -1,3 +1,4 @@
+import { User } from "@/types";
 import {
   LayoutDashboard,
   Users,
@@ -16,7 +17,7 @@ import {
   Calendar,
   Database,
   Stethoscope,
-  ShoppingCart
+  ShoppingCart,
 } from "lucide-react";
 import { LucideIcon } from "lucide-react";
 
@@ -28,11 +29,7 @@ export type MenuItem = {
 };
 
 // Define user profile type
-export type UserProfile = {
-  name: string;
-  role: string;
-  avatar: string;
-};
+export type UserProfile = User;
 
 // Define module configuration type
 export type ModuleConfig = {
@@ -52,18 +49,30 @@ export const commonSettingsItems: MenuItem[] = [
     href: "/profile",
   },
   {
-    label: 'Logout',
+    label: "Logout",
     icon: LogOut,
-    href: '/auth/login'
-  }
+    href: "/auth/login",
+  },
 ];
+
+const defaultUser = {
+  first_name: "Henry",
+  last_name: "Audu",
+  role: "Super Admin",
+  email: "henry@example.com",
+  id: "1",
+  is_active: true,
+  is_staff: true,
+  phone_number: "+2348166666666",
+  // avatar: "https://avatar.iran.liara.run/public/14",
+}
 
 // Define all modules in the application
 export const moduleConfigs: ModuleConfig[] = [
   {
-    key: 'super-admin',
-    displayName: 'Super Admin',
-    pathPrefix: '/super-admin',
+    key: "super-admin",
+    displayName: "Super Admin",
+    pathPrefix: "/super-admin",
     menuItems: [
       {
         label: "Dashboard",
@@ -97,16 +106,12 @@ export const moduleConfigs: ModuleConfig[] = [
       },
     ],
     settingsItems: commonSettingsItems,
-    defaultUserProfile: {
-      name: "Henry Audu",
-      role: "Super Admin",
-      avatar: "https://avatar.iran.liara.run/public/14",
-    },
+    defaultUserProfile: defaultUser,
   },
   {
-    key: 'patient',
-    displayName: 'Patient',
-    pathPrefix: '/patient',
+    key: "patient",
+    displayName: "Patient",
+    pathPrefix: "/patient",
     menuItems: [
       {
         label: "Dashboard",
@@ -135,16 +140,12 @@ export const moduleConfigs: ModuleConfig[] = [
       },
     ],
     settingsItems: commonSettingsItems,
-    defaultUserProfile: {
-      name: "Femi Babolola",
-      role: "Patient",
-      avatar: "/images/avatar.png",
-    },
+    defaultUserProfile: defaultUser,
   },
   {
-    key: 'doctor',
-    displayName: 'Doctor',
-    pathPrefix: '/doctor',
+    key: "doctor",
+    displayName: "Doctor",
+    pathPrefix: "/doctor",
     menuItems: [
       {
         label: "Dashboard",
@@ -173,16 +174,12 @@ export const moduleConfigs: ModuleConfig[] = [
       },
     ],
     settingsItems: commonSettingsItems,
-    defaultUserProfile: {
-      name: "Dr. Sarah Johnson",
-      role: "Doctor",
-      avatar: "/images/doctor-avatar.png",
-    },
+    defaultUserProfile: defaultUser,
   },
   {
-    key: 'admin',
-    displayName: 'Admin',
-    pathPrefix: '/admin',
+    key: "admin",
+    displayName: "Admin",
+    pathPrefix: "/admin",
     menuItems: [
       {
         label: "Dashboard",
@@ -221,16 +218,12 @@ export const moduleConfigs: ModuleConfig[] = [
       },
     ],
     settingsItems: commonSettingsItems,
-    defaultUserProfile: {
-      name: "Jane Smith",
-      role: "Hospital Admin",
-      avatar: "/images/admin-avatar.png",
-    },
+    defaultUserProfile: defaultUser,
   },
   {
-    key: 'nurse',
-    displayName: 'Nurse',
-    pathPrefix: '/nurse',
+    key: "nurse",
+    displayName: "Nurse",
+    pathPrefix: "/nurse",
     menuItems: [
       {
         label: "Dashboard",
@@ -259,16 +252,12 @@ export const moduleConfigs: ModuleConfig[] = [
       },
     ],
     settingsItems: commonSettingsItems,
-    defaultUserProfile: {
-      name: "Mary Johnson",
-      role: "Nurse",
-      avatar: "/images/nurse-avatar.png",
-    },
+    defaultUserProfile: defaultUser,
   },
   {
-    key: 'pharmacy',
-    displayName: 'Pharmacy',
-    pathPrefix: '/pharmacy',
+    key: "pharmacy",
+    displayName: "Pharmacy",
+    pathPrefix: "/pharmacy",
     menuItems: [
       {
         label: "Dashboard",
@@ -303,14 +292,14 @@ export const moduleConfigs: ModuleConfig[] = [
 // Utility functions to work with modules
 export function getModuleByPathname(pathname: string | null): ModuleConfig {
   if (!pathname) return moduleConfigs[0];
-  
-  const foundModule = moduleConfigs.find(config => 
+
+  const foundModule = moduleConfigs.find((config) =>
     pathname.startsWith(config.pathPrefix)
   );
-  
+
   return foundModule || moduleConfigs[0]; // Default to first module if not found
 }
 
 export function getModuleByKey(key: string): ModuleConfig {
-  return moduleConfigs.find(config => config.key === key) || moduleConfigs[0];
+  return moduleConfigs.find((config) => config.key === key) || moduleConfigs[0];
 }

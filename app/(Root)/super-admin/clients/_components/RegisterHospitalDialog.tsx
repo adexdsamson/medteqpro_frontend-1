@@ -12,14 +12,8 @@ import {
 import { TextInput } from "@/components/FormInputs/TextInput";
 import { TextSelect } from "@/components/FormInputs/TextSelect";
 import { useForge, Forge, Forger } from "@/lib/forge";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { postRequest } from "@/lib/axiosInstance";
-import {
-  ApiResponse,
-  ApiResponseError,
-  HospitalOnboardingResponse,
-  HospitalOnboardingPayload,
-} from "@/types";
+import { useQueryClient } from "@tanstack/react-query";
+import { useOnboardHospital, HospitalType } from "@/features/services/hospitalService";
 import { useToastHandler } from "@/hooks/useToaster";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -94,29 +88,23 @@ export default function RegisterHospitalDialog({ children }: RegisterHospitalDia
     },
   });
 
-  const { mutateAsync, isPending } = useMutation<
-    ApiResponse<HospitalOnboardingResponse>,
-    ApiResponseError,
-    HospitalOnboardingPayload
-  >({
-    mutationKey: ["onboard-hospital"],
-    mutationFn: async (payload) =>
-      await postRequest({ url: "/auth/onboard/hospital/", payload }),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["hospitals-list"] });
+  const { mutate: onboardHospital, isPending, isSuccess, isError, error } = useOnboardHospital();
+
+  useEffect(() => {
+    if (isSuccess) {
+      queryClient.invalidateQueries({ queryKey: ["hospitalList"] });
       toast.success("Success", "Hospital registered successfully");
       setOpen(false);
       reset();
-    },
-    onError: (error) => {
-      toast.error("Error", error.message || "Failed to register hospital");
-    },
-  });
+    }
+    if (isError) {
+      toast.error("Error", error?.message || "Failed to register hospital");
+    }
+  }, [isSuccess, isError, error, queryClient, reset, toast]);
 
   const handleSubmit = async (data: FormValues) => {
     try {
-      // Format data according to API structure
-      const payload = {
+      const payload: HospitalType = {
         email: data.email,
         first_name: data.first_name,
         last_name: data.last_name,
@@ -124,12 +112,11 @@ export default function RegisterHospitalDialog({ children }: RegisterHospitalDia
           name: data.hospital_name,
           no_of_doctors: data.no_of_doctors.toString(),
           state: data.state,
-          city: data.lga, // Using LGA as city in the API
+          city: data.lga,
           address: data.address,
         },
       };
-      
-      await mutateAsync(payload);
+      await onboardHospital(payload);
     } catch (error) {
       console.error("Error registering hospital:", error);
     }

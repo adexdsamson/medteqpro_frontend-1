@@ -1,5 +1,3 @@
-## Below is the documentation for the API endpoints in JSON format.
-
 {
 	"info": {
 		"_postman_id": "4920e401-a6da-43aa-8804-3900fad801a4",
@@ -135,7 +133,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ5ODAyMTI2LCJpYXQiOjE3NDcyMTAxMjYsImp0aSI6IjE0NTYwOTI5M2IyZjRjOTM5YzRjNDNmOWE4ZmQwNDVhIiwidXNlcl9pZCI6IjhiNmUyYmI2LTBlZDktNDVlYi04OGYzLWRhNjIxMDgxZjBiZSJ9.jchx6o5fqdURtFq_ax_1t1of36TWEPLO3YlOuCEkK2w",
+											"value": "{{super_admin}}",
 											"type": "string"
 										}
 									]
@@ -176,7 +174,7 @@
 									"header": [
 										{
 											"key": "Date",
-											"value": "Wed, 14 May 2025 08:31:28 GMT"
+											"value": "Fri, 06 Jun 2025 10:07:19 GMT"
 										},
 										{
 											"key": "Server",
@@ -200,7 +198,7 @@
 										},
 										{
 											"key": "Content-Length",
-											"value": "392"
+											"value": "410"
 										},
 										{
 											"key": "X-Content-Type-Options",
@@ -216,7 +214,7 @@
 										}
 									],
 									"cookie": [],
-									"body": "{\n    \"status\": true,\n    \"message\": \"Hospitals retrieved successfully.\",\n    \"data\": [\n        {\n            \"id\": \"8a5c0801-a79a-42c9-bef1-d109ada136dc\",\n            \"name\": \"Divine Mercy\",\n            \"no_of_doctors\": 20,\n            \"state\": \"Rivers\",\n            \"city\": \"Port-Harcourt\",\n            \"address\": \"17 Birabi Street, Old GRA\",\n            \"created_at\": \"2025-05-14T08:28:53.440828Z\",\n            \"updated_at\": \"2025-05-14T08:28:53.440828Z\",\n            \"admin_full_name\": \"Adams Charles\",\n            \"admin_email\": \"naarons800@gmail.com\"\n        }\n    ]\n}"
+									"body": "{\n    \"status\": true,\n    \"message\": \"Hospitals retrieved successfully.\",\n    \"data\": [\n        {\n            \"id\": \"8bcb6a27-c7a6-4ece-a9fc-409e693ef03d\",\n            \"name\": \"Divine Mercy\",\n            \"status\": \"active\",\n            \"no_of_doctors\": 20,\n            \"state\": \"Rivers\",\n            \"city\": \"Port-Harcourt\",\n            \"address\": \"17 Birabi Street, Old GRA\",\n            \"created_at\": \"2025-05-14T08:34:07.750847Z\",\n            \"updated_at\": \"2025-05-14T08:34:07.750847Z\",\n            \"admin_full_name\": \"Adams Charles\",\n            \"admin_email\": \"naarons800@gmail.com\"\n        }\n    ]\n}"
 								}
 							]
 						},
@@ -478,7 +476,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ3MTQyOTM5LCJpYXQiOjE3NDQ1NTA5MzksImp0aSI6ImE2MjE0YTM4ZTQyMDQ0Njg5ZDFiMjMxN2ZkYTk4ZTM2IiwidXNlcl9pZCI6MX0.A59Wm43Ltd8Bg04hMckdrbvBxMZZOHo9MUwhkz342kY",
+											"value": "{{super_admin}}",
 											"type": "string"
 										}
 									]
@@ -497,12 +495,12 @@
 									"query": [
 										{
 											"key": "search",
-											"value": null,
+											"value": "",
 											"disabled": true
 										},
 										{
 											"key": "role",
-											"value": null,
+											"value": "",
 											"description": "\"superadmin\", \"admin\", \"support\"",
 											"disabled": true
 										}
@@ -592,27 +590,109 @@
 						{
 							"name": "View Staff Details",
 							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{super_admin}}",
+											"type": "string"
+										}
+									]
+								},
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{LOCAL}}superadmin/staff/:staff_detail/",
+									"raw": "{{LOCAL}}superadmin/staff/:staff_id/",
 									"host": [
 										"{{LOCAL}}superadmin"
 									],
 									"path": [
 										"staff",
-										":staff_detail",
+										":staff_id",
 										""
 									],
 									"variable": [
 										{
-											"key": "staff_detail",
-											"value": ""
+											"key": "staff_id",
+											"value": "8b6e2bb6-0ed9-45eb-88f3-da621081f0be"
 										}
 									]
 								}
 							},
-							"response": []
+							"response": [
+								{
+									"name": "View Staff Details",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{LOCAL}}superadmin/staff/:staff_id/",
+											"host": [
+												"{{LOCAL}}superadmin"
+											],
+											"path": [
+												"staff",
+												":staff_id",
+												""
+											],
+											"variable": [
+												{
+													"key": "staff_id",
+													"value": "8b6e2bb6-0ed9-45eb-88f3-da621081f0be"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Fri, 06 Jun 2025 10:13:28 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "WSGIServer/0.2 CPython/3.10.0"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Allow",
+											"value": "GET, PATCH, DELETE, HEAD, OPTIONS"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "DENY"
+										},
+										{
+											"key": "Vary",
+											"value": "origin"
+										},
+										{
+											"key": "Content-Length",
+											"value": "256"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": true,\n    \"message\": \"Staff member retrieved successfully.\",\n    \"data\": {\n        \"id\": \"8b6e2bb6-0ed9-45eb-88f3-da621081f0be\",\n        \"email\": \"naarons700@gmail.com\",\n        \"first_name\": \"liam\",\n        \"last_name\": \"Delap\",\n        \"phone_number\": null,\n        \"role\": \"admin\",\n        \"is_active\": true,\n        \"is_staff\": true\n    }\n}"
+								}
+							]
 						},
 						{
 							"name": "Update Staff",
@@ -676,6 +756,310 @@
 					]
 				},
 				{
+					"name": "Hospital Reports",
+					"item": [
+						{
+							"name": "Overview",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{super_admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}superadmin/reports/overview/",
+									"host": [
+										"{{LOCAL}}superadmin"
+									],
+									"path": [
+										"reports",
+										"overview",
+										""
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Overview",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{LOCAL}}superadmin/reports/overview/",
+											"host": [
+												"{{LOCAL}}superadmin"
+											],
+											"path": [
+												"reports",
+												"overview",
+												""
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Fri, 06 Jun 2025 10:01:50 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "WSGIServer/0.2 CPython/3.10.0"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Allow",
+											"value": "GET, HEAD, OPTIONS"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "DENY"
+										},
+										{
+											"key": "Vary",
+											"value": "origin"
+										},
+										{
+											"key": "Content-Length",
+											"value": "175"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": true,\n    \"message\": \"Overview reports retrieved successfully.\",\n    \"data\": {\n        \"total_no_of_hospitals\": 1,\n        \"total_revenue\": 100000,\n        \"total_no_of_doctors\": 1,\n        \"total_no_of_patients\": 2\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Hospital List",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{super_admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}superadmin/reports/hospitals/",
+									"host": [
+										"{{LOCAL}}superadmin"
+									],
+									"path": [
+										"reports",
+										"hospitals",
+										""
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "New Request",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{LOCAL}}superadmin/reports/hospitals/",
+											"host": [
+												"{{LOCAL}}superadmin"
+											],
+											"path": [
+												"reports",
+												"hospitals",
+												""
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Fri, 06 Jun 2025 10:02:48 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "WSGIServer/0.2 CPython/3.10.0"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Allow",
+											"value": "GET, HEAD, OPTIONS"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "DENY"
+										},
+										{
+											"key": "Vary",
+											"value": "origin"
+										},
+										{
+											"key": "Content-Length",
+											"value": "347"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"count\": 1,\n    \"next\": null,\n    \"previous\": null,\n    \"results\": {\n        \"status\": true,\n        \"message\": \"Hospital report list retrieved successfully.\",\n        \"data\": [\n            {\n                \"id\": \"8bcb6a27-c7a6-4ece-a9fc-409e693ef03d\",\n                \"hospital_name\": \"Divine Mercy\",\n                \"no_of_doctors\": 1,\n                \"no_of_patients\": 2,\n                \"date_registered\": \"2025-05-14T08:34:07.750847Z\",\n                \"no_of_months_subscribed\": 1,\n                \"total_amount_paid\": 50000\n            }\n        ]\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Hospital Report",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{super_admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}superadmin/reports/hospitals/:hospital_id/",
+									"host": [
+										"{{LOCAL}}superadmin"
+									],
+									"path": [
+										"reports",
+										"hospitals",
+										":hospital_id",
+										""
+									],
+									"variable": [
+										{
+											"key": "hospital_id",
+											"value": "8bcb6a27-c7a6-4ece-a9fc-409e693ef03d"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Hospital Report",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{LOCAL}}superadmin/reports/hospitals/:hospital_id/",
+											"host": [
+												"{{LOCAL}}superadmin"
+											],
+											"path": [
+												"reports",
+												"hospitals",
+												":hospital_id",
+												""
+											],
+											"variable": [
+												{
+													"key": "hospital_id",
+													"value": "8bcb6a27-c7a6-4ece-a9fc-409e693ef03d"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Fri, 06 Jun 2025 10:03:58 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "WSGIServer/0.2 CPython/3.10.0"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Allow",
+											"value": "GET, HEAD, OPTIONS"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "DENY"
+										},
+										{
+											"key": "Vary",
+											"value": "origin"
+										},
+										{
+											"key": "Content-Length",
+											"value": "409"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": true,\n    \"message\": \"Hospital detailed report retrieved successfully.\",\n    \"data\": {\n        \"hospital_name\": \"Divine Mercy\",\n        \"no_of_doctors\": 1,\n        \"no_of_patients\": 2,\n        \"total_amount_paid\": 50000,\n        \"date_of_report\": \"2025-06-06T10:03:58.738600Z\",\n        \"subscription_history\": [\n            {\n                \"subscription_plan\": \"Standard Plan\",\n                \"amount\": 50000,\n                \"start_date\": \"2025-05-14T08:34:07.750847Z\",\n                \"end_date\": \"2025-06-01T08:34:07.750847Z\",\n                \"status\": \"completed\"\n            }\n        ]\n    }\n}"
+								}
+							]
+						}
+					]
+				},
+				{
 					"name": "Dashboard",
 					"request": {
 						"auth": {
@@ -701,28 +1085,7 @@
 							]
 						}
 					},
-					"response": [
-						{
-    "status": true,
-    "message": "Dashboard analytics retrieved successfully.",
-    "data": {
-        "total_revenue": 100000,
-        "total_staff_count": 1,
-        "hospital_analytics": {
-            "total_hospitals": 0,
-            "active_hospitals": 0,
-            "inactive_hospitals": 0,
-            "top_hospitals": [],
-            "other_hospitals": {
-                "name": "Other Hospitals",
-                "percentage_of_total_patients": 0
-            }
-        },
-        "recent_hospitals": [],
-        "recent_subscriptions": []
-    }
-}
-					]
+					"response": []
 				}
 			]
 		},
@@ -928,7 +1291,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "// Super Admin\r\n{\r\n    \"email\": \"admin@medteqpro.com\",\r\n    \"password\": \"adminadmin\"\r\n}\r\n\r\n// Staff Admin\r\n// {\r\n//     \"email\": \"naarons700@gmail.com\",\r\n//     \"password\": \"userpass112\"\r\n// }\r\n\r\n// Hospital Admin\r\n// {\r\n//     \"email\": \"naarons800@gmail.com\",\r\n//     \"password\": \"AdamsCharles@20250514\"\r\n// }\r\n\r\n// Doctor\r\n// {\r\n//     \"email\": \"aaronnwokoro@gmail.com\",\r\n//     \"password\": \"userpass112\"\r\n// }",
+							"raw": "// Super Admin\r\n// {\r\n//     \"email\": \"admin@medteqpro.com\",\r\n//     \"password\": \"adminadmin\"\r\n// }\r\n\r\n// Staff Admin\r\n// {\r\n//     \"email\": \"naarons700@gmail.com\",\r\n//     \"password\": \"userpass112\"\r\n// }\r\n\r\n// Hospital Admin\r\n{\r\n    \"email\": \"naarons800@gmail.com\",\r\n    \"password\": \"AdamsCharles@20250514\"\r\n}\r\n\r\n// Doctor\r\n// {\r\n//     \"email\": \"aaronnwokoro@gmail.com\",\r\n//     \"password\": \"userpass112\"\r\n// }",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -936,9 +1299,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{PROD}}auth/login/",
+							"raw": "{{LOCAL}}auth/login/",
 							"host": [
-								"{{PROD}}auth"
+								"{{LOCAL}}auth"
 							],
 							"path": [
 								"login",
@@ -5078,6 +5441,190 @@
 					]
 				},
 				{
+					"name": "Create Patient (App)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{doctor}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"hospital\": \"hospital-uuid-here\",\r\n    \"first_name\": \"Jane\",\r\n    \"last_name\": \"Doe\",\r\n    \"middle_name\": \"Anne\",\r\n    \"date_of_birth\": \"1992-03-20\",\r\n    \"gender\": \"female\",\r\n    \"phone_number\": \"1234567890\",\r\n    \"email\": \"jane.doe@example.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{LOCAL}}patient-management/app-patients/",
+							"host": [
+								"{{LOCAL}}patient-management"
+							],
+							"path": [
+								"app-patients",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Add Patient",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    // Personal Info\r\n    \"first_name\": \"Jane\",\r\n    \"last_name\": \"Doe\",\r\n    \"middle_name\": \"Anne\",\r\n    \"date_of_birth\": \"1992-03-20\",\r\n    \"gender\": \"female\",\r\n    \"phone_number\": \"1234567890\",\r\n    \"email\": \"jane.doe@example.com\",\r\n    \"address\": \"123 Main St\",\r\n    \"city\": \"Anytown\",\r\n    \"state\": \"Anystate\",\r\n    \"height\": 165,\r\n    \"weight\": 60,\r\n\r\n    // Medical Info\r\n    \"blood_group\": \"O+\",\r\n    \"genotype\": \"AA\",\r\n    \"allergies\": \"Pollen, Dust\",\r\n    \"chronic_conditions\": \"None\",\r\n    \"current_medications\": [{\"medication\": \"Aspirin\", \"dosage\": \"500mg\", \"frequency\": \"twice daily\"}],\r\n    \"family_history\": \"Diabetes (Mother)\",\r\n    \"surgical_history\": \"Appendectomy (2010)\",\r\n    \"hereditary_conditions\": \"None\",\r\n    \"other_conditions\": \"None\",\r\n\r\n    // Other Info\r\n    \"marital_status\": \"married\",    \r\n    \"employment_status\": \"Employed\",\r\n\r\n    // Emergency Contact\r\n    \"emergency_contact\": {\r\n        \"name\": \"John Smith\",\r\n        \"phone\": \"0987654321\",\r\n        \"relationship\": \"Spouse\",\r\n        \"address\": \"123 Main St, Anytown\"\r\n    },\r\n    \"social_history\": {\r\n        \"smoking\": \"Non-smoker\", \r\n        \"alcohol\": \"Occasional\",\r\n        \"drug_use\": \"n/a\",\r\n        \"diet\": \"Balanced\",\r\n        \"exercise\": \"Regular\" \r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL}}patient-management/patients/",
+									"host": [
+										"{{LOCAL}}patient-management"
+									],
+									"path": [
+										"patients",
+										""
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sat, 17 May 2025 17:25:06 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.10.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, POST, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1334"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"data\": {\n        \"id\": \"3c37720b-1fc6-4888-9347-37b9ce75ab51\",\n        \"hospital\": \"8bcb6a27-c7a6-4ece-a9fc-409e693ef03d\",\n        \"first_name\": \"Jane\",\n        \"last_name\": \"Doe\",\n        \"middle_name\": \"Anne\",\n        \"full_name\": \"Jane Anne Doe\",\n        \"patient_type\": \"individual\",\n        \"date_of_birth\": \"1992-03-20\",\n        \"age\": 33,\n        \"gender\": \"female\",\n        \"phone_number\": \"1234567890\",\n        \"email\": \"jane.doe@example.com\",\n        \"address\": \"123 Main St\",\n        \"city\": \"Anytown\",\n        \"state\": \"Anystate\",\n        \"employment_status\": \"Employed\",\n        \"height\": 165,\n        \"weight\": 60,\n        \"bmi\": 22.04,\n        \"blood_group\": \"O+\",\n        \"genotype\": \"AA\",\n        \"allergies\": \"Pollen, Dust\",\n        \"chronic_conditions\": \"None\",\n        \"current_medications\": [\n            {\n                \"medication\": \"Aspirin\",\n                \"dosage\": \"500mg\",\n                \"frequency\": \"twice daily\"\n            }\n        ],\n        \"family_history\": \"Diabetes (Mother)\",\n        \"surgical_history\": \"Appendectomy (2010)\",\n        \"hereditary_conditions\": \"None\",\n        \"other_conditions\": \"None\",\n        \"emergency_contact\": {\n            \"name\": \"John Smith\",\n            \"phone\": \"0987654321\",\n            \"relationship\": \"Spouse\",\n            \"address\": \"123 Main St, Anytown\"\n        },\n        \"marital_status\": \"married\",\n        \"social_history\": {\n            \"smoking\": \"Non-smoker\",\n            \"alcohol\": \"Occasional\",\n            \"drug_use\": \"n/a\",\n            \"sexual_history\": null,\n            \"exercise\": \"Regular\",\n            \"diet\": \"Balanced\",\n            \"other_habits\": null,\n            \"created_at\": \"2025-05-17T17:25:06.132789Z\",\n            \"updated_at\": \"2025-05-17T17:25:06.132789Z\"\n        },\n        \"created_at\": \"2025-05-17T17:25:06.124528Z\",\n        \"updated_at\": \"2025-05-17T17:25:06.124528Z\",\n        \"registered_by\": \"f1841d87-ed48-44e0-a755-093e5f0cc721\"\n    }\n}"
+						},
+						{
+							"name": "Add Patient",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    // Family\r\n    \"family_id\": \"9380f74e-f5ed-4281-ba73-5ebeb3e0d4cc\",\r\n\r\n    // Personal Info\r\n    \"first_name\": \"John\",\r\n    \"last_name\": \"Trump\",\r\n    \"middle_name\": \"Mark\",\r\n    \"date_of_birth\": \"1992-03-20\",\r\n    \"gender\": \"male\",\r\n    \"phone_number\": \"1264567890\",\r\n    \"email\": \"john.trump@example.com\",\r\n    \"address\": \"123 Main St\",\r\n    \"city\": \"Anytown\",\r\n    \"state\": \"Anystate\",\r\n    \"height\": 165,\r\n    \"weight\": 60,\r\n\r\n    // Medical Info\r\n    \"blood_group\": \"O+\",\r\n    \"genotype\": \"AA\",\r\n    \"allergies\": \"Pollen, Dust\",\r\n    \"chronic_conditions\": \"None\",\r\n    \"current_medications\": [{\"medication\": \"Aspirin\", \"dosage\": \"500mg\", \"frequency\": \"twice daily\"}],\r\n    \"family_history\": \"Diabetes (Mother)\",\r\n    \"surgical_history\": \"Appendectomy (2010)\",\r\n    \"hereditary_conditions\": \"None\",\r\n    \"other_conditions\": \"None\",\r\n\r\n    // Other Info\r\n    \"marital_status\": \"married\",    \r\n    \"employment_status\": \"Employed\",\r\n\r\n    // Emergency Contact\r\n    \"emergency_contact\": {\r\n        \"name\": \"John Smith\",\r\n        \"phone\": \"0987654321\",\r\n        \"relationship\": \"Spouse\",\r\n        \"address\": \"123 Main St, Anytown\"\r\n    },\r\n    \"social_history\": {\r\n        \"smoking\": \"Non-smoker\", \r\n        \"alcohol\": \"Occasional\",\r\n        \"drug_use\": \"n/a\",\r\n        \"diet\": \"Balanced\",\r\n        \"exercise\": \"Regular\" \r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL}}patient-management/patients/",
+									"host": [
+										"{{LOCAL}}patient-management"
+									],
+									"path": [
+										"patients",
+										""
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sat, 17 May 2025 17:52:38 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.10.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, POST, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1515"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"data\": {\n        \"id\": \"a937ab0f-eb3d-4e07-9a09-3a3e4d29a54f\",\n        \"hospital\": \"8bcb6a27-c7a6-4ece-a9fc-409e693ef03d\",\n        \"family\": {\n            \"id\": \"9380f74e-f5ed-4281-ba73-5ebeb3e0d4cc\",\n            \"family_name\": \"Trump\",\n            \"no_of_members\": 1,\n            \"created_at\": \"2025-05-17T17:25:41.076072Z\",\n            \"updated_at\": \"2025-05-17T17:25:41.076072Z\"\n        },\n        \"first_name\": \"John\",\n        \"last_name\": \"Trump\",\n        \"middle_name\": \"Mark\",\n        \"full_name\": \"John Mark Trump\",\n        \"patient_type\": \"family\",\n        \"date_of_birth\": \"1992-03-20\",\n        \"age\": 33,\n        \"gender\": \"male\",\n        \"phone_number\": \"1264567890\",\n        \"email\": \"john.trump@example.com\",\n        \"address\": \"123 Main St\",\n        \"city\": \"Anytown\",\n        \"state\": \"Anystate\",\n        \"employment_status\": \"Employed\",\n        \"height\": 165,\n        \"weight\": 60,\n        \"bmi\": 22.04,\n        \"blood_group\": \"O+\",\n        \"genotype\": \"AA\",\n        \"allergies\": \"Pollen, Dust\",\n        \"chronic_conditions\": \"None\",\n        \"current_medications\": [\n            {\n                \"medication\": \"Aspirin\",\n                \"dosage\": \"500mg\",\n                \"frequency\": \"twice daily\"\n            }\n        ],\n        \"family_history\": \"Diabetes (Mother)\",\n        \"surgical_history\": \"Appendectomy (2010)\",\n        \"hereditary_conditions\": \"None\",\n        \"other_conditions\": \"None\",\n        \"emergency_contact\": {\n            \"name\": \"John Smith\",\n            \"phone\": \"0987654321\",\n            \"relationship\": \"Spouse\",\n            \"address\": \"123 Main St, Anytown\"\n        },\n        \"marital_status\": \"married\",\n        \"social_history\": {\n            \"smoking\": \"Non-smoker\",\n            \"alcohol\": \"Occasional\",\n            \"drug_use\": \"n/a\",\n            \"sexual_history\": null,\n            \"exercise\": \"Regular\",\n            \"diet\": \"Balanced\",\n            \"other_habits\": null,\n            \"created_at\": \"2025-05-17T17:52:38.602017Z\",\n            \"updated_at\": \"2025-05-17T17:52:38.602017Z\"\n        },\n        \"created_at\": \"2025-05-17T17:52:38.593613Z\",\n        \"updated_at\": \"2025-05-17T17:52:38.593613Z\",\n        \"registered_by\": \"f1841d87-ed48-44e0-a755-093e5f0cc721\"\n    }\n}"
+						}
+					]
+				},
+				{
 					"name": "Update Patient Info",
 					"request": {
 						"auth": {
@@ -6158,7 +6705,1291 @@
 		},
 		{
 			"name": "Queue Mgt",
-			"item": []
+			"item": [
+				{
+					"name": "Overview",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{hospital_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{LOCAL}}queue-management/overview/",
+							"host": [
+								"{{LOCAL}}queue-management"
+							],
+							"path": [
+								"overview",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Queue",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{hospital_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{LOCAL}}queue-management/",
+							"host": [
+								"{{LOCAL}}queue-management"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}queue-management/",
+									"host": [
+										"{{LOCAL}}queue-management"
+									],
+									"path": [
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Fri, 13 Jun 2025 16:40:14 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.10.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Length",
+									"value": "403"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"message\": \"Queues retrieved successfully\",\n    \"data\": [\n        {\n            \"id\": \"efe4f0c2-8410-43e1-8589-b1c505a8a063\",\n            \"patient_id\": \"3c37720b-1fc6-4888-9347-37b9ce75ab51\",\n            \"patient_fullname\": \"Jane Anne Doe\",\n            \"patient_gender\": \"female\",\n            \"assigned_hospital_staff_fullname\": \"Mike Tyson\",\n            \"estimated_waiting_time\": 30,\n            \"status\": \"waiting\",\n            \"priority\": \"high\",\n            \"purpose\": \"Diagnosis\",\n            \"created_at\": \"2025-06-13T16:39:04.328597Z\"\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Add Patient",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{hospital_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"patient\": \"3c37720b-1fc6-4888-9347-37b9ce75ab51\",\r\n    \"hospital_staff\": \"f1841d87-ed48-44e0-a755-093e5f0cc721\", \r\n    \"purpose\": \"Diagnosis\", \r\n    \"priority\": \"high\", // high, medium, low\r\n    \"estimated_waiting_time\": 30 // minutes\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{LOCAL}}queue-management/add-patient/",
+							"host": [
+								"{{LOCAL}}queue-management"
+							],
+							"path": [
+								"add-patient",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"patient\": \"3c37720b-1fc6-4888-9347-37b9ce75ab51\",\r\n    \"hospital_staff\": \"f1841d87-ed48-44e0-a755-093e5f0cc721\", \r\n    \"purpose\": \"Diagnosis\", \r\n    \"priority\": \"high\", // high, medium, low\r\n    \"estimated_waiting_time\": 30 // minutes\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL}}queue-management/add-patient/",
+									"host": [
+										"{{LOCAL}}queue-management"
+									],
+									"path": [
+										"add-patient",
+										""
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Fri, 13 Jun 2025 16:39:04 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.10.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Allow",
+									"value": "POST, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Length",
+									"value": "245"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"message\": \"Patient added to queue successfully\",\n    \"data\": {\n        \"patient\": \"3c37720b-1fc6-4888-9347-37b9ce75ab51\",\n        \"hospital_staff\": \"f1841d87-ed48-44e0-a755-093e5f0cc721\",\n        \"purpose\": \"Diagnosis\",\n        \"priority\": \"high\",\n        \"estimated_waiting_time\": 30\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Update Status",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{hospital_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{LOCAL}}queue-management/update-status/:queue_id/",
+							"host": [
+								"{{LOCAL}}queue-management"
+							],
+							"path": [
+								"update-status",
+								":queue_id",
+								""
+							],
+							"variable": [
+								{
+									"key": "queue_id",
+									"value": "efe4f0c2-8410-43e1-8589-b1c505a8a063"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Support",
+			"item": [
+				{
+					"name": "Ticket Message Management",
+					"item": [
+						{
+							"name": "List Ticket Messages",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{doctor}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}support/tickets/:ticket_id/messages/",
+									"host": [
+										"{{LOCAL}}support"
+									],
+									"path": [
+										"tickets",
+										":ticket_id",
+										"messages",
+										""
+									],
+									"variable": [
+										{
+											"key": "ticket_id",
+											"value": "dcdb364b-9ae7-45f8-94e6-d9a3a5775c42"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "New Request",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{LOCAL}}support/tickets/:ticket_id/messages/",
+											"host": [
+												"{{LOCAL}}support"
+											],
+											"path": [
+												"tickets",
+												":ticket_id",
+												"messages",
+												""
+											],
+											"variable": [
+												{
+													"key": "ticket_id",
+													"value": "dcdb364b-9ae7-45f8-94e6-d9a3a5775c42"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Fri, 06 Jun 2025 09:30:24 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "WSGIServer/0.2 CPython/3.10.0"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Allow",
+											"value": "GET, POST, HEAD, OPTIONS"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "DENY"
+										},
+										{
+											"key": "Vary",
+											"value": "origin"
+										},
+										{
+											"key": "Content-Length",
+											"value": "379"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										}
+									],
+									"cookie": [],
+									"body": "[\n    {\n        \"id\": \"e2bf5889-4efb-405e-a9d5-2ca9f7d38404\",\n        \"message\": \"I am unable to view the laboratory results for patient #12345. The system shows an error message.\",\n        \"sender\": \"f1841d87-ed48-44e0-a755-093e5f0cc721\",\n        \"sender_email\": \"aaronnwokoro@gmail.com\",\n        \"sender_name\": \"Mike Tyson\",\n        \"sender_role\": \"doctor\",\n        \"attachment\": null,\n        \"attachment_name\": null,\n        \"created_at\": \"2025-06-06T09:29:28.124388Z\"\n    }\n]"
+								}
+							]
+						},
+						{
+							"name": "View a Specific Message",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{doctor}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}support/tickets/:ticket_id/messages/:message_id/",
+									"host": [
+										"{{LOCAL}}support"
+									],
+									"path": [
+										"tickets",
+										":ticket_id",
+										"messages",
+										":message_id",
+										""
+									],
+									"variable": [
+										{
+											"key": "ticket_id",
+											"value": "dcdb364b-9ae7-45f8-94e6-d9a3a5775c42"
+										},
+										{
+											"key": "message_id",
+											"value": "e2bf5889-4efb-405e-a9d5-2ca9f7d38404"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "List Ticket Messages Copy",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{LOCAL}}support/tickets/:ticket_id/messages/:message_id/",
+											"host": [
+												"{{LOCAL}}support"
+											],
+											"path": [
+												"tickets",
+												":ticket_id",
+												"messages",
+												":message_id",
+												""
+											],
+											"variable": [
+												{
+													"key": "ticket_id",
+													"value": "dcdb364b-9ae7-45f8-94e6-d9a3a5775c42"
+												},
+												{
+													"key": "message_id",
+													"value": "e2bf5889-4efb-405e-a9d5-2ca9f7d38404"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Fri, 06 Jun 2025 09:30:43 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "WSGIServer/0.2 CPython/3.10.0"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Allow",
+											"value": "GET, PUT, DELETE, HEAD, OPTIONS"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "DENY"
+										},
+										{
+											"key": "Vary",
+											"value": "origin"
+										},
+										{
+											"key": "Content-Length",
+											"value": "377"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"id\": \"e2bf5889-4efb-405e-a9d5-2ca9f7d38404\",\n    \"message\": \"I am unable to view the laboratory results for patient #12345. The system shows an error message.\",\n    \"sender\": \"f1841d87-ed48-44e0-a755-093e5f0cc721\",\n    \"sender_email\": \"aaronnwokoro@gmail.com\",\n    \"sender_name\": \"Mike Tyson\",\n    \"sender_role\": \"doctor\",\n    \"attachment\": null,\n    \"attachment_name\": null,\n    \"created_at\": \"2025-06-06T09:29:28.124388Z\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Delete a Message",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{doctor}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}support/tickets/:ticket_id/messages/:message_id/",
+									"host": [
+										"{{LOCAL}}support"
+									],
+									"path": [
+										"tickets",
+										":ticket_id",
+										"messages",
+										":message_id",
+										""
+									],
+									"variable": [
+										{
+											"key": "ticket_id",
+											"value": ""
+										},
+										{
+											"key": "message_id",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Edit a Message",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{doctor}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"message\": \"I'm trying to access records for patients admitted last week. The error message says 'Database connection failed'. This is affecting all patient records from June 1-5.\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL}}support/tickets/:ticket_id/messages/:message_id/",
+									"host": [
+										"{{LOCAL}}support"
+									],
+									"path": [
+										"tickets",
+										":ticket_id",
+										"messages",
+										":message_id",
+										""
+									],
+									"variable": [
+										{
+											"key": "ticket_id",
+											"value": "dcdb364b-9ae7-45f8-94e6-d9a3a5775c42"
+										},
+										{
+											"key": "message_id",
+											"value": "e2bf5889-4efb-405e-a9d5-2ca9f7d38404"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "View a Specific Message Copy",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"message\": \"I'm trying to access records for patients admitted last week. The error message says 'Database connection failed'. This is affecting all patient records from June 1-5.\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{LOCAL}}support/tickets/:ticket_id/messages/:message_id/",
+											"host": [
+												"{{LOCAL}}support"
+											],
+											"path": [
+												"tickets",
+												":ticket_id",
+												"messages",
+												":message_id",
+												""
+											],
+											"variable": [
+												{
+													"key": "ticket_id",
+													"value": "dcdb364b-9ae7-45f8-94e6-d9a3a5775c42"
+												},
+												{
+													"key": "message_id",
+													"value": "e2bf5889-4efb-405e-a9d5-2ca9f7d38404"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Fri, 06 Jun 2025 09:31:04 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "WSGIServer/0.2 CPython/3.10.0"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Allow",
+											"value": "GET, PUT, DELETE, HEAD, OPTIONS"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "DENY"
+										},
+										{
+											"key": "Vary",
+											"value": "origin"
+										},
+										{
+											"key": "Content-Length",
+											"value": "447"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"id\": \"e2bf5889-4efb-405e-a9d5-2ca9f7d38404\",\n    \"message\": \"I'm trying to access records for patients admitted last week. The error message says 'Database connection failed'. This is affecting all patient records from June 1-5.\",\n    \"sender\": \"f1841d87-ed48-44e0-a755-093e5f0cc721\",\n    \"sender_email\": \"aaronnwokoro@gmail.com\",\n    \"sender_name\": \"Mike Tyson\",\n    \"sender_role\": \"doctor\",\n    \"attachment\": null,\n    \"attachment_name\": null,\n    \"created_at\": \"2025-06-06T09:29:28.124388Z\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Add a Message to a Ticket",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{doctor}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"message\": \"I'm trying to access records for patients admitted last week. The error message says 'Database connection failed'.\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL}}support/tickets/:ticket_id/messages/",
+									"host": [
+										"{{LOCAL}}support"
+									],
+									"path": [
+										"tickets",
+										":ticket_id",
+										"messages",
+										""
+									],
+									"variable": [
+										{
+											"key": "ticket_id",
+											"value": "dcdb364b-9ae7-45f8-94e6-d9a3a5775c42"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Add a Message",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"message\": \"I'm trying to access records for patients admitted last week. The error message says 'Database connection failed'.\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{LOCAL}}support/tickets/:ticket_id/messages/",
+											"host": [
+												"{{LOCAL}}support"
+											],
+											"path": [
+												"tickets",
+												":ticket_id",
+												"messages",
+												""
+											],
+											"variable": [
+												{
+													"key": "ticket_id",
+													"value": "dcdb364b-9ae7-45f8-94e6-d9a3a5775c42"
+												}
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Fri, 06 Jun 2025 09:32:56 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "WSGIServer/0.2 CPython/3.10.0"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Allow",
+											"value": "GET, POST, HEAD, OPTIONS"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "DENY"
+										},
+										{
+											"key": "Vary",
+											"value": "origin"
+										},
+										{
+											"key": "Content-Length",
+											"value": "394"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"id\": \"d2c293fd-e480-4617-808d-2c9059df3a19\",\n    \"message\": \"I'm trying to access records for patients admitted last week. The error message says 'Database connection failed'.\",\n    \"sender\": \"f1841d87-ed48-44e0-a755-093e5f0cc721\",\n    \"sender_email\": \"aaronnwokoro@gmail.com\",\n    \"sender_name\": \"Mike Tyson\",\n    \"sender_role\": \"doctor\",\n    \"attachment\": null,\n    \"attachment_name\": null,\n    \"created_at\": \"2025-06-06T09:32:56.226392Z\"\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "List all Tickets",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{doctor}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{LOCAL}}support/tickets/",
+							"host": [
+								"{{LOCAL}}support"
+							],
+							"path": [
+								"tickets",
+								""
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "",
+									"description": "open, in_progress, closed",
+									"disabled": true
+								},
+								{
+									"key": "priority",
+									"value": "",
+									"description": "low, medium, high, urgent",
+									"disabled": true
+								},
+								{
+									"key": "search",
+									"value": "",
+									"description": "Search in subject and description",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}support/tickets/",
+									"host": [
+										"{{LOCAL}}support"
+									],
+									"path": [
+										"tickets",
+										""
+									],
+									"query": [
+										{
+											"key": "status",
+											"value": null,
+											"description": "open, in_progress, closed",
+											"disabled": true
+										},
+										{
+											"key": "priority",
+											"value": null,
+											"description": "low, medium, high, urgent",
+											"disabled": true
+										},
+										{
+											"key": "search",
+											"value": null,
+											"description": "Search in subject and description",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Fri, 06 Jun 2025 09:29:40 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.10.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, POST, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Length",
+									"value": "672"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"count\": 1,\n    \"next\": null,\n    \"previous\": null,\n    \"results\": [\n        {\n            \"id\": \"dcdb364b-9ae7-45f8-94e6-d9a3a5775c42\",\n            \"subject\": \"Cannot Access Laboratory Results\",\n            \"description\": \"I am unable to view the laboratory results for patient #12345. The system shows an error message.\",\n            \"status\": \"open\",\n            \"priority\": \"high\",\n            \"created_by\": \"f1841d87-ed48-44e0-a755-093e5f0cc721\",\n            \"created_by_name\": \"Mike Tyson\",\n            \"created_by_email\": \"aaronnwokoro@gmail.com\",\n            \"hospital\": \"8bcb6a27-c7a6-4ece-a9fc-409e693ef03d\",\n            \"hospital_name\": \"Divine Mercy\",\n            \"created_at\": \"2025-06-06T09:29:28.115383Z\",\n            \"updated_at\": \"2025-06-06T09:29:28.115383Z\",\n            \"closed_at\": null,\n            \"messages_count\": 1,\n            \"latest_message_date\": \"2025-06-06T09:29:28.124388Z\"\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "View Ticket Details",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{doctor}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{LOCAL}}support/tickets/:ticket_id/",
+							"host": [
+								"{{LOCAL}}support"
+							],
+							"path": [
+								"tickets",
+								":ticket_id",
+								""
+							],
+							"variable": [
+								{
+									"key": "ticket_id",
+									"value": "dcdb364b-9ae7-45f8-94e6-d9a3a5775c42"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "List all Tickets Copy",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}support/tickets/:ticket_id/",
+									"host": [
+										"{{LOCAL}}support"
+									],
+									"path": [
+										"tickets",
+										":ticket_id",
+										""
+									],
+									"variable": [
+										{
+											"key": "ticket_id",
+											"value": "dcdb364b-9ae7-45f8-94e6-d9a3a5775c42"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Fri, 06 Jun 2025 09:30:07 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.10.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, PUT, DELETE, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1011"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"dcdb364b-9ae7-45f8-94e6-d9a3a5775c42\",\n    \"subject\": \"Cannot Access Laboratory Results\",\n    \"description\": \"I am unable to view the laboratory results for patient #12345. The system shows an error message.\",\n    \"status\": \"open\",\n    \"priority\": \"high\",\n    \"created_by\": \"f1841d87-ed48-44e0-a755-093e5f0cc721\",\n    \"created_by_name\": \"Mike Tyson\",\n    \"created_by_email\": \"aaronnwokoro@gmail.com\",\n    \"hospital\": \"8bcb6a27-c7a6-4ece-a9fc-409e693ef03d\",\n    \"hospital_name\": \"Divine Mercy\",\n    \"created_at\": \"2025-06-06T09:29:28.115383Z\",\n    \"updated_at\": \"2025-06-06T09:29:28.115383Z\",\n    \"closed_at\": null,\n    \"messages_count\": 1,\n    \"latest_message_date\": \"2025-06-06T09:29:28.124388Z\",\n    \"messages\": [\n        {\n            \"id\": \"e2bf5889-4efb-405e-a9d5-2ca9f7d38404\",\n            \"message\": \"I am unable to view the laboratory results for patient #12345. The system shows an error message.\",\n            \"sender\": \"f1841d87-ed48-44e0-a755-093e5f0cc721\",\n            \"sender_email\": \"aaronnwokoro@gmail.com\",\n            \"sender_name\": \"Mike Tyson\",\n            \"sender_role\": \"doctor\",\n            \"attachment\": null,\n            \"attachment_name\": null,\n            \"created_at\": \"2025-06-06T09:29:28.124388Z\"\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete a Ticket",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{doctor}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{LOCAL}}support/tickets/:ticket_id/",
+							"host": [
+								"{{LOCAL}}support"
+							],
+							"path": [
+								"tickets",
+								":ticket_id",
+								""
+							],
+							"variable": [
+								{
+									"key": "ticket_id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Ticket Details",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{doctor}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"subject\": \"Urgent: Appointment System Error\",\r\n    \"priority\": \"urgent\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{LOCAL}}support/tickets/:ticket_id/",
+							"host": [
+								"{{LOCAL}}support"
+							],
+							"path": [
+								"tickets",
+								":ticket_id",
+								""
+							],
+							"variable": [
+								{
+									"key": "ticket_id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change Ticket Status",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{doctor}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"status\": \"closed\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{LOCAL}}support/tickets/:ticket_id/change-status/",
+							"host": [
+								"{{LOCAL}}support"
+							],
+							"path": [
+								"tickets",
+								":ticket_id",
+								"change-status",
+								""
+							],
+							"variable": [
+								{
+									"key": "ticket_id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create a New Ticket",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{doctor}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"subject\": \"Cannot Access Laboratory Results\",\r\n    \"description\": \"I am unable to view the laboratory results for patient #12345. The system shows an error message.\",\r\n    \"priority\": \"high\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{LOCAL}}support/tickets/",
+							"host": [
+								"{{LOCAL}}support"
+							],
+							"path": [
+								"tickets",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"subject\": \"Cannot Access Laboratory Results\",\r\n    \"description\": \"I am unable to view the laboratory results for patient #12345. The system shows an error message.\",\r\n    \"priority\": \"high\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL}}support/tickets/",
+									"host": [
+										"{{LOCAL}}support"
+									],
+									"path": [
+										"tickets",
+										""
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Fri, 06 Jun 2025 09:29:28 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.10.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, POST, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Length",
+									"value": "620"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"dcdb364b-9ae7-45f8-94e6-d9a3a5775c42\",\n    \"subject\": \"Cannot Access Laboratory Results\",\n    \"description\": \"I am unable to view the laboratory results for patient #12345. The system shows an error message.\",\n    \"status\": \"open\",\n    \"priority\": \"high\",\n    \"created_by\": \"f1841d87-ed48-44e0-a755-093e5f0cc721\",\n    \"created_by_name\": \"Mike Tyson\",\n    \"created_by_email\": \"aaronnwokoro@gmail.com\",\n    \"hospital\": \"8bcb6a27-c7a6-4ece-a9fc-409e693ef03d\",\n    \"hospital_name\": \"Divine Mercy\",\n    \"created_at\": \"2025-06-06T09:29:28.115383Z\",\n    \"updated_at\": \"2025-06-06T09:29:28.115383Z\",\n    \"closed_at\": null,\n    \"messages_count\": 1,\n    \"latest_message_date\": \"2025-06-06T09:29:28.124388Z\"\n}"
+						}
+					]
+				}
+			]
 		}
 	],
 	"event": [
@@ -6187,25 +8018,25 @@
 		{
 			"key": "LOCAL",
 			"value": "http://localhost:8000/api/v1/",
-			"type": "string",
 			"disabled": true
 		},
 		{
 			"key": "hospital_admin",
 			"value": "",
-			"type": "default",
 			"disabled": true
 		},
 		{
 			"key": "doctor",
 			"value": "",
-			"type": "default",
 			"disabled": true
 		},
 		{
 			"key": "PROD",
-			"value": "https://b2p2upqndjzvncqwhnfudgiazu0navlq.lambda-url.us-east-2.on.aws/api/v1/",
-			"type": "string"
+			"value": "https://b2p2upqndjzvncqwhnfudgiazu0navlq.lambda-url.us-east-2.on.aws/api/v1/"
+		},
+		{
+			"key": "super_admin",
+			"value": ""
 		}
 	]
 }

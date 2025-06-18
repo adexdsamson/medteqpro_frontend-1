@@ -16,7 +16,7 @@ type StatCardProps = {
 export function StatCard({ title, value, icon, className, isLoading }: StatCardProps) {
   return (
     <Card className={`overflow-hidden ${className}`}>
-      <CardContent className="p-4 space-y-2">
+      <CardContent className="p-2 px-4 space-y-2">
         <div className="rounded-full p-3 bg-blue-50 w-fit">
           {icon}
         </div>
