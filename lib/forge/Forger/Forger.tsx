@@ -60,18 +60,30 @@ const ForgerController = <TFieldValues extends FieldValues = FieldValues>(
 const MemorizeController = memo<ForgerControllerProps<FieldValues>>(
   (props) => <ForgerController {...props} />,
   (prev, next) => {
-    const { methods, ...others } = next;
-    const { methods: _, ...rest } = prev;
+    const { methods, dependencies = [], ...others } = next;
+    const { methods: _, dependencies: prevDependencies = [], ...rest } = prev;
 
-    if (_.formState?.isDirty === methods.formState?.isDirty) {
-      return true;
+    // Check if dependencies have changed
+    if (dependencies.length > 0 && prevDependencies.length > 0) {
+      const depsChanged = dependencies.some((dep, index) => 
+        dep !== prevDependencies[index]
+      );
+      if (depsChanged) {
+        return false; // Re-render if dependencies changed
+      }
     }
 
-    if (isEqual(rest, others)) {
-      return true;
+    // Check if form state has changed
+    if (_.formState?.isDirty !== methods.formState?.isDirty) {
+      return false; // Re-render if form state changed
     }
 
-    return true;
+    // Check if other props have changed
+    if (!isEqual(rest, others)) {
+      return false; // Re-render if other props changed
+    }
+
+    return true; // Don't re-render if nothing changed
   }
 );
 
@@ -79,14 +91,16 @@ MemorizeController.displayName = "MemorizeController";
 
 export const Forger = (props: ForgerProps<FieldValues>) => {
   const methods = useFormContext();
+  const { dependencies, ...restProps } = props;
 
   return (
     <Slot>
       <MemorizeController
-        {...props}
+        {...restProps}
         name={props.name}
         methods={methods}
         component={props.component}
+        dependencies={dependencies}
       />
     </Slot>
   );

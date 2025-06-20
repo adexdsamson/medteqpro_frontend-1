@@ -1,12 +1,11 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Subheader from "../../_components/Subheader";
 import { Button } from "@/components/ui/button";
 import { StatCard } from "../../_components/StatCard";
 import { Users } from "lucide-react";
-import { faker } from "@faker-js/faker";
-import { useToastHandlers } from "@/hooks/useToaster";
+import { useToastHandler } from "@/hooks/useToaster";
 
 // Import custom components
 import SessionTimer from "./_components/SessionTimer";
@@ -17,75 +16,78 @@ import AddToQueueDialog, { QueueFormData } from "./_components/AddToQueueDialog"
 // Import services
 import { 
   useGetQueueEntries, 
-//   useAddQueueEntry, 
+  useAddQueueEntry,
+  // useUpdateQueueStatus,
+  formatQueueDate,
+  AddQueueEntryRequest
 } from "@/features/services/queueService";
 
-// Generate sample queue data for demo purposes
-const generateQueueData = (count: number): QueueEntry[] => {
-  return Array.from({ length: count }, (_, i) => ({
-    counter: i + 1,
-    serialNumber: i === 0 ? "P001" : i === 1 ? "Male" : i === 2 ? "Male" : "Female",
-    patientId: `Patient-${faker.number.int({ min: 1000, max: 9999 })}`,
-    roomAssigned: faker.number.int({ min: 100, max: 110 }).toString(),
-    estimatedTime: "40mins",
-  }));
-};
+
 
 export default function QueuingSystem() {
   // State
-  const [queueData, setQueueData] = useState<QueueEntry[]>(generateQueueData(4));
+  const [queueData, setQueueData] = useState<QueueEntry[]>([]);
   const [sessionActive, setSessionActive] = useState<boolean>(true);
-  const [patientsAttended] = useState<number>(2875); // Demo value
+  const [patientsAttended] = useState<number>(0);
   
   // Hooks
-  const handler = useToastHandlers();
+  const handler = useToastHandler();
   
   // API Queries
-  const {  isLoading, isError } = useGetQueueEntries();
-//   const { mutateAsync: addQueueEntry } = useAddQueueEntry();
+  const { data: queueEntriesData, isLoading, isError, refetch } = useGetQueueEntries();
+  const { mutateAsync: addQueueEntry } = useAddQueueEntry();
+  // const { mutateAsync: updateQueueStatus } = useUpdateQueueStatus();
   
   // Load data from API when available
-//   useEffect(() => {
-//     if (queueEntriesData?.data) {
-//       // Uncomment this when the API is ready
-//       // setQueueData(queueEntriesData.data);
-//     }
-//   }, [queueEntriesData]);
+  useEffect(() => {
+    if (queueEntriesData?.data) {
+      // Transform API data to match our component's expected format
+      const transformedData = queueEntriesData.data.map((item, index) => ({
+        id: item.id,
+        counter: index + 1,
+        serialNumber: item.patientId || `P00${index + 1}`,
+        patientId: item.patientId || '',
+        patientName: item.patient_fullname || '',
+        roomAssigned: item.assigned_hospital_staff_fullname || 'Unassigned',
+        estimatedTime: `${item.estimated_waiting_time || 0} mins`,
+        status: item.status || 'waiting',
+        priority: item.priority || 'medium',
+        purpose: item.purpose || '',
+        createdAt: item.created_at ? formatQueueDate(item.created_at) : '',
+      }));
+      
+      setQueueData(transformedData);
+    } else if (isError) {
+      // If API fails, use sample data
+      setQueueData([]);
+    }
+  }, [queueEntriesData, isError]);
   
   // Handle adding a new patient to the queue
   const handleAddToQueue = async (data: QueueFormData) => {
     try {
-      // In a real implementation, we would call the API
-    //   const response = await addQueueEntry({
-      //   serialNumber: data.serialNumber,
-      //   patientId: data.patientId,
-      //   patientName: data.patientName,
-      //   roomAssigned: data.roomAssigned,
-      //   estimatedTime: data.estimatedTime,
-    //   });
-      // 
-      // if (response.success) {
-      //   toast({
-      //     title: "Success",
-      //     description: "Patient added to queue successfully",
-      //     variant: "success",
-      //   });
-      // }
-      
-      // For demo purposes, we'll just update the local state
-      const newEntry: QueueEntry = {
-        counter: queueData.length + 1,
-        serialNumber: data.serialNumber,
-        patientId: data.patientId,
-        roomAssigned: data.roomAssigned,
-        estimatedTime: data.estimatedTime,
+      // Convert form data to API request format
+      const requestData: AddQueueEntryRequest = {
+        patient: data.patientId,
+        hospital_staff: data.roomAssigned, // Using roomAssigned as hospital_staff ID
+        purpose: data.patientName || 'Consultation', // Using patientName field for purpose
+        priority: 'medium', // Default priority
+        estimated_waiting_time: parseInt(data.estimatedTime) || 30, // Convert to number
       };
       
-      setQueueData([...queueData, newEntry]);
+      // Call the API
+      const response = await addQueueEntry(requestData);
       
-      handler.success("Success", "Patient added to queue successfully");
-    } catch  {
+      if (response.status) {
+        handler.success("Success", "Patient added to queue successfully");
+        // Refresh the queue data
+        refetch();
+      } else {
+        throw new Error(response.message);
+      }
+    } catch (error) {
       handler.error("Failed to add patient to queue");
+      console.error(error);
     }
   };
   
@@ -99,6 +101,23 @@ export default function QueuingSystem() {
   const handleDisplay = () => {
     handler.success("Display Updated", "Queue display has been updated on public screens");
   };
+  
+  // Handle updating a queue entry status
+  // const handleUpdateStatus = async (queueId: string, status: string = 'in_progress') => {
+  //   try {
+  //     const response = await updateQueueStatus({ queue_id: queueId, status });
+  //     if (response.status) {
+  //       handler.success("Status Updated", "Queue status has been updated successfully");
+  //       // Refresh the queue data
+  //       refetch();
+  //     } else {
+  //       throw new Error(response.message);
+  //     }
+  //   } catch (error) {
+  //     handler.error("Failed to update queue status");
+  //     console.error(error);
+  //   }
+  // };
 
   return (
     <>
@@ -155,7 +174,7 @@ export default function QueuingSystem() {
               Error loading queue data. Please try again.
             </div>
           ) : (
-            <QueueTable data={queueData} />
+            <QueueTable data={queueData}  />
           )}
         </div>
       </div>

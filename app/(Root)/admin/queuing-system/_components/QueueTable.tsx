@@ -4,11 +4,17 @@ import { ColumnDef } from '@tanstack/react-table';
 
 // Define the type for queue entries
 export type QueueEntry = {
+  id?: string;
   counter: number;
   serialNumber: string;
   patientId: string;
+  patientName?: string;
   roomAssigned: string;
   estimatedTime: string;
+  status?: string;
+  priority?: string;
+  purpose?: string;
+  createdAt?: string;
 };
 
 type QueueTableProps = {

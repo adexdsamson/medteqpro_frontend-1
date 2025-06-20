@@ -1,11 +1,12 @@
-import { makeArrayDataWithLength } from "@/demo";
+// This file defines the patient data types used throughout the application
+// The actual data is now fetched from the API using patientService.ts
 
 export enum PatientStatus {
   Active = "Active",
   Inactive = "Inactive",
   Deceased = "Deceased",
-  Critical = "Critical", // Added based on common patient statuses
-  Recovered = "Recovered" // Added based on common patient statuses
+  Critical = "Critical",
+  Recovered = "Recovered"
 }
 
 export type PatientType = {
@@ -20,6 +21,12 @@ export type PatientType = {
   phone: string; // Added from typical patient data
   address: string; // Added from typical patient data
 };
+
+// Sample data generation has been replaced with API integration
+// See features/services/patientService.ts for the implementation
+
+// For backward compatibility during transition to API
+import { makeArrayDataWithLength } from "@/demo";
 
 export const getSamplePatientData = makeArrayDataWithLength<PatientType>(
   (fakerInstance) => ({

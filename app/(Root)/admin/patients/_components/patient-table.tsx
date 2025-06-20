@@ -90,14 +90,14 @@ const PatientTable: React.FC<PatientTableProps> = ({ data }) => {
   return (
     <DataTable
       columns={columns}
-      data={data}
+      data={data || []}
       options={{
         disableSelection: true,
         pagination: pagination,
         setPagination: setPagination,
         manualPagination: false, // Assuming client-side pagination for now
-        totalCounts: data.length,
-        isLoading: false, // Set to true when fetching data
+        totalCounts: data?.length || 0,
+        isLoading: false // Loading state is handled at the page level
       }}
     />
   );

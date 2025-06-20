@@ -17,6 +17,7 @@ import { useOnboardHospital, HospitalType } from "@/features/services/hospitalSe
 import { useToastHandler } from "@/hooks/useToaster";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useWatch } from "react-hook-form";
 
 // Form validation schema
 const schema = yup.object().shape({
@@ -39,8 +40,8 @@ interface RegisterHospitalDialogProps {
 export default function RegisterHospitalDialog({ children }: RegisterHospitalDialogProps) {
   const [open, setOpen] = useState(false);
   const [statesData, setStatesData] = useState<Array<{state: string, alias: string, lgas: string[]}>>([]);
-  const [selectedState, setSelectedState] = useState<string>("");
-  const [lgaOptions, setLgaOptions] = useState<Array<{label: string, value: string}>>([]);
+  // const [selectedState, setSelectedState] = useState<string>("");
+  // const [lgaOptions, setLgaOptions] = useState<Array<{label: string, value: string}>>([]);
   const toast = useToastHandler();
   const queryClient = useQueryClient();
 
@@ -59,22 +60,22 @@ export default function RegisterHospitalDialog({ children }: RegisterHospitalDia
   }, []);
 
   // Update LGA options when state changes
-  useEffect(() => {
-    if (selectedState) {
-      const stateData = statesData.find(state => state.state === selectedState);
-      if (stateData) {
-        const options: Array<{label: string, value: string}> = [];
-        stateData.lgas.forEach(lga => {
-          options.push({label: lga, value: lga});
-        });
-        setLgaOptions(options);
-      }
-    } else {
-      setLgaOptions([]);
-    }
-  }, [selectedState, statesData]);
+  // useEffect(() => {
+  //   if (selectedState) {
+  //     const stateData = statesData.find(state => state.state === selectedState);
+  //     if (stateData) {
+  //       const options: Array<{label: string, value: string}> = [];
+  //       stateData.lgas.forEach(lga => {
+  //         options.push({label: lga, value: lga});
+  //       });
+  //       setLgaOptions(options);
+  //     }
+  //   } else {
+  //     setLgaOptions([]);
+  //   }
+  // }, [selectedState, statesData]);
 
-  const { control, reset, watch } = useForge<FormValues>({
+  const { control, reset } = useForge<FormValues>({
     resolver: yupResolver(schema),
     defaultValues: {
       first_name: "",
@@ -116,23 +117,25 @@ export default function RegisterHospitalDialog({ children }: RegisterHospitalDia
           address: data.address,
         },
       };
-      await onboardHospital(payload);
+      onboardHospital(payload);
     } catch (error) {
       console.error("Error registering hospital:", error);
     }
   };
 
   // Watch for state changes to update LGA options
-  const watchedState = watch("state");
-  useEffect(() => {
-    setSelectedState(watchedState || "");
-  }, [watchedState]);
+  const watchedState = useWatch({ control,  name: "state"});
 
   // Generate state options from loaded data
   const stateOptions = statesData.map(state => ({
     label: state.state,
     value: state.state
   }));
+
+  const lgaOptions = statesData.find(state => state?.state === watchedState)?.lgas.map(lga => ({
+    label: lga,
+    value: lga
+  }))
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -200,6 +203,7 @@ export default function RegisterHospitalDialog({ children }: RegisterHospitalDia
             <Forger
               name="lga"
               component={TextSelect}
+              dependencies={[watchedState]}
               label="LGA"
               placeholder="Select Option"
               options={lgaOptions}

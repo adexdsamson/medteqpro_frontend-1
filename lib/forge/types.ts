@@ -36,6 +36,7 @@ export type ForgerProps<TFieldValues extends FieldValues = FieldValues> = Omit<
     component: any;
     label?: string;
     onChange?: (value: string) => void;
+    dependencies?: any[];
   };
 
 export type ForgerControllerProps<
@@ -54,6 +55,7 @@ export type ForgerControllerProps<
   component: Component<ForgerSlotProps>;
   handler?: string;
   methods: UseFormReturn<TFieldValues>;
+  dependencies?: any[];
 } & Record<string, any>;
 
 export type ForgerSlotProps = {
@@ -104,4 +106,5 @@ export type ForgeProps<TFieldValues extends FieldValues, TFieldProps = unknown> 
   control: ForgeControl<TFieldValues, TFieldProps>;
   ref?: RefObject<FormPropsRef | null>;
   isNative?: boolean;
+  debug?: boolean
 };

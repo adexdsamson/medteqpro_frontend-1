@@ -27,6 +27,7 @@ export const Forge = <TFieldValues extends FieldValues = FieldValues>({
   control,
   ref,
   isNative,
+  debug
 }: ForgeProps<TFieldValues>) => {
   const [isMounted, setIsMounted] = useState(false);
 
@@ -98,7 +99,7 @@ export const Forge = <TFieldValues extends FieldValues = FieldValues>({
         {renderFieldProps}
         {updatedChildren}
       </div>
-      {isMounted && process.env.NODE_ENV === 'development' && <DevTool control={control} />}
+      {isMounted && process.env.NODE_ENV === 'development' && debug && <DevTool control={control} />}
     </FormProvider>
   );
 };

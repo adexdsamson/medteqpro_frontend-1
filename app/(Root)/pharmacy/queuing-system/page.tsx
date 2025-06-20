@@ -1,66 +1,92 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Subheader from "../../_components/Subheader";
 import { Button } from "@/components/ui/button";
-import { StatCard } from "../../_components/StatCard";
-import { Users } from "lucide-react";
-import { faker } from "@faker-js/faker";
-import { useToastHandlers } from "@/hooks/useToaster";
+import { useToastHandler } from "@/hooks/useToaster";
 
 // Import custom components
 import SessionTimer from "./_components/SessionTimer";
 import QueueTable, { QueueEntry } from "./_components/QueueTable";
-import AISuggestionCard from "./_components/AISuggestionCard";
-import AddToQueueDialog, { QueueFormData } from "./_components/AddToQueueDialog";
+// import AISuggestionCard from "./_components/AISuggestionCard";
+// import AddToQueueDialog, { QueueFormData } from "./_components/AddToQueueDialog";
 
 // Import services
 import { 
   useGetQueueEntries, 
-//   useAddQueueEntry, 
+  // useAddQueueEntry,
+  useUpdateQueueStatus,
+  formatQueueDate,
+  // AddQueueEntryRequest
 } from "@/features/services/queueService";
 
-// Generate sample queue data for demo purposes
-const generateQueueData = (count: number): QueueEntry[] => {
-  return Array.from({ length: count }, (_, i) => ({
-    counter: i + 1,
-    serialNumber: `P00${i + 1}`,
-    gender: i % 2 === 0 ? "Female" : "Male",
-    estimatedTime: "40mins",
-  }));
-};
+
 
 export default function PharmacyQueuingSystem() {
   // State
-  const [queueData, setQueueData] = useState<QueueEntry[]>(generateQueueData(4));
-  const [sessionActive, setSessionActive] = useState<boolean>(true);
-  const [patientsAttended] = useState<number>(2875); // Demo value
+  const [queueData, setQueueData] = useState<QueueEntry[]>([]);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [_, setSessionActive] = useState<boolean>(true);
   
   // Hooks
-  const handler = useToastHandlers();
+  const handler = useToastHandler();
   
   // API Queries
-  const {  isLoading, isError } = useGetQueueEntries();
-//   const { mutateAsync: addQueueEntry } = useAddQueueEntry();
+  const { data: queueEntriesData, isLoading, isError, refetch } = useGetQueueEntries();
+  // const { mutateAsync: addQueueEntry } = useAddQueueEntry();
+  const { mutateAsync: updateQueueStatus } = useUpdateQueueStatus();
+  
+  // Load data from API when available
+  useEffect(() => {
+    if (queueEntriesData?.data) {
+      // Transform API data to match our component's expected format
+      const transformedData = queueEntriesData.data.map((item, index) => ({
+        id: item.id,
+        counter: index + 1,
+        serialNumber: item.patientId || `P00${index + 1}`,
+        patientName: item.patient_fullname || `Patient ${index + 1}`,
+        gender: item.patient_gender || (index % 2 === 0 ? "Female" : "Male"),
+        estimatedTime: `${item.estimated_waiting_time || 0} mins`,
+        status: item.status || 'waiting',
+        priority: item.priority || 'medium',
+        purpose: item.purpose || '',
+        createdAt: item.created_at ? formatQueueDate(item.created_at) : '',
+      }));
+      
+      setQueueData(transformedData);
+    } else if (isError) {
+      // If API fails, use sample data
+      setQueueData([]);
+    }
+  }, [queueEntriesData, isError]);
   
   // Handle adding a new patient to the queue
-  const handleAddToQueue = async (data: QueueFormData) => {
-    try {
-      // For demo purposes, we'll just update the local state
-      const newEntry: QueueEntry = {
-        counter: queueData.length + 1,
-        serialNumber: data.serialNumber,
-        gender: data.gender,
-        estimatedTime: data.estimatedTime,
-      };
+  // const handleAddToQueue = async (data: QueueFormData) => {
+  //   try {
+  //     // Convert form data to API request format
+  //     const requestData: AddQueueEntryRequest = {
+  //       patient: data.serialNumber, // Using serialNumber as patient ID
+  //       hospital_staff: data.gender, // Using gender field for hospital_staff ID (this is a workaround for the demo)
+  //       purpose: "Pharmacy", // Default purpose
+  //       priority: "medium", // Default priority
+  //       estimated_waiting_time: parseInt(data.estimatedTime) || 30, // Convert to number
+  //     };
       
-      setQueueData([...queueData, newEntry]);
+  //     // Call the API
+  //     const response = await addQueueEntry(requestData);
       
-      handler.success("Success", "Patient added to queue successfully");
-    } catch  {
-      handler.error("Failed to add patient to queue");
-    }
-  };
+  //     if (response.status) {
+  //       handler.success("Success", "Patient added to queue successfully");
+  //       // Refresh the queue data
+  //       refetch();
+  //     } else {
+  //       throw new Error(response.message);
+  //     }
+  //   } catch (error) {
+  //     handler.error("Failed to add patient to queue");
+  //     console.error(error);
+  //   }
+  // };
   
   // Handle ending the current session
   const handleEndSession = () => {
@@ -69,8 +95,22 @@ export default function PharmacyQueuingSystem() {
   };
   
   // Handle starting a patient's consultation
-  const handleStartPatient = (entry: QueueEntry) => {
-    handler.success("Patient Started", `Started consultation for ${entry.serialNumber}`);
+  const handleStartPatient = async (queueId: string, status: string) => {
+    try {
+      // Update the queue status via API
+      const response = await updateQueueStatus({ queue_id: queueId, status });
+      if (response.status) {
+        const statusText = status === "in_progress" ? "Started" : "Completed";
+        handler.success(`Patient ${statusText}`, `${statusText} consultation for patient`);
+        // Refresh the queue data
+        refetch();
+      } else {
+        throw new Error(response.message);
+      }
+    } catch (error) {
+      handler.error("Failed to update patient status");
+      console.error(error);
+    }
   };
   
   // Handle next patient action

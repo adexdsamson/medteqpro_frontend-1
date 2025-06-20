@@ -1,74 +1,84 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { DataTable } from "@/components/DataTable";
 import {
-  AppointmentFamily,
+  // AppointmentFamily,
   appointmentFamilyColumns,
-} from "./_components/columns"; // Assuming this will be created
+} from "./_components/columns";
 import Subheader from "../../_components/Subheader";
 import {
   AppointmentStats,
   AppointmentStatPRops,
 } from "./_components/AppointmentStat";
 import { IndividualPanel } from "./_components/IndividualPanel";
-import { makeArrayData } from "@/demo";
 import { TextInput } from "@/components/FormInputs/TextInput";
 import { SearchIcon } from "lucide-react";
+import { 
+  useAppointments, 
+  useFamilyAppointments, 
+  useAppointmentStats 
+} from "@/features/services/appointmentService";
 
 const AdminAppointmentPage = () => {
-  // const { data: appointments, isLoading } = useAppointments(); // API integration later
+  const [searchTerm, setSearchTerm] = useState("");
+  
+  // Fetch appointments data from API
+  const { data: appointments, isLoading: isLoadingAppointments } = useAppointments();
+  const { data: familyAppointments, isLoading: isLoadingFamilyAppointments } = useFamilyAppointments();
+  
+  // Fetch stats data
+  const { data: yearlyStats } = useAppointmentStats('yearly');
+  const { data: monthlyStats } = useAppointmentStats('monthly');
+  const { data: dailyStats } = useAppointmentStats('daily');
 
-  // Dummy data for now
-  const familyAppointments = makeArrayData<AppointmentFamily>((faker) => {
-    return {
-      familyId: faker.string.uuid(),
-      familyName: faker.person.fullName(),
-      appointmentDateTime: faker.date.past().toLocaleString(),
-      numberOfMembers: faker.number.int({ min: 1, max: 5 }),
-      status: faker.helpers.arrayElement([
-        "Completed",
-        "Upcoming",
-        "Rescheduled",
-        "Cancelled",
-      ]),
-    };
-  });
-
+  // Prepare stats for display
   const appointmentStats: AppointmentStatPRops[] = [
     {
       title: "Yearly",
-      period: "2024",
+      period: yearlyStats?.period || "2024",
       action: "Set Year",
       appointmentStatus: [
-        { label: "Completed", count: "55", color: "text-green-400" },
-        { label: "Rescheduled", count: "10", color: "text-yellow-400" },
-        { label: "Cancelled", count: "15", color: "text-red-400" },
+        { label: "Completed", count: yearlyStats?.completed?.toString() || "0", color: "text-green-400" },
+        { label: "Rescheduled", count: yearlyStats?.rescheduled?.toString() || "0", color: "text-yellow-400" },
+        { label: "Cancelled", count: yearlyStats?.cancelled?.toString() || "0", color: "text-red-400" },
       ],
-    }, // Example data
+    },
     {
       title: "Monthly",
-      period: "April",
+      period: monthlyStats?.period || "April",
       action: "Set Month",
       appointmentStatus: [
-        { label: "Completed", count: "55", color: "text-green-400" },
-        { label: "Rescheduled", count: "10", color: "text-yellow-400" },
-        { label: "Cancelled", count: "15", color: "text-red-400" },
+        { label: "Completed", count: monthlyStats?.completed?.toString() || "0", color: "text-green-400" },
+        { label: "Rescheduled", count: monthlyStats?.rescheduled?.toString() || "0", color: "text-yellow-400" },
+        { label: "Cancelled", count: monthlyStats?.cancelled?.toString() || "0", color: "text-red-400" },
       ],
     },
     {
       title: "Daily",
-      period: "Today",
+      period: dailyStats?.period || "Today",
       action: "Set Day",
       appointmentStatus: [
-        { label: "Completed", count: "55", color: "text-green-400" },
-        { label: "Rescheduled", count: "10", color: "text-yellow-400" },
-        { label: "Cancelled", count: "15", color: "text-red-400" },
+        { label: "Completed", count: dailyStats?.completed?.toString() || "0", color: "text-green-400" },
+        { label: "Rescheduled", count: dailyStats?.rescheduled?.toString() || "0", color: "text-yellow-400" },
+        { label: "Cancelled", count: dailyStats?.cancelled?.toString() || "0", color: "text-red-400" },
       ],
     },
   ];
+  
+  // Handle search
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+  };
+  
+  // Filter family appointments based on search term
+  const filteredFamilyAppointments = familyAppointments?.filter(appointment => 
+    appointment.familyName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    appointment.familyId.toLowerCase().includes(searchTerm.toLowerCase())
+  ) || [];
+
 
   return (
     <div className="container mx-auto bg-gray-50 min-h-screen">
@@ -90,6 +100,8 @@ const AdminAppointmentPage = () => {
           label={"Search Keyword"}
           placeholder="Search (Patient ID/Name)"
           containerClass="!w-60"
+          onChange={handleSearch}
+          value={searchTerm}
         />
       </div>
 
@@ -111,12 +123,16 @@ const AdminAppointmentPage = () => {
           </TabsList>
         </div>
         <TabsContent value="individual">
-          <IndividualPanel />
+          <IndividualPanel 
+            appointments={appointments} 
+            isLoading={isLoadingAppointments} 
+          />
         </TabsContent>
         <TabsContent value="family">
           <DataTable
             columns={appointmentFamilyColumns}
-            data={familyAppointments}
+            data={filteredFamilyAppointments}
+            options={{ isLoading: isLoadingFamilyAppointments }}
           />
         </TabsContent>
       </Tabs>

@@ -1,15 +1,19 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Subheader from "../../_components/Subheader";
 import { Button } from "@/components/ui/button";
 import { Search } from "lucide-react";
 import PatientTable from "./_components/patient-table";
-
-import { getSamplePatientData } from "./_components/patient-data";
+import { usePatientList } from "@/features/services/patientService";
 
 const AdminPatientPage = () => {
-  const patients = getSamplePatientData;
+  const [searchTerm, setSearchTerm] = useState("");
+  const { data: patients = [], isLoading } = usePatientList({ search: searchTerm || undefined });
+
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+  };
 
   return (
     <>
@@ -24,13 +28,20 @@ const AdminPatientPage = () => {
             <Search className="text-gray-400" size={20} />
             <input
               placeholder="Patient name/ID"
-              className="w-full border-0 ring-0 "
+              className="w-full border-0 ring-0"
+              value={searchTerm}
+              onChange={handleSearch}
             />
           </div>
         </div>
 
-        {/* Placeholder for DataTable */}
-        <PatientTable data={patients} />
+        {isLoading ? (
+          <div className="flex justify-center items-center h-64">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+          </div>
+        ) : (
+          <PatientTable data={patients} />
+        )}
       </div>
     </>
   );

@@ -29,7 +29,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"email\": \"naarons800@gmail.com\", \r\n    \"first_name\": \"Adams\", \r\n    \"last_name\": \"Charles\", \r\n    \"hospital\": {\r\n        \"name\": \"Divine Mercy\", \r\n        \"no_of_doctors\": \"20\", \r\n        \"state\": \"Rivers\", \r\n        \"city\": \"Port-Harcourt\", \r\n        \"address\": \"17 Birabi Street, Old GRA\"\r\n    }\r\n}",
+									"raw": "{\r\n    \"email\": \"naarons800@gmail.com\", \r\n    \"first_name\": \"Adams\", \r\n    \"last_name\": \"Charles\", \r\n    \"hospital\": {\r\n        \"name\": \"Divine Mercy\", \r\n        \"no_of_doctors\": \"20\", \r\n        \"state\": \"Rivers\", \r\n        \"city\": \"Port-Harcourt\", \r\n        \"address\": \"17 Birabi Street, Old GRA\",\r\n        \"email\": \"\", \r\n        \"phone_number\": \"\"\r\n    }\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -349,6 +349,101 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "Subscription List",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{super_admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}superadmin/hospitals/subscriptions/",
+									"host": [
+										"{{LOCAL}}superadmin"
+									],
+									"path": [
+										"hospitals",
+										"subscriptions",
+										""
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "New Request",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{LOCAL}}superadmin/hospitals/subscriptions/",
+											"host": [
+												"{{LOCAL}}superadmin"
+											],
+											"path": [
+												"hospitals",
+												"subscriptions",
+												""
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Fri, 20 Jun 2025 04:12:08 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "WSGIServer/0.2 CPython/3.10.0"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Allow",
+											"value": "GET, HEAD, OPTIONS"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "DENY"
+										},
+										{
+											"key": "Vary",
+											"value": "origin"
+										},
+										{
+											"key": "Content-Length",
+											"value": "251"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": true,\n    \"message\": \"Hospital subscriptions retrieved successfully.\",\n    \"data\": [\n        {\n            \"hospital_name\": \"Divine Mercy\",\n            \"plan_name\": \"Premium\",\n            \"amount\": \"1000.00\",\n            \"last_subscription_date\": \"2025-06-20T04:03:36.516593Z\",\n            \"expiry_date\": null,\n            \"status\": \"inactive\"\n        }\n    ]\n}"
+								}
+							]
 						}
 					]
 				},
@@ -2301,6 +2396,237 @@
 									"body": "{\n    \"status\": true,\n    \"message\": \"Profile updated successfully\",\n    \"data\": {\n        \"id\": \"f1841d87-ed48-44e0-a755-093e5f0cc721\",\n        \"email\": \"aaronnwokoro@gmail.com\",\n        \"first_name\": \"Mike\",\n        \"middle_name\": \"Ademola\",\n        \"last_name\": \"Tyson\",\n        \"phone_number\": \"08012345678\",\n        \"specialization\": \"Gynaecologist\",\n        \"role\": \"doctor\",\n        \"date_registered\": \"2025-05-17T16:05:52.405562Z\"\n    }\n}"
 								}
 							]
+						}
+					]
+				},
+				{
+					"name": "Subscription",
+					"item": [
+						{
+							"name": "Overview",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{hospital_admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}hospital-admin/subscription/overview/",
+									"host": [
+										"{{LOCAL}}hospital-admin"
+									],
+									"path": [
+										"subscription",
+										"overview",
+										""
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "New Request",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{LOCAL}}hospital-admin/subscription/overview/",
+											"host": [
+												"{{LOCAL}}hospital-admin"
+											],
+											"path": [
+												"subscription",
+												"overview",
+												""
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Fri, 20 Jun 2025 04:31:33 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "WSGIServer/0.2 CPython/3.10.0"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Allow",
+											"value": "GET, HEAD, OPTIONS"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "DENY"
+										},
+										{
+											"key": "Vary",
+											"value": "origin"
+										},
+										{
+											"key": "Content-Length",
+											"value": "332"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": true,\n    \"message\": \"Subscription overview retrieved successfully.\",\n    \"data\": {\n        \"id\": \"a9c24f04-da68-4498-bed7-6c4d9a370152\",\n        \"hospital_name\": \"Divine Mercy\",\n        \"plan_code\": \"PLN_veib0eqro1xihsj\",\n        \"plan_name\": \"Premium\",\n        \"amount\": \"1000.00\",\n        \"status\": \"inactive\",\n        \"created_at\": null,\n        \"updated_at\": \"2025-06-20T04:03:36.516593Z\",\n        \"expiry_date\": null\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "History",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{hospital_admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}hospital-admin/subscription/history/",
+									"host": [
+										"{{LOCAL}}hospital-admin"
+									],
+									"path": [
+										"subscription",
+										"history",
+										""
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "New Request",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{LOCAL}}hospital-admin/subscription/history/",
+											"host": [
+												"{{LOCAL}}hospital-admin"
+											],
+											"path": [
+												"subscription",
+												"history",
+												""
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Fri, 20 Jun 2025 04:33:09 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "WSGIServer/0.2 CPython/3.10.0"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Allow",
+											"value": "GET, HEAD, OPTIONS"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "DENY"
+										},
+										{
+											"key": "Vary",
+											"value": "origin"
+										},
+										{
+											"key": "Content-Length",
+											"value": "82"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": true,\n    \"message\": \"Subscription history retrieved successfully.\",\n    \"data\": []\n}"
+								}
+							]
+						},
+						{
+							"name": "Receipt",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{hospital_admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}hospital-admin/subscription/receipt/:subscription_id/",
+									"host": [
+										"{{LOCAL}}hospital-admin"
+									],
+									"path": [
+										"subscription",
+										"receipt",
+										":subscription_id",
+										""
+									],
+									"variable": [
+										{
+											"key": "subscription_id",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				}
@@ -5127,7 +5453,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "{{doctor}}",
+									"value": "{{hospital_admin}}",
 									"type": "string"
 								}
 							]
@@ -5443,21 +5769,11 @@
 				{
 					"name": "Create Patient (App)",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{doctor}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"hospital\": \"hospital-uuid-here\",\r\n    \"first_name\": \"Jane\",\r\n    \"last_name\": \"Doe\",\r\n    \"middle_name\": \"Anne\",\r\n    \"date_of_birth\": \"1992-03-20\",\r\n    \"gender\": \"female\",\r\n    \"phone_number\": \"1234567890\",\r\n    \"email\": \"jane.doe@example.com\"\r\n}",
+							"raw": "{\r\n    \"hospital\": \"8bcb6a27-c7a6-4ece-a9fc-409e693ef03d\",\r\n    \"user_id\": \"Paul-Doe-1990-03-20-1234567822\",\r\n    \"first_name\": \"Paul\",\r\n    \"last_name\": \"Doe\",\r\n    \"middle_name\": \"Anne\",\r\n    \"date_of_birth\": \"1990-03-20\",\r\n    \"gender\": \"female\",\r\n    \"phone_number\": \"1664567822\",\r\n    \"email\": \"paul.anne@example.com\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -5477,13 +5793,13 @@
 					},
 					"response": [
 						{
-							"name": "Add Patient",
+							"name": "Create Patient (App)",
 							"originalRequest": {
 								"method": "POST",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    // Personal Info\r\n    \"first_name\": \"Jane\",\r\n    \"last_name\": \"Doe\",\r\n    \"middle_name\": \"Anne\",\r\n    \"date_of_birth\": \"1992-03-20\",\r\n    \"gender\": \"female\",\r\n    \"phone_number\": \"1234567890\",\r\n    \"email\": \"jane.doe@example.com\",\r\n    \"address\": \"123 Main St\",\r\n    \"city\": \"Anytown\",\r\n    \"state\": \"Anystate\",\r\n    \"height\": 165,\r\n    \"weight\": 60,\r\n\r\n    // Medical Info\r\n    \"blood_group\": \"O+\",\r\n    \"genotype\": \"AA\",\r\n    \"allergies\": \"Pollen, Dust\",\r\n    \"chronic_conditions\": \"None\",\r\n    \"current_medications\": [{\"medication\": \"Aspirin\", \"dosage\": \"500mg\", \"frequency\": \"twice daily\"}],\r\n    \"family_history\": \"Diabetes (Mother)\",\r\n    \"surgical_history\": \"Appendectomy (2010)\",\r\n    \"hereditary_conditions\": \"None\",\r\n    \"other_conditions\": \"None\",\r\n\r\n    // Other Info\r\n    \"marital_status\": \"married\",    \r\n    \"employment_status\": \"Employed\",\r\n\r\n    // Emergency Contact\r\n    \"emergency_contact\": {\r\n        \"name\": \"John Smith\",\r\n        \"phone\": \"0987654321\",\r\n        \"relationship\": \"Spouse\",\r\n        \"address\": \"123 Main St, Anytown\"\r\n    },\r\n    \"social_history\": {\r\n        \"smoking\": \"Non-smoker\", \r\n        \"alcohol\": \"Occasional\",\r\n        \"drug_use\": \"n/a\",\r\n        \"diet\": \"Balanced\",\r\n        \"exercise\": \"Regular\" \r\n    }\r\n}",
+									"raw": "{\r\n    \"hospital\": \"8bcb6a27-c7a6-4ece-a9fc-409e693ef03d\",\r\n    \"user_id\": \"Jane-Doe-1997-03-20-1234567822\",\r\n    \"first_name\": \"Jane\",\r\n    \"last_name\": \"Doe\",\r\n    \"middle_name\": \"Anne\",\r\n    \"date_of_birth\": \"1997-03-20\",\r\n    \"gender\": \"female\",\r\n    \"phone_number\": \"1234567822\",\r\n    \"email\": \"jane.anne@example.com\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -5491,12 +5807,12 @@
 									}
 								},
 								"url": {
-									"raw": "{{LOCAL}}patient-management/patients/",
+									"raw": "{{LOCAL}}patient-management/app-patients/",
 									"host": [
 										"{{LOCAL}}patient-management"
 									],
 									"path": [
-										"patients",
+										"app-patients",
 										""
 									]
 								}
@@ -5507,7 +5823,7 @@
 							"header": [
 								{
 									"key": "Date",
-									"value": "Sat, 17 May 2025 17:25:06 GMT"
+									"value": "Wed, 18 Jun 2025 12:56:24 GMT"
 								},
 								{
 									"key": "Server",
@@ -5519,7 +5835,7 @@
 								},
 								{
 									"key": "Allow",
-									"value": "GET, POST, HEAD, OPTIONS"
+									"value": "POST, OPTIONS"
 								},
 								{
 									"key": "X-Frame-Options",
@@ -5531,7 +5847,7 @@
 								},
 								{
 									"key": "Content-Length",
-									"value": "1334"
+									"value": "324"
 								},
 								{
 									"key": "X-Content-Type-Options",
@@ -5547,16 +5863,16 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"status\": true,\n    \"data\": {\n        \"id\": \"3c37720b-1fc6-4888-9347-37b9ce75ab51\",\n        \"hospital\": \"8bcb6a27-c7a6-4ece-a9fc-409e693ef03d\",\n        \"first_name\": \"Jane\",\n        \"last_name\": \"Doe\",\n        \"middle_name\": \"Anne\",\n        \"full_name\": \"Jane Anne Doe\",\n        \"patient_type\": \"individual\",\n        \"date_of_birth\": \"1992-03-20\",\n        \"age\": 33,\n        \"gender\": \"female\",\n        \"phone_number\": \"1234567890\",\n        \"email\": \"jane.doe@example.com\",\n        \"address\": \"123 Main St\",\n        \"city\": \"Anytown\",\n        \"state\": \"Anystate\",\n        \"employment_status\": \"Employed\",\n        \"height\": 165,\n        \"weight\": 60,\n        \"bmi\": 22.04,\n        \"blood_group\": \"O+\",\n        \"genotype\": \"AA\",\n        \"allergies\": \"Pollen, Dust\",\n        \"chronic_conditions\": \"None\",\n        \"current_medications\": [\n            {\n                \"medication\": \"Aspirin\",\n                \"dosage\": \"500mg\",\n                \"frequency\": \"twice daily\"\n            }\n        ],\n        \"family_history\": \"Diabetes (Mother)\",\n        \"surgical_history\": \"Appendectomy (2010)\",\n        \"hereditary_conditions\": \"None\",\n        \"other_conditions\": \"None\",\n        \"emergency_contact\": {\n            \"name\": \"John Smith\",\n            \"phone\": \"0987654321\",\n            \"relationship\": \"Spouse\",\n            \"address\": \"123 Main St, Anytown\"\n        },\n        \"marital_status\": \"married\",\n        \"social_history\": {\n            \"smoking\": \"Non-smoker\",\n            \"alcohol\": \"Occasional\",\n            \"drug_use\": \"n/a\",\n            \"sexual_history\": null,\n            \"exercise\": \"Regular\",\n            \"diet\": \"Balanced\",\n            \"other_habits\": null,\n            \"created_at\": \"2025-05-17T17:25:06.132789Z\",\n            \"updated_at\": \"2025-05-17T17:25:06.132789Z\"\n        },\n        \"created_at\": \"2025-05-17T17:25:06.124528Z\",\n        \"updated_at\": \"2025-05-17T17:25:06.124528Z\",\n        \"registered_by\": \"f1841d87-ed48-44e0-a755-093e5f0cc721\"\n    }\n}"
+							"body": "{\n    \"status\": true,\n    \"message\": \"Patient created successfully\",\n    \"data\": {\n        \"hospital\": \"8bcb6a27-c7a6-4ece-a9fc-409e693ef03d\",\n        \"first_name\": \"Jane\",\n        \"last_name\": \"Doe\",\n        \"middle_name\": \"Anne\",\n        \"date_of_birth\": \"1997-03-20\",\n        \"gender\": \"female\",\n        \"phone_number\": \"1234567822\",\n        \"email\": \"jane.anne@example.com\",\n        \"user_id\": \"Jane-Doe-1997-03-20-1234567822\"\n    }\n}"
 						},
 						{
-							"name": "Add Patient",
+							"name": "Create Patient (App)",
 							"originalRequest": {
 								"method": "POST",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    // Family\r\n    \"family_id\": \"9380f74e-f5ed-4281-ba73-5ebeb3e0d4cc\",\r\n\r\n    // Personal Info\r\n    \"first_name\": \"John\",\r\n    \"last_name\": \"Trump\",\r\n    \"middle_name\": \"Mark\",\r\n    \"date_of_birth\": \"1992-03-20\",\r\n    \"gender\": \"male\",\r\n    \"phone_number\": \"1264567890\",\r\n    \"email\": \"john.trump@example.com\",\r\n    \"address\": \"123 Main St\",\r\n    \"city\": \"Anytown\",\r\n    \"state\": \"Anystate\",\r\n    \"height\": 165,\r\n    \"weight\": 60,\r\n\r\n    // Medical Info\r\n    \"blood_group\": \"O+\",\r\n    \"genotype\": \"AA\",\r\n    \"allergies\": \"Pollen, Dust\",\r\n    \"chronic_conditions\": \"None\",\r\n    \"current_medications\": [{\"medication\": \"Aspirin\", \"dosage\": \"500mg\", \"frequency\": \"twice daily\"}],\r\n    \"family_history\": \"Diabetes (Mother)\",\r\n    \"surgical_history\": \"Appendectomy (2010)\",\r\n    \"hereditary_conditions\": \"None\",\r\n    \"other_conditions\": \"None\",\r\n\r\n    // Other Info\r\n    \"marital_status\": \"married\",    \r\n    \"employment_status\": \"Employed\",\r\n\r\n    // Emergency Contact\r\n    \"emergency_contact\": {\r\n        \"name\": \"John Smith\",\r\n        \"phone\": \"0987654321\",\r\n        \"relationship\": \"Spouse\",\r\n        \"address\": \"123 Main St, Anytown\"\r\n    },\r\n    \"social_history\": {\r\n        \"smoking\": \"Non-smoker\", \r\n        \"alcohol\": \"Occasional\",\r\n        \"drug_use\": \"n/a\",\r\n        \"diet\": \"Balanced\",\r\n        \"exercise\": \"Regular\" \r\n    }\r\n}",
+									"raw": "{\r\n    \"hospital\": \"8bcb6a27-c7a6-4ece-a9fc-409e693ef03d\",\r\n    \"user_id\": \"Paul-Doe-1990-03-20-1234567822\",\r\n    \"first_name\": \"Paul\",\r\n    \"last_name\": \"Doe\",\r\n    \"middle_name\": \"Anne\",\r\n    \"date_of_birth\": \"1990-03-20\",\r\n    \"gender\": \"female\",\r\n    \"phone_number\": \"1664567822\",\r\n    \"email\": \"paul.anne@example.com\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -5564,12 +5880,12 @@
 									}
 								},
 								"url": {
-									"raw": "{{LOCAL}}patient-management/patients/",
+									"raw": "{{LOCAL}}patient-management/app-patients/",
 									"host": [
 										"{{LOCAL}}patient-management"
 									],
 									"path": [
-										"patients",
+										"app-patients",
 										""
 									]
 								}
@@ -5580,7 +5896,7 @@
 							"header": [
 								{
 									"key": "Date",
-									"value": "Sat, 17 May 2025 17:52:38 GMT"
+									"value": "Fri, 20 Jun 2025 09:45:25 GMT"
 								},
 								{
 									"key": "Server",
@@ -5592,7 +5908,7 @@
 								},
 								{
 									"key": "Allow",
-									"value": "GET, POST, HEAD, OPTIONS"
+									"value": "POST, OPTIONS"
 								},
 								{
 									"key": "X-Frame-Options",
@@ -5604,7 +5920,7 @@
 								},
 								{
 									"key": "Content-Length",
-									"value": "1515"
+									"value": "368"
 								},
 								{
 									"key": "X-Content-Type-Options",
@@ -5620,7 +5936,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"status\": true,\n    \"data\": {\n        \"id\": \"a937ab0f-eb3d-4e07-9a09-3a3e4d29a54f\",\n        \"hospital\": \"8bcb6a27-c7a6-4ece-a9fc-409e693ef03d\",\n        \"family\": {\n            \"id\": \"9380f74e-f5ed-4281-ba73-5ebeb3e0d4cc\",\n            \"family_name\": \"Trump\",\n            \"no_of_members\": 1,\n            \"created_at\": \"2025-05-17T17:25:41.076072Z\",\n            \"updated_at\": \"2025-05-17T17:25:41.076072Z\"\n        },\n        \"first_name\": \"John\",\n        \"last_name\": \"Trump\",\n        \"middle_name\": \"Mark\",\n        \"full_name\": \"John Mark Trump\",\n        \"patient_type\": \"family\",\n        \"date_of_birth\": \"1992-03-20\",\n        \"age\": 33,\n        \"gender\": \"male\",\n        \"phone_number\": \"1264567890\",\n        \"email\": \"john.trump@example.com\",\n        \"address\": \"123 Main St\",\n        \"city\": \"Anytown\",\n        \"state\": \"Anystate\",\n        \"employment_status\": \"Employed\",\n        \"height\": 165,\n        \"weight\": 60,\n        \"bmi\": 22.04,\n        \"blood_group\": \"O+\",\n        \"genotype\": \"AA\",\n        \"allergies\": \"Pollen, Dust\",\n        \"chronic_conditions\": \"None\",\n        \"current_medications\": [\n            {\n                \"medication\": \"Aspirin\",\n                \"dosage\": \"500mg\",\n                \"frequency\": \"twice daily\"\n            }\n        ],\n        \"family_history\": \"Diabetes (Mother)\",\n        \"surgical_history\": \"Appendectomy (2010)\",\n        \"hereditary_conditions\": \"None\",\n        \"other_conditions\": \"None\",\n        \"emergency_contact\": {\n            \"name\": \"John Smith\",\n            \"phone\": \"0987654321\",\n            \"relationship\": \"Spouse\",\n            \"address\": \"123 Main St, Anytown\"\n        },\n        \"marital_status\": \"married\",\n        \"social_history\": {\n            \"smoking\": \"Non-smoker\",\n            \"alcohol\": \"Occasional\",\n            \"drug_use\": \"n/a\",\n            \"sexual_history\": null,\n            \"exercise\": \"Regular\",\n            \"diet\": \"Balanced\",\n            \"other_habits\": null,\n            \"created_at\": \"2025-05-17T17:52:38.602017Z\",\n            \"updated_at\": \"2025-05-17T17:52:38.602017Z\"\n        },\n        \"created_at\": \"2025-05-17T17:52:38.593613Z\",\n        \"updated_at\": \"2025-05-17T17:52:38.593613Z\",\n        \"registered_by\": \"f1841d87-ed48-44e0-a755-093e5f0cc721\"\n    }\n}"
+							"body": "{\n    \"status\": true,\n    \"message\": \"Patient created successfully\",\n    \"data\": {\n        \"id\": \"de2e3e57-5d7a-4814-acfa-25fd79bc9360\",\n        \"hospital\": \"8bcb6a27-c7a6-4ece-a9fc-409e693ef03d\",\n        \"first_name\": \"Paul\",\n        \"last_name\": \"Doe\",\n        \"middle_name\": \"Anne\",\n        \"date_of_birth\": \"1990-03-20\",\n        \"gender\": \"female\",\n        \"phone_number\": \"1664567822\",\n        \"email\": \"paul.anne@example.com\",\n        \"user_id\": \"Paul-Doe-1990-03-20-1234567822\"\n    }\n}"
 						}
 					]
 				},
@@ -5908,6 +6224,217 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Get Patient by Unique ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{hospital_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{LOCAL}}patient-management/patients/unique-id/:unique_id/",
+							"host": [
+								"{{LOCAL}}patient-management"
+							],
+							"path": [
+								"patients",
+								"unique-id",
+								":unique_id",
+								""
+							],
+							"variable": [
+								{
+									"key": "unique_id",
+									"value": "Jane-Doe-1997-03-20-1234567822"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}patient-management/patients/unique-id/:unique_id/",
+									"host": [
+										"{{LOCAL}}patient-management"
+									],
+									"path": [
+										"patients",
+										"unique-id",
+										":unique_id",
+										""
+									],
+									"variable": [
+										{
+											"key": "unique_id",
+											"value": "Jane-Doe-1992-03-20-1234567890"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Wed, 18 Jun 2025 12:49:09 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.10.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1417"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"message\": \"Patient found\",\n    \"data\": {\n        \"id\": \"3c37720b-1fc6-4888-9347-37b9ce75ab51\",\n        \"user_id\": \"Jane-Doe-1992-03-20-1234567890\",\n        \"hospital\": \"8bcb6a27-c7a6-4ece-a9fc-409e693ef03d\",\n        \"family\": null,\n        \"first_name\": \"Jane\",\n        \"last_name\": \"Doe\",\n        \"middle_name\": \"Anne\",\n        \"full_name\": \"Jane Anne Doe\",\n        \"patient_type\": \"individual\",\n        \"date_of_birth\": \"1992-03-20\",\n        \"age\": 33,\n        \"gender\": \"female\",\n        \"phone_number\": \"1234567890\",\n        \"email\": \"jane.doe@example.com\",\n        \"address\": \"123 Main St\",\n        \"city\": \"Anytown\",\n        \"state\": \"Anystate\",\n        \"employment_status\": \"Employed\",\n        \"height\": 165,\n        \"weight\": 60,\n        \"bmi\": 22.04,\n        \"blood_group\": \"O+\",\n        \"genotype\": \"AA\",\n        \"allergies\": \"Pollen, Dust\",\n        \"chronic_conditions\": \"None\",\n        \"current_medications\": [\n            {\n                \"dosage\": \"500mg\",\n                \"frequency\": \"twice daily\",\n                \"medication\": \"Aspirin\"\n            }\n        ],\n        \"family_history\": \"Diabetes (Mother)\",\n        \"surgical_history\": \"Appendectomy (2010)\",\n        \"hereditary_conditions\": \"None\",\n        \"other_conditions\": \"None\",\n        \"emergency_contact\": {\n            \"name\": \"John Smith\",\n            \"phone\": \"0987654321\",\n            \"relationship\": \"Spouse\",\n            \"address\": \"123 Main St, Anytown\"\n        },\n        \"marital_status\": \"married\",\n        \"social_history\": {\n            \"smoking\": \"Non-smoker\",\n            \"alcohol\": \"Occasional\",\n            \"drug_use\": \"n/a\",\n            \"sexual_history\": null,\n            \"exercise\": \"Regular\",\n            \"diet\": \"Balanced\",\n            \"other_habits\": null,\n            \"created_at\": \"2025-05-17T17:25:06.132789Z\",\n            \"updated_at\": \"2025-05-17T17:25:06.132789Z\"\n        },\n        \"created_at\": \"2025-05-17T17:25:06.124528Z\",\n        \"updated_at\": \"2025-05-17T17:25:06.124528Z\",\n        \"registered_by\": \"f1841d87-ed48-44e0-a755-093e5f0cc721\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Get Patient Medical Records",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{LOCAL}}patient-management/medical-records/user/:unique_id/",
+							"host": [
+								"{{LOCAL}}patient-management"
+							],
+							"path": [
+								"medical-records",
+								"user",
+								":unique_id",
+								""
+							],
+							"variable": [
+								{
+									"key": "unique_id",
+									"value": "Jane-Doe-1992-03-20-1234567890"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get Patient Records",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}patient-management/medical-records/user/:unique_id/",
+									"host": [
+										"{{LOCAL}}patient-management"
+									],
+									"path": [
+										"medical-records",
+										"user",
+										":unique_id",
+										""
+									],
+									"variable": [
+										{
+											"key": "unique_id",
+											"value": "Jane-Doe-1992-03-20-1234567890"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Wed, 18 Jun 2025 12:55:10 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.10.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1337"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"user_id\": \"Jane-Doe-1992-03-20-1234567890\",\n    \"records_count\": 1,\n    \"records_by_hospital\": [\n        {\n            \"hospital_name\": \"Divine Mercy\",\n            \"patient_records\": [\n                {\n                    \"id\": \"3c37720b-1fc6-4888-9347-37b9ce75ab51\",\n                    \"hospital\": {\n                        \"id\": \"8bcb6a27-c7a6-4ece-a9fc-409e693ef03d\",\n                        \"name\": \"Divine Mercy\",\n                        \"state\": \"Rivers\",\n                        \"city\": \"Port-Harcourt\",\n                        \"address\": \"17 Birabi Street, Old GRA\"\n                    },\n                    \"first_name\": \"Jane\",\n                    \"last_name\": \"Doe\",\n                    \"middle_name\": \"Anne\",\n                    \"full_name\": \"Jane Anne Doe\",\n                    \"patient_type\": \"individual\",\n                    \"date_of_birth\": \"1992-03-20\",\n                    \"age\": 33,\n                    \"gender\": \"female\",\n                    \"phone_number\": \"1234567890\",\n                    \"email\": \"jane.doe@example.com\",\n                    \"address\": \"123 Main St\",\n                    \"city\": \"Anytown\",\n                    \"state\": \"Anystate\",\n                    \"height\": 165,\n                    \"weight\": 60,\n                    \"bmi\": 22.04,\n                    \"blood_group\": \"O+\",\n                    \"genotype\": \"AA\",\n                    \"allergies\": \"Pollen, Dust\",\n                    \"chronic_conditions\": \"None\",\n                    \"current_medications\": [\n                        {\n                            \"dosage\": \"500mg\",\n                            \"frequency\": \"twice daily\",\n                            \"medication\": \"Aspirin\"\n                        }\n                    ],\n                    \"family_history\": \"Diabetes (Mother)\",\n                    \"surgical_history\": \"Appendectomy (2010)\",\n                    \"hereditary_conditions\": \"None\",\n                    \"other_conditions\": \"None\",\n                    \"social_history\": {\n                        \"smoking\": \"Non-smoker\",\n                        \"alcohol\": \"Occasional\",\n                        \"drug_use\": \"n/a\",\n                        \"sexual_history\": null,\n                        \"exercise\": \"Regular\",\n                        \"diet\": \"Balanced\",\n                        \"other_habits\": null\n                    },\n                    \"vital_signs\": [],\n                    \"diagnosis_reports\": [],\n                    \"prescription_reports\": [],\n                    \"appointments\": [],\n                    \"created_at\": \"2025-05-17T17:25:06.124528Z\",\n                    \"updated_at\": \"2025-05-17T17:25:06.124528Z\"\n                }\n            ]\n        }\n    ]\n}"
+						}
+					]
 				}
 			]
 		},
@@ -6697,7 +7224,922 @@
 		},
 		{
 			"name": "Appointment Mgt",
-			"item": []
+			"item": [
+				{
+					"name": "Analytics",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{hospital_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{LOCAL}}appointment-management/appointments/analytics/?year=2025",
+							"host": [
+								"{{LOCAL}}appointment-management"
+							],
+							"path": [
+								"appointments",
+								"analytics",
+								""
+							],
+							"query": [
+								{
+									"key": "year",
+									"value": "2025"
+								},
+								{
+									"key": "month",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "day",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}appointment-management/appointments/analytics/?year=2024",
+									"host": [
+										"{{LOCAL}}appointment-management"
+									],
+									"path": [
+										"appointments",
+										"analytics",
+										""
+									],
+									"query": [
+										{
+											"key": "year",
+											"value": "2024"
+										},
+										{
+											"key": "month",
+											"value": null,
+											"disabled": true
+										},
+										{
+											"key": "day",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Fri, 20 Jun 2025 06:57:35 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.10.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Length",
+									"value": "357"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"message\": \"Appointment analytics retrieved successfully\",\n    \"data\": {\n        \"yearly_appointments\": {\n            \"completed\": 0,\n            \"rescheduled\": 0,\n            \"cancelled\": 0,\n            \"total\": 0\n        },\n        \"monthly_appointments\": {\n            \"completed\": 0,\n            \"rescheduled\": 0,\n            \"cancelled\": 0,\n            \"total\": 0\n        },\n        \"daily_appointments\": {\n            \"completed\": 0,\n            \"rescheduled\": 0,\n            \"cancelled\": 0,\n            \"total\": 0\n        },\n        \"period\": {\n            \"year\": 2024,\n            \"month\": 6,\n            \"day\": 20\n        }\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "List Appointments",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{hospital_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{LOCAL}}appointment-management/appointments/",
+							"host": [
+								"{{LOCAL}}appointment-management"
+							],
+							"path": [
+								"appointments",
+								""
+							],
+							"query": [
+								{
+									"key": "start_date",
+									"value": "",
+									"description": "YYYY-MM-DD",
+									"disabled": true
+								},
+								{
+									"key": "end_date",
+									"value": "",
+									"description": "YYYY-MM-DD",
+									"disabled": true
+								},
+								{
+									"key": "search",
+									"value": "",
+									"description": "Patiend ID or Patient Name",
+									"disabled": true
+								},
+								{
+									"key": "status",
+									"value": "rescheduled",
+									"description": "scheduled, completed, cancelled, rescheduled, pending",
+									"disabled": true
+								},
+								{
+									"key": "staff_role",
+									"value": "",
+									"description": "doctor, nurse",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}appointment-management/appointments/",
+									"host": [
+										"{{LOCAL}}appointment-management"
+									],
+									"path": [
+										"appointments",
+										""
+									],
+									"query": [
+										{
+											"key": "start_date",
+											"value": null,
+											"description": "YYYY-MM-DD",
+											"disabled": true
+										},
+										{
+											"key": "end_date",
+											"value": null,
+											"description": "YYYY-MM-DD",
+											"disabled": true
+										},
+										{
+											"key": "search",
+											"value": null,
+											"description": "Patiend ID or Patient Name",
+											"disabled": true
+										},
+										{
+											"key": "status",
+											"value": "rescheduled",
+											"description": "scheduled, completed, cancelled, rescheduled, pending",
+											"disabled": true
+										},
+										{
+											"key": "staff_role",
+											"value": null,
+											"description": "doctor, nurse",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Fri, 20 Jun 2025 07:48:47 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.10.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, POST, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Length",
+									"value": "878"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"count\": 3,\n    \"next\": null,\n    \"previous\": null,\n    \"results\": [\n        {\n            \"id\": \"c223ef70-6782-4a74-a5de-ecc597f0d476\",\n            \"patient_id\": \"8b2e59ba-7964-4e3d-ad36-5ff47b6c0094\",\n            \"patient_fullname\": \"Jane Anne Doe\",\n            \"staff_name\": \"Adams Charles\",\n            \"staff_role\": \"Hospital Admin\",\n            \"appointment_date\": \"2025-07-21\",\n            \"appointment_time\": \"14:00:00\",\n            \"status\": \"rescheduled\"\n        },\n        {\n            \"id\": \"a6ceb882-8043-4160-8f29-a897b677afbd\",\n            \"patient_id\": \"8b2e59ba-7964-4e3d-ad36-5ff47b6c0094\",\n            \"patient_fullname\": \"Jane Anne Doe\",\n            \"staff_name\": \"Adams Charles\",\n            \"staff_role\": \"Hospital Admin\",\n            \"appointment_date\": \"2025-06-22\",\n            \"appointment_time\": \"14:00:00\",\n            \"status\": \"scheduled\"\n        },\n        {\n            \"id\": \"fc2e7825-b61b-4a4c-99c7-bd43ffa36be5\",\n            \"patient_id\": \"8b2e59ba-7964-4e3d-ad36-5ff47b6c0094\",\n            \"patient_fullname\": \"Jane Anne Doe\",\n            \"staff_name\": \"Adams Charles\",\n            \"staff_role\": \"Hospital Admin\",\n            \"appointment_date\": \"2025-06-21\",\n            \"appointment_time\": \"14:00:00\",\n            \"status\": \"scheduled\"\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Appointment Detail",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{hospital_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{LOCAL}}appointment-management/appointments/:appointment_id/",
+							"host": [
+								"{{LOCAL}}appointment-management"
+							],
+							"path": [
+								"appointments",
+								":appointment_id",
+								""
+							],
+							"variable": [
+								{
+									"key": "appointment_id",
+									"value": "c223ef70-6782-4a74-a5de-ecc597f0d476"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}appointment-management/appointments/:appointment_id/",
+									"host": [
+										"{{LOCAL}}appointment-management"
+									],
+									"path": [
+										"appointments",
+										":appointment_id",
+										""
+									],
+									"variable": [
+										{
+											"key": "appointment_id",
+											"value": "c223ef70-6782-4a74-a5de-ecc597f0d476"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Fri, 20 Jun 2025 07:40:56 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.10.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, PATCH, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Length",
+									"value": "464"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"message\": \"Appointment detail retrieved\",\n    \"data\": {\n        \"id\": \"c223ef70-6782-4a74-a5de-ecc597f0d476\",\n        \"patient_id\": \"8b2e59ba-7964-4e3d-ad36-5ff47b6c0094\",\n        \"patient_fullname\": \"Jane Anne Doe\",\n        \"staff_name\": \"Adams Charles\",\n        \"staff_role\": \"Hospital Admin\",\n        \"appointment_date\": \"2025-06-23\",\n        \"appointment_time\": \"14:00:00\",\n        \"status\": \"scheduled\",\n        \"reason\": \"Routine checkup\",\n        \"notes\": null,\n        \"created_at\": \"2025-06-20T07:39:10.471314Z\",\n        \"updated_at\": \"2025-06-20T07:39:10.471314Z\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Create Appointment",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"patient\": \"8b2e59ba-7964-4e3d-ad36-5ff47b6c0094\",\r\n    \"staff\": \"f1841d87-ed48-44e0-a755-093e5f0cc721\",\r\n    \"appointment_date\": \"2025-06-20\",\r\n    \"appointment_time\": \"12:00:00\",\r\n    \"reason\": \"Routine checkup\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{LOCAL}}appointment-management/appointments/",
+							"host": [
+								"{{LOCAL}}appointment-management"
+							],
+							"path": [
+								"appointments",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"patient\": \"8b2e59ba-7964-4e3d-ad36-5ff47b6c0094\",\r\n    \"appointment_date\": \"2025-06-23\",\r\n    \"appointment_time\": \"14:00:00\",\r\n    \"reason\": \"Routine checkup\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL}}appointment-management/appointments/",
+									"host": [
+										"{{LOCAL}}appointment-management"
+									],
+									"path": [
+										"appointments",
+										""
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Fri, 20 Jun 2025 07:39:10 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.10.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, POST, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Length",
+									"value": "468"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"message\": \"Appointment created successfully\",\n    \"data\": {\n        \"id\": \"c223ef70-6782-4a74-a5de-ecc597f0d476\",\n        \"patient_id\": \"8b2e59ba-7964-4e3d-ad36-5ff47b6c0094\",\n        \"patient_fullname\": \"Jane Anne Doe\",\n        \"staff_name\": \"Adams Charles\",\n        \"staff_role\": \"Hospital Admin\",\n        \"appointment_date\": \"2025-06-23\",\n        \"appointment_time\": \"14:00:00\",\n        \"status\": \"scheduled\",\n        \"reason\": \"Routine checkup\",\n        \"notes\": null,\n        \"created_at\": \"2025-06-20T07:39:10.471314Z\",\n        \"updated_at\": \"2025-06-20T07:39:10.471314Z\"\n    }\n}"
+						},
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"patient\": \"8b2e59ba-7964-4e3d-ad36-5ff47b6c0094\",\r\n    \"staff\": \"f1841d87-ed48-44e0-a755-093e5f0cc721\",\r\n    \"appointment_date\": \"2025-06-20\",\r\n    \"appointment_time\": \"12:00:00\",\r\n    \"reason\": \"Routine checkup\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL}}appointment-management/appointments/",
+									"host": [
+										"{{LOCAL}}appointment-management"
+									],
+									"path": [
+										"appointments",
+										""
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Fri, 20 Jun 2025 09:46:00 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.10.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, POST, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Length",
+									"value": "593"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"message\": \"Appointment created successfully\",\n    \"data\": {\n        \"id\": \"87f3cf69-4aea-446b-b9c5-75b500f8d50e\",\n        \"hospital_name\": \"Divine Mercy\",\n        \"hospital_address\": \"17 Birabi Street, Old GRA, Port-Harcourt, Rivers\",\n        \"patient_id\": \"8b2e59ba-7964-4e3d-ad36-5ff47b6c0094\",\n        \"patient_fullname\": \"Jane Anne Doe\",\n        \"staff_name\": \"Mike Tyson\",\n        \"staff_role\": \"Doctor\",\n        \"staff_phone_number\": \"08012345678\",\n        \"appointment_date\": \"2025-06-20\",\n        \"appointment_time\": \"12:00:00\",\n        \"status\": \"scheduled\",\n        \"reason\": \"Routine checkup\",\n        \"notes\": null,\n        \"created_at\": \"2025-06-20T09:46:00.434034Z\",\n        \"updated_at\": \"2025-06-20T09:46:00.434034Z\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Reschedule Appointment",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"new_appointment_date\": \"2025-07-21\",\r\n    \"new_appointment_time\": \"14:00:00\",\r\n    \"reason_for_reschedule\": \"Couldn't meetup\"\r\n    // \"new_staff_id\": \"\" // optional\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{LOCAL}}appointment-management/appointments/:appointment_id/reschedule/",
+							"host": [
+								"{{LOCAL}}appointment-management"
+							],
+							"path": [
+								"appointments",
+								":appointment_id",
+								"reschedule",
+								""
+							],
+							"variable": [
+								{
+									"key": "appointment_id",
+									"value": "c223ef70-6782-4a74-a5de-ecc597f0d476"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"new_appointment_date\": \"2025-07-21\",\r\n    \"new_appointment_time\": \"14:00:00\",\r\n    \"reason_for_reschedule\": \"Couldn't meetup\"\r\n    // \"new_staff_id\": \"\" // optional\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL}}appointment-management/appointments/:appointment_id/reschedule/",
+									"host": [
+										"{{LOCAL}}appointment-management"
+									],
+									"path": [
+										"appointments",
+										":appointment_id",
+										"reschedule",
+										""
+									],
+									"variable": [
+										{
+											"key": "appointment_id",
+											"value": "c223ef70-6782-4a74-a5de-ecc597f0d476"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Fri, 20 Jun 2025 07:47:12 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.10.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Allow",
+									"value": "POST, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Length",
+									"value": "533"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"message\": \"Appointment rescheduled successfully\",\n    \"data\": {\n        \"id\": \"c223ef70-6782-4a74-a5de-ecc597f0d476\",\n        \"patient_id\": \"8b2e59ba-7964-4e3d-ad36-5ff47b6c0094\",\n        \"patient_fullname\": \"Jane Anne Doe\",\n        \"staff_name\": \"Adams Charles\",\n        \"staff_role\": \"Hospital Admin\",\n        \"appointment_date\": \"2025-07-21\",\n        \"appointment_time\": \"14:00:00\",\n        \"status\": \"rescheduled\",\n        \"reason\": \"Routine checkup\",\n        \"notes\": \"\\nRescheduled by Jane Anne Doe on 2025-06-20: Couldn't meetup\",\n        \"created_at\": \"2025-06-20T07:39:10.471314Z\",\n        \"updated_at\": \"2025-06-20T07:47:12.705059Z\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Cancel Appointment",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user_id\": \"Jane-Doe-1997-03-20-1234567822\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{LOCAL}}appointment-management/appointments/:appointment_id/cancel/",
+							"host": [
+								"{{LOCAL}}appointment-management"
+							],
+							"path": [
+								"appointments",
+								":appointment_id",
+								"cancel",
+								""
+							],
+							"variable": [
+								{
+									"key": "appointment_id",
+									"value": "a6ceb882-8043-4160-8f29-a897b677afbd"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"user_id\": \"Jane-Doe-1997-03-20-1234567822\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL}}appointment-management/appointments/:appointment_id/cancel/",
+									"host": [
+										"{{LOCAL}}appointment-management"
+									],
+									"path": [
+										"appointments",
+										":appointment_id",
+										"cancel",
+										""
+									],
+									"variable": [
+										{
+											"key": "appointment_id",
+											"value": "a6ceb882-8043-4160-8f29-a897b677afbd"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Fri, 20 Jun 2025 07:52:55 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.10.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Allow",
+									"value": "POST, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Length",
+									"value": "539"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"message\": \"Appointment cancelled successfully\",\n    \"data\": {\n        \"id\": \"a6ceb882-8043-4160-8f29-a897b677afbd\",\n        \"patient_id\": \"8b2e59ba-7964-4e3d-ad36-5ff47b6c0094\",\n        \"patient_fullname\": \"Jane Anne Doe\",\n        \"staff_name\": \"Adams Charles\",\n        \"staff_role\": \"Hospital Admin\",\n        \"appointment_date\": \"2025-06-22\",\n        \"appointment_time\": \"14:00:00\",\n        \"status\": \"cancelled\",\n        \"reason\": \"Routine checkup\",\n        \"notes\": \"\\nCancelled by Jane Anne Doe on 2025-06-20. Reason: No reason provided.\",\n        \"created_at\": \"2025-06-20T07:38:35.695233Z\",\n        \"updated_at\": \"2025-06-20T07:52:55.648553Z\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Complete Appointment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{hospital_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{LOCAL}}appointment-management/appointments/:appointment_id/complete/",
+							"host": [
+								"{{LOCAL}}appointment-management"
+							],
+							"path": [
+								"appointments",
+								":appointment_id",
+								"complete",
+								""
+							],
+							"variable": [
+								{
+									"key": "appointment_id",
+									"value": "fc2e7825-b61b-4a4c-99c7-bd43ffa36be5"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}appointment-management/appointments/:appointment_id/complete/",
+									"host": [
+										"{{LOCAL}}appointment-management"
+									],
+									"path": [
+										"appointments",
+										":appointment_id",
+										"complete",
+										""
+									],
+									"variable": [
+										{
+											"key": "appointment_id",
+											"value": "fc2e7825-b61b-4a4c-99c7-bd43ffa36be5"
+										}
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Fri, 20 Jun 2025 07:55:34 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.10.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Allow",
+									"value": "POST, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Length",
+									"value": "75"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": false,\n    \"message\": \"Cannot mark a future appointment as completed.\"\n}"
+						}
+					]
+				}
+			]
 		},
 		{
 			"name": "ORA Mgt",
@@ -7986,6 +9428,1212 @@
 							],
 							"cookie": [],
 							"body": "{\n    \"id\": \"dcdb364b-9ae7-45f8-94e6-d9a3a5775c42\",\n    \"subject\": \"Cannot Access Laboratory Results\",\n    \"description\": \"I am unable to view the laboratory results for patient #12345. The system shows an error message.\",\n    \"status\": \"open\",\n    \"priority\": \"high\",\n    \"created_by\": \"f1841d87-ed48-44e0-a755-093e5f0cc721\",\n    \"created_by_name\": \"Mike Tyson\",\n    \"created_by_email\": \"aaronnwokoro@gmail.com\",\n    \"hospital\": \"8bcb6a27-c7a6-4ece-a9fc-409e693ef03d\",\n    \"hospital_name\": \"Divine Mercy\",\n    \"created_at\": \"2025-06-06T09:29:28.115383Z\",\n    \"updated_at\": \"2025-06-06T09:29:28.115383Z\",\n    \"closed_at\": null,\n    \"messages_count\": 1,\n    \"latest_message_date\": \"2025-06-06T09:29:28.124388Z\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "MobileApp APIs",
+			"item": [
+				{
+					"name": "List Hospitals",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{PROD}}mobile/hospitals/?search=Divine&latitude=4.83125&longitude=7.02663",
+							"host": [
+								"{{PROD}}mobile"
+							],
+							"path": [
+								"hospitals",
+								""
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "Divine",
+									"description": "'name', 'city', 'state', 'address'"
+								},
+								{
+									"key": "latitude",
+									"value": "4.83125",
+									"description": "user location"
+								},
+								{
+									"key": "longitude",
+									"value": "7.02663",
+									"description": "user location"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "List hospitals",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}mobile/hospitals/?location=Rivers&latitude=4.83125&longitude=7.02663",
+									"host": [
+										"{{LOCAL}}mobile"
+									],
+									"path": [
+										"hospitals",
+										""
+									],
+									"query": [
+										{
+											"key": "search",
+											"value": "Divine",
+											"disabled": true
+										},
+										{
+											"key": "location",
+											"value": "Rivers",
+											"description": "'city', 'state', 'address'"
+										},
+										{
+											"key": "latitude",
+											"value": "4.83125",
+											"description": "user location"
+										},
+										{
+											"key": "longitude",
+											"value": "7.02663",
+											"description": "user location"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Wed, 18 Jun 2025 13:35:28 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.10.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Length",
+									"value": "331"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"count\": 1,\n    \"next\": null,\n    \"previous\": null,\n    \"results\": [\n        {\n            \"id\": \"8bcb6a27-c7a6-4ece-a9fc-409e693ef03d\",\n            \"name\": \"Divine Mercy\",\n            \"avatar\": null,\n            \"address\": \"17 Birabi Street, Old GRA\",\n            \"rating\": 0,\n            \"no_of_reviews\": 0,\n            \"distance_from_user_in_km\": 3.2,\n            \"phone_number\": \"08012345678\",\n            \"email\": \"info@divinemercy.com\",\n            \"state\": \"Rivers\",\n            \"city\": \"Port-Harcourt\"\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Hospital Detail",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{LOCAL}}mobile/hospitals/:hospital_id/",
+							"host": [
+								"{{LOCAL}}mobile"
+							],
+							"path": [
+								"hospitals",
+								":hospital_id",
+								""
+							],
+							"query": [
+								{
+									"key": "latitude",
+									"value": "4.83125",
+									"description": "user location",
+									"disabled": true
+								},
+								{
+									"key": "longitude",
+									"value": "7.02663",
+									"description": "user location",
+									"disabled": true
+								}
+							],
+							"variable": [
+								{
+									"key": "hospital_id",
+									"value": "8bcb6a27-c7a6-4ece-a9fc-409e693ef03d"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Hospital Detail",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}mobile/hospitals/:hospital_id/",
+									"host": [
+										"{{LOCAL}}mobile"
+									],
+									"path": [
+										"hospitals",
+										":hospital_id",
+										""
+									],
+									"query": [
+										{
+											"key": "latitude",
+											"value": "4.83125",
+											"description": "user location",
+											"disabled": true
+										},
+										{
+											"key": "longitude",
+											"value": "7.02663",
+											"description": "user location",
+											"disabled": true
+										}
+									],
+									"variable": [
+										{
+											"key": "hospital_id",
+											"value": "8bcb6a27-c7a6-4ece-a9fc-409e693ef03d"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Wed, 18 Jun 2025 13:38:04 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.10.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Length",
+									"value": "279"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"8bcb6a27-c7a6-4ece-a9fc-409e693ef03d\",\n    \"name\": \"Divine Mercy\",\n    \"avatar\": null,\n    \"address\": \"17 Birabi Street, Old GRA\",\n    \"rating\": 0,\n    \"no_of_reviews\": 0,\n    \"distance_from_user_in_km\": 3.2,\n    \"phone_number\": \"08012345678\",\n    \"email\": \"info@divinemercy.com\",\n    \"state\": \"Rivers\",\n    \"city\": \"Port-Harcourt\"\n}"
+						}
+					]
+				},
+				{
+					"name": "List Specialists",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{LOCAL}}mobile/specialists/",
+							"host": [
+								"{{LOCAL}}mobile"
+							],
+							"path": [
+								"specialists",
+								""
+							],
+							"query": [
+								{
+									"key": "search ",
+									"value": "gynae",
+									"disabled": true
+								},
+								{
+									"key": "hospital",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}mobile/specialists/",
+									"host": [
+										"{{LOCAL}}mobile"
+									],
+									"path": [
+										"specialists",
+										""
+									],
+									"query": [
+										{
+											"key": "search ",
+											"value": "gynae",
+											"disabled": true
+										},
+										{
+											"key": "specialization",
+											"value": null,
+											"disabled": true
+										},
+										{
+											"key": "hospital",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Wed, 18 Jun 2025 13:47:18 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.10.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Length",
+									"value": "341"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"count\": 1,\n    \"next\": null,\n    \"previous\": null,\n    \"results\": [\n        {\n            \"id\": \"f1841d87-ed48-44e0-a755-093e5f0cc721\",\n            \"first_name\": \"Mike\",\n            \"last_name\": \"Tyson\",\n            \"specialization\": \"Gynaecologist\",\n            \"role\": \"doctor\",\n            \"avatar\": null,\n            \"rating\": 0,\n            \"no_of_reviews\": 0,\n            \"hospital_name\": \"Divine Mercy\",\n            \"hospital\": \"8bcb6a27-c7a6-4ece-a9fc-409e693ef03d\",\n            \"distance_from_user_in_km\": 0\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Specialist Detail",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{LOCAL}}mobile/specialists/:specialist_id/?longitude=7.02663&latitude=4.83125",
+							"host": [
+								"{{LOCAL}}mobile"
+							],
+							"path": [
+								"specialists",
+								":specialist_id",
+								""
+							],
+							"query": [
+								{
+									"key": "longitude",
+									"value": "7.02663"
+								},
+								{
+									"key": "latitude",
+									"value": "4.83125"
+								}
+							],
+							"variable": [
+								{
+									"key": "specialist_id",
+									"value": "f1841d87-ed48-44e0-a755-093e5f0cc721"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Specialist Detail",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}mobile/specialists/:specialist_id/?longitude=7.02663&latitude=4.83125",
+									"host": [
+										"{{LOCAL}}mobile"
+									],
+									"path": [
+										"specialists",
+										":specialist_id",
+										""
+									],
+									"query": [
+										{
+											"key": "longitude",
+											"value": "7.02663"
+										},
+										{
+											"key": "latitude",
+											"value": "4.83125"
+										}
+									],
+									"variable": [
+										{
+											"key": "specialist_id",
+											"value": "f1841d87-ed48-44e0-a755-093e5f0cc721"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Wed, 18 Jun 2025 13:50:30 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.10.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Length",
+									"value": "369"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"f1841d87-ed48-44e0-a755-093e5f0cc721\",\n    \"first_name\": \"Mike\",\n    \"last_name\": \"Tyson\",\n    \"specialization\": \"Gynaecologist\",\n    \"role\": \"doctor\",\n    \"avatar\": null,\n    \"rating\": 0,\n    \"no_of_reviews\": 0,\n    \"hospital_name\": \"Divine Mercy\",\n    \"hospital\": \"8bcb6a27-c7a6-4ece-a9fc-409e693ef03d\",\n    \"distance_from_user_in_km\": 3.2,\n    \"total_patients_seen\": 0,\n    \"availability\": \"active\",\n    \"occupied_slots\": 0,\n    \"reviews\": []\n}"
+						}
+					]
+				},
+				{
+					"name": "Get Doctor Reviews",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{LOCAL}}mobile/reviews/doctor/:doctor_id/",
+							"host": [
+								"{{LOCAL}}mobile"
+							],
+							"path": [
+								"reviews",
+								"doctor",
+								":doctor_id",
+								""
+							],
+							"variable": [
+								{
+									"key": "doctor_id",
+									"value": "f1841d87-ed48-44e0-a755-093e5f0cc721"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}mobile/reviews/doctor/:doctor_id/",
+									"host": [
+										"{{LOCAL}}mobile"
+									],
+									"path": [
+										"reviews",
+										"doctor",
+										":doctor_id",
+										""
+									],
+									"variable": [
+										{
+											"key": "doctor_id",
+											"value": "f1841d87-ed48-44e0-a755-093e5f0cc721"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Wed, 18 Jun 2025 15:04:29 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.10.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Length",
+									"value": "308"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"count\": 1,\n    \"next\": null,\n    \"previous\": null,\n    \"results\": [\n        {\n            \"id\": 1,\n            \"doctor\": \"f1841d87-ed48-44e0-a755-093e5f0cc721\",\n            \"patient\": \"3c37720b-1fc6-4888-9347-37b9ce75ab51\",\n            \"rating\": 4,\n            \"comment\": \"Very knowledgeable doctor with a good bedside manner.\",\n            \"created_at\": \"2025-06-18T14:56:31.295298Z\",\n            \"patient_name\": \"Jane Anne Doe\"\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Create Review",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user_id\": \"Jane-Doe-1992-03-20-1234567890\",\r\n    \"doctor\": \"f1841d87-ed48-44e0-a755-093e5f0cc721\",\r\n    \"rating\": 4,\r\n    \"comment\": \"Very knowledgeable doctor with a good bedside manner.\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{LOCAL}}mobile/reviews/create/",
+							"host": [
+								"{{LOCAL}}mobile"
+							],
+							"path": [
+								"reviews",
+								"create",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Create Review",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"user_id\": \"Jane-Doe-1992-03-20-1234567890\",\r\n    \"doctor\": \"f1841d87-ed48-44e0-a755-093e5f0cc721\",\r\n    \"rating\": 4,\r\n    \"comment\": \"Very knowledgeable doctor with a good bedside manner.\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL}}mobile/reviews/create/",
+									"host": [
+										"{{LOCAL}}mobile"
+									],
+									"path": [
+										"reviews",
+										"create",
+										""
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Wed, 18 Jun 2025 14:56:31 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.10.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Allow",
+									"value": "POST, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Length",
+									"value": "256"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 1,\n    \"doctor\": \"f1841d87-ed48-44e0-a755-093e5f0cc721\",\n    \"patient\": \"3c37720b-1fc6-4888-9347-37b9ce75ab51\",\n    \"rating\": 4,\n    \"comment\": \"Very knowledgeable doctor with a good bedside manner.\",\n    \"created_at\": \"2025-06-18T14:56:31.295298Z\",\n    \"patient_name\": \"Jane Anne Doe\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Get Patient Test Results",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{LOCAL}}mobile/patient/test-results/?user_id=Jane-Doe-1992-03-20-1234567890",
+							"host": [
+								"{{LOCAL}}mobile"
+							],
+							"path": [
+								"patient",
+								"test-results",
+								""
+							],
+							"query": [
+								{
+									"key": "user_id",
+									"value": "Jane-Doe-1992-03-20-1234567890"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Patient Medications",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{LOCAL}}mobile/patient/medications/?user_id=Jane-Doe-1992-03-20-1234567890",
+							"host": [
+								"{{LOCAL}}mobile"
+							],
+							"path": [
+								"patient",
+								"medications",
+								""
+							],
+							"query": [
+								{
+									"key": "user_id",
+									"value": "Jane-Doe-1992-03-20-1234567890"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Patient Test Result Detail",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{LOCAL}}mobile/patient/test-results/:test_id/?user_id=Jane-Doe-1992-03-20-1234567890",
+							"host": [
+								"{{LOCAL}}mobile"
+							],
+							"path": [
+								"patient",
+								"test-results",
+								":test_id",
+								""
+							],
+							"query": [
+								{
+									"key": "user_id",
+									"value": "Jane-Doe-1992-03-20-1234567890"
+								}
+							],
+							"variable": [
+								{
+									"key": "test_id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Billing",
+			"item": [
+				{
+					"name": "Plans",
+					"item": [
+						{
+							"name": "List Plans",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}billing/subscription-plans/",
+									"host": [
+										"{{LOCAL}}billing"
+									],
+									"path": [
+										"subscription-plans",
+										""
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "New Request",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{LOCAL}}billing/subscription-plans/",
+											"host": [
+												"{{LOCAL}}billing"
+											],
+											"path": [
+												"subscription-plans",
+												""
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Thu, 19 Jun 2025 16:08:05 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "WSGIServer/0.2 CPython/3.10.0"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Allow",
+											"value": "GET, POST, HEAD, OPTIONS"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "DENY"
+										},
+										{
+											"key": "Vary",
+											"value": "origin"
+										},
+										{
+											"key": "Content-Length",
+											"value": "213"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"count\": 1,\n    \"next\": null,\n    \"previous\": null,\n    \"results\": [\n        {\n            \"id\": 1,\n            \"code\": \"PLN_veib0eqro1xihsj\",\n            \"name\": \"Premium\",\n            \"amount\": 1000,\n            \"interval\": \"monthly\",\n            \"interval_display\": \"Monthly\",\n            \"max_no_of_doctors\": 3,\n            \"max_no_of_staff\": 10\n        }\n    ]\n}"
+								}
+							]
+						},
+						{
+							"name": "Add Plan",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{super_admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"code\": \"PLN_veib0eqro1xihsj\", \r\n    \"name\": \"Premium\", \r\n    \"description\": \"Premium Test Plan\", \r\n    \"amount\": 1000, \r\n    \"interval\": \"monthly\", //monthly, quarterly, yearly\r\n    \"max_no_of_doctors\": 3, \r\n    \"max_no_of_staff\": 10\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL}}billing/subscription-plans/",
+									"host": [
+										"{{LOCAL}}billing"
+									],
+									"path": [
+										"subscription-plans",
+										""
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "New Request",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"code\": \"PLN_veib0eqro1xihsj\", \r\n    \"name\": \"Premium\", \r\n    \"description\": \"Premium Test Plan\", \r\n    \"amount\": 1000, \r\n    \"interval\": \"monthly\", //monthly, quarterly, yearly\r\n    \"max_no_of_doctors\": 3, \r\n    \"max_no_of_staff\": 10\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{LOCAL}}billing/subscription-plans/",
+											"host": [
+												"{{LOCAL}}billing"
+											],
+											"path": [
+												"subscription-plans",
+												""
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Thu, 19 Jun 2025 16:07:50 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "WSGIServer/0.2 CPython/3.10.0"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Allow",
+											"value": "GET, POST, HEAD, OPTIONS"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "DENY"
+										},
+										{
+											"key": "Vary",
+											"value": "origin"
+										},
+										{
+											"key": "Content-Length",
+											"value": "327"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": true,\n    \"message\": \"Subscription plan created successfully.\",\n    \"data\": {\n        \"id\": 1,\n        \"code\": \"PLN_veib0eqro1xihsj\",\n        \"name\": \"Premium\",\n        \"description\": \"Premium Test Plan\",\n        \"amount\": 1000,\n        \"interval\": \"monthly\",\n        \"max_no_of_doctors\": 3,\n        \"max_no_of_staff\": 10,\n        \"created_at\": \"2025-06-19T16:07:50.731174Z\",\n        \"updated_at\": \"2025-06-19T16:07:50.731174Z\"\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Get Plan",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}billing/subscription-plans/:plan_id/",
+									"host": [
+										"{{LOCAL}}billing"
+									],
+									"path": [
+										"subscription-plans",
+										":plan_id",
+										""
+									],
+									"variable": [
+										{
+											"key": "plan_id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "New Request",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{LOCAL}}billing/subscription-plans/:plan_id/",
+											"host": [
+												"{{LOCAL}}billing"
+											],
+											"path": [
+												"subscription-plans",
+												":plan_id",
+												""
+											],
+											"variable": [
+												{
+													"key": "plan_id",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Thu, 19 Jun 2025 16:11:11 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "WSGIServer/0.2 CPython/3.10.0"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Allow",
+											"value": "GET, PATCH, DELETE, HEAD, OPTIONS"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "DENY"
+										},
+										{
+											"key": "Vary",
+											"value": "origin"
+										},
+										{
+											"key": "Content-Length",
+											"value": "329"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": true,\n    \"message\": \"Subscription plan retrieved successfully.\",\n    \"data\": {\n        \"id\": 1,\n        \"code\": \"PLN_veib0eqro1xihsj\",\n        \"name\": \"Premium\",\n        \"description\": \"Premium Test Plan\",\n        \"amount\": 1000,\n        \"interval\": \"monthly\",\n        \"max_no_of_doctors\": 3,\n        \"max_no_of_staff\": 10,\n        \"created_at\": \"2025-06-19T16:07:50.731174Z\",\n        \"updated_at\": \"2025-06-19T16:07:50.731174Z\"\n    }\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Subscription",
+					"item": [
+						{
+							"name": "Create Subscription",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{super_admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"hospital_id\": \"8bcb6a27-c7a6-4ece-a9fc-409e693ef03d\",\r\n    \"plan_code\": \"PLN_veib0eqro1xihsj\",\r\n    \"callback_url\": \"https://www.github.com/Maxiron\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL}}billing/create-subscription/",
+									"host": [
+										"{{LOCAL}}billing"
+									],
+									"path": [
+										"create-subscription",
+										""
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Create Subscription",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"hospital_id\": \"8bcb6a27-c7a6-4ece-a9fc-409e693ef03d\",\r\n    \"plan_code\": \"PLN_veib0eqro1xihsj\",\r\n    \"callback_url\": \"https://www.github.com/Maxiron\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{LOCAL}}billing/create-subscription/",
+											"host": [
+												"{{LOCAL}}billing"
+											],
+											"path": [
+												"create-subscription",
+												""
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Thu, 19 Jun 2025 16:41:59 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "WSGIServer/0.2 CPython/3.10.0"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Allow",
+											"value": "POST, OPTIONS"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "DENY"
+										},
+										{
+											"key": "Vary",
+											"value": "origin"
+										},
+										{
+											"key": "Content-Length",
+											"value": "221"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": true,\n    \"message\": \"Subscription created successfully\",\n    \"data\": {\n        \"authorization_url\": \"https://checkout.paystack.com/s1zyphm6ayw1mc3\",\n        \"access_code\": \"s1zyphm6ayw1mc3\",\n        \"reference\": \"46ba182e-bc74-4380-8f75-d7f3b8f9f496\"\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Cancel Subscription",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}billing/cancel-subscription/",
+									"host": [
+										"{{LOCAL}}billing"
+									],
+									"path": [
+										"cancel-subscription",
+										""
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				}

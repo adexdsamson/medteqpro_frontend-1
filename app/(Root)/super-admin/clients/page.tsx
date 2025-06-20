@@ -42,11 +42,11 @@ export default function ClientManagement() {
       },
     },
     {
-      accessorKey: "hospital_name",
+      accessorKey: "admin_full_name",
       header: "Hospital Name",
     },
     {
-      accessorKey: "email",
+      accessorKey: "admin_email",
       header: "Email",
     },
     {
@@ -54,10 +54,10 @@ export default function ClientManagement() {
       header: "Number of Doctors",
     },
     {
-      accessorKey: "date_created",
+      accessorKey: "created_at",
       header: "Date Registered",
       cell({ getValue }) {
-        return format(new Date(getValue<string>()), "dd-MMM-yyyy");
+        return getValue<string>() ? format(new Date(getValue<string>() ?? "01/05/1994"), "dd-MMM-yyyy") : "No date";
       },
     },
     {
@@ -97,14 +97,16 @@ export default function ClientManagement() {
       accessorKey: "subscriptionDate",
       header: "Subscription Date",
       cell({ getValue }) {
-        return format(getValue<string>(), "dd-MMM-yyyy");
+        const dateValue = getValue<string>();
+        return dateValue ? format(new Date(dateValue ?? "01/05/1994"), "dd-MMM-yyyy") : "No date";
       },
     },
     {
       accessorKey: "expiryDate",
       header: "Expiry Date",
       cell({ getValue }) {
-        return format(getValue<string>(), "dd-MMM-yyyy");
+        const dateValue = getValue<string>();
+        return dateValue ? format(new Date(dateValue ?? "01/05/1994"), "dd-MMM-yyyy") : "No date";
       },
     },
     {

@@ -1,13 +1,12 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { DataTable } from "@/components/DataTable";
 import { bedColumns, BedData } from "./_components/columns";
 import Subheader from "../../_components/Subheader";
 import { BedStats } from "./_components/BedStats";
-import { makeArrayData } from "@/demo";
 import { TextInput } from "@/components/FormInputs/TextInput";
 import { SearchIcon } from "lucide-react";
 import SessionTimer from "../queuing-system/_components/SessionTimer";
@@ -18,34 +17,81 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useGetAllBeds, mapBedResponseToUIModel } from "@/features/services/bedManagementService";
+import { format, parseISO } from "date-fns";
+import { useToastHandler } from "@/hooks/useToaster";
 
 const AdminBedManagementPage = () => {
   const [selectedRoom, setSelectedRoom] = useState<string>("all");
   const [activeTab, setActiveTab] = useState("general");
+  const [bedData, setBedData] = useState<BedData[]>([]);
+  const [filteredBedData, setFilteredBedData] = useState<BedData[]>([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  
+  const toast = useToastHandler();
+  
+  // Fetch beds data using React Query
+  const { data: bedsResponse, isLoading, error } = useGetAllBeds();
+  
+  // Process the API response
+  useEffect(() => {
+    if (bedsResponse?.data) {
+      // Map API response to UI model and format dates
+      const formattedBeds = bedsResponse.data?.data.map(bed => {
+        const uiModel = mapBedResponseToUIModel(bed);
+        
+        // Format the allocation date time using date-fns if it exists
+        if (uiModel.allocationDateTime) {
+          try {
+            const parsedDate = parseISO(uiModel.allocationDateTime);
+            uiModel.allocationDateTime = format(parsedDate, "dd MMM yy, hh:mm a");
+          } catch (e) {
+            console.error("Date parsing error:", e);
+          }
+        }
+        
+        return uiModel;
+      });
+      
+      setBedData(formattedBeds);
+    }
+  }, [bedsResponse]);
+  
+  // Filter data based on active tab and selected room
+  useEffect(() => {
+    if (bedData.length > 0) {
+      let filtered = bedData;
+      
+      // Filter by ward type (based on room prefix)
+      if (activeTab === "general") {
+        filtered = filtered.filter(bed => bed.roomNo.startsWith('FW'));
+      } else {
+        filtered = filtered.filter(bed => bed.roomNo.startsWith('MW') || bed.roomNo.startsWith('RM'));
+      }
+      
+      // Filter by room number if selected
+      if (selectedRoom !== "all") {
+        filtered = filtered.filter(bed => bed.roomNo === selectedRoom);
+      }
+      
+      // Filter by search term
+      if (searchTerm) {
+        filtered = filtered.filter(bed => 
+          bed.bedId.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          (bed.patientId && bed.patientId.toLowerCase().includes(searchTerm.toLowerCase()))
+        );
+      }
+      
+      setFilteredBedData(filtered);
+    }
+  }, [bedData, activeTab, selectedRoom, searchTerm]);
 
-  // Dummy data for beds
-  const bedData = makeArrayData<BedData>((faker) => {
-    const isOccupied = faker.datatype.boolean();
-    return {
-      bedId: `Bed-${faker.number.int({ min: 1000, max: 9999 })}`,
-      roomNo: `${faker.helpers.arrayElement(['FW', 'MW', 'RM'])}-${faker.number.int({ min: 1, max: 10 })}`,
-      patientId: isOccupied ? `Patient-${faker.number.int({ min: 1000, max: 9999 })}` : null,
-      allocationDateTime: isOccupied ? faker.date.recent().toLocaleDateString('en-GB', {
-        day: '2-digit',
-        month: 'short',
-        year: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: true
-      }) : null,
-      duration: isOccupied ? faker.number.int({ min: 1, max: 30 }) : null,
-    };
-  });
-
-  // Filter data based on active tab
-  const filteredBedData = activeTab === "general" 
-    ? bedData.filter(bed => bed.roomNo.startsWith('FW'))
-    : bedData.filter(bed => bed.roomNo.startsWith('MW') || bed.roomNo.startsWith('RM'));
+  // Show error toast if API request fails
+  useEffect(() => {
+    if (error) {
+      toast.error("Error", "Failed to load bed data. Please try again.");
+    }
+  }, [error, toast]);
 
   const totalBeds = filteredBedData.length;
   const occupiedBeds = filteredBedData.filter(bed => bed.patientId !== null).length;
@@ -120,12 +166,15 @@ const AdminBedManagementPage = () => {
                 label={"Search Keyword"}
                 placeholder="Bed ID"
                 containerClass="!w-60"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
 
             <DataTable
               columns={bedColumns}
-              data={selectedRoom === "all" || !selectedRoom ? filteredBedData : filteredBedData.filter(bed => bed.roomNo === selectedRoom)}
+              data={filteredBedData}
+              options={{ isLoading }}
             />
           </div>
         </TabsContent>
@@ -162,12 +211,15 @@ const AdminBedManagementPage = () => {
                 label={"Search Keyword"}
                 placeholder="Bed ID"
                 containerClass="!w-60"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
 
             <DataTable
               columns={bedColumns}
-              data={selectedRoom === "all" || !selectedRoom ? filteredBedData : filteredBedData.filter(bed => bed.roomNo === selectedRoom)}
+              data={filteredBedData}
+              options={{ isLoading }}
             />
           </div>
         </TabsContent>
