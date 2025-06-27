@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React, { useState } from "react";
 import Subheader from "../../_components/Subheader";
@@ -6,9 +6,8 @@ import { Button } from "@/components/ui/button";
 import { Search } from "lucide-react";
 import PatientTable from "./_components/patient-table";
 import { usePatientList } from "@/features/services/patientService";
-import CreatePatientDialog from "./_components/CreatePatientDialog";
 
-const AdminPatientPage = () => {
+const DoctorPatientPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const { data: patients = [], isLoading } = usePatientList({ search: searchTerm || undefined });
 
@@ -18,13 +17,11 @@ const AdminPatientPage = () => {
 
   return (
     <>
-      <Subheader title="Patient Management" />
+      <Subheader title="My Patients" />
       <div className="p-6 space-y-6 min-h-screen w-full">
         <div className="space-y-4">
           <div className="flex justify-end">
-            <CreatePatientDialog>
-              <Button>Add Patient</Button>
-            </CreatePatientDialog>
+            <Button>Add Patient</Button>
           </div>
 
           <div className="flex items-center gap-2 w-fit bg-white p-2 ">
@@ -50,4 +47,4 @@ const AdminPatientPage = () => {
   );
 };
 
-export default AdminPatientPage;
+export default DoctorPatientPage;

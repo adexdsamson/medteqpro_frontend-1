@@ -3,35 +3,38 @@
 import { DataTable } from "@/components/DataTable";
 import { Button } from "@/components/ui/button";
 import { useGetHospitalList } from "@/features/services/hospitalService";
+import { useGetSubscriptionList } from "@/features/services/subscriptionService";
 import { ColumnDef } from "@tanstack/react-table";
 import React from "react";
-import { format } from "date-fns";
+import { format, parseISO } from "date-fns";
 import Subheader from "../../_components/Subheader";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import RegisterHospitalDialog from "./_components/RegisterHospitalDialog";
 
 enum Status {
-  Active = "Active",
-  Suspended = "Suspended",
+  Active = "active",
+  Inactive = "inactive",
+  Suspended = "suspended",
 }
 
 import { HospitalListType } from "@/features/services/hospitalService";
 
 export type SubscriptionType = {
-  id: string;
+  id: number;
   hospitalName: string;
+  planName: string;
   amount: string;
   subscriptionDate: string;
-  expiryDate: string;
+  expiryDate: string | null;
   status: Status;
-  numberOfMonths: number;
 };
 
 export type ClientType = HospitalListType;
 
 export default function ClientManagement() {
-  const { data: hospitalList, isLoading } = useGetHospitalList();
+  const { data: hospitalList, isLoading: isLoadingHospitals } = useGetHospitalList();
+  const { data: subscriptionList, isLoading: isLoadingSubscriptions } = useGetSubscriptionList();
 
   const columns: ColumnDef<ClientType>[] = [
     {
@@ -98,22 +101,31 @@ export default function ClientManagement() {
       header: "Subscription Date",
       cell({ getValue }) {
         const dateValue = getValue<string>();
-        return dateValue ? format(new Date(dateValue ?? "01/05/1994"), "dd-MMM-yyyy") : "No date";
+        return dateValue ? format(parseISO(dateValue), "dd-MMM-yyyy") : "No date";
       },
     },
     {
       accessorKey: "expiryDate",
       header: "Expiry Date",
       cell({ getValue }) {
-        const dateValue = getValue<string>();
-        return dateValue ? format(new Date(dateValue ?? "01/05/1994"), "dd-MMM-yyyy") : "No date";
+        const dateValue = getValue<string | null>();
+        return dateValue ? format(parseISO(dateValue), "dd-MMM-yyyy") : "No expiry date";
       },
     },
     {
       accessorKey: "status",
       header: "Status",
       cell({ getValue }) {
-        return <span>{getValue<string>()}</span>;
+        const status = getValue<string>();
+        return (
+          <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+            status === "active" ? "bg-green-100 text-green-800" :
+            status === "inactive" ? "bg-gray-100 text-gray-800" :
+            "bg-red-100 text-red-800"
+          }`}>
+            {status.charAt(0).toUpperCase() + status.slice(1)}
+          </span>
+        );
       },
     },
   ];
@@ -155,7 +167,7 @@ export default function ClientManagement() {
                 {...{
                   columns,
                   data: hospitalList?.data?.data || [],
-                  options: { disableSelection: true, isLoading },
+                  options: { disableSelection: true, isLoading: isLoadingHospitals },
                 }}
               />
             </div>
@@ -166,8 +178,16 @@ export default function ClientManagement() {
               <DataTable
                 {...{
                   columns: columns2,
-                  data: [], // Subscription data is not available from the API yet
-                  options: { disableSelection: true },
+                  data: subscriptionList?.data?.data ? subscriptionList.data.data.map((subscription, index) => ({
+                    id: index + 1,
+                    hospitalName: subscription.hospital_name,
+                    planName: subscription.plan_name,
+                    amount: subscription.amount,
+                    subscriptionDate: subscription.last_subscription_date,
+                    expiryDate: subscription.expiry_date,
+                    status: subscription.status as Status,
+                  })) : [],
+                  options: { disableSelection: true, isLoading: isLoadingSubscriptions },
                 }}
               />
             </div>

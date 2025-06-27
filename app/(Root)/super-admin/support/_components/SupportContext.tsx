@@ -203,8 +203,8 @@ export const SupportProvider: React.FC<{ children: React.ReactNode }> = ({ child
       filteredMessages.length > 0
     ) {
       setSelectedMessageId(filteredMessages[0].id);
-    }
-  }, [selectedMessageId, filteredMessages]);
+     }
+  }, [selectedMessageId, messages, filter, readMessageIds]);
 
   // Context value
   const value: SupportContextType = {

@@ -22,7 +22,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 
 // Form validation schema
 const schema = yup.object().shape({
-  full_name: yup.string().required("Full name is required"),
+  first_name: yup.string().required("First name is required"),
+  last_name: yup.string().required("Last name is required"),
   email: yup.string().email("Invalid email").required("Email is required"),
   role: yup.string().required("User permission is required"),
   password: yup.string().min(6, "Password must be at least 6 characters").required("Password is required"),
@@ -39,10 +40,11 @@ export default function AddUserDialog({ children }: AddUserDialogProps) {
   const toast = useToastHandler();
   const queryClient = useQueryClient();
 
-  const { control, reset } = useForge<FormValues>({
+  const { control, reset, formState } = useForge<FormValues>({
     resolver: yupResolver(schema),
     defaultValues: {
-      full_name: "",
+      first_name: "",
+      last_name: "",
       email: "",
       role: "",
       password: "",
@@ -72,7 +74,8 @@ export default function AddUserDialog({ children }: AddUserDialogProps) {
     try {
       // Split full name into first and last name for API
       await mutateAsync({
-        full_name: data.full_name,
+        first_name: data.first_name,
+        last_name: data.last_name,
         email: data.email,
         role: data.role,
         password: data.password
@@ -81,6 +84,8 @@ export default function AddUserDialog({ children }: AddUserDialogProps) {
       console.error("Error adding staff:", error);
     }
   };
+
+  console.log({ formState })
 
   const roleOptions = [
     { label: "Super Admin", value: "superadmin" },
@@ -101,9 +106,16 @@ export default function AddUserDialog({ children }: AddUserDialogProps) {
         <Forge control={control} onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-4">
             <Forger
-              name="full_name"
+              name="first_name"
               component={TextInput}
-              label="Full Name"
+              label="First Name"
+              placeholder="Name"
+            />
+
+            <Forger
+              name="last_name"
+              component={TextInput}
+              label="Last Name"
               placeholder="Name"
             />
             

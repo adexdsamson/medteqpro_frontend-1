@@ -30,7 +30,7 @@ export const TextInput = ({ containerClass, startAdornment, endAdornment, ...pro
         containerClass ?? ""
       }`}
     >
-      <Label className="text-sm whitespace-nowrap text-stone-900">
+      <Label className="text-sm whitespace-nowrap text-stone-900 max-w-sm">
         {props.label}
       </Label>
       <div className="flex items-center bg-white rounded-lg border border-solid border-stone-300 py-1 mt-2 px-3 gap-1">

@@ -18,6 +18,7 @@ import { useToastHandler } from "@/hooks/useToaster";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useWatch } from "react-hook-form";
+import { ApiResponseError } from "@/types";
 
 // Form validation schema
 const schema = yup.object().shape({
@@ -89,19 +90,7 @@ export default function RegisterHospitalDialog({ children }: RegisterHospitalDia
     },
   });
 
-  const { mutate: onboardHospital, isPending, isSuccess, isError, error } = useOnboardHospital();
-
-  useEffect(() => {
-    if (isSuccess) {
-      queryClient.invalidateQueries({ queryKey: ["hospitalList"] });
-      toast.success("Success", "Hospital registered successfully");
-      setOpen(false);
-      reset();
-    }
-    if (isError) {
-      toast.error("Error", error?.message || "Failed to register hospital");
-    }
-  }, [isSuccess, isError, error, queryClient, reset, toast]);
+  const { mutateAsync: onboardHospital, isPending } = useOnboardHospital();
 
   const handleSubmit = async (data: FormValues) => {
     try {
@@ -117,9 +106,18 @@ export default function RegisterHospitalDialog({ children }: RegisterHospitalDia
           address: data.address,
         },
       };
-      onboardHospital(payload);
+      const res = await onboardHospital(payload);
+
+      if(res.data?.data) {
+        queryClient.invalidateQueries({ queryKey: ["hospitalList"] });
+      toast.success("Success", "Hospital registered successfully");
+      setOpen(false);
+      reset();
+      }
     } catch (error) {
+      const err = error as ApiResponseError
       console.error("Error registering hospital:", error);
+      toast.error("Error", err || "Failed to register hospital");
     }
   };
 

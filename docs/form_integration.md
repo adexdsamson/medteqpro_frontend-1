@@ -100,3 +100,83 @@ const Component = () => {
   );
 };
 ```
+## Wizard Form
+
+```tsx
+import { useRef } from "react";
+import { useForm, Forge, Forger } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { Button } from "@/components/ui/button";
+import { TextInput } from "@/components/layouts/FormInputs/TextInput";
+import * as yup from "yup";
+
+const schemaOne = yup.object().shape({
+  username: yup.string().required(),
+  password: yup.string().required(),
+});
+
+const schemaTwo = yup.object().shape({
+  email: yup.string().required(),
+  password: yup.string().required(),
+});
+
+type FormValuesOne = yup.InferType<typeof schemaOne>;
+type FormValuesTwo = yup.InferType<typeof schemaTwo>;
+
+const Component = () => {
+  const [step, setStep] = useState(1); 
+  const formRef = useRef<FormPropsRef | null>(null);
+  const { control, handleSubmit } = useForm<FormValuesOne | FormValuesTwo>({
+    resolver: yupResolver(step === 1 ? schemaOne : schemaTwo),
+  });
+
+  const handleNext = async (step: number) => {
+    setStep(step);
+  };
+
+   const handleSubmit = async (data: FormValues) => {
+    // rest of the api integration
+  };
+
+  return (
+    <Forge {...{ control, onSubmit: handleSubmit }}>
+      {step === 1 && (
+        <>
+          <Forger
+            name="username"
+            component={TextInput}
+            label="Username"
+            placeholder="Enter your username"
+          />
+          <Forger
+            name="password"
+            component={TextInput}
+            label="Password"
+            placeholder="Enter your password"
+          />
+          <Button type="submit">Submit</Button>
+        </>
+      ) }
+      
+      {step === 2 && (
+        <>
+          <Forger
+            name="email"
+            component={TextInput}
+            label="Email"
+            placeholder="Enter your email"
+          />
+          <Forger
+            name="password"
+            component={TextInput}
+            label="Password"
+            placeholder="Enter your password"
+          />
+          <Button type="submit">Submit</Button>
+        </>
+      )}
+      <Button onClick={() => formRef.current?.onSubmit()}>Submit</Button>
+    </Forge>
+  );
+};
+```

@@ -72,7 +72,6 @@ export function LoginForm() {
   });
 
   const handleSubmit = async (data: FormValues) => {
-    console.log("hello", data);
     try {
       const response = await mutateAsync(data as LoginCredentials);
 

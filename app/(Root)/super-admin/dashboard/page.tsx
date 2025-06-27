@@ -83,7 +83,7 @@ function Dashboard() {
               (hospital) => ({
                 id: hospital.id,
                 name: hospital.name,
-                email: hospital.admin.email,
+                email: hospital.admin?.email || 'N/A',
                 hospitalName: hospital.name,
                 numberOfDoctors: hospital.no_of_doctors,
                 dateRegistered: hospital.created_at,

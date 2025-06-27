@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
-import { useQuery } from "@tanstack/react-query";
-import { getRequest } from "@/lib/axiosInstance";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { getRequest, postRequest } from "@/lib/axiosInstance";
 import { ApiResponseError } from "@/types";
 import { format, parseISO } from 'date-fns';
 import { PatientStatus, PatientType } from "@/app/(Root)/admin/patients/_components/patient-data";
@@ -89,5 +90,67 @@ export const usePatientDetails = (patientId: string) => {
       return transformPatient(response.data.data as unknown as PatientResponse);
     },
     enabled: !!patientId, // Only run the query if patientId is provided
+  });
+};
+
+// Define the create patient payload type
+export interface CreatePatientPayload {
+  first_name: string;
+  last_name: string;
+  email?: string;
+  middle_name?: string;
+  address: string;
+  city: string;
+  state: string;
+  phone_number: string;
+  marital_status: string;
+  date_of_birth: string;
+  gender: string;
+  height?: number;
+  weight?: number;
+  blood_group?: string;
+  genotype?: string;
+  employment_status: string;
+  emergency_contact: {
+    name: string;
+    phone: string;
+    address: string;
+  };
+  current_medications?: Array<{
+    medication: string;
+    dosage: string;
+    frequency: string;
+  }>;
+  allergies?: string;
+  family_history?: string;
+  hereditary_conditions?: string;
+  chronic_conditions?: string;
+  other_conditions?: string;
+  surgical_history?: string;
+  social_history?: {
+    smoking?: string;
+    alcohol?: string;
+    drug_use?: string;
+    exercise?: string;
+    diet?: string;
+  };
+}
+
+// Hook to create a new patient
+export const useCreatePatient = () => {
+  const queryClient = useQueryClient();
+  
+  return useMutation<any, ApiResponseError, CreatePatientPayload>({
+    mutationFn: async (patientData: CreatePatientPayload) => {
+      const response = await postRequest({
+        url: 'patient-management/patients/',
+        payload: patientData
+      });
+      return response.data;
+    },
+    onSuccess: () => {
+      // Invalidate and refetch patient list
+      queryClient.invalidateQueries({ queryKey: ['patients'] });
+    },
   });
 };
