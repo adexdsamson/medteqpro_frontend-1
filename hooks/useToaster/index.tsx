@@ -1,48 +1,41 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-// import { useToast } from "@/components/ui";
+import { toast } from "sonner";
 // import { ApiResponseError } from "@/types";
 
-export const useToastHandlers = () => {
+export const useToastHandler = () => {
   // const { toast } = useToast();
 
   const onErrorHandler = (title: string, error?: any | string) => {
     console.log({ title, error });
     if (!error) {
-      // toast({
-      //   title,
-      //   variant: "destructive",
-      // });
+      toast.error(title);
       return;
     }
 
     if (typeof error === "string") {
-      // toast({
-      //   title,
-      //   variant: "destructive",
-      // });
+      toast.error(title);
       return;
     }
 
-    if (error?.response?.data && typeof error.response?.data.message === "string") {
-      // toast({
-      //   title,
-      //   description: error.response?.data?.message,
-      //   variant: "destructive",
-      // });
+    if (
+      error?.response?.data &&
+      typeof error.response?.data.message === "string"
+    ) {
+      toast.error(title, {
+        description: error.response?.data?.message,
+      });
       return;
     }
 
-    // toast({
-    //   title,
-    //   description: "Unknown error occurred",
-    //   variant: "destructive",
-    // });
+    toast.error(title,{
+      description: "Unknown error occurred",
+    });
   };
 
   const onSuccessHandler = (title: string, message: string) => {
     console.log({ title, message });
-    
-    // toast({ title, description: message ?? "success", variant: "default" });
+
+    toast( title, { description: message ?? "success" });
   };
 
   return { success: onSuccessHandler, error: onErrorHandler };

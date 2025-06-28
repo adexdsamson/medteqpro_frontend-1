@@ -1,60 +1,27 @@
+"use client";
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { isEqual } from "lodash";
 import { isWeb, Slot } from "../utils";
-import { Component, memo } from "react";
+import { memo } from "react";
 import {
   FieldValues,
-  RegisterOptions,
-  UseFormReturn,
   useController,
   useFormContext,
-  Control,
 } from "react-hook-form";
+import { ForgerControllerProps, ForgerProps } from "../types";
 
-type ForgerProps = Omit<
-  React.InputHTMLAttributes<HTMLInputElement>,
-  "onChange"
-> &
-  Record<string, any> & {
-    name: keyof FieldValues;
-    component: any;
-    label?: string;
-    onChangeText?: (value: string) => void;
-  };
 
-type ForgeProps = {
-  name: keyof FieldValues;
-  className?: string;
-  rules?: Omit<
-    RegisterOptions<FieldValues, any>,
-    "valueAsNumber" | "valueAsDate" | "setValueAs" | "disabled"
-  >;
-  transform?: {
-    input?: (value: string) => string;
-    output?: (val: string) => string;
-  };
-  Component: typeof Component<any>;
-  trigger?: string;
-  methods: UseFormReturn;
-};
-
-export type ForgerSlotProps = {
-  name: string;
-  error: string;
-  value: string;
-  placeholder?: string;
-  control: Control<FieldValues, any>;
-  onBlur: RegisterOptions["onBlur"];
-  onChange: RegisterOptions["onChange"];
-};
-
-const ForgerController = (props: ForgeProps) => {
-  const { rules, transform, methods, Component, name, trigger, ...rest } =
+const ForgerController = <TFieldValues extends FieldValues = FieldValues>(
+  props: ForgerControllerProps<TFieldValues>
+) => {
+  const { rules, transform, methods, component, name, handler, ...rest } =
     props;
   const {
     field: { onBlur, onChange, value, ref },
     fieldState: { error },
-  } = useController({ name, rules, control: methods.control });
+  } = useController<TFieldValues>({ name, rules, control: methods.control });
+  const Component = component as any;
 
   const getTextTransform = (text: string) => {
     return typeof transform === "undefined" ? text : transform.output?.(text);
@@ -64,9 +31,9 @@ const ForgerController = (props: ForgeProps) => {
     return typeof transform === "undefined" ? text : transform.input?.(text);
   };
 
-  const handleTrigger = trigger
+  const handleTrigger = handler
     ? {
-        [trigger]: (value: string) => onChange(getTextTransform(value)),
+        [handler]: (value: string) => onChange(getTextTransform(value)),
         onChange: () => {},
       }
     : isWeb
@@ -90,36 +57,50 @@ const ForgerController = (props: ForgeProps) => {
   );
 };
 
-const MemorizeController = memo<ForgeProps>(
+const MemorizeController = memo<ForgerControllerProps<FieldValues>>(
   (props) => <ForgerController {...props} />,
   (prev, next) => {
-    const { methods, ...others } = next;
-    const { methods: _, ...rest } = prev;
+    const { methods, dependencies = [], ...others } = next;
+    const { methods: _, dependencies: prevDependencies = [], ...rest } = prev;
 
-    if (_.formState.isDirty === methods.formState.isDirty) {
-      return true;
+    // Check if dependencies have changed
+    if (dependencies.length > 0 && prevDependencies.length > 0) {
+      const depsChanged = dependencies.some((dep, index) => 
+        dep !== prevDependencies[index]
+      );
+      if (depsChanged) {
+        return false; // Re-render if dependencies changed
+      }
     }
 
-    if (isEqual(rest, others)) {
-      return true;
+    // Check if form state has changed
+    if (_.formState?.isDirty !== methods.formState?.isDirty) {
+      return false; // Re-render if form state changed
     }
 
-    return true;
+    // Check if other props have changed
+    if (!isEqual(rest, others)) {
+      return false; // Re-render if other props changed
+    }
+
+    return true; // Don't re-render if nothing changed
   }
 );
 
-MemorizeController.displayName = 'MemorizeController';
+MemorizeController.displayName = "MemorizeController";
 
-export const Forger = (props: ForgerProps) => {
+export const Forger = (props: ForgerProps<FieldValues>) => {
   const methods = useFormContext();
+  const { dependencies, ...restProps } = props;
 
   return (
     <Slot>
       <MemorizeController
-        {...props}
+        {...restProps}
         name={props.name}
         methods={methods}
-        Component={props.component}
+        component={props.component}
+        dependencies={dependencies}
       />
     </Slot>
   );

@@ -1,5 +1,8 @@
+'use client';
+
 import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 
 type PieChartSegmentProps = {
   color: string;
@@ -87,39 +90,125 @@ function LegendItem({ color, name }: LegendItemProps) {
   );
 }
 
-export function PatientStatistics() {
-  const data = [
-    { name: "Greenlife", value: 25, color: "#008080" },
-    { name: "Medicare", value: 30, color: "#006666" },
-    { name: "George", value: 21, color: "#004C4C" },
-    { name: "Others", value: 24, color: "#4ECDC4" },
-  ];
+type HospitalPatientData = {
+  name: string;
+  value: number;
+  color: string;
+};
+
+interface PatientStatisticsProps {
+  patientsByHospital?: HospitalPatientData[];
+  totalPatients?: number;
+  isLoading?: boolean;
+  // Add new props to match what's being passed in page.tsx
+  topHospitals?: { name: string; percentage_of_total_patients: number; }[];
+  otherHospitals?: { name: string; percentage_of_total_patients: number; };
+}
+
+export function PatientStatistics({ 
+  patientsByHospital, 
+  totalPatients = 0,
+  isLoading = false,
+  topHospitals,
+  otherHospitals
+}: PatientStatisticsProps) {
+  // Transform the topHospitals and otherHospitals data into the format expected by PieChart
+  const data = React.useMemo(() => {
+    if (topHospitals) {
+      // Define colors for the top hospitals
+      const colors = ["#008080", "#006666", "#004C4C"];
+      
+      // Map topHospitals to the format needed by PieChart
+      const topHospitalsData = topHospitals.map((hospital, index) => ({
+        name: hospital.name,
+        value: hospital.percentage_of_total_patients,
+        color: colors[index % colors.length]
+      }));
+      
+      // Add otherHospitals if it exists
+      if (otherHospitals) {
+        return [
+          ...topHospitalsData,
+          {
+            name: "Others",
+            value: otherHospitals.percentage_of_total_patients,
+            color: "#4ECDC4"
+          }
+        ];
+      }
+      
+      return topHospitalsData;
+    }
+    
+    // Fall back to patientsByHospital or default data
+    return patientsByHospital || [
+      { name: "Greenlife", value: 25, color: "#008080" },
+      { name: "Medicare", value: 30, color: "#006666" },
+      { name: "George", value: 21, color: "#004C4C" },
+      { name: "Others", value: 24, color: "#4ECDC4" },
+    ];
+  }, [topHospitals, otherHospitals, patientsByHospital]);
+
+  // Calculate total patients from the data if totalPatients is not provided
+  const displayTotalPatients = React.useMemo(() => {
+    if (totalPatients > 0) return totalPatients;
+    
+    // If we have topHospitals data, we can calculate the total
+    if (topHospitals) {
+      const total = topHospitals.reduce((sum, hospital) => sum + hospital.percentage_of_total_patients, 0);
+      if (otherHospitals) {
+        return total + otherHospitals.percentage_of_total_patients;
+      }
+      return total;
+    }
+    
+    return data.reduce((sum, item) => sum + item.value, 0);
+  }, [totalPatients, topHospitals, otherHospitals, data]);
 
   return (
     <Card className="bg-white">
       <CardContent className="">
         <div className="flex flex-col">
           <div className="border-b border-gray-300">
-            <h3 className="font-semibold mb-2 text-sm  text-gray-900">
+            <h3 className="font-semibold mb-2 text-sm text-gray-900">
               Patients by Hospital
             </h3>
           </div>
 
           <div className="py-3 border-b border-gray-300">
-            <div className="text-2xl font-bold text-[#118795]">10000</div>
+            {isLoading ? (
+              <Skeleton className="h-8 w-24" />
+            ) : (
+              <div className="text-2xl font-bold text-[#118795]">{displayTotalPatients.toLocaleString()}</div>
+            )}
             <div className="text-sm text-muted-foreground">
               Total Patient
             </div>
           </div>
 
           <div className="flex flex-col md:flex-row gap-4 py-3 items-center">
-            <div className="w-32 h-32">
-              <PieChart data={data} />
-            </div>
+            {isLoading ? (
+              <div className="w-32 h-32 flex items-center justify-center">
+                <Skeleton className="h-24 w-24 rounded-full" />
+              </div>
+            ) : (
+              <div className="w-32 h-32">
+                <PieChart data={data} />
+              </div>
+            )}
             <div className="flex flex-col gap-2">
-              {data.map((item, index) => (
-                <LegendItem key={index} color={item.color} name={item.name} />
-              ))}
+              {isLoading ? (
+                Array(4).fill(0).map((_, index) => (
+                  <div key={index} className="flex items-center gap-2">
+                    <Skeleton className="h-3 w-3 rounded-full" />
+                    <Skeleton className="h-4 w-20" />
+                  </div>
+                ))
+              ) : (
+                data.map((item, index) => (
+                  <LegendItem key={index} color={item.color} name={item.name} />
+                ))
+              )}
             </div>
           </div>
         </div>

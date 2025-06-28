@@ -20,7 +20,7 @@ export const usePersist = <TFieldProps extends FieldValues = FieldValues>({
 }: ForgePersist<TFieldProps>) => {
   useSubscribe({
     disabled: false,
-    subject: (control as any)._subjects.values,
+    subject: (control as any)._subjects.state,
     next: (formState) => {
       handler((formState as any).values, (formState as any));
     },

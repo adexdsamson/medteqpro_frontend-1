@@ -6,38 +6,23 @@ import React from "react";
 import Subheader from "../../_components/Subheader";
 import { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
-import { makeArrayDataWithLength } from "@/demo";
 import { StatCard } from "../dashboard/_components";
 import { Building, Building2, Users } from "lucide-react";
 import { useRouter } from "next/navigation";
-
-export type ReportType = {
-  id: string;
-  numberOfPatient: string;
-  monthSubscribed: string;
-  hospitalName: string;
-  numberOfDoctor: number;
-  registeredDate: string;
-  amount: string;
-};
-
-const getSampleReportData = makeArrayDataWithLength<ReportType>(
-  (faker) => ({
-    id: faker.string.uuid(),
-    numberOfPatient: faker.number.int({ min: 1, max: 100 }).toString(),
-    monthSubscribed: faker.number.int({ min: 1, max: 12 }).toString(),
-    hospitalName: faker.company.name(),
-    numberOfDoctor: faker.number.int({ min: 1, max: 10 }),
-    registeredDate: faker.date.anytime().toString(),
-    amount: faker.finance.amount(),
-  }),
-  5
-);
+import { useGetHospitalReportsOverview, useGetHospitalReportsList, HospitalListItem } from "@/features/services/reportsService";
+import { getFormatCurrency } from "@/lib/utils";
 
 export default function Reports() {
   const router = useRouter();
+  
+  // Fetch data from API
+  const { data: overviewData } = useGetHospitalReportsOverview();
+  const { data: hospitalListData, isLoading: listLoading } = useGetHospitalReportsList();
+  
+  const overview = overviewData?.data?.data;
+  const hospitalList = hospitalListData?.data?.data || [];
 
-  const columns: ColumnDef<ReportType>[] = [
+  const columns: ColumnDef<HospitalListItem>[] = [
     {
       accessorKey: "id",
       header: "ID",
@@ -46,30 +31,29 @@ export default function Reports() {
       },
     },
     {
-      accessorKey: "hospitalName",
+      accessorKey: "hospital_name",
       header: "Hospital Name",
     },
     {
-      accessorKey: "numberOfDoctor",
+      accessorKey: "no_of_doctors",
       header: "Number of Doctors",
     },
     {
-      accessorKey: "numberOfPatient",
+      accessorKey: "no_of_patients",
       header: "Number of Patients",
     },
     {
-      accessorKey: "monthSubscribed",
-      header: "Number of Months Subscribed",
-    },
-    {
-      accessorKey: "amount",
+      accessorKey: "total_amount_paid",
       header: "Amount",
+      cell({ getValue }) {
+        return getFormatCurrency(getValue<number>());
+      },
     },
     {
-      accessorKey: "registeredDate",
-      header: "Date Registered",
+      accessorKey: "date_of_report",
+      header: "Date of Report",
       cell({ getValue }) {
-        return format(getValue<string>(), "dd-MMM-yyyy");
+        return format(new Date(getValue<string>()), "dd-MMM-yyyy");
       },
     },
     {
@@ -79,7 +63,7 @@ export default function Reports() {
         return (
           <Button
             onClick={() =>
-              router.push(`/super-admin/reports/${row.original.id}`)
+              router.push(`/super-admin/reports/${row.original.hospital_id}`)
             }
             variant={"link"}
           >
@@ -102,22 +86,22 @@ export default function Reports() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <StatCard
             title="No of Hospitals"
-            value={52}
+            value={overview?.total_hospitals || 0}
             icon={<Building className="h-5 w-5 text-blue-500" />}
           />
           <StatCard
             title="Revenue in Subscription"
-            value={`N35+m`}
+            value={overview?.total_revenue ? getFormatCurrency(overview.total_revenue) : "₦0"}
             icon={<Building2 className="h-5 w-5 text-green-500" />}
           />
           <StatCard
             title="No of Doctors"
-            value={501}
+            value={overview?.total_doctors || 0}
             icon={<Building className="h-5 w-5 text-red-500" />}
           />
           <StatCard
             title="Patients"
-            value={10000}
+            value={overview?.total_patients || 0}
             icon={<Users className="h-5 w-5 text-purple-500" />}
           />
         </div>
@@ -130,8 +114,8 @@ export default function Reports() {
           <DataTable
             {...{
               columns,
-              data: getSampleReportData,
-              options: { disableSelection: true },
+              data: hospitalList,
+              options: { disableSelection: true, isLoading: listLoading },
             }}
           />
         </div>

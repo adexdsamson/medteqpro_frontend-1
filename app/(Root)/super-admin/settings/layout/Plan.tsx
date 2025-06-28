@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Card,
   CardContent,
@@ -10,6 +11,9 @@ import {
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Check } from "lucide-react";
+import { useGetSubscriptionPlans, useCreateSubscription } from "@/features/services/subscriptionService";
+import { useToastHandler } from "@/hooks/useToaster";
+import { format } from "date-fns";
 
 type PlanFeature = {
   text: string;
@@ -17,47 +21,94 @@ type PlanFeature = {
 };
 
 type PlanType = {
+  id: number;
+  code: string;
   name: string;
   price: string;
+  amount: number;
+  interval: string;
+  interval_display: string;
+  max_no_of_doctors: number;
+  max_no_of_staff: number;
   features: PlanFeature[];
+  created_at?: string;
+  updated_at?: string;
 };
 
 const Plan = () => {
-  const plans: PlanType[] = [
-    {
-      name: "Basic",
-      price: "N30,000",
-      features: [
-        { text: "Register up to 3 doctors", included: true },
-        { text: "Register up to 10 doctors", included: false },
-        { text: "Register unlimited number of doctors", included: false },
-      ],
-    },
-    {
-      name: "Premium",
-      price: "N50,000",
-      features: [
-        { text: "Register up to 3 doctors", included: true },
-        { text: "Register up to 10 doctors", included: true },
-        { text: "Register unlimited number of doctors", included: false },
-      ],
-    },
-    {
-      name: "Platinum",
-      price: "N100,000",
-      features: [
-        { text: "Register up to 3 doctors", included: true },
-        { text: "Register up to 10 doctors", included: true },
-        { text: "Register unlimited number of doctors", included: true },
-      ],
-    },
-  ];
+  const [plans, setPlans] = useState<PlanType[]>([]);
+  const { data: plansData, isLoading, error } = useGetSubscriptionPlans();
+  const toast = useToastHandler();
+
+  useEffect(() => {
+    if (plansData?.data) {
+      let plansList = [];
+      
+      // Handle both array and paginated response
+      if (Array.isArray(plansData.data)) {
+        plansList = plansData.data;
+      } else if (plansData.data && typeof plansData.data === 'object' && 'results' in (plansData.data as any)) {
+        plansList = (plansData.data as any).results;
+      }
+
+      // Transform API data to match our component structure
+      const transformedPlans = plansList.map((plan: any) => ({
+        id: plan.id,
+        code: plan.code,
+        name: plan.name,
+        price: `₦${plan.amount.toLocaleString()}`,
+        amount: plan.amount,
+        interval: plan.interval,
+        interval_display: plan.interval_display,
+        max_no_of_doctors: plan.max_no_of_doctors,
+        max_no_of_staff: plan.max_no_of_staff,
+        created_at: plan.created_at,
+        updated_at: plan.updated_at,
+        features: [
+          { 
+            text: `Register up to ${plan.max_no_of_doctors} doctors`, 
+            included: true 
+          },
+          { 
+            text: `Manage up to ${plan.max_no_of_staff} staff members`, 
+            included: true 
+          },
+          { 
+            text: `${plan.interval_display} billing cycle`, 
+            included: true 
+          },
+        ],
+      }));
+
+      setPlans(transformedPlans);
+    }
+  }, [plansData]);
+
+  useEffect(() => {
+    if (error) {
+      toast.error("Error", "Failed to load subscription plans");
+    }
+  }, [error, toast]);
+
+  if (isLoading) {
+    return (
+      <div className="w-full py-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-6xl mx-auto">
+          {[1, 2, 3].map((index) => (
+            <div key={index} className="bg-white shadow-sm border border-gray-100 rounded-lg overflow-hidden animate-pulse">
+              <div className="h-64 bg-gray-200"></div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full py-8">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-6xl mx-auto">
-        {plans.map((plan, index) => (
-          <PlanCard key={index} plan={plan} />
+        {plans.map((plan) => (
+          <PlanCard key={plan.id} plan={plan} />
         ))}
       </div>
     </div>
@@ -73,7 +124,43 @@ type PlanCardProps = {
 const PlanCard = ({ plan }: PlanCardProps) => {
   const [billingCycle, setBillingCycle] = useState<
     "monthly" | "quarterly" | "yearly"
-  >("monthly");
+  >(plan.interval as "monthly" | "quarterly" | "yearly");
+  const { mutateAsync: createSubscription, isPending } = useCreateSubscription();
+  const toast = useToastHandler();
+
+  // Calculate price based on billing cycle
+  const calculatePrice = () => {
+    let multiplier = 1;
+    if (billingCycle === "quarterly") multiplier = 3;
+    if (billingCycle === "yearly") multiplier = 12;
+    
+    const totalAmount = plan.amount * multiplier;
+    return `₦${totalAmount.toLocaleString()}`;
+  };
+
+  const handleSubscribe = async () => {
+    try {
+      // For demo purposes, using a placeholder hospital_id
+      // In a real implementation, this would come from the user's context or be selected
+      const payload = {
+        hospital_id: "placeholder-hospital-id", // This should be dynamic
+        plan_code: plan.code,
+        callback_url: `${window.location.origin}/subscription/callback`
+      };
+
+      const response = await createSubscription(payload);
+      
+      if (response.data?.data?.authorization_url) {
+        // Redirect to payment gateway
+        window.location.href = response.data.data.authorization_url;
+      } else {
+        toast.success("Success", "Subscription created successfully");
+      }
+    } catch (error: any) {
+      console.error("Subscription error:", error);
+      toast.error("Error", error?.message || "Failed to create subscription");
+    }
+  };
 
   return (
     <Card
@@ -83,7 +170,7 @@ const PlanCard = ({ plan }: PlanCardProps) => {
         <h3 className="text-lg font-medium">{plan.name}</h3>
         <div className="mt-4 mb-2">
           <Tabs
-            defaultValue="monthly"
+            defaultValue={plan.interval}
             value={billingCycle}
             onValueChange={(value) =>
               setBillingCycle(value as "monthly" | "quarterly" | "yearly")
@@ -104,7 +191,15 @@ const PlanCard = ({ plan }: PlanCardProps) => {
           </Tabs>
         </div>
         <div className="mt-6 mb-4">
-          <p className="text-3xl font-bold">{plan.price}</p>
+          <p className="text-3xl font-bold">{calculatePrice()}</p>
+          <p className="text-sm text-gray-500 mt-1">
+            per {billingCycle.replace('ly', '')}
+          </p>
+          {plan.created_at && (
+            <p className="text-xs text-gray-400 mt-2">
+              Created: {format(new Date(plan.created_at), 'MMM dd, yyyy')}
+            </p>
+          )}
         </div>
       </CardHeader>
       <CardContent className="px-6 pt-4">
@@ -124,8 +219,12 @@ const PlanCard = ({ plan }: PlanCardProps) => {
         </ul>
       </CardContent>
       <CardFooter className="px-6 pb-6 pt-4">
-        <Button className="w-full bg-blue-900 hover:bg-blue-800 text-white rounded-md">
-          Subscribe Now
+        <Button 
+          className="w-full bg-blue-900 hover:bg-blue-800 text-white rounded-md"
+          onClick={handleSubscribe}
+          disabled={isPending}
+        >
+          {isPending ? "Processing..." : "Subscribe Now"}
         </Button>
       </CardFooter>
     </Card>

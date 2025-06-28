@@ -2,6 +2,7 @@
 
 import { usePathname } from 'next/navigation';
 import { getModuleByPathname, getModuleByKey, type ModuleConfig } from '@/app/(Root)/config/modules';
+import { useUser } from '@/store/authSlice';
 
 /**
  * Custom hook to access the current module configuration
@@ -10,6 +11,7 @@ import { getModuleByPathname, getModuleByKey, type ModuleConfig } from '@/app/(R
  */
 export function useModule(moduleKey?: string) {
   const pathname = usePathname();
+  const user = useUser();
   
   // Get the module configuration either from the provided key or from the pathname
   const moduleConfig: ModuleConfig = moduleKey 
@@ -38,6 +40,6 @@ export function useModule(moduleKey?: string) {
     moduleConfig,
     isActivePath,
     getModulePath,
-    userProfile: moduleConfig.defaultUserProfile,
+    userProfile: user,
   };
-} 
+}

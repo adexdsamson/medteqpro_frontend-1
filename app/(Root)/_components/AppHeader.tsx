@@ -13,10 +13,14 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { BellIcon, Calendar, LogOut, Settings, User } from "lucide-react";
 import { useModule } from "@/hooks/useModule";
+import { storeFunctions } from "@/store/authSlice";
+import { useRouter } from "next/navigation";
 
 export function AppHeader() {
   // Use our custom hook to access the current module configuration
-  const { moduleConfig, userProfile, getModulePath } = useModule();
+  const { userProfile, } = useModule();
+
+  const router = useRouter();
 
   // Get current date in the format: Monday, 2 April 2024
   const getCurrentDate = () => {
@@ -32,6 +36,7 @@ export function AppHeader() {
   return (
     <header className="p-4 border-b bg-white">
       <div className="container mx-auto flex justify-between items-center">
+
         {/* Date display and Notification */}
         <div className="flex items-center gap-2 text-gray-600">
           <Calendar className="text-[#16C2D5]" />
@@ -53,17 +58,18 @@ export function AppHeader() {
               <div className="flex items-center gap-3 cursor-pointer">
                 <Avatar>
                   <AvatarImage
-                    src={userProfile.avatar}
-                    alt={userProfile.name}
+                    src={"https://avatar.iran.liara.run/public/35"}
+                    alt={userProfile?.first_name}
                   />
-                  <AvatarFallback>{userProfile.name.substring(0, 2).toUpperCase()}</AvatarFallback>
+                  <AvatarFallback>{userProfile?.first_name?.substring?.(0, 2)?.toUpperCase?.()}</AvatarFallback>
                 </Avatar>
                 <div className="text-right hidden md:block">
-                  <p className="text-sm font-medium">Hi, {userProfile.name}</p>
-                  <p className="text-xs text-muted-foreground">{userProfile.role}</p>
+                  <p className="text-sm font-medium">Hi, {userProfile?.first_name + " " + userProfile?.last_name}</p>
+                  <p className="text-xs text-muted-foreground">{userProfile?.role}</p>
                 </div>
               </div>
             </DropdownMenuTrigger>
+            
             <DropdownMenuContent align="end" className="w-56">
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
@@ -76,7 +82,10 @@ export function AppHeader() {
                 <span>Settings</span>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={() => {
+                storeFunctions.getState().setReset();
+                router.push("/sign-in");
+              }}>
                 <LogOut className="mr-2 h-4 w-4" />
                 <span>Log out</span>
               </DropdownMenuItem>

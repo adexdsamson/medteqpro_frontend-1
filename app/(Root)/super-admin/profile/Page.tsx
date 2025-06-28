@@ -5,12 +5,12 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { InfoSection } from "./_components/InfoSection";
-import { useForge } from "@/lib/forge";
+import { Forge, useForge } from "@/lib/forge";
 import { TextInput } from "@/components/FormInputs/TextInput";
 
 export default function Profile() {
-  const { ForgeForm } = useForge({
-    fieldProps: [
+  const { control } = useForge({
+    fields: [
       {
         name: "firstName",
         label: "First Name",
@@ -91,7 +91,7 @@ export default function Profile() {
 
         <Card>
           <CardContent className="grid grid-cols-1 md:grid-cols-2">
-            <ForgeForm onSubmit={handleSubmit} />
+            <Forge control={control} onSubmit={handleSubmit} />
             <div className="flex justify-end">
                 {/* <Button>Update</Button> */}
                 <Button>Save</Button>

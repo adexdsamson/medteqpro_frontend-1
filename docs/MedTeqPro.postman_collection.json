@@ -1,0 +1,6188 @@
+{
+	"info": {
+		"_postman_id": "4920e401-a6da-43aa-8804-3900fad801a4",
+		"name": "MedTeqPro",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "31378958"
+	},
+	"item": [
+		{
+			"name": "SuperAdmin",
+			"item": [
+				{
+					"name": "Hospital Mgt",
+					"item": [
+						{
+							"name": "Onboard Hospital",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ5ODAyMTI2LCJpYXQiOjE3NDcyMTAxMjYsImp0aSI6IjE0NTYwOTI5M2IyZjRjOTM5YzRjNDNmOWE4ZmQwNDVhIiwidXNlcl9pZCI6IjhiNmUyYmI2LTBlZDktNDVlYi04OGYzLWRhNjIxMDgxZjBiZSJ9.jchx6o5fqdURtFq_ax_1t1of36TWEPLO3YlOuCEkK2w",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"naarons800@gmail.com\", \r\n    \"first_name\": \"Adams\", \r\n    \"last_name\": \"Charles\", \r\n    \"hospital\": {\r\n        \"name\": \"Divine Mercy\", \r\n        \"no_of_doctors\": \"20\", \r\n        \"state\": \"Rivers\", \r\n        \"city\": \"Port-Harcourt\", \r\n        \"address\": \"17 Birabi Street, Old GRA\"\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL}}auth/onboard/hospital/",
+									"host": [
+										"{{LOCAL}}auth"
+									],
+									"path": [
+										"onboard",
+										"hospital",
+										""
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Onboard Hospital",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"email\": \"naarons800@gmail.com\", \r\n    \"first_name\": \"Adams\", \r\n    \"last_name\": \"Charles\", \r\n    \"hospital\": {\r\n        \"name\": \"Divine Mercy\", \r\n        \"no_of_doctors\": \"20\", \r\n        \"state\": \"Rivers\", \r\n        \"city\": \"Port-Harcourt\", \r\n        \"address\": \"17 Birabi Street, Old GRA\"\r\n    }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{LOCAL}}auth/onboard/hospital/",
+											"host": [
+												"{{LOCAL}}auth"
+											],
+											"path": [
+												"onboard",
+												"hospital",
+												""
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Wed, 14 May 2025 08:22:00 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "WSGIServer/0.2 CPython/3.10.0"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Allow",
+											"value": "POST, OPTIONS"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "DENY"
+										},
+										{
+											"key": "Vary",
+											"value": "origin"
+										},
+										{
+											"key": "Content-Length",
+											"value": "418"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": true,\n    \"message\": \"Hospital and admin user created successfully.\",\n    \"data\": {\n        \"email\": \"naarons800@gmail.com\",\n        \"first_name\": \"Adams\",\n        \"last_name\": \"Charles\",\n        \"hospital\": {\n            \"id\": \"21f93b55-422f-49f9-9d55-43ec3ffc7b0d\",\n            \"name\": \"Divine Mercy\",\n            \"no_of_doctors\": 20,\n            \"state\": \"Rivers\",\n            \"city\": \"Port-Harcourt\",\n            \"address\": \"17 Birabi Street, Old GRA\",\n            \"created_at\": \"2025-05-14T08:22:00.429138Z\",\n            \"updated_at\": \"2025-05-14T08:22:00.429138Z\"\n        }\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "List Hospitals",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ5ODAyMTI2LCJpYXQiOjE3NDcyMTAxMjYsImp0aSI6IjE0NTYwOTI5M2IyZjRjOTM5YzRjNDNmOWE4ZmQwNDVhIiwidXNlcl9pZCI6IjhiNmUyYmI2LTBlZDktNDVlYi04OGYzLWRhNjIxMDgxZjBiZSJ9.jchx6o5fqdURtFq_ax_1t1of36TWEPLO3YlOuCEkK2w",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}superadmin/hospitals/",
+									"host": [
+										"{{LOCAL}}superadmin"
+									],
+									"path": [
+										"hospitals",
+										""
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "List Hospitals",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{LOCAL}}superadmin/hospitals/",
+											"host": [
+												"{{LOCAL}}superadmin"
+											],
+											"path": [
+												"hospitals",
+												""
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Wed, 14 May 2025 08:31:28 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "WSGIServer/0.2 CPython/3.10.0"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Allow",
+											"value": "GET, PATCH, DELETE, HEAD, OPTIONS"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "DENY"
+										},
+										{
+											"key": "Vary",
+											"value": "origin"
+										},
+										{
+											"key": "Content-Length",
+											"value": "392"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": true,\n    \"message\": \"Hospitals retrieved successfully.\",\n    \"data\": [\n        {\n            \"id\": \"8a5c0801-a79a-42c9-bef1-d109ada136dc\",\n            \"name\": \"Divine Mercy\",\n            \"no_of_doctors\": 20,\n            \"state\": \"Rivers\",\n            \"city\": \"Port-Harcourt\",\n            \"address\": \"17 Birabi Street, Old GRA\",\n            \"created_at\": \"2025-05-14T08:28:53.440828Z\",\n            \"updated_at\": \"2025-05-14T08:28:53.440828Z\",\n            \"admin_full_name\": \"Adams Charles\",\n            \"admin_email\": \"naarons800@gmail.com\"\n        }\n    ]\n}"
+								}
+							]
+						},
+						{
+							"name": "View Hospital Detail",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ5ODAyMTI2LCJpYXQiOjE3NDcyMTAxMjYsImp0aSI6IjE0NTYwOTI5M2IyZjRjOTM5YzRjNDNmOWE4ZmQwNDVhIiwidXNlcl9pZCI6IjhiNmUyYmI2LTBlZDktNDVlYi04OGYzLWRhNjIxMDgxZjBiZSJ9.jchx6o5fqdURtFq_ax_1t1of36TWEPLO3YlOuCEkK2w",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}superadmin/hospitals/:hospital_id/",
+									"host": [
+										"{{LOCAL}}superadmin"
+									],
+									"path": [
+										"hospitals",
+										":hospital_id",
+										""
+									],
+									"variable": [
+										{
+											"key": "hospital_id",
+											"value": "8bcb6a27-c7a6-4ece-a9fc-409e693ef03d"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "View Hospital Detail",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{LOCAL}}superadmin/hospitals/:hospital_id/",
+											"host": [
+												"{{LOCAL}}superadmin"
+											],
+											"path": [
+												"hospitals",
+												":hospital_id",
+												""
+											],
+											"variable": [
+												{
+													"key": "hospital_id",
+													"value": "8a5c0801-a79a-42c9-bef1-d109ada136dc"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Wed, 14 May 2025 08:31:54 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "WSGIServer/0.2 CPython/3.10.0"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Allow",
+											"value": "GET, PATCH, DELETE, HEAD, OPTIONS"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "DENY"
+										},
+										{
+											"key": "Vary",
+											"value": "origin"
+										},
+										{
+											"key": "Content-Length",
+											"value": "389"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": true,\n    \"message\": \"Hospital retrieved successfully.\",\n    \"data\": {\n        \"id\": \"8a5c0801-a79a-42c9-bef1-d109ada136dc\",\n        \"name\": \"Divine Mercy\",\n        \"no_of_doctors\": 20,\n        \"state\": \"Rivers\",\n        \"city\": \"Port-Harcourt\",\n        \"address\": \"17 Birabi Street, Old GRA\",\n        \"created_at\": \"2025-05-14T08:28:53.440828Z\",\n        \"updated_at\": \"2025-05-14T08:28:53.440828Z\",\n        \"admin_full_name\": \"Adams Charles\",\n        \"admin_email\": \"naarons800@gmail.com\"\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Deactivate Hospital",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}superadmin/hospitals/:hospital_id/",
+									"host": [
+										"{{LOCAL}}superadmin"
+									],
+									"path": [
+										"hospitals",
+										":hospital_id",
+										""
+									],
+									"variable": [
+										{
+											"key": "hospital_id",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Staff Mgt",
+					"item": [
+						{
+							"name": "Onboard Staff",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ3MTU3OTg1LCJpYXQiOjE3NDQ1NjU5ODUsImp0aSI6ImM4YTEzNTk5N2M0YzRmYmRiZTAxMmFkOWJlNzYzY2E5IiwidXNlcl9pZCI6IjIxMWQwMTE3LTdiMTktNDE2OC1hM2UzLWExODU3ZTY0ODliMCJ9.5EkxZLxcTG8HiyGYzsYXGsTA_Gs-J7MQ6V39Ym5iMdY",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"role\": \"admin\", // \"superadmin\", \"admin\", \"support\"\r\n    \"email\": \"naarons700@gmail.com\",\r\n    \"first_name\": \"liam\",\r\n    \"last_name\": \"Delap\",\r\n    \"password\": \"userpass112\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL}}auth/onboard/staff/",
+									"host": [
+										"{{LOCAL}}auth"
+									],
+									"path": [
+										"onboard",
+										"staff",
+										""
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "201",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"role\": \"admin\", // \"superadmin\", \"admin\", \"support\"\r\n    \"email\": \"naarons700@gmail.com\",\r\n    \"first_name\": \"liam\",\r\n    \"last_name\": \"Delap\",\r\n    \"password\": \"userpass112\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{LOCAL}}auth/onboard/staff/",
+											"host": [
+												"{{LOCAL}}auth"
+											],
+											"path": [
+												"onboard",
+												"staff",
+												""
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Sun, 13 Apr 2025 14:45:47 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "WSGIServer/0.2 CPython/3.10.0"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Allow",
+											"value": "POST, OPTIONS"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "DENY"
+										},
+										{
+											"key": "Vary",
+											"value": "origin"
+										},
+										{
+											"key": "Content-Length",
+											"value": "159"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": true,\n    \"message\": \"Platform staff invited successfully.\",\n    \"data\": {\n        \"email\": \"naarons700@gmail.com\",\n        \"first_name\": \"liam\",\n        \"last_name\": \"Delap\",\n        \"role\": \"admin\"\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "List Staff",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ3MTQyOTM5LCJpYXQiOjE3NDQ1NTA5MzksImp0aSI6ImE2MjE0YTM4ZTQyMDQ0Njg5ZDFiMjMxN2ZkYTk4ZTM2IiwidXNlcl9pZCI6MX0.A59Wm43Ltd8Bg04hMckdrbvBxMZZOHo9MUwhkz342kY",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}superadmin/staff/",
+									"host": [
+										"{{LOCAL}}superadmin"
+									],
+									"path": [
+										"staff",
+										""
+									],
+									"query": [
+										{
+											"key": "search",
+											"value": null,
+											"disabled": true
+										},
+										{
+											"key": "role",
+											"value": null,
+											"description": "\"superadmin\", \"admin\", \"support\"",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "List Staff",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{LOCAL}}superadmin/staff/",
+											"host": [
+												"{{LOCAL}}superadmin"
+											],
+											"path": [
+												"staff",
+												""
+											],
+											"query": [
+												{
+													"key": "search",
+													"value": null,
+													"disabled": true
+												},
+												{
+													"key": "role",
+													"value": null,
+													"description": "\"superadmin\", \"admin\", \"support\"",
+													"disabled": true
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Sun, 13 Apr 2025 14:49:34 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "WSGIServer/0.2 CPython/3.10.0"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Allow",
+											"value": "GET, PATCH, DELETE, HEAD, OPTIONS"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "DENY"
+										},
+										{
+											"key": "Vary",
+											"value": "origin"
+										},
+										{
+											"key": "Content-Length",
+											"value": "222"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": true,\n    \"message\": \"Staff members retrieved successfully.\",\n    \"data\": [\n        {\n            \"id\": 3,\n            \"email\": \"naarons700@gmail.com\",\n            \"first_name\": \"liam\",\n            \"last_name\": \"Delap\",\n            \"phone_number\": null,\n            \"role\": \"admin\",\n            \"is_active\": true,\n            \"is_staff\": true\n        }\n    ]\n}"
+								}
+							]
+						},
+						{
+							"name": "View Staff Details",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}superadmin/staff/:staff_detail/",
+									"host": [
+										"{{LOCAL}}superadmin"
+									],
+									"path": [
+										"staff",
+										":staff_detail",
+										""
+									],
+									"variable": [
+										{
+											"key": "staff_detail",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Staff",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"first_name\": \"\", \r\n    \"last_name\": \"\", \r\n    \"phone_number\": \"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL}}superadmin/staff/:staff_detail/",
+									"host": [
+										"{{LOCAL}}superadmin"
+									],
+									"path": [
+										"staff",
+										":staff_detail",
+										""
+									],
+									"variable": [
+										{
+											"key": "staff_detail",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Remove Staff",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}superadmin/staff/:staff_detail/",
+									"host": [
+										"{{LOCAL}}superadmin"
+									],
+									"path": [
+										"staff",
+										":staff_detail",
+										""
+									],
+									"variable": [
+										{
+											"key": "staff_detail",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Dashboard",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzUwMjM3NjQxLCJpYXQiOjE3NDc2NDU2NDEsImp0aSI6IjczNjQ0MjQzMTkzMjQwMTY4NWMxOGI0MzQzMGU2OWNkIiwidXNlcl9pZCI6IjM0YTczYzEzLTA4MmQtNDc3Yi04MGUwLTYxYmQ0ZWNmMzI4YyJ9.zc80XuE4G6Svab6uP0he1HOk83dNQZpkYDOPNSQmLOU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{PROD}}superadmin/dashboard/",
+							"host": [
+								"{{PROD}}superadmin"
+							],
+							"path": [
+								"dashboard",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Passwords",
+			"item": [
+				{
+					"name": "Request OTP",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"naarons800@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{LOCAL}}auth/password/reset-otp/",
+							"host": [
+								"{{LOCAL}}auth"
+							],
+							"path": [
+								"password",
+								"reset-otp",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "404",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"naarons800@gmail.com\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL}}auth/password/reset-otp/",
+									"host": [
+										"{{LOCAL}}auth"
+									],
+									"path": [
+										"password",
+										"reset-otp",
+										""
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sun, 13 Apr 2025 13:41:57 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.10.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Allow",
+									"value": "POST, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Length",
+									"value": "74"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": false,\n    \"message\": \"User with this email does not exist\",\n    \"data\": {}\n}"
+						}
+					]
+				},
+				{
+					"name": "Confirm OTP",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"naarons800@gmail.com\",\r\n    \"otp\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{LOCAL}}auth/password/reset-confirm/",
+							"host": [
+								"{{LOCAL}}auth"
+							],
+							"path": [
+								"password",
+								"reset-confirm",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reset Password",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"token\": \"\",\r\n    \"user_id\": \"\",\r\n    \"new_password\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{LOCAL}}auth/password/reset/",
+							"host": [
+								"{{LOCAL}}auth"
+							],
+							"path": [
+								"password",
+								"reset",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Password",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"old_password\": \"\",\r\n    \"new_password\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{LOCAL}}auth/password/update/",
+							"host": [
+								"{{LOCAL}}auth"
+							],
+							"path": [
+								"password",
+								"update",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "// Super Admin\r\n{\r\n    \"email\": \"admin@medteqpro.com\",\r\n    \"password\": \"adminadmin\"\r\n}\r\n\r\n// Staff Admin\r\n// {\r\n//     \"email\": \"naarons700@gmail.com\",\r\n//     \"password\": \"userpass112\"\r\n// }\r\n\r\n// Hospital Admin\r\n// {\r\n//     \"email\": \"naarons800@gmail.com\",\r\n//     \"password\": \"AdamsCharles@20250514\"\r\n// }\r\n\r\n// Doctor\r\n// {\r\n//     \"email\": \"aaronnwokoro@gmail.com\",\r\n//     \"password\": \"userpass112\"\r\n// }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{PROD}}auth/login/",
+							"host": [
+								"{{PROD}}auth"
+							],
+							"path": [
+								"login",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Login",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"admin@medteq.com\",\r\n    \"password\": \"adminadmin\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL}}auth/login/",
+									"host": [
+										"{{LOCAL}}auth"
+									],
+									"path": [
+										"login",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sun, 13 Apr 2025 17:39:46 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.10.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Allow",
+									"value": "POST, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Length",
+									"value": "840"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"message\": \"Login successful\",\n    \"data\": {\n        \"access_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ3MTU3OTg1LCJpYXQiOjE3NDQ1NjU5ODUsImp0aSI6ImM4YTEzNTk5N2M0YzRmYmRiZTAxMmFkOWJlNzYzY2E5IiwidXNlcl9pZCI6IjIxMWQwMTE3LTdiMTktNDE2OC1hM2UzLWExODU3ZTY0ODliMCJ9.5EkxZLxcTG8HiyGYzsYXGsTA_Gs-J7MQ6V39Ym5iMdY\",\n        \"refresh_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc0OTc0OTk4NSwiaWF0IjoxNzQ0NTY1OTg1LCJqdGkiOiJhNjNkNGM2NTVmZTQ0NTc3YWVkMjdiOThkYWJhZTYzNiIsInVzZXJfaWQiOiIyMTFkMDExNy03YjE5LTQxNjgtYTNlMy1hMTg1N2U2NDg5YjAifQ.Y3cKIjKpa_WQHrIH3kcP8Ttua8iu9zTgfS51tw1lgSA\",\n        \"user\": {\n            \"id\": \"211d0117-7b19-4168-a3e3-a1857e6489b0\",\n            \"email\": \"admin@medteq.com\",\n            \"first_name\": \"Super\",\n            \"last_name\": \"Admin\",\n            \"phone_number\": null,\n            \"role\": \"superadmin\",\n            \"is_active\": true,\n            \"is_staff\": true\n        }\n    }\n}"
+						},
+						{
+							"name": "Suspended Login",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "// Super Admin\r\n// {\r\n//     \"email\": \"admin@medteq.com\",\r\n//     \"password\": \"adminadmin\"\r\n// }\r\n\r\n// Staff Admin\r\n// {\r\n//     \"email\": \"naarons700@gmail.com\",\r\n//     \"password\": \"userpass112\"\r\n// }\r\n\r\n// Hospital Admin\r\n// {\r\n//     \"email\": \"naarons800@gmail.com\",\r\n//     \"password\": \"AdamsCharles@20250514\"\r\n// }\r\n\r\n// Doctor\r\n{\r\n    \"email\": \"aaronnwokoro@gmail.com\",\r\n    \"password\": \"userpass112\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL}}auth/login/",
+									"host": [
+										"{{LOCAL}}auth"
+									],
+									"path": [
+										"login",
+										""
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sat, 17 May 2025 16:40:44 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.10.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Allow",
+									"value": "POST, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Length",
+									"value": "71"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": false,\n    \"message\": \"Account suspended. Please contact support.\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ0MjEyNDM0LCJpYXQiOjE3NDQyMDUyMzQsImp0aSI6IjdmNzE3MDFhYTBjYTRmNzBhYWNjOWE2ZTgwMGFlNDAzIiwidXNlcl9pZCI6Mjd9.rlhgVBf-mafY8XGGCDNT3hbJBaBTpAxMXpJUIChSiRY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"refresh_token\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{LOCAL}}auth/logout/",
+							"host": [
+								"{{LOCAL}}auth"
+							],
+							"path": [
+								"logout",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Hospital Admin",
+			"item": [
+				{
+					"name": "Staff Mgt",
+					"item": [
+						{
+							"name": "Invite Staff",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{hospital_admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"aaronnwokoro@gmail.com\", \r\n    \"role\": \"doctor\",  // \"doctor\", \"nurse\", \"front_desk\", \"lab_scientist\", \"pharmacist\"\r\n    \"first_name\": \"Mike\", \r\n    \"last_name\": \"Tyson\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL}}hospital-admin/staff/invite/",
+									"host": [
+										"{{LOCAL}}hospital-admin"
+									],
+									"path": [
+										"staff",
+										"invite",
+										""
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Invite Staff",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"email\": \"aaronnwokoro@gmail.com\", \r\n    \"role\": \"doctor\",  // \"doctor\", \"nurse\", \"front_desk\", \"lab_scientist\", \"pharmacist\"\r\n    \"first_name\": \"Mike\", \r\n    \"last_name\": \"Tyson\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{LOCAL}}hospital-admin/staff/invite/",
+											"host": [
+												"{{LOCAL}}hospital-admin"
+											],
+											"path": [
+												"staff",
+												"invite",
+												""
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Sat, 17 May 2025 15:31:15 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "WSGIServer/0.2 CPython/3.10.0"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Allow",
+											"value": "POST, OPTIONS"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "DENY"
+										},
+										{
+											"key": "Vary",
+											"value": "origin"
+										},
+										{
+											"key": "Content-Length",
+											"value": "141"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": true,\n    \"message\": \"Invitation sent successfully.\",\n    \"data\": {\n        \"email\": \"aaronnwokoro@gmail.com\",\n        \"role\": \"doctor\",\n        \"hospital\": \"Divine Mercy\"\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Set Password from Invite",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"uid\": \"ZjE4NDFkODctZWQ0OC00NGUwLWE3NTUtMDkzZTVmMGNjNzIx\",\r\n    \"token\": \"cpyi5s-7fc2fbd1edd1acad233866c2c50c1f24\",\r\n    \"password\": \"userpass112\"\r\n}\r\n\r\n// http://localhost:3000/set-password/?uid=ZjE4NDFkODctZWQ0OC00NGUwLWE3NTUtMDkzZTVmMGNjNzIx&token=cpyi5s-7fc2fbd1edd1acad233866c2c50c1f24",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL}}hospital-admin/staff/set-password/",
+									"host": [
+										"{{LOCAL}}hospital-admin"
+									],
+									"path": [
+										"staff",
+										"set-password",
+										""
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Set Password from Invite",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"uid\": \"ZjE4NDFkODctZWQ0OC00NGUwLWE3NTUtMDkzZTVmMGNjNzIx\",\r\n    \"token\": \"cpyi5s-7fc2fbd1edd1acad233866c2c50c1f24\",\r\n    \"password\": \"userpass112\"\r\n}\r\n\r\n// http://localhost:3000/set-password/?uid=ZjE4NDFkODctZWQ0OC00NGUwLWE3NTUtMDkzZTVmMGNjNzIx&token=cpyi5s-7fc2fbd1edd1acad233866c2c50c1f24",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{LOCAL}}hospital-admin/staff/set-password/",
+											"host": [
+												"{{LOCAL}}hospital-admin"
+											],
+											"path": [
+												"staff",
+												"set-password",
+												""
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Sat, 17 May 2025 16:08:20 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "WSGIServer/0.2 CPython/3.10.0"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Allow",
+											"value": "POST, OPTIONS"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "DENY"
+										},
+										{
+											"key": "Vary",
+											"value": "origin"
+										},
+										{
+											"key": "Content-Length",
+											"value": "84"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": true,\n    \"message\": \"Password set successfully. You can now log in.\",\n    \"data\": {}\n}"
+								}
+							]
+						},
+						{
+							"name": "List Staff",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{hospital_admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}hospital-admin/staff/",
+									"host": [
+										"{{LOCAL}}hospital-admin"
+									],
+									"path": [
+										"staff",
+										""
+									],
+									"query": [
+										{
+											"key": "search",
+											"value": null,
+											"description": "name or id",
+											"disabled": true
+										},
+										{
+											"key": "role",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "List Staff",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{LOCAL}}hospital-admin/staff/",
+											"host": [
+												"{{LOCAL}}hospital-admin"
+											],
+											"path": [
+												"staff",
+												""
+											],
+											"query": [
+												{
+													"key": "search",
+													"value": null,
+													"description": "name or id",
+													"disabled": true
+												},
+												{
+													"key": "role",
+													"value": null,
+													"disabled": true
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Sat, 17 May 2025 16:08:36 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "WSGIServer/0.2 CPython/3.10.0"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Allow",
+											"value": "GET, PATCH, HEAD, OPTIONS"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "DENY"
+										},
+										{
+											"key": "Vary",
+											"value": "origin"
+										},
+										{
+											"key": "Content-Length",
+											"value": "288"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"count\": 1,\n    \"next\": null,\n    \"previous\": null,\n    \"results\": [\n        {\n            \"id\": \"f1841d87-ed48-44e0-a755-093e5f0cc721\",\n            \"full_name\": \"Mike Tyson\",\n            \"email\": \"aaronnwokoro@gmail.com\",\n            \"role\": \"doctor\",\n            \"specialization\": null,\n            \"phone_number\": null,\n            \"hospital\": \"Divine Mercy\",\n            \"date_registered\": \"2025-05-17\",\n            \"status\": \"active\"\n        }\n    ]\n}"
+								}
+							]
+						},
+						{
+							"name": "Edit Staff Details",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{hospital_admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    // \"first_name\": \"\", \r\n    \"middle_name\": \"Ademola\"\r\n    // \"last_name\": \"\", \r\n    // \"role\": \"\"   // \"hospital_admin\", \"doctor\", \"nurse\", \"pharmacist\", \"lab_scientist\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL}}hospital-admin/staff/:staff_id/",
+									"host": [
+										"{{LOCAL}}hospital-admin"
+									],
+									"path": [
+										"staff",
+										":staff_id",
+										""
+									],
+									"variable": [
+										{
+											"key": "staff_id",
+											"value": "f1841d87-ed48-44e0-a755-093e5f0cc721"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Edit Staff Details",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    // \"first_name\": \"\", \r\n    \"middle_name\": \"Ademola\"\r\n    // \"last_name\": \"\", \r\n    // \"role\": \"\"   // \"hospital_admin\", \"doctor\", \"nurse\", \"pharmacist\", \"lab_scientist\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{LOCAL}}hospital-admin/staff/:staff_id/",
+											"host": [
+												"{{LOCAL}}hospital-admin"
+											],
+											"path": [
+												"staff",
+												":staff_id",
+												""
+											],
+											"variable": [
+												{
+													"key": "staff_id",
+													"value": "f1841d87-ed48-44e0-a755-093e5f0cc721"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Sat, 17 May 2025 16:30:23 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "WSGIServer/0.2 CPython/3.10.0"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Allow",
+											"value": "GET, PATCH, HEAD, OPTIONS"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "DENY"
+										},
+										{
+											"key": "Vary",
+											"value": "origin"
+										},
+										{
+											"key": "Content-Length",
+											"value": "171"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": true,\n    \"message\": \"Staff member updated successfully.\",\n    \"data\": {\n        \"first_name\": \"Mike\",\n        \"middle_name\": \"Ademola\",\n        \"last_name\": \"Tyson\",\n        \"role\": \"doctor\",\n        \"status\": \"on_leave\"\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Update Staff Work Status",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{hospital_admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"status\": \"active\", // \"active\", \"inactive\", \"on_leave\", \"suspended\"\r\n    // \"reason\": \"Maternity\",\r\n    \"start_date\": \"2025-10-01 00:00:00\",\r\n    \"end_date\": \"2026-10-01 00:00:00\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL}}hospital-admin/staff/:staff_id/work-status/",
+									"host": [
+										"{{LOCAL}}hospital-admin"
+									],
+									"path": [
+										"staff",
+										":staff_id",
+										"work-status",
+										""
+									],
+									"variable": [
+										{
+											"key": "staff_id",
+											"value": "f1841d87-ed48-44e0-a755-093e5f0cc721"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "New Request",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"status\": \"on_leave\", // \"active\", \"inactive\", \"on_leave\", \"suspended\"\r\n    \"reason\": \"Maternity\" ,\r\n    \"start_date\": \"2025-10-01 00:00:00\",\r\n    \"end_date\": \"2026-10-01 00:00:00\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{LOCAL}}hospital-admin/staff/:staff_id/work-status/",
+											"host": [
+												"{{LOCAL}}hospital-admin"
+											],
+											"path": [
+												"staff",
+												":staff_id",
+												"work-status",
+												""
+											],
+											"variable": [
+												{
+													"key": "staff_id",
+													"value": "f1841d87-ed48-44e0-a755-093e5f0cc721"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Sat, 17 May 2025 16:28:33 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "WSGIServer/0.2 CPython/3.10.0"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Allow",
+											"value": "GET, PATCH, HEAD, OPTIONS"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "DENY"
+										},
+										{
+											"key": "Vary",
+											"value": "origin"
+										},
+										{
+											"key": "Content-Length",
+											"value": "181"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": true,\n    \"message\": \"Work status updated successfully.\",\n    \"data\": {\n        \"status\": \"on_leave\",\n        \"reason\": \"Maternity\",\n        \"start_date\": \"2025-10-01T00:00:00Z\",\n        \"end_date\": \"2026-10-01T00:00:00Z\"\n    }\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Profiles",
+					"item": [
+						{
+							"name": "Get Profile",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{doctor}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}hospital-admin/profile/",
+									"host": [
+										"{{LOCAL}}hospital-admin"
+									],
+									"path": [
+										"profile",
+										""
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Get Profile",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{LOCAL}}hospital-admin/profile/",
+											"host": [
+												"{{LOCAL}}hospital-admin"
+											],
+											"path": [
+												"profile",
+												""
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Sat, 17 May 2025 17:00:50 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "WSGIServer/0.2 CPython/3.10.0"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Allow",
+											"value": "GET, PATCH, HEAD, OPTIONS"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "DENY"
+										},
+										{
+											"key": "Vary",
+											"value": "origin"
+										},
+										{
+											"key": "Content-Length",
+											"value": "314"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": true,\n    \"message\": \"Profile retrieved successfully\",\n    \"data\": {\n        \"id\": \"f1841d87-ed48-44e0-a755-093e5f0cc721\",\n        \"email\": \"aaronnwokoro@gmail.com\",\n        \"first_name\": \"Mike\",\n        \"middle_name\": \"Ademola\",\n        \"last_name\": \"Tyson\",\n        \"phone_number\": null,\n        \"specialization\": null,\n        \"role\": \"doctor\",\n        \"date_registered\": \"2025-05-17T16:05:52.405562Z\"\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Profile Update",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{doctor}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    // \"first_name\": \"\", \r\n    // \"last_name\": \"\", \r\n    \"phone_number\": \"08012345678\", \r\n    // \"avatar\": \"\",\r\n    \"specialization\": \"Gynaecologist\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL}}hospital-admin/profile/",
+									"host": [
+										"{{LOCAL}}hospital-admin"
+									],
+									"path": [
+										"profile",
+										""
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Profile Update",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    // \"first_name\": \"\", \r\n    // \"last_name\": \"\", \r\n    \"phone_number\": \"08012345678\", \r\n    // \"avatar\": \"\",\r\n    \"specialization\": \"Gynaecologist\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{LOCAL}}hospital-admin/profile/",
+											"host": [
+												"{{LOCAL}}hospital-admin"
+											],
+											"path": [
+												"profile",
+												""
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Sat, 17 May 2025 17:02:47 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "WSGIServer/0.2 CPython/3.10.0"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Allow",
+											"value": "GET, PATCH, HEAD, OPTIONS"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "DENY"
+										},
+										{
+											"key": "Vary",
+											"value": "origin"
+										},
+										{
+											"key": "Content-Length",
+											"value": "332"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": true,\n    \"message\": \"Profile updated successfully\",\n    \"data\": {\n        \"id\": \"f1841d87-ed48-44e0-a755-093e5f0cc721\",\n        \"email\": \"aaronnwokoro@gmail.com\",\n        \"first_name\": \"Mike\",\n        \"middle_name\": \"Ademola\",\n        \"last_name\": \"Tyson\",\n        \"phone_number\": \"08012345678\",\n        \"specialization\": \"Gynaecologist\",\n        \"role\": \"doctor\",\n        \"date_registered\": \"2025-05-17T16:05:52.405562Z\"\n    }\n}"
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Wound Mgt",
+			"item": [
+				{
+					"name": "List Wound Records",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{doctor}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{LOCAL}}woundcare-management/wounds/",
+							"host": [
+								"{{LOCAL}}woundcare-management"
+							],
+							"path": [
+								"wounds",
+								""
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": null,
+									"description": "Search by patient name or id",
+									"disabled": true
+								},
+								{
+									"key": "start_date",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "end_date",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "ora_status",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "List Wound Records",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}woundcare-management/wounds/",
+									"host": [
+										"{{LOCAL}}woundcare-management"
+									],
+									"path": [
+										"wounds",
+										""
+									],
+									"query": [
+										{
+											"key": "search",
+											"value": null,
+											"description": "Search by patient name or id",
+											"disabled": true
+										},
+										{
+											"key": "start_date",
+											"value": null,
+											"disabled": true
+										},
+										{
+											"key": "end_date",
+											"value": null,
+											"disabled": true
+										},
+										{
+											"key": "ora_status",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sun, 18 May 2025 15:48:10 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.10.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, POST, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Length",
+									"value": "248"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"count\": 1,\n    \"next\": null,\n    \"previous\": null,\n    \"results\": [\n        {\n            \"id\": \"6c810e99-1fb4-4386-a7ea-af826d98fba1\",\n            \"patient_id\": \"a937ab0f-eb3d-4e07-9a09-3a3e4d29a54f\",\n            \"patient_fullname\": \"John Mark Trump\",\n            \"ora_status\": \"unknown\",\n            \"date_recorded\": \"2025-05-18T10:00:00Z\"\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Create Wound Record",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{doctor}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "// {\r\n//     \"date_recorded\": \"\",\r\n//     \"description_tags\": [], // List of tags describing the wound, e.g., Abrasion, Laceration, Puncture. \r\n//     \"affecting_factors_tags\": [], // List of factors affecting the wound, e.g., Diabetes, Poor Nutrition, Smoking. \r\n//     \"previous_treatment\": \"\",\r\n//     \"size_in_mm\": \"\", \r\n//     \"width\": \"\", \r\n//     \"depth\": \"\",\r\n//     \"wound_bed_assessment\": \"\", \r\n//     \"exudate_amount\": \"\", // 'none', 'scant', 'small', 'moderate', 'large', 'copious'\r\n//     \"consistency\": \"\",  // 'serous', 'sanguineous', 'serosanguineous', 'purulent', 'haemopurulent', 'other'\r\n//     \"odour\": \"\", // 'none', 'mild', 'moderate', 'strong', 'foul'\r\n//     \"infection_signs_tags\": [], // List of tags indicating signs of infection, e.g., Redness, Swelling, Pus, Warmth. \r\n//     \"edges_description_tags\": [], // List of tags describing the wound edges, e.g., Defined, Undermined, Macerated, Rolled.\r\n//     \"wound_condition_overall\": \"\", \r\n//     \"edge_condition_overall\": \"\",\r\n//     \"treatment_plan\": \"\", \r\n//     \"dressing_type\": \"\", \r\n//     \"dressing_change_reason\": \"\", \r\n//     \"dressing_frequency\": \"\",\r\n//     \"follow_up_needed\": \"\", \r\n//     \"follow_up_date\": \"\", \r\n//     \"follow_up_notes\": \"\"\r\n// }\r\n\r\n{\r\n    \"patient_id\": \"a937ab0f-eb3d-4e07-9a09-3a3e4d29a54f\",\r\n    \"date_recorded\": \"2025-05-18T10:00:00Z\",\r\n    \"description_tags\": [\"Laceration\", \"Surgical Incision\"],\r\n    \"affecting_factors_tags\": [\"Diabetes\", \"Poor Nutrition\"],\r\n    \"previous_treatment\": \"Daily saline washes and dry dressing.\",\r\n    \"size_in_mm\": \"50\",\r\n    \"width\": \"10\",\r\n    \"depth\": \"5\",\r\n    \"wound_bed_assessment\": \"Granulating tissue observed, minimal slough.\",\r\n    \"exudate_amount\": \"moderate\",\r\n    \"consistency\": \"serosanguineous\",\r\n    \"odour\": \"none\",\r\n    \"infection_signs_tags\": [\"Redness\", \"Warmth\"],\r\n    \"edges_description_tags\": [\"Defined\", \"Attached\"],\r\n    \"wound_condition_overall\": \"Healing well, signs of granulation.\",\r\n    \"edge_condition_overall\": \"Edges are clean and approximating.\",\r\n    \"treatment_plan\": \"Continue with saline washes, apply hydrogel dressing.\",\r\n    \"dressing_type\": \"Hydrogel\",\r\n    \"dressing_change_reason\": \"Routine change, assess healing.\",\r\n    \"dressing_frequency\": \"Every 2 days\",\r\n    \"follow_up_needed\": \"Yes\",\r\n    \"follow_up_date\": \"2025-05-27\",\r\n    \"follow_up_notes\": \"Monitor for signs of infection, assess exudate level at next visit.\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{LOCAL}}woundcare-management/wounds/",
+							"host": [
+								"{{LOCAL}}woundcare-management"
+							],
+							"path": [
+								"wounds",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Create Wound Record",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "// {\r\n//     \"date_recorded\": \"\",\r\n//     \"description_tags\": [], // List of tags describing the wound, e.g., Abrasion, Laceration, Puncture. \r\n//     \"affecting_factors_tags\": [], // List of factors affecting the wound, e.g., Diabetes, Poor Nutrition, Smoking. \r\n//     \"previous_treatment\": \"\",\r\n//     \"size_in_mm\": \"\", \r\n//     \"width\": \"\", \r\n//     \"depth\": \"\",\r\n//     \"wound_bed_assessment\": \"\", \r\n//     \"exudate_amount\": \"\", // 'none', 'scant', 'small', 'moderate', 'large', 'copious'\r\n//     \"consistency\": \"\",  // 'serous', 'sanguineous', 'serosanguineous', 'purulent', 'haemopurulent', 'other'\r\n//     \"odour\": \"\", // 'none', 'mild', 'moderate', 'strong', 'foul'\r\n//     \"infection_signs_tags\": [], // List of tags indicating signs of infection, e.g., Redness, Swelling, Pus, Warmth. \r\n//     \"edges_description_tags\": [], // List of tags describing the wound edges, e.g., Defined, Undermined, Macerated, Rolled.\r\n//     \"wound_condition_overall\": \"\", \r\n//     \"edge_condition_overall\": \"\",\r\n//     \"treatment_plan\": \"\", \r\n//     \"dressing_type\": \"\", \r\n//     \"dressing_change_reason\": \"\", \r\n//     \"dressing_frequency\": \"\",\r\n//     \"follow_up_needed\": \"\", \r\n//     \"follow_up_date\": \"\", \r\n//     \"follow_up_notes\": \"\"\r\n// }\r\n\r\n{\r\n    \"patient_id\": \"a937ab0f-eb3d-4e07-9a09-3a3e4d29a54f\",\r\n    \"date_recorded\": \"2025-05-18T10:00:00Z\",\r\n    \"description_tags\": [\"Laceration\", \"Surgical Incision\"],\r\n    \"affecting_factors_tags\": [\"Diabetes\", \"Poor Nutrition\"],\r\n    \"previous_treatment\": \"Daily saline washes and dry dressing.\",\r\n    \"size_in_mm\": \"50\",\r\n    \"width\": \"10\",\r\n    \"depth\": \"5\",\r\n    \"wound_bed_assessment\": \"Granulating tissue observed, minimal slough.\",\r\n    \"exudate_amount\": \"moderate\",\r\n    \"consistency\": \"serosanguineous\",\r\n    \"odour\": \"none\",\r\n    \"infection_signs_tags\": [\"Redness\", \"Warmth\"],\r\n    \"edges_description_tags\": [\"Defined\", \"Attached\"],\r\n    \"wound_condition_overall\": \"Healing well, signs of granulation.\",\r\n    \"edge_condition_overall\": \"Edges are clean and approximating.\",\r\n    \"treatment_plan\": \"Continue with saline washes, apply hydrogel dressing.\",\r\n    \"dressing_type\": \"Hydrogel\",\r\n    \"dressing_change_reason\": \"Routine change, assess healing.\",\r\n    \"dressing_frequency\": \"Every 2 days\",\r\n    \"follow_up_needed\": \"Yes\",\r\n    \"follow_up_date\": \"2025-05-27\",\r\n    \"follow_up_notes\": \"Monitor for signs of infection, assess exudate level at next visit.\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL}}woundcare-management/wounds/",
+									"host": [
+										"{{LOCAL}}woundcare-management"
+									],
+									"path": [
+										"wounds",
+										""
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sun, 18 May 2025 15:47:35 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.10.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, POST, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1046"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"message\": \"Wound record created successfully.\",\n    \"data\": {\n        \"ora_status\": \"unknown\",\n        \"date_recorded\": \"2025-05-18T10:00:00Z\",\n        \"description_tags\": [\n            \"Laceration\",\n            \"Surgical Incision\"\n        ],\n        \"affecting_factors_tags\": [\n            \"Diabetes\",\n            \"Poor Nutrition\"\n        ],\n        \"previous_treatment\": \"Daily saline washes and dry dressing.\",\n        \"size_in_mm\": 50,\n        \"width\": 10,\n        \"depth\": 5,\n        \"wound_bed_assessment\": \"Granulating tissue observed, minimal slough.\",\n        \"exudate_amount\": \"moderate\",\n        \"consistency\": \"serosanguineous\",\n        \"odour\": \"none\",\n        \"infection_signs_tags\": [\n            \"Redness\",\n            \"Warmth\"\n        ],\n        \"edges_description_tags\": [\n            \"Defined\",\n            \"Attached\"\n        ],\n        \"wound_condition_overall\": \"Healing well, signs of granulation.\",\n        \"edge_condition_overall\": \"Edges are clean and approximating.\",\n        \"treatment_plan\": \"Continue with saline washes, apply hydrogel dressing.\",\n        \"dressing_type\": \"Hydrogel\",\n        \"dressing_change_reason\": \"Routine change, assess healing.\",\n        \"dressing_frequency\": \"Every 2 days\",\n        \"follow_up_needed\": true,\n        \"follow_up_date\": \"2025-05-27\",\n        \"follow_up_notes\": \"Monitor for signs of infection, assess exudate level at next visit.\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Get Wound Record",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{doctor}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{LOCAL}}woundcare-management/wounds/:wound_id/",
+							"host": [
+								"{{LOCAL}}woundcare-management"
+							],
+							"path": [
+								"wounds",
+								":wound_id",
+								""
+							],
+							"variable": [
+								{
+									"key": "wound_id",
+									"value": "6c810e99-1fb4-4386-a7ea-af826d98fba1"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get Wound Record",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}woundcare-management/wounds/:wound_id/",
+									"host": [
+										"{{LOCAL}}woundcare-management"
+									],
+									"path": [
+										"wounds",
+										":wound_id",
+										""
+									],
+									"variable": [
+										{
+											"key": "wound_id",
+											"value": "6c810e99-1fb4-4386-a7ea-af826d98fba1"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sun, 18 May 2025 15:54:19 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.10.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, PATCH, DELETE, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1476"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"data\": {\n        \"id\": \"6c810e99-1fb4-4386-a7ea-af826d98fba1\",\n        \"patient\": {\n            \"id\": \"a937ab0f-eb3d-4e07-9a09-3a3e4d29a54f\",\n            \"full_name\": \"John Mark Trump\",\n            \"gender\": \"male\",\n            \"date_of_birth\": \"1992-03-20\",\n            \"age\": 33,\n            \"created_at\": \"2025-05-17T17:52:38.593613Z\",\n            \"patient_type\": \"Family\"\n        },\n        \"patient_fullname\": \"John Mark Trump\",\n        \"hospital\": \"Divine Mercy\",\n        \"recorded_by\": \"f1841d87-ed48-44e0-a755-093e5f0cc721\",\n        \"recorded_by_name\": null,\n        \"ora_status\": \"unknown\",\n        \"date_recorded\": \"2025-05-18T10:00:00Z\",\n        \"description_tags\": [\n            \"Laceration\",\n            \"Surgical Incision\"\n        ],\n        \"affecting_factors_tags\": [\n            \"Diabetes\",\n            \"Poor Nutrition\"\n        ],\n        \"previous_treatment\": \"Daily saline washes and dry dressing.\",\n        \"size_in_mm\": 50,\n        \"width\": 10,\n        \"depth\": 5,\n        \"wound_bed_assessment\": \"Granulating tissue observed, minimal slough.\",\n        \"exudate_amount\": \"moderate\",\n        \"consistency\": \"serosanguineous\",\n        \"odour\": \"none\",\n        \"infection_signs_tags\": [\n            \"Redness\",\n            \"Warmth\"\n        ],\n        \"edges_description_tags\": [\n            \"Defined\",\n            \"Attached\"\n        ],\n        \"wound_condition_overall\": \"Healing well, signs of granulation.\",\n        \"edge_condition_overall\": \"Edges are clean and approximating.\",\n        \"treatment_plan\": \"Continue with saline washes, apply hydrogel dressing.\",\n        \"dressing_type\": \"Hydrogel\",\n        \"dressing_change_reason\": \"Routine change, assess healing.\",\n        \"dressing_frequency\": \"Every 2 days\",\n        \"follow_up_needed\": true,\n        \"follow_up_date\": \"2025-05-27\",\n        \"follow_up_notes\": \"Monitor for signs of infection, assess exudate level at next visit.\",\n        \"created_at\": \"2025-05-18T15:47:35.211918Z\",\n        \"updated_at\": \"2025-05-18T15:47:35.211918Z\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Update Wound Record",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{doctor}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    // \"date_recorded\": \"2025-05-18T10:00:00Z\",\r\n    // \"description_tags\": [\"Laceration\", \"Surgical Incision\"],\r\n    \"affecting_factors_tags\": [\"Diabetes\", \"Poor Nutrition\", \"Low Insulin\"]\r\n//     \"previous_treatment\": \"Daily saline washes and dry dressing.\",\r\n//     \"size_in_mm\": \"50\",\r\n//     \"width\": \"10\",\r\n//     \"depth\": \"5\",\r\n//     \"wound_bed_assessment\": \"Granulating tissue observed, minimal slough.\",\r\n//     \"exudate_amount\": \"moderate\",\r\n//     \"consistency\": \"serosanguineous\",\r\n//     \"odour\": \"none\",\r\n//     \"infection_signs_tags\": [\"Redness\", \"Warmth\"],\r\n//     \"edges_description_tags\": [\"Defined\", \"Attached\"],\r\n//     \"wound_condition_overall\": \"Healing well, signs of granulation.\",\r\n//     \"edge_condition_overall\": \"Edges are clean and approximating.\",\r\n//     \"treatment_plan\": \"Continue with saline washes, apply hydrogel dressing.\",\r\n//     \"dressing_type\": \"Hydrogel\",\r\n//     \"dressing_change_reason\": \"Routine change, assess healing.\",\r\n//     \"dressing_frequency\": \"Every 2 days\",\r\n//     \"follow_up_needed\": \"Yes\",\r\n//     \"follow_up_date\": \"2025-05-27\",\r\n//     \"follow_up_notes\": \"Monitor for signs of infection, assess exudate level at next visit.\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{LOCAL}}woundcare-management/wounds/:wound_id/",
+							"host": [
+								"{{LOCAL}}woundcare-management"
+							],
+							"path": [
+								"wounds",
+								":wound_id",
+								""
+							],
+							"variable": [
+								{
+									"key": "wound_id",
+									"value": "6c810e99-1fb4-4386-a7ea-af826d98fba1"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Update Wound Record",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    // \"date_recorded\": \"2025-05-18T10:00:00Z\",\r\n    // \"description_tags\": [\"Laceration\", \"Surgical Incision\"],\r\n    \"affecting_factors_tags\": [\"Diabetes\", \"Poor Nutrition\", \"Low Insulin\"]\r\n//     \"previous_treatment\": \"Daily saline washes and dry dressing.\",\r\n//     \"size_in_mm\": \"50\",\r\n//     \"width\": \"10\",\r\n//     \"depth\": \"5\",\r\n//     \"wound_bed_assessment\": \"Granulating tissue observed, minimal slough.\",\r\n//     \"exudate_amount\": \"moderate\",\r\n//     \"consistency\": \"serosanguineous\",\r\n//     \"odour\": \"none\",\r\n//     \"infection_signs_tags\": [\"Redness\", \"Warmth\"],\r\n//     \"edges_description_tags\": [\"Defined\", \"Attached\"],\r\n//     \"wound_condition_overall\": \"Healing well, signs of granulation.\",\r\n//     \"edge_condition_overall\": \"Edges are clean and approximating.\",\r\n//     \"treatment_plan\": \"Continue with saline washes, apply hydrogel dressing.\",\r\n//     \"dressing_type\": \"Hydrogel\",\r\n//     \"dressing_change_reason\": \"Routine change, assess healing.\",\r\n//     \"dressing_frequency\": \"Every 2 days\",\r\n//     \"follow_up_needed\": \"Yes\",\r\n//     \"follow_up_date\": \"2025-05-27\",\r\n//     \"follow_up_notes\": \"Monitor for signs of infection, assess exudate level at next visit.\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL}}woundcare-management/wounds/:wound_id/",
+									"host": [
+										"{{LOCAL}}woundcare-management"
+									],
+									"path": [
+										"wounds",
+										":wound_id",
+										""
+									],
+									"variable": [
+										{
+											"key": "wound_id",
+											"value": "6c810e99-1fb4-4386-a7ea-af826d98fba1"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sun, 18 May 2025 15:56:35 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.10.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, PATCH, DELETE, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1013"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"data\": {\n        \"ora_status\": \"unknown\",\n        \"date_recorded\": \"2025-05-18T10:00:00Z\",\n        \"description_tags\": [\n            \"Laceration\",\n            \"Surgical Incision\"\n        ],\n        \"affecting_factors_tags\": [\n            \"Diabetes\",\n            \"Poor Nutrition\",\n            \"Low Insulin\"\n        ],\n        \"previous_treatment\": \"Daily saline washes and dry dressing.\",\n        \"size_in_mm\": 50,\n        \"width\": 10,\n        \"depth\": 5,\n        \"wound_bed_assessment\": \"Granulating tissue observed, minimal slough.\",\n        \"exudate_amount\": \"moderate\",\n        \"consistency\": \"serosanguineous\",\n        \"odour\": \"none\",\n        \"infection_signs_tags\": [\n            \"Redness\",\n            \"Warmth\"\n        ],\n        \"edges_description_tags\": [\n            \"Defined\",\n            \"Attached\"\n        ],\n        \"wound_condition_overall\": \"Healing well, signs of granulation.\",\n        \"edge_condition_overall\": \"Edges are clean and approximating.\",\n        \"treatment_plan\": \"Continue with saline washes, apply hydrogel dressing.\",\n        \"dressing_type\": \"Hydrogel\",\n        \"dressing_change_reason\": \"Routine change, assess healing.\",\n        \"dressing_frequency\": \"Every 2 days\",\n        \"follow_up_needed\": true,\n        \"follow_up_date\": \"2025-05-27\",\n        \"follow_up_notes\": \"Monitor for signs of infection, assess exudate level at next visit.\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete Wound Record",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{hospital_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{LOCAL}}woundcare-mgt/wounds/:wound_id/",
+							"host": [
+								"{{LOCAL}}woundcare-mgt"
+							],
+							"path": [
+								"wounds",
+								":wound_id",
+								""
+							],
+							"variable": [
+								{
+									"key": "wound_id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Bed Mgt",
+			"item": [
+				{
+					"name": "List Wards",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{hospital_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{LOCAL}}bed-management/wards/",
+							"host": [
+								"{{LOCAL}}bed-management"
+							],
+							"path": [
+								"wards",
+								""
+							],
+							"query": [
+								{
+									"key": "ward_type",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "name",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "List Wards",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}bed-management/wards/",
+									"host": [
+										"{{LOCAL}}bed-management"
+									],
+									"path": [
+										"wards",
+										""
+									],
+									"query": [
+										{
+											"key": "ward_type",
+											"value": null,
+											"disabled": true
+										},
+										{
+											"key": "name",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Wed, 14 May 2025 10:49:20 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.10.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, POST, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Length",
+									"value": "372"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"message\": \"Wards retrieved successfully.\",\n    \"data\": [\n        {\n            \"id\": \"34524360-5992-4423-be8a-c20d30caf916\",\n            \"name\": \"General Ward\",\n            \"ward_type\": \"general\",\n            \"no_of_beds\": 0,\n            \"no_of_occupied_beds\": 0,\n            \"no_of_available_beds\": 0\n        },\n        {\n            \"id\": \"578ec4ac-259c-4264-a068-fe65965beeed\",\n            \"name\": \"Female Ward\",\n            \"ward_type\": \"female\",\n            \"no_of_beds\": 0,\n            \"no_of_occupied_beds\": 0,\n            \"no_of_available_beds\": 0\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Create Ward",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{hospital_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"General Ward\",\r\n  \"ward_type\": \"general\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{LOCAL}}bed-management/wards/",
+							"host": [
+								"{{LOCAL}}bed-management"
+							],
+							"path": [
+								"wards",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Ward",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{hospital_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{LOCAL}}bed-management/wards/:ward_id/",
+							"host": [
+								"{{LOCAL}}bed-management"
+							],
+							"path": [
+								"wards",
+								":ward_id",
+								""
+							],
+							"variable": [
+								{
+									"key": "ward_id",
+									"value": "34524360-5992-4423-be8a-c20d30caf916"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get Ward",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}bed-management/wards/:ward_id/",
+									"host": [
+										"{{LOCAL}}bed-management"
+									],
+									"path": [
+										"wards",
+										":ward_id",
+										""
+									],
+									"variable": [
+										{
+											"key": "ward_id",
+											"value": "34524360-5992-4423-be8a-c20d30caf916"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Wed, 14 May 2025 11:13:45 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.10.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, PUT, PATCH, DELETE, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1422"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"message\": \"Ward retrieved successfully.\",\n    \"data\": {\n        \"id\": \"34524360-5992-4423-be8a-c20d30caf916\",\n        \"hospital\": \"8bcb6a27-c7a6-4ece-a9fc-409e693ef03d\",\n        \"name\": \"Updated Ward Name\",\n        \"ward_type\": \"maternity\",\n        \"no_of_beds\": 3,\n        \"no_of_occupied_beds\": 0,\n        \"no_of_available_beds\": 3,\n        \"beds\": [\n            {\n                \"id\": \"4806d8d6-8a30-4b0d-ab04-a0ec6861072f\",\n                \"ward\": \"34524360-5992-4423-be8a-c20d30caf916\",\n                \"bed_number\": \"A1\",\n                \"room_number\": \"100\",\n                \"patient\": null,\n                \"patient_fullname_if_occupied\": null,\n                \"status\": \"available\",\n                \"date_allocated\": null,\n                \"expected_end_date\": null,\n                \"duration\": null,\n                \"created_at\": \"2025-05-14T11:03:59.630524Z\",\n                \"updated_at\": \"2025-05-14T11:03:59.630524Z\"\n            },\n            {\n                \"id\": \"0b4ebdd1-a16a-468a-b3eb-715fee04277a\",\n                \"ward\": \"34524360-5992-4423-be8a-c20d30caf916\",\n                \"bed_number\": \"A2\",\n                \"room_number\": \"100\",\n                \"patient\": null,\n                \"patient_fullname_if_occupied\": null,\n                \"status\": \"available\",\n                \"date_allocated\": null,\n                \"expected_end_date\": null,\n                \"duration\": null,\n                \"created_at\": \"2025-05-14T11:13:24.244536Z\",\n                \"updated_at\": \"2025-05-14T11:13:24.244536Z\"\n            },\n            {\n                \"id\": \"328ddc96-1f8b-4730-9831-fb360b025a74\",\n                \"ward\": \"34524360-5992-4423-be8a-c20d30caf916\",\n                \"bed_number\": \"A3\",\n                \"room_number\": \"100\",\n                \"patient\": null,\n                \"patient_fullname_if_occupied\": null,\n                \"status\": \"available\",\n                \"date_allocated\": null,\n                \"expected_end_date\": null,\n                \"duration\": null,\n                \"created_at\": \"2025-05-14T11:13:31.275183Z\",\n                \"updated_at\": \"2025-05-14T11:13:31.275183Z\"\n            }\n        ],\n        \"created_at\": \"2025-05-14T10:40:04.304177Z\",\n        \"updated_at\": \"2025-05-14T10:52:43.110524Z\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Update Ward",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{hospital_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Updated Ward Name\",\r\n  \"ward_type\": \"maternity\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{LOCAL}}bed-management/wards/:ward_id/",
+							"host": [
+								"{{LOCAL}}bed-management"
+							],
+							"path": [
+								"wards",
+								":ward_id",
+								""
+							],
+							"variable": [
+								{
+									"key": "ward_id",
+									"value": "34524360-5992-4423-be8a-c20d30caf916"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Update Ward",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"Updated Ward Name\",\r\n  \"ward_type\": \"maternity\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL}}bed-management/wards/:ward_id/",
+									"host": [
+										"{{LOCAL}}bed-management"
+									],
+									"path": [
+										"wards",
+										":ward_id",
+										""
+									],
+									"variable": [
+										{
+											"key": "ward_id",
+											"value": "34524360-5992-4423-be8a-c20d30caf916"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Wed, 14 May 2025 10:52:43 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.10.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, PUT, PATCH, DELETE, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Length",
+									"value": "368"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"message\": \"Ward updated successfully.\",\n    \"data\": {\n        \"id\": \"34524360-5992-4423-be8a-c20d30caf916\",\n        \"hospital\": \"8bcb6a27-c7a6-4ece-a9fc-409e693ef03d\",\n        \"name\": \"Updated Ward Name\",\n        \"ward_type\": \"maternity\",\n        \"no_of_beds\": 0,\n        \"no_of_occupied_beds\": 0,\n        \"no_of_available_beds\": 0,\n        \"beds\": [],\n        \"created_at\": \"2025-05-14T10:40:04.304177Z\",\n        \"updated_at\": \"2025-05-14T10:52:43.110524Z\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete Ward",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{hospital_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{LOCAL}}bed-management/wards/:ward_id/",
+							"host": [
+								"{{LOCAL}}bed-management"
+							],
+							"path": [
+								"wards",
+								":ward_id",
+								""
+							],
+							"variable": [
+								{
+									"key": "ward_id",
+									"value": "e19c3d03-27db-4986-a2a0-66d3950001a4"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Delete Ward",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}bed-management/wards/:ward_id/",
+									"host": [
+										"{{LOCAL}}bed-management"
+									],
+									"path": [
+										"wards",
+										":ward_id",
+										""
+									],
+									"variable": [
+										{
+											"key": "ward_id",
+											"value": "e19c3d03-27db-4986-a2a0-66d3950001a4"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Wed, 14 May 2025 10:54:51 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.10.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, PUT, PATCH, DELETE, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Length",
+									"value": "54"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"message\": \"Ward deleted successfully.\"\n}"
+						}
+					]
+				},
+				{
+					"name": "List Beds in a Ward",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{hospital_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{LOCAL}}bed-management/wards/:ward_id/beds/",
+							"host": [
+								"{{LOCAL}}bed-management"
+							],
+							"path": [
+								"wards",
+								":ward_id",
+								"beds",
+								""
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "occupied",
+									"description": "available, occupied",
+									"disabled": true
+								},
+								{
+									"key": "bed_number",
+									"value": "",
+									"disabled": true
+								}
+							],
+							"variable": [
+								{
+									"key": "ward_id",
+									"value": "34524360-5992-4423-be8a-c20d30caf916"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "List Beds in a Ward",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}bed-management/wards/:ward_id/beds/",
+									"host": [
+										"{{LOCAL}}bed-management"
+									],
+									"path": [
+										"wards",
+										":ward_id",
+										"beds",
+										""
+									],
+									"query": [
+										{
+											"key": "status",
+											"value": "occupied",
+											"description": "available, occupied",
+											"disabled": true
+										},
+										{
+											"key": "bed_number",
+											"value": "",
+											"disabled": true
+										}
+									],
+									"variable": [
+										{
+											"key": "ward_id",
+											"value": "34524360-5992-4423-be8a-c20d30caf916"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Wed, 14 May 2025 11:33:20 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.10.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, POST, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1220"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"count\": 3,\n    \"next\": null,\n    \"previous\": null,\n    \"results\": {\n        \"status\": true,\n        \"message\": \"Beds retrieved successfully.\",\n        \"data\": [\n            {\n                \"id\": \"4806d8d6-8a30-4b0d-ab04-a0ec6861072f\",\n                \"ward\": \"34524360-5992-4423-be8a-c20d30caf916\",\n                \"bed_number\": \"A1\",\n                \"room_number\": \"100\",\n                \"patient\": null,\n                \"patient_fullname_if_occupied\": null,\n                \"status\": \"available\",\n                \"date_allocated\": null,\n                \"expected_end_date\": null,\n                \"duration\": null,\n                \"created_at\": \"2025-05-14T11:03:59.630524Z\",\n                \"updated_at\": \"2025-05-14T11:03:59.630524Z\"\n            },\n            {\n                \"id\": \"0b4ebdd1-a16a-468a-b3eb-715fee04277a\",\n                \"ward\": \"34524360-5992-4423-be8a-c20d30caf916\",\n                \"bed_number\": \"A2\",\n                \"room_number\": \"100\",\n                \"patient\": null,\n                \"patient_fullname_if_occupied\": null,\n                \"status\": \"available\",\n                \"date_allocated\": null,\n                \"expected_end_date\": null,\n                \"duration\": null,\n                \"created_at\": \"2025-05-14T11:13:24.244536Z\",\n                \"updated_at\": \"2025-05-14T11:13:24.244536Z\"\n            },\n            {\n                \"id\": \"328ddc96-1f8b-4730-9831-fb360b025a74\",\n                \"ward\": \"34524360-5992-4423-be8a-c20d30caf916\",\n                \"bed_number\": \"A3\",\n                \"room_number\": \"100\",\n                \"patient\": null,\n                \"patient_fullname_if_occupied\": null,\n                \"status\": \"available\",\n                \"date_allocated\": null,\n                \"expected_end_date\": null,\n                \"duration\": null,\n                \"created_at\": \"2025-05-14T11:13:31.275183Z\",\n                \"updated_at\": \"2025-05-14T11:13:31.275183Z\"\n            }\n        ],\n        \"total_beds\": 3,\n        \"available_beds\": 3,\n        \"occupied_beds\": 0\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Create Beds in a Ward",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{hospital_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"bed_number\": \"A1\",\r\n  \"room_number\": \"100\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{LOCAL}}bed-management/wards/:ward_id/beds/",
+							"host": [
+								"{{LOCAL}}bed-management"
+							],
+							"path": [
+								"wards",
+								":ward_id",
+								"beds",
+								""
+							],
+							"variable": [
+								{
+									"key": "ward_id",
+									"value": "34524360-5992-4423-be8a-c20d30caf916"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Create Beds in a Ward",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"bed_number\": \"A1\",\r\n  \"room_number\": \"100\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL}}bed-management/wards/:ward_id/beds/",
+									"host": [
+										"{{LOCAL}}bed-management"
+									],
+									"path": [
+										"wards",
+										":ward_id",
+										"beds",
+										""
+									],
+									"variable": [
+										{
+											"key": "ward_id",
+											"value": "34524360-5992-4423-be8a-c20d30caf916"
+										}
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Wed, 14 May 2025 11:03:59 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.10.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, POST, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Length",
+									"value": "144"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"message\": \"Bed created successfully.\",\n    \"data\": {\n        \"id\": \"4806d8d6-8a30-4b0d-ab04-a0ec6861072f\",\n        \"bed_number\": \"A1\",\n        \"room_number\": \"100\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "View Bed Details",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{hospital_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{LOCAL}}bed-management/wards/:ward_id/beds/:bed_id/",
+							"host": [
+								"{{LOCAL}}bed-management"
+							],
+							"path": [
+								"wards",
+								":ward_id",
+								"beds",
+								":bed_id",
+								""
+							],
+							"variable": [
+								{
+									"key": "ward_id",
+									"value": "34524360-5992-4423-be8a-c20d30caf916"
+								},
+								{
+									"key": "bed_id",
+									"value": "4806d8d6-8a30-4b0d-ab04-a0ec6861072f"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "View Bed Details",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}bed-management/wards/:ward_id/beds/:bed_id/",
+									"host": [
+										"{{LOCAL}}bed-management"
+									],
+									"path": [
+										"wards",
+										":ward_id",
+										"beds",
+										":bed_id",
+										""
+									],
+									"variable": [
+										{
+											"key": "ward_id",
+											"value": "34524360-5992-4423-be8a-c20d30caf916"
+										},
+										{
+											"key": "bed_id",
+											"value": "4806d8d6-8a30-4b0d-ab04-a0ec6861072f"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Wed, 14 May 2025 11:16:04 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.10.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, PUT, PATCH, DELETE, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Length",
+									"value": "413"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"message\": \"Bed retrieved successfully.\",\n    \"data\": {\n        \"id\": \"4806d8d6-8a30-4b0d-ab04-a0ec6861072f\",\n        \"ward\": \"34524360-5992-4423-be8a-c20d30caf916\",\n        \"bed_number\": \"A1\",\n        \"room_number\": \"100\",\n        \"patient\": null,\n        \"patient_fullname_if_occupied\": null,\n        \"status\": \"available\",\n        \"date_allocated\": null,\n        \"expected_end_date\": null,\n        \"duration\": null,\n        \"created_at\": \"2025-05-14T11:03:59.630524Z\",\n        \"updated_at\": \"2025-05-14T11:03:59.630524Z\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Update Bed Details",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{LOCAL}}bed-management/wards/:ward_id/beds/:bed_id/",
+							"host": [
+								"{{LOCAL}}bed-management"
+							],
+							"path": [
+								"wards",
+								":ward_id",
+								"beds",
+								":bed_id",
+								""
+							],
+							"variable": [
+								{
+									"key": "ward_id",
+									"value": ""
+								},
+								{
+									"key": "bed_id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Bed",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{LOCAL}}bed-management/wards/:ward_id/beds/:bed_id/",
+							"host": [
+								"{{LOCAL}}bed-management"
+							],
+							"path": [
+								"wards",
+								":ward_id",
+								"beds",
+								":bed_id",
+								""
+							],
+							"variable": [
+								{
+									"key": "ward_id",
+									"value": ""
+								},
+								{
+									"key": "bed_id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Assign Bed",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{hospital_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"patient_id\": \"a937ab0f-eb3d-4e07-9a09-3a3e4d29a54f\",\r\n  \"expected_end_date\": \"2025-05-20T08:00:00Z\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{LOCAL}}bed-management/wards/:ward_id/beds/:bed_id/assign/",
+							"host": [
+								"{{LOCAL}}bed-management"
+							],
+							"path": [
+								"wards",
+								":ward_id",
+								"beds",
+								":bed_id",
+								"assign",
+								""
+							],
+							"variable": [
+								{
+									"key": "ward_id",
+									"value": "34524360-5992-4423-be8a-c20d30caf916"
+								},
+								{
+									"key": "bed_id",
+									"value": "4806d8d6-8a30-4b0d-ab04-a0ec6861072f"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Assign Bed",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"patient_id\": \"a937ab0f-eb3d-4e07-9a09-3a3e4d29a54f\",\r\n  \"expected_end_date\": \"2025-05-20T08:00:00Z\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL}}bed-management/wards/:ward_id/beds/:bed_id/assign/",
+									"host": [
+										"{{LOCAL}}bed-management"
+									],
+									"path": [
+										"wards",
+										":ward_id",
+										"beds",
+										":bed_id",
+										"assign",
+										""
+									],
+									"variable": [
+										{
+											"key": "ward_id",
+											"value": "34524360-5992-4423-be8a-c20d30caf916"
+										},
+										{
+											"key": "bed_id",
+											"value": "4806d8d6-8a30-4b0d-ab04-a0ec6861072f"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sun, 18 May 2025 16:00:14 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.10.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Allow",
+									"value": "POST, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Length",
+									"value": "493"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"message\": \"Bed assigned successfully.\",\n    \"data\": {\n        \"id\": \"4806d8d6-8a30-4b0d-ab04-a0ec6861072f\",\n        \"ward\": \"34524360-5992-4423-be8a-c20d30caf916\",\n        \"bed_number\": \"A1\",\n        \"room_number\": \"100\",\n        \"patient\": \"a937ab0f-eb3d-4e07-9a09-3a3e4d29a54f\",\n        \"patient_fullname_if_occupied\": \"John Trump\",\n        \"status\": \"occupied\",\n        \"date_allocated\": \"2025-05-18T16:00:14.010622Z\",\n        \"expected_end_date\": \"2025-05-20T08:00:00Z\",\n        \"duration\": 1,\n        \"created_at\": \"2025-05-14T11:03:59.630524Z\",\n        \"updated_at\": \"2025-05-18T16:00:14.010622Z\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Release Bed",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{hospital_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{LOCAL}}bed-management/wards/:ward_id/beds/:bed_id/release/",
+							"host": [
+								"{{LOCAL}}bed-management"
+							],
+							"path": [
+								"wards",
+								":ward_id",
+								"beds",
+								":bed_id",
+								"release",
+								""
+							],
+							"variable": [
+								{
+									"key": "ward_id",
+									"value": "34524360-5992-4423-be8a-c20d30caf916"
+								},
+								{
+									"key": "bed_id",
+									"value": "4806d8d6-8a30-4b0d-ab04-a0ec6861072f"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Release Bed",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}bed-management/wards/:ward_id/beds/:bed_id/release/",
+									"host": [
+										"{{LOCAL}}bed-management"
+									],
+									"path": [
+										"wards",
+										":ward_id",
+										"beds",
+										":bed_id",
+										"release",
+										""
+									],
+									"variable": [
+										{
+											"key": "ward_id",
+											"value": "34524360-5992-4423-be8a-c20d30caf916"
+										},
+										{
+											"key": "bed_id",
+											"value": "4806d8d6-8a30-4b0d-ab04-a0ec6861072f"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sun, 18 May 2025 16:01:31 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.10.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Allow",
+									"value": "POST, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Length",
+									"value": "433"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"message\": \"Bed released successfully and is now available.\",\n    \"data\": {\n        \"id\": \"4806d8d6-8a30-4b0d-ab04-a0ec6861072f\",\n        \"ward\": \"34524360-5992-4423-be8a-c20d30caf916\",\n        \"bed_number\": \"A1\",\n        \"room_number\": \"100\",\n        \"patient\": null,\n        \"patient_fullname_if_occupied\": null,\n        \"status\": \"available\",\n        \"date_allocated\": null,\n        \"expected_end_date\": null,\n        \"duration\": null,\n        \"created_at\": \"2025-05-14T11:03:59.630524Z\",\n        \"updated_at\": \"2025-05-18T16:01:31.048801Z\"\n    }\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Patient Mgt",
+			"item": [
+				{
+					"name": "Vital Signs Report",
+					"item": [
+						{
+							"name": "List Vital Signs Records",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}patient-management/patients/:patient_id/vital-signs/",
+									"host": [
+										"{{LOCAL}}patient-management"
+									],
+									"path": [
+										"patients",
+										":patient_id",
+										"vital-signs",
+										""
+									],
+									"variable": [
+										{
+											"key": "patient_id",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Vital Signs Record",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}patient-management/patients/:patient_id/vital-signs/:vital_pk/",
+									"host": [
+										"{{LOCAL}}patient-management"
+									],
+									"path": [
+										"patients",
+										":patient_id",
+										"vital-signs",
+										":vital_pk",
+										""
+									],
+									"variable": [
+										{
+											"key": "patient_id",
+											"value": ""
+										},
+										{
+											"key": "vital_pk",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Vital Signs Record",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}patient-management/patients/:patient_id/vital-signs/:vital_pk/",
+									"host": [
+										"{{LOCAL}}patient-management"
+									],
+									"path": [
+										"patients",
+										":patient_id",
+										"vital-signs",
+										":vital_pk",
+										""
+									],
+									"variable": [
+										{
+											"key": "patient_id",
+											"value": ""
+										},
+										{
+											"key": "vital_pk",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add Vital Signs Record",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"body_temperature\": 36.8,\r\n    \"pulse_rate\": 72,\r\n    \"systolic_blood_pressure\": 118,\r\n    \"diastolic_blood_pressure\": 78,\r\n    \"oxygen_saturation\": 99.0\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL}}patient-management/patients/:patient_id/vital-signs/",
+									"host": [
+										"{{LOCAL}}patient-management"
+									],
+									"path": [
+										"patients",
+										":patient_id",
+										"vital-signs",
+										""
+									],
+									"variable": [
+										{
+											"key": "patient_id",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Vital Signs Record",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"body_temperature\": 36.8,\r\n    \"pulse_rate\": 72,\r\n    \"systolic_blood_pressure\": 118,\r\n    \"diastolic_blood_pressure\": 78,\r\n    \"oxygen_saturation\": 99.0\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL}}patient-management/patients/:patient_id/vital-signs/",
+									"host": [
+										"{{LOCAL}}patient-management"
+									],
+									"path": [
+										"patients",
+										":patient_id",
+										"vital-signs",
+										""
+									],
+									"variable": [
+										{
+											"key": "patient_id",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Diagnosis Report",
+					"item": [
+						{
+							"name": "Create Diagnosis Report",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{hospital_admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"diagnosis\": \"Suspected Influenza\",\r\n    \"follow_up_date\": \"2025-05-17\",\r\n    \"notes\": \"Prescribed Tamiflu if test is positive. Advised isolation.\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL}}patient-management/patients/:patient_pk/diagnosis-reports/",
+									"host": [
+										"{{LOCAL}}patient-management"
+									],
+									"path": [
+										"patients",
+										":patient_pk",
+										"diagnosis-reports",
+										""
+									],
+									"variable": [
+										{
+											"key": "patient_pk",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "List Diagnosis Reports",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{hospital_admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}patient-management/patients/:patient_pk/diagnosis-reports/",
+									"host": [
+										"{{LOCAL}}patient-management"
+									],
+									"path": [
+										"patients",
+										":patient_pk",
+										"diagnosis-reports",
+										""
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": null,
+											"disabled": true
+										},
+										{
+											"key": "page_size",
+											"value": null,
+											"disabled": true
+										},
+										{
+											"key": "start_date",
+											"value": null,
+											"description": "YYYY-MM-DD",
+											"disabled": true
+										},
+										{
+											"key": "end_date",
+											"value": null,
+											"description": "YYYY-MM-DD",
+											"disabled": true
+										}
+									],
+									"variable": [
+										{
+											"key": "patient_pk",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Report",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}patient-management/patients/:patient_pk/diagnosis-reports/:report_id/",
+									"host": [
+										"{{LOCAL}}patient-management"
+									],
+									"path": [
+										"patients",
+										":patient_pk",
+										"diagnosis-reports",
+										":report_id",
+										""
+									],
+									"variable": [
+										{
+											"key": "patient_pk",
+											"value": ""
+										},
+										{
+											"key": "report_id",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Report",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}patient-management/patients/:patient_pk/diagnosis-reports/:report_id/",
+									"host": [
+										"{{LOCAL}}patient-management"
+									],
+									"path": [
+										"patients",
+										":patient_pk",
+										"diagnosis-reports",
+										":report_id",
+										""
+									],
+									"variable": [
+										{
+											"key": "patient_pk",
+											"value": ""
+										},
+										{
+											"key": "report_id",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Report",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}patient-management/patients/:patient_pk/diagnosis-reports/:report_id/",
+									"host": [
+										"{{LOCAL}}patient-management"
+									],
+									"path": [
+										"patients",
+										":patient_pk",
+										"diagnosis-reports",
+										":report_id",
+										""
+									],
+									"variable": [
+										{
+											"key": "patient_pk",
+											"value": ""
+										},
+										{
+											"key": "report_id",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Prescription Report",
+					"item": [
+						{
+							"name": "Create Prescription Report",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{hospital_admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"medicine_name\": \"Oseltamivir (Tamiflu) 75mg\",\r\n    \"dosage\": \"1 capsule\",\r\n    \"frequency\": \"Twice a day\",\r\n    \"duration\": 5,\r\n    \"notes\": \"Start immediately if flu test is positive.\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL}}patient-management/patients/:patient_pk/prescription-reports/",
+									"host": [
+										"{{LOCAL}}patient-management"
+									],
+									"path": [
+										"patients",
+										":patient_pk",
+										"prescription-reports",
+										""
+									],
+									"variable": [
+										{
+											"key": "patient_pk",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "List Diagnosis Reports",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{hospital_admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}patient-management/patients/:patient_pk/prescription-reports/",
+									"host": [
+										"{{LOCAL}}patient-management"
+									],
+									"path": [
+										"patients",
+										":patient_pk",
+										"prescription-reports",
+										""
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "",
+											"disabled": true
+										},
+										{
+											"key": "page_size",
+											"value": "",
+											"disabled": true
+										},
+										{
+											"key": "start_date",
+											"value": "",
+											"description": "YYYY-MM-DD",
+											"disabled": true
+										},
+										{
+											"key": "end_date",
+											"value": "",
+											"description": "YYYY-MM-DD",
+											"disabled": true
+										},
+										{
+											"key": "medicine_name",
+											"value": null,
+											"disabled": true
+										}
+									],
+									"variable": [
+										{
+											"key": "patient_pk",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Report",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}patient-management/patients/:patient_pk/prescription-reports/:report_id/",
+									"host": [
+										"{{LOCAL}}patient-management"
+									],
+									"path": [
+										"patients",
+										":patient_pk",
+										"prescription-reports",
+										":report_id",
+										""
+									],
+									"variable": [
+										{
+											"key": "patient_pk",
+											"value": ""
+										},
+										{
+											"key": "report_id",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Report",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"medicine_name\": \"Oseltamivir (Tamiflu) 75mg\",\r\n    \"dosage\": \"1 capsule\",\r\n    \"frequency\": \"Twice a day\",\r\n    \"duration\": 5,\r\n    \"notes\": \"Start immediately if flu test is positive.\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL}}patient-management/patients/:patient_pk/prescription-reports/:report_id/",
+									"host": [
+										"{{LOCAL}}patient-management"
+									],
+									"path": [
+										"patients",
+										":patient_pk",
+										"prescription-reports",
+										":report_id",
+										""
+									],
+									"variable": [
+										{
+											"key": "patient_pk",
+											"value": ""
+										},
+										{
+											"key": "report_id",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Report",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}patient-management/patients/:patient_pk/prescription-reports/:report_id/",
+									"host": [
+										"{{LOCAL}}patient-management"
+									],
+									"path": [
+										"patients",
+										":patient_pk",
+										"prescription-reports",
+										":report_id",
+										""
+									],
+									"variable": [
+										{
+											"key": "patient_pk",
+											"value": ""
+										},
+										{
+											"key": "report_id",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Lab Tests",
+					"item": [
+						{
+							"name": "List Lab Tests",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}laboratory-management/patients/:patient_id/tests/",
+									"host": [
+										"{{LOCAL}}laboratory-management"
+									],
+									"path": [
+										"patients",
+										":patient_id",
+										"tests",
+										""
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": null,
+											"disabled": true
+										},
+										{
+											"key": "page_size",
+											"value": null,
+											"disabled": true
+										},
+										{
+											"key": "search",
+											"value": null,
+											"description": "(by lab_no or test_type_name)",
+											"disabled": true
+										},
+										{
+											"key": "status",
+											"value": null,
+											"description": "draft, completed",
+											"disabled": true
+										},
+										{
+											"key": "start_date",
+											"value": null,
+											"disabled": true
+										},
+										{
+											"key": "end_date",
+											"value": null,
+											"disabled": true
+										}
+									],
+									"variable": [
+										{
+											"key": "patient_id",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Lab Test for a Patient",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"lab_no\": \"LAB000127\",\r\n    \"ordered_by\": \"doctor_user_id\",\r\n    \"test_type\": \"lttype_uuid_cbc\",\r\n    \"entry_category\": \"inpatient\",  // outpatient, inpatient, emergency\r\n    \"date_collected\": \"2025-05-14T12:00:00Z\",\r\n    \"specimen\": \"Blood EDTA\",\r\n    \"status\": \"draft\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL}}patient-management/patients/:patient_id/tests/create/",
+									"host": [
+										"{{LOCAL}}patient-management"
+									],
+									"path": [
+										"patients",
+										":patient_id",
+										"tests",
+										"create",
+										""
+									],
+									"variable": [
+										{
+											"key": "patient_id",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve Lab Test for a Patient",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}patient-management/patients/:patient_id/tests/:test_id/",
+									"host": [
+										"{{LOCAL}}patient-management"
+									],
+									"path": [
+										"patients",
+										":patient_id",
+										"tests",
+										":test_id",
+										""
+									],
+									"variable": [
+										{
+											"key": "patient_id",
+											"value": ""
+										},
+										{
+											"key": "test_id",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Lab Test for a Patient",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"status\": \"cancelled\",\r\n    \"notes\": \"Patient refused test.\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL}}patient-management/patients/:patient_id/tests/:test_id/",
+									"host": [
+										"{{LOCAL}}patient-management"
+									],
+									"path": [
+										"patients",
+										":patient_id",
+										"tests",
+										":test_id",
+										""
+									],
+									"variable": [
+										{
+											"key": "patient_id",
+											"value": ""
+										},
+										{
+											"key": "test_id",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Add Family",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{doctor}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"family_name\": \"Trump\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{LOCAL}}patient-management/families/",
+							"host": [
+								"{{LOCAL}}patient-management"
+							],
+							"path": [
+								"families",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Add Family",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"family_name\": \"Trump\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL}}patient-management/families/",
+									"host": [
+										"{{LOCAL}}patient-management"
+									],
+									"path": [
+										"families",
+										""
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sat, 17 May 2025 17:25:41 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.10.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, POST, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Length",
+									"value": "46"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"data\": {\n        \"family_name\": \"Trump\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "List Families",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{doctor}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{LOCAL}}patient-management/families/",
+							"host": [
+								"{{LOCAL}}patient-management"
+							],
+							"path": [
+								"families",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "List Families",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}patient-management/families/",
+									"host": [
+										"{{LOCAL}}patient-management"
+									],
+									"path": [
+										"families",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sun, 18 May 2025 14:51:15 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.10.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, POST, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Length",
+									"value": "223"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"count\": 1,\n    \"next\": null,\n    \"previous\": null,\n    \"results\": [\n        {\n            \"id\": \"9380f74e-f5ed-4281-ba73-5ebeb3e0d4cc\",\n            \"family_name\": \"Trump\",\n            \"no_of_members\": 1,\n            \"created_at\": \"2025-05-17T17:25:41.076072Z\",\n            \"updated_at\": \"2025-05-17T17:25:41.076072Z\"\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "List Family Members",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{doctor}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"family_name\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{LOCAL}}patient-management/families/:family_id/",
+							"host": [
+								"{{LOCAL}}patient-management"
+							],
+							"path": [
+								"families",
+								":family_id",
+								""
+							],
+							"variable": [
+								{
+									"key": "family_id",
+									"value": "9380f74e-f5ed-4281-ba73-5ebeb3e0d4cc"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "List Family Members",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"family_name\": \"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL}}patient-management/families/:family_id/",
+									"host": [
+										"{{LOCAL}}patient-management"
+									],
+									"path": [
+										"families",
+										":family_id",
+										""
+									],
+									"variable": [
+										{
+											"key": "family_id",
+											"value": "9380f74e-f5ed-4281-ba73-5ebeb3e0d4cc"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sun, 18 May 2025 14:51:49 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.10.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Length",
+									"value": "221"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"data\": [\n        {\n            \"id\": \"a937ab0f-eb3d-4e07-9a09-3a3e4d29a54f\",\n            \"full_name\": \"John Mark Trump\",\n            \"gender\": \"male\",\n            \"date_of_birth\": \"1992-03-20\",\n            \"age\": 33,\n            \"created_at\": \"2025-05-17T17:52:38.593613Z\",\n            \"patient_type\": \"Family\"\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "List Patients",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{doctor}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{LOCAL}}patient-management/patients/",
+							"host": [
+								"{{LOCAL}}patient-management"
+							],
+							"path": [
+								"patients",
+								""
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "a937",
+									"disabled": true
+								},
+								{
+									"key": "start_date",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "end_date",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "patient_type",
+									"value": "family",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "List Patients",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}patient-management/patients/",
+									"host": [
+										"{{LOCAL}}patient-management"
+									],
+									"path": [
+										"patients",
+										""
+									],
+									"query": [
+										{
+											"key": "search",
+											"value": null,
+											"disabled": true
+										},
+										{
+											"key": "start_date",
+											"value": null,
+											"disabled": true
+										},
+										{
+											"key": "end_date",
+											"value": null,
+											"disabled": true
+										},
+										{
+											"key": "patient_type",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sun, 18 May 2025 14:47:38 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.10.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, POST, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Length",
+									"value": "449"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"count\": 2,\n    \"next\": null,\n    \"previous\": null,\n    \"results\": [\n        {\n            \"id\": \"a937ab0f-eb3d-4e07-9a09-3a3e4d29a54f\",\n            \"full_name\": \"John Mark Trump\",\n            \"gender\": \"male\",\n            \"date_of_birth\": \"1992-03-20\",\n            \"age\": 33,\n            \"created_at\": \"2025-05-17T17:52:38.593613Z\",\n            \"patient_type\": \"Family\"\n        },\n        {\n            \"id\": \"3c37720b-1fc6-4888-9347-37b9ce75ab51\",\n            \"full_name\": \"Jane Anne Doe\",\n            \"gender\": \"female\",\n            \"date_of_birth\": \"1992-03-20\",\n            \"age\": 33,\n            \"created_at\": \"2025-05-17T17:25:06.124528Z\",\n            \"patient_type\": \"Individual\"\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Add Patient",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{doctor}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    // Personal Info\r\n    \"first_name\": \"Jane\",\r\n    \"last_name\": \"Doe\",\r\n    \"middle_name\": \"Anne\",\r\n    \"date_of_birth\": \"1992-03-20\",\r\n    \"gender\": \"female\",\r\n    \"phone_number\": \"1234567890\",\r\n    \"email\": \"jane.doe@example.com\",\r\n    \"address\": \"123 Main St\",\r\n    \"city\": \"Anytown\",\r\n    \"state\": \"Anystate\",\r\n    \"height\": 165,\r\n    \"weight\": 60,\r\n\r\n    // Medical Info\r\n    \"blood_group\": \"O+\",\r\n    \"genotype\": \"AA\",\r\n    \"allergies\": \"Pollen, Dust\",\r\n    \"chronic_conditions\": \"None\",\r\n    \"current_medications\": [{\"medication\": \"Aspirin\", \"dosage\": \"500mg\", \"frequency\": \"twice daily\"}],\r\n    \"family_history\": \"Diabetes (Mother)\",\r\n    \"surgical_history\": \"Appendectomy (2010)\",\r\n    \"hereditary_conditions\": \"None\",\r\n    \"other_conditions\": \"None\",\r\n\r\n    // Other Info\r\n    \"marital_status\": \"married\",    \r\n    \"employment_status\": \"Employed\",\r\n\r\n    // Emergency Contact\r\n    \"emergency_contact\": {\r\n        \"name\": \"John Smith\",\r\n        \"phone\": \"0987654321\",\r\n        \"relationship\": \"Spouse\",\r\n        \"address\": \"123 Main St, Anytown\"\r\n    },\r\n    \"social_history\": {\r\n        \"smoking\": \"Non-smoker\", \r\n        \"alcohol\": \"Occasional\",\r\n        \"drug_use\": \"n/a\",\r\n        \"diet\": \"Balanced\",\r\n        \"exercise\": \"Regular\" \r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{LOCAL}}patient-management/patients/",
+							"host": [
+								"{{LOCAL}}patient-management"
+							],
+							"path": [
+								"patients",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Add Patient",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    // Personal Info\r\n    \"first_name\": \"Jane\",\r\n    \"last_name\": \"Doe\",\r\n    \"middle_name\": \"Anne\",\r\n    \"date_of_birth\": \"1992-03-20\",\r\n    \"gender\": \"female\",\r\n    \"phone_number\": \"1234567890\",\r\n    \"email\": \"jane.doe@example.com\",\r\n    \"address\": \"123 Main St\",\r\n    \"city\": \"Anytown\",\r\n    \"state\": \"Anystate\",\r\n    \"height\": 165,\r\n    \"weight\": 60,\r\n\r\n    // Medical Info\r\n    \"blood_group\": \"O+\",\r\n    \"genotype\": \"AA\",\r\n    \"allergies\": \"Pollen, Dust\",\r\n    \"chronic_conditions\": \"None\",\r\n    \"current_medications\": [{\"medication\": \"Aspirin\", \"dosage\": \"500mg\", \"frequency\": \"twice daily\"}],\r\n    \"family_history\": \"Diabetes (Mother)\",\r\n    \"surgical_history\": \"Appendectomy (2010)\",\r\n    \"hereditary_conditions\": \"None\",\r\n    \"other_conditions\": \"None\",\r\n\r\n    // Other Info\r\n    \"marital_status\": \"married\",    \r\n    \"employment_status\": \"Employed\",\r\n\r\n    // Emergency Contact\r\n    \"emergency_contact\": {\r\n        \"name\": \"John Smith\",\r\n        \"phone\": \"0987654321\",\r\n        \"relationship\": \"Spouse\",\r\n        \"address\": \"123 Main St, Anytown\"\r\n    },\r\n    \"social_history\": {\r\n        \"smoking\": \"Non-smoker\", \r\n        \"alcohol\": \"Occasional\",\r\n        \"drug_use\": \"n/a\",\r\n        \"diet\": \"Balanced\",\r\n        \"exercise\": \"Regular\" \r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL}}patient-management/patients/",
+									"host": [
+										"{{LOCAL}}patient-management"
+									],
+									"path": [
+										"patients",
+										""
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sat, 17 May 2025 17:25:06 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.10.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, POST, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1334"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"data\": {\n        \"id\": \"3c37720b-1fc6-4888-9347-37b9ce75ab51\",\n        \"hospital\": \"8bcb6a27-c7a6-4ece-a9fc-409e693ef03d\",\n        \"first_name\": \"Jane\",\n        \"last_name\": \"Doe\",\n        \"middle_name\": \"Anne\",\n        \"full_name\": \"Jane Anne Doe\",\n        \"patient_type\": \"individual\",\n        \"date_of_birth\": \"1992-03-20\",\n        \"age\": 33,\n        \"gender\": \"female\",\n        \"phone_number\": \"1234567890\",\n        \"email\": \"jane.doe@example.com\",\n        \"address\": \"123 Main St\",\n        \"city\": \"Anytown\",\n        \"state\": \"Anystate\",\n        \"employment_status\": \"Employed\",\n        \"height\": 165,\n        \"weight\": 60,\n        \"bmi\": 22.04,\n        \"blood_group\": \"O+\",\n        \"genotype\": \"AA\",\n        \"allergies\": \"Pollen, Dust\",\n        \"chronic_conditions\": \"None\",\n        \"current_medications\": [\n            {\n                \"medication\": \"Aspirin\",\n                \"dosage\": \"500mg\",\n                \"frequency\": \"twice daily\"\n            }\n        ],\n        \"family_history\": \"Diabetes (Mother)\",\n        \"surgical_history\": \"Appendectomy (2010)\",\n        \"hereditary_conditions\": \"None\",\n        \"other_conditions\": \"None\",\n        \"emergency_contact\": {\n            \"name\": \"John Smith\",\n            \"phone\": \"0987654321\",\n            \"relationship\": \"Spouse\",\n            \"address\": \"123 Main St, Anytown\"\n        },\n        \"marital_status\": \"married\",\n        \"social_history\": {\n            \"smoking\": \"Non-smoker\",\n            \"alcohol\": \"Occasional\",\n            \"drug_use\": \"n/a\",\n            \"sexual_history\": null,\n            \"exercise\": \"Regular\",\n            \"diet\": \"Balanced\",\n            \"other_habits\": null,\n            \"created_at\": \"2025-05-17T17:25:06.132789Z\",\n            \"updated_at\": \"2025-05-17T17:25:06.132789Z\"\n        },\n        \"created_at\": \"2025-05-17T17:25:06.124528Z\",\n        \"updated_at\": \"2025-05-17T17:25:06.124528Z\",\n        \"registered_by\": \"f1841d87-ed48-44e0-a755-093e5f0cc721\"\n    }\n}"
+						},
+						{
+							"name": "Add Patient",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    // Family\r\n    \"family_id\": \"9380f74e-f5ed-4281-ba73-5ebeb3e0d4cc\",\r\n\r\n    // Personal Info\r\n    \"first_name\": \"John\",\r\n    \"last_name\": \"Trump\",\r\n    \"middle_name\": \"Mark\",\r\n    \"date_of_birth\": \"1992-03-20\",\r\n    \"gender\": \"male\",\r\n    \"phone_number\": \"1264567890\",\r\n    \"email\": \"john.trump@example.com\",\r\n    \"address\": \"123 Main St\",\r\n    \"city\": \"Anytown\",\r\n    \"state\": \"Anystate\",\r\n    \"height\": 165,\r\n    \"weight\": 60,\r\n\r\n    // Medical Info\r\n    \"blood_group\": \"O+\",\r\n    \"genotype\": \"AA\",\r\n    \"allergies\": \"Pollen, Dust\",\r\n    \"chronic_conditions\": \"None\",\r\n    \"current_medications\": [{\"medication\": \"Aspirin\", \"dosage\": \"500mg\", \"frequency\": \"twice daily\"}],\r\n    \"family_history\": \"Diabetes (Mother)\",\r\n    \"surgical_history\": \"Appendectomy (2010)\",\r\n    \"hereditary_conditions\": \"None\",\r\n    \"other_conditions\": \"None\",\r\n\r\n    // Other Info\r\n    \"marital_status\": \"married\",    \r\n    \"employment_status\": \"Employed\",\r\n\r\n    // Emergency Contact\r\n    \"emergency_contact\": {\r\n        \"name\": \"John Smith\",\r\n        \"phone\": \"0987654321\",\r\n        \"relationship\": \"Spouse\",\r\n        \"address\": \"123 Main St, Anytown\"\r\n    },\r\n    \"social_history\": {\r\n        \"smoking\": \"Non-smoker\", \r\n        \"alcohol\": \"Occasional\",\r\n        \"drug_use\": \"n/a\",\r\n        \"diet\": \"Balanced\",\r\n        \"exercise\": \"Regular\" \r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL}}patient-management/patients/",
+									"host": [
+										"{{LOCAL}}patient-management"
+									],
+									"path": [
+										"patients",
+										""
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sat, 17 May 2025 17:52:38 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.10.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, POST, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1515"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"data\": {\n        \"id\": \"a937ab0f-eb3d-4e07-9a09-3a3e4d29a54f\",\n        \"hospital\": \"8bcb6a27-c7a6-4ece-a9fc-409e693ef03d\",\n        \"family\": {\n            \"id\": \"9380f74e-f5ed-4281-ba73-5ebeb3e0d4cc\",\n            \"family_name\": \"Trump\",\n            \"no_of_members\": 1,\n            \"created_at\": \"2025-05-17T17:25:41.076072Z\",\n            \"updated_at\": \"2025-05-17T17:25:41.076072Z\"\n        },\n        \"first_name\": \"John\",\n        \"last_name\": \"Trump\",\n        \"middle_name\": \"Mark\",\n        \"full_name\": \"John Mark Trump\",\n        \"patient_type\": \"family\",\n        \"date_of_birth\": \"1992-03-20\",\n        \"age\": 33,\n        \"gender\": \"male\",\n        \"phone_number\": \"1264567890\",\n        \"email\": \"john.trump@example.com\",\n        \"address\": \"123 Main St\",\n        \"city\": \"Anytown\",\n        \"state\": \"Anystate\",\n        \"employment_status\": \"Employed\",\n        \"height\": 165,\n        \"weight\": 60,\n        \"bmi\": 22.04,\n        \"blood_group\": \"O+\",\n        \"genotype\": \"AA\",\n        \"allergies\": \"Pollen, Dust\",\n        \"chronic_conditions\": \"None\",\n        \"current_medications\": [\n            {\n                \"medication\": \"Aspirin\",\n                \"dosage\": \"500mg\",\n                \"frequency\": \"twice daily\"\n            }\n        ],\n        \"family_history\": \"Diabetes (Mother)\",\n        \"surgical_history\": \"Appendectomy (2010)\",\n        \"hereditary_conditions\": \"None\",\n        \"other_conditions\": \"None\",\n        \"emergency_contact\": {\n            \"name\": \"John Smith\",\n            \"phone\": \"0987654321\",\n            \"relationship\": \"Spouse\",\n            \"address\": \"123 Main St, Anytown\"\n        },\n        \"marital_status\": \"married\",\n        \"social_history\": {\n            \"smoking\": \"Non-smoker\",\n            \"alcohol\": \"Occasional\",\n            \"drug_use\": \"n/a\",\n            \"sexual_history\": null,\n            \"exercise\": \"Regular\",\n            \"diet\": \"Balanced\",\n            \"other_habits\": null,\n            \"created_at\": \"2025-05-17T17:52:38.602017Z\",\n            \"updated_at\": \"2025-05-17T17:52:38.602017Z\"\n        },\n        \"created_at\": \"2025-05-17T17:52:38.593613Z\",\n        \"updated_at\": \"2025-05-17T17:52:38.593613Z\",\n        \"registered_by\": \"f1841d87-ed48-44e0-a755-093e5f0cc721\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Update Patient Info",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{hospital_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    // Personal Info\r\n    \"first_name\": \"Jane\",\r\n    \"last_name\": \"Doe\",\r\n    \"middle_name\": \"Anne\",\r\n    \"date_of_birth\": \"1992-03-20\",\r\n    \"gender\": \"Female\",\r\n    \"phone_number\": \"1234567890\",\r\n    \"email\": \"jane.doe@example.com\",\r\n    \"address\": \"123 Main St\",\r\n    \"city\": \"Anytown\",\r\n    \"state\": \"Anystate\",\r\n    \"height\": 165,\r\n    \"weight\": 60,\r\n\r\n    // Medical Info\r\n    \"blood_group\": \"O+\",\r\n    \"genotype\": \"AA\",\r\n    \"allergies\": \"Pollen, Dust\",\r\n    \"chronic_conditions\": \"None\",\r\n    \"current_medications\": [{\"medication\": \"Aspirin\", \"dosage\": \"500mg\", \"frequency\": \"twice daily\"}],\r\n    \"family_history\": \"Diabetes (Mother)\",\r\n    \"surgical_history\": \"Appendectomy (2010)\",\r\n    \"hereditary_conditions\": \"None\",\r\n    \"other_conditions\": \"None\",\r\n\r\n    // Other Info\r\n    \"marital_status\": \"Married\",    \r\n    \"employment_status\": \"Employed\",\r\n\r\n    // Emergency Contact\r\n    \"emergency_contact\": {\r\n        \"name\": \"John Smith\",\r\n        \"phone\": \"0987654321\",\r\n        \"relationship\": \"Spouse\",\r\n        \"address\": \"123 Main St, Anytown\"\r\n    },\r\n    \"social_history\": {\r\n        \"smoking\": \"Non-smoker\", \r\n        \"alcohol\": \"Occasional\",\r\n        \"drug_use\": \"n/a\",\r\n        \"diet\": \"Balanced\",\r\n        \"exercise\": \"Regular\" \r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{LOCAL}}patient-management/patients/:patient_id/",
+							"host": [
+								"{{LOCAL}}patient-management"
+							],
+							"path": [
+								"patients",
+								":patient_id",
+								""
+							],
+							"variable": [
+								{
+									"key": "patient_id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "View Patient Details",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{doctor}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{LOCAL}}patient-management/patients/:patient_id/",
+							"host": [
+								"{{LOCAL}}patient-management"
+							],
+							"path": [
+								"patients",
+								":patient_id",
+								""
+							],
+							"variable": [
+								{
+									"key": "patient_id",
+									"value": "a937ab0f-eb3d-4e07-9a09-3a3e4d29a54f"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "View Patient Details",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}patient-management/patients/:patient_id/",
+									"host": [
+										"{{LOCAL}}patient-management"
+									],
+									"path": [
+										"patients",
+										":patient_id",
+										""
+									],
+									"variable": [
+										{
+											"key": "patient_id",
+											"value": "a937ab0f-eb3d-4e07-9a09-3a3e4d29a54f"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sat, 17 May 2025 17:57:30 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.10.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, PATCH, DELETE, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1515"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"data\": {\n        \"id\": \"a937ab0f-eb3d-4e07-9a09-3a3e4d29a54f\",\n        \"hospital\": \"8bcb6a27-c7a6-4ece-a9fc-409e693ef03d\",\n        \"family\": {\n            \"id\": \"9380f74e-f5ed-4281-ba73-5ebeb3e0d4cc\",\n            \"family_name\": \"Trump\",\n            \"no_of_members\": 1,\n            \"created_at\": \"2025-05-17T17:25:41.076072Z\",\n            \"updated_at\": \"2025-05-17T17:25:41.076072Z\"\n        },\n        \"first_name\": \"John\",\n        \"last_name\": \"Trump\",\n        \"middle_name\": \"Mark\",\n        \"full_name\": \"John Mark Trump\",\n        \"patient_type\": \"family\",\n        \"date_of_birth\": \"1992-03-20\",\n        \"age\": 33,\n        \"gender\": \"male\",\n        \"phone_number\": \"1264567890\",\n        \"email\": \"john.trump@example.com\",\n        \"address\": \"123 Main St\",\n        \"city\": \"Anytown\",\n        \"state\": \"Anystate\",\n        \"employment_status\": \"Employed\",\n        \"height\": 165,\n        \"weight\": 60,\n        \"bmi\": 22.04,\n        \"blood_group\": \"O+\",\n        \"genotype\": \"AA\",\n        \"allergies\": \"Pollen, Dust\",\n        \"chronic_conditions\": \"None\",\n        \"current_medications\": [\n            {\n                \"dosage\": \"500mg\",\n                \"frequency\": \"twice daily\",\n                \"medication\": \"Aspirin\"\n            }\n        ],\n        \"family_history\": \"Diabetes (Mother)\",\n        \"surgical_history\": \"Appendectomy (2010)\",\n        \"hereditary_conditions\": \"None\",\n        \"other_conditions\": \"None\",\n        \"emergency_contact\": {\n            \"name\": \"John Smith\",\n            \"phone\": \"0987654321\",\n            \"relationship\": \"Spouse\",\n            \"address\": \"123 Main St, Anytown\"\n        },\n        \"marital_status\": \"married\",\n        \"social_history\": {\n            \"smoking\": \"Non-smoker\",\n            \"alcohol\": \"Occasional\",\n            \"drug_use\": \"n/a\",\n            \"sexual_history\": null,\n            \"exercise\": \"Regular\",\n            \"diet\": \"Balanced\",\n            \"other_habits\": null,\n            \"created_at\": \"2025-05-17T17:52:38.602017Z\",\n            \"updated_at\": \"2025-05-17T17:52:38.602017Z\"\n        },\n        \"created_at\": \"2025-05-17T17:52:38.593613Z\",\n        \"updated_at\": \"2025-05-17T17:52:38.593613Z\",\n        \"registered_by\": \"f1841d87-ed48-44e0-a755-093e5f0cc721\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "View Patient QR-Code",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{doctor}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{LOCAL}}patient-management/patients/:patient_id/qr-code/",
+							"host": [
+								"{{LOCAL}}patient-management"
+							],
+							"path": [
+								"patients",
+								":patient_id",
+								"qr-code",
+								""
+							],
+							"variable": [
+								{
+									"key": "patient_id",
+									"value": "a937ab0f-eb3d-4e07-9a09-3a3e4d29a54f"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "View Patient QR-Code",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}patient-management/patients/:patient_id/qr-code/",
+									"host": [
+										"{{LOCAL}}patient-management"
+									],
+									"path": [
+										"patients",
+										":patient_id",
+										"qr-code",
+										""
+									],
+									"variable": [
+										{
+											"key": "patient_id",
+											"value": "a937ab0f-eb3d-4e07-9a09-3a3e4d29a54f"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sat, 17 May 2025 18:00:02 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.10.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1761"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"data\": {\n        \"qr_code_image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAeoAAAHqAQAAAADjFjCXAAAEvklEQVR4nO1dXWrrSgyWZEMfE8gCzlKcHdwlHe6Szg7ipXQBF+zHgo0O+pkZp9wnOZA01vdQMvZ8OG4/JI2kmSLDDoy0hw2Q9DAoThUkPQyKUwVJD4PiVEHSw6A4VZD0MChOFST9yHR09AAjIsIonwBW9FlzD3idEQHmMvX6Ml8+DIpTBUnfSx9YMAHgFTqGYVpFVx274E5foj8ZQqcz+aFPj4LCTEXSn02f3XwV6SlWhPHc5qoS1TD2D356EBQlGpL+LHr/bYygdu209DyeJ7F6F7ncMYr+GOaHPp2Sfkh6/23M4/XDHCkO09rDcPtCdacMsPYv9uUp6T9bdSeR1qy27j90hc0XBjF4ONxEf38uFs3xu7w7Jf259FHXpRLDDZ8fjNdZDR4A/v4UXdbhVYI7ATzy6VFQmKlI+nNtHdcxA6hLXXw4nkHCPLk2r3KD3+fdKekvkK+7WjKuB7V6/O8vl54nTU4LwHjWde2atg6SvgOs2bdh0jzcIkPVmubmNJEnw5NOqRwdyvzbj353SvpzVQcipM3QMndq4fTuAk2YqkRWpOrioB1ceA/6MInTrD5UPlnS+FYyx34XP2Rd22VtApK+A2xGy6yZu1SVGd9OWiXTAlmdXq4Z0tbFQQemg+tHtCbSU61p0KYuVS2c6c/v1jCPU3W7QAemg0rOFSalfVOY3rJPRXptnrUKCFJ1cdCB6b3+5PHciczck+IwXRZpN1ns2nBby3yp0o7n6S3enZL+ZFvHJX0ixs0daelqaqvZMoRcw0LSd4C3QpLI7a7dThcS35cUvurgVN0e0IHp4EbLBsXWWVrOtOaC8wivhn6KVF0cdGA6cMVmlWBmzsoSmkgRJRZb15a5nKqLgw5MhyIzT/xuPKyLqxVjixPOuE6R9DhYzZxClxTVzZZrWgJT+CcvkHGqbhfowHRw1dmiVVCqFM3ruvQ2ddiCVF0cBEenswdypfAvts627HhXk2ZOvsp+xLZl8RW+fBgUpwqSHgcLSlqkpupKCWwb19V6WaVx2ro46MB0cF9pla5aabXgrubw6rrC1Jlr2Of/4egtek54s5AogqvtnrUFxeaVsmzauh0gOHodFuG09rIzDHUDrGwU63VnGI+ljR2HT6ybJrrsr4Ok7wA7SjHMrt31121vZL6uIulxsDnS0sZefKgr0dDydWrmMnOiSPpu+qzbXlE8rNq6erqOBXyyM0ya1y1popMf+fQgKEo0JP3p9BXN6gnw2nSl6bv5g/H39D+ZO3rQ02OgIM+R9JfwsFC7SlqRf7Nl4m577JAeFpIeBd+jNc95f5P1nGhXnWvNeEOqDpK+M3Ni6KRlnWWo5zd1CwJINCcHi9kpFPNlkXN2lnd4d0r68z0sexud93J60qS42W2pNmsTD/jN04HpsPWrZaPYpja2ietabjjrsA/4zVPS7+GLVjlETE/o9KJZ2RkrRhBzDUtJj6L/fmH4c0Y7oXM8dwuM/4ixm/V0YtmoOPcLah0Wfv67U9JfJK4Du1a3h2lXcW0obmeKcdYmKOlhcM0Nt8ittaC0/rqSw2tdxZyq2wM6MB3zv9dFQWGmIulhUJwqSHoYFKcKkh4GxamCpIdBcaog6WFQnAoHp/8FH5QEVj7QcoIAAAAASUVORK5CYII=\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete Patient",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{LOCAL}}patient-management/patients/:patient_id/",
+							"host": [
+								"{{LOCAL}}patient-management"
+							],
+							"path": [
+								"patients",
+								":patient_id",
+								""
+							],
+							"variable": [
+								{
+									"key": "patient_id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Laboratory Mgt",
+			"item": [
+				{
+					"name": "Test Types",
+					"item": [
+						{
+							"name": "Create Lab Test Types",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"test_name\": \"Lipid Profile\",\r\n    \"test_type\": \"biochemistry\", // 'hematology', 'biochemistry', 'microbiology', 'immunology', 'pathology', 'radiology', 'other'\r\n    \"description\": \"Measures cholesterol and triglycerides.\",\r\n    \"is_active\": true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL}}laboratory-management/test-types/",
+									"host": [
+										"{{LOCAL}}laboratory-management"
+									],
+									"path": [
+										"test-types",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "List Lab Test Types",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}laboratory-management/test-types/",
+									"host": [
+										"{{LOCAL}}laboratory-management"
+									],
+									"path": [
+										"test-types",
+										""
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": null,
+											"disabled": true
+										},
+										{
+											"key": "page_size",
+											"value": null,
+											"disabled": true
+										},
+										{
+											"key": "search",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Test Type",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"description\": \"Comprehensive blood panel including RBC, WBC, Platelets.\",\r\n    \"is_active\": true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL}}laboratory-management/test-types/:type_id/",
+									"host": [
+										"{{LOCAL}}laboratory-management"
+									],
+									"path": [
+										"test-types",
+										":type_id",
+										""
+									],
+									"variable": [
+										{
+											"key": "type_id",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Test Type",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}laboratory-management/test-types/:type_id/",
+									"host": [
+										"{{LOCAL}}laboratory-management"
+									],
+									"path": [
+										"test-types",
+										":type_id",
+										""
+									],
+									"variable": [
+										{
+											"key": "type_id",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Test Type",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}laboratory-management/test-types/:type_id/",
+									"host": [
+										"{{LOCAL}}laboratory-management"
+									],
+									"path": [
+										"test-types",
+										":type_id",
+										""
+									],
+									"variable": [
+										{
+											"key": "type_id",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Lab Tests",
+					"item": [
+						{
+							"name": "List Lab Test Results (Completed)",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}laboratory-management/results/",
+									"host": [
+										"{{LOCAL}}laboratory-management"
+									],
+									"path": [
+										"results",
+										""
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": null,
+											"disabled": true
+										},
+										{
+											"key": "page_size",
+											"value": null,
+											"disabled": true
+										},
+										{
+											"key": "search",
+											"value": null,
+											"description": "(string, optional): Search by patient name or lab number.",
+											"disabled": true
+										},
+										{
+											"key": "start_date",
+											"value": null,
+											"description": "YYYY-MM-DD",
+											"disabled": true
+										},
+										{
+											"key": "end_date",
+											"value": "",
+											"description": "YYYY-MM-DD",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "List Lab Test Results (Scheduled)",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}laboratory-management/scheduled/",
+									"host": [
+										"{{LOCAL}}laboratory-management"
+									],
+									"path": [
+										"scheduled",
+										""
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": null,
+											"disabled": true
+										},
+										{
+											"key": "page_size",
+											"value": null,
+											"disabled": true
+										},
+										{
+											"key": "search",
+											"value": null,
+											"description": "(string, optional): Search by patient name or lab number.",
+											"disabled": true
+										},
+										{
+											"key": "start_date",
+											"value": null,
+											"description": "YYYY-MM-DD",
+											"disabled": true
+										},
+										{
+											"key": "end_date",
+											"value": "",
+											"description": "YYYY-MM-DD",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "List Draft Lab Tests",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}laboratory-management/drafts/",
+									"host": [
+										"{{LOCAL}}laboratory-management"
+									],
+									"path": [
+										"drafts",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve Lab Test Detail",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}laboratory-management/tests/:test_id/",
+									"host": [
+										"{{LOCAL}}laboratory-management"
+									],
+									"path": [
+										"tests",
+										":test_id",
+										""
+									],
+									"variable": [
+										{
+											"key": "test_id",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Lab Test",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"lab_no\": \"LAB000126\",\r\n    \"patient\": \"patient_uuid_alice\", // UUID of an existing patient\r\n    \"ordered_by\": \"doctor_user_uuid_who_ordered\", // UUID of the doctor\r\n    \"test_type\": \"lttype_uuid_lipid_profile\", // UUID of an existing LabTestType\r\n    \"entry_category\": \"outpatient\",\r\n    \"date_collected\": \"2025-05-14T11:30:00Z\",\r\n    \"specimen\": \"Serum\",\r\n    \"specimen_id\": \"SPEC002\",\r\n    \"specimen_type\": \"blood\",\r\n    \"status\": \"pending\", // Or 'draft'\r\n    \"percentage_completed\": 0,\r\n    \"test_date\": \"2025-05-14T11:30:00Z\", // Or future date if scheduled\r\n    \"notes\": \"Patient to fast for 12 hours prior to collection.\"\r\n    // \"diagnosis_report\": \"diag_report_uuid_if_any\" (optional)\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL}}laboratory-management/tests/",
+									"host": [
+										"{{LOCAL}}laboratory-management"
+									],
+									"path": [
+										"tests",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Lab Test",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"lab_scientist\": \"lab_scientist_user_uuid\",\r\n    \"status\": \"in_progress\",\r\n    \"percentage_completed\": 50,\r\n    \"notes\": \"Sample received in lab. Processing started.\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL}}laboratory-management/tests/:test_id/update/",
+									"host": [
+										"{{LOCAL}}laboratory-management"
+									],
+									"path": [
+										"tests",
+										":test_id",
+										"update",
+										""
+									],
+									"variable": [
+										{
+											"key": "test_id",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Complete Lab Test",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"result\": \"Total Cholesterol: 200 mg/dL, HDL: 50 mg/dL, LDL: 130 mg/dL, Triglycerides: 150 mg/dL\",\r\n    \"reporting_date\": \"2025-05-14T17:00:00Z\",\r\n    \"lab_scientist\": \"lab_scientist_user_uuid_final\", // Can be updated here too\r\n    \"notes\": \"Results verified.\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL}}laboratory-management/tests/:test_id/complete/",
+									"host": [
+										"{{LOCAL}}laboratory-management"
+									],
+									"path": [
+										"tests",
+										":test_id",
+										"complete",
+										""
+									],
+									"variable": [
+										{
+											"key": "test_id",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Lab Test",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}laboratory-management/tests/:test_id/update/",
+									"host": [
+										"{{LOCAL}}laboratory-management"
+									],
+									"path": [
+										"tests",
+										":test_id",
+										"update",
+										""
+									],
+									"variable": [
+										{
+											"key": "test_id",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Dashboards",
+			"item": [
+				{
+					"name": "Hospital Admin",
+					"item": [
+						{
+							"name": "Analytics",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{hospital_admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}dashboard/hospital-admin/",
+									"host": [
+										"{{LOCAL}}dashboard"
+									],
+									"path": [
+										"hospital-admin",
+										""
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Analytics",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{LOCAL}}dashboard/hospital-admin/",
+											"host": [
+												"{{LOCAL}}dashboard"
+											],
+											"path": [
+												"hospital-admin",
+												""
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Sat, 17 May 2025 17:04:40 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "WSGIServer/0.2 CPython/3.10.0"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Allow",
+											"value": "GET, HEAD, OPTIONS"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "DENY"
+										},
+										{
+											"key": "Vary",
+											"value": "origin"
+										},
+										{
+											"key": "Content-Length",
+											"value": "466"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": true,\n    \"message\": \"Hospital admin dashboard analytics retrieved successfully.\",\n    \"data\": {\n        \"overview\": {\n            \"total_no_of_patients\": 0,\n            \"total_no_of_doctors\": 1,\n            \"total_no_of_staff\": 2,\n            \"no_of_medicines\": 0,\n            \"no_of_lab_tests\": 0,\n            \"no_of_upcoming_appointments\": 0,\n            \"no_of_wards\": 3,\n            \"no_of_rooms\": 1,\n            \"no_of_icus\": 0,\n            \"no_of_beds\": {\n                \"total\": 3,\n                \"no_occupied\": 0,\n                \"no_available\": 3\n            }\n        },\n        \"analytics\": {\n            \"total_no_of_transactions\": 0,\n            \"payment_medium_percentages\": {\n                \"cash\": 0,\n                \"card\": 0,\n                \"bank_transfer\": 0\n            }\n        }\n    }\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Nurse",
+					"item": [
+						{
+							"name": "Analytics",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}dashboard/nurse/",
+									"host": [
+										"{{LOCAL}}dashboard"
+									],
+									"path": [
+										"nurse",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Pharmacist",
+					"item": [
+						{
+							"name": "Analytics",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}dashboard/pharmacist/",
+									"host": [
+										"{{LOCAL}}dashboard"
+									],
+									"path": [
+										"pharmacist",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "List Upcoming Pickups",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}dashboard/pharmacist/upcoming-drug-pickup-list/",
+									"host": [
+										"{{LOCAL}}dashboard"
+									],
+									"path": [
+										"pharmacist",
+										"upcoming-drug-pickup-list",
+										""
+									],
+									"query": [
+										{
+											"key": "start_date",
+											"value": null,
+											"disabled": true
+										},
+										{
+											"key": "end_date",
+											"value": null,
+											"disabled": true
+										},
+										{
+											"key": "search",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Doctor",
+					"item": [
+						{
+							"name": "Analytics",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}dashboard/doctor/",
+									"host": [
+										"{{LOCAL}}dashboard"
+									],
+									"path": [
+										"doctor",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Diagnosis Analytics",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}dashboard/doctor/diagnosis-analytics/",
+									"host": [
+										"{{LOCAL}}dashboard"
+									],
+									"path": [
+										"doctor",
+										"diagnosis-analytics",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Laboratory Technician",
+					"item": [
+						{
+							"name": "Analytics",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}dashboard/laboratory/",
+									"host": [
+										"{{LOCAL}}dashboard"
+									],
+									"path": [
+										"laboratory",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Visitation Freq Analytics",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{doctor}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{LOCAL}}dashboard/visitation-frequency/",
+							"host": [
+								"{{LOCAL}}dashboard"
+							],
+							"path": [
+								"visitation-frequency",
+								""
+							],
+							"query": [
+								{
+									"key": "visitation_filter",
+									"value": null,
+									"description": "daily, monthly, yearly",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Visitation List",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{LOCAL}}dashboard/visitation-list/",
+							"host": [
+								"{{LOCAL}}dashboard"
+							],
+							"path": [
+								"visitation-list",
+								""
+							],
+							"query": [
+								{
+									"key": "patient_name",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "start_date",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "end_date",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Upcoming Appointments List",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{LOCAL}}dashboard/upcoming-appointments/",
+							"host": [
+								"{{LOCAL}}dashboard"
+							],
+							"path": [
+								"upcoming-appointments",
+								""
+							],
+							"query": [
+								{
+									"key": "start_date",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "end_date",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "search",
+									"value": null,
+									"description": "patient name or id",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Drug Mgt",
+			"item": []
+		},
+		{
+			"name": "Appointment Mgt",
+			"item": []
+		},
+		{
+			"name": "ORA Mgt",
+			"item": []
+		},
+		{
+			"name": "Queue Mgt",
+			"item": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "LOCAL",
+			"value": "http://localhost:8000/api/v1/",
+			"type": "string",
+			"disabled": true
+		},
+		{
+			"key": "hospital_admin",
+			"value": "",
+			"type": "default",
+			"disabled": true
+		},
+		{
+			"key": "doctor",
+			"value": "",
+			"type": "default",
+			"disabled": true
+		},
+		{
+			"key": "PROD",
+			"value": "https://b2p2upqndjzvncqwhnfudgiazu0navlq.lambda-url.us-east-2.on.aws/api/v1/",
+			"type": "string"
+		}
+	]
+}
