@@ -1,3 +1,5 @@
+import { PatientsIcon } from "@/components/icons/PatientsIcon";
+import { WoundCareIcon } from "@/components/icons/WoundCareIcon";
 import {
   LayoutDashboard,
   Users,
@@ -22,7 +24,8 @@ import { LucideIcon } from "lucide-react";
 // Define types for menu items
 export type MenuItem = {
   label: string;
-  icon: LucideIcon;
+  icon: any;
+  // icon: LucideIcon;
   href: string;
 };
 
@@ -237,22 +240,27 @@ export const moduleConfigs: ModuleConfig[] = [
         href: "/dashboard",
       },
       {
-        label: "Patient Care",
-        icon: Stethoscope,
-        href: "/patient-care",
+        label: "Patients",
+        icon: PatientsIcon,
+        href: "/patients",
       },
       {
-        label: "Vitals Records",
-        icon: Activity,
-        href: "/vitals",
+        label: "Wound Care",
+        icon: WoundCareIcon,
+        href: "/wound-care",
       },
       {
-        label: "Medication Schedule",
+        label: "Bed Management",
         icon: Calendar,
         href: "/medication-schedule",
       },
       {
-        label: "Reports",
+        label: "Queuing System",
+        icon: FileText,
+        href: "/reports",
+      },
+      {
+        label: "Appointment",
         icon: FileText,
         href: "/reports",
       },
