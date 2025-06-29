@@ -54,7 +54,10 @@ function Button({
   return (
     <Comp
       data-slot="button"
-      className={cn(buttonVariants({ variant, size, className }))}
+      className={cn(
+        buttonVariants({ variant, size, className }),
+        "cursor-pointer"
+      )}
       disabled={disabled || loading}
       {...props}
     >
@@ -86,7 +89,7 @@ function Button({
         children
       )}
     </Comp>
-  )
+  );
 }
 
 export { Button, buttonVariants }

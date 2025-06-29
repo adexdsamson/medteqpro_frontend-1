@@ -21,12 +21,14 @@ import {
   // Stethoscope,
   ShoppingCart,
 } from "lucide-react";
-// import { LucideIcon } from "lucide-react";
+import { LucideIcon } from "lucide-react";
+import { ComponentType } from "react";
 
 // Define types for menu items
 export type MenuItem = {
   label: string;
-  icon: any;
+  // icon: any;
+  icon: LucideIcon | ComponentType<{ className?: string }>;
   // icon: LucideIcon;
   href: string;
 };
@@ -289,11 +291,7 @@ export const moduleConfigs: ModuleConfig[] = [
       },
     ],
     settingsItems: commonSettingsItems,
-    defaultUserProfile: {
-      name: "Ben Rufus",
-      role: "Pharm.",
-      avatar: "/images/pharmacy-avatar.png",
-    },
+    defaultUserProfile: defaultUser,
   },
 ];
 
