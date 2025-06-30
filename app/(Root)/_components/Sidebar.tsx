@@ -40,13 +40,13 @@ export function AppSidebar({ moduleKey }: AppSidebarProps) {
             <SidebarMenu>
               {moduleConfig.menuItems.map((item) => (
                 <SidebarMenuItem key={item.label}>
-                  <SidebarMenuButton 
-                    className="h-10 text-sm font-semibold" 
-                    isActive={isActivePath(item.href)} 
+                  <SidebarMenuButton
+                    className="h-10 text-sm font-semibold"
+                    isActive={isActivePath(item.href)}
                     asChild
                   >
                     <Link href={getModulePath(item.href)}>
-                      <item.icon className="h-5 w-5" />
+                      <item.icon className={`h-5 w-5 ${isActivePath(item.href) ? "text-[#118795]":"text-[#9CA6CB]"}`} />
                       <span>{item.label}</span>
                     </Link>
                   </SidebarMenuButton>
@@ -63,9 +63,9 @@ export function AppSidebar({ moduleKey }: AppSidebarProps) {
               <SidebarMenu>
                 {moduleConfig.settingsItems.map((item) => (
                   <SidebarMenuItem key={item.label}>
-                    <SidebarMenuButton 
-                      className="h-10 text-sm font-semibold" 
-                      isActive={isActivePath(item.href)} 
+                    <SidebarMenuButton
+                      className="h-10 text-sm font-semibold"
+                      isActive={isActivePath(item.href)}
                       asChild
                     >
                       <Link href={getModulePath(item.href)}>

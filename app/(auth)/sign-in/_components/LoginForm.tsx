@@ -91,6 +91,7 @@ export function LoginForm() {
       const errorMessage =
         err.response?.data?.message || "An error occurred during login";
       toast.error("Login Failed", errorMessage as string);
+   
     }
   };
 
@@ -121,7 +122,7 @@ export function LoginForm() {
   };
 
   return (
-    <div className="min-w-sm">
+    <div className="min-w-sm flex justify-center flex-col">
       <header className="self-start">
         <h2 className="gap-2.5 self-stretch text-2xl font-semibold text-black">
           Hi, Welcome Back
@@ -150,7 +151,7 @@ export function LoginForm() {
         </CardContent>
       </Card>
 
-      <div className="mt-10 mb-10 relative">
+      <div className="mt-8 mb-8 relative">
         <span className="bg-[#F1F4F8] px-4 absolute -top-2.5 mx-auto w-fit block text-xs right-5/12">
           or with
         </span>

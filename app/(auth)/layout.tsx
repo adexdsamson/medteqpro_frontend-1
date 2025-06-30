@@ -13,7 +13,7 @@ export default function AuthLayout({
         <div className="absolute z-10 w-full h-full bg-gradient-to-b from-[#0D277F] to-[#3F4E7F] opacity-50" />
         <Image src='/Medteqpro-auth.png' width={717} height={900} alt='welcome image' />
       </div>
-      <div className="w-[50%] h-full max-md:ml-0 max-md:w-full">
+      <div className="w-[50%] h-full max-md:ml-0 max-md:w-full flex items-center">
         {children}
       </div>
     </main>

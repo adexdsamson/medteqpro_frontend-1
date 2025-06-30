@@ -8,7 +8,7 @@ export function WelcomeSection() {
         <span className="text-cyan-500">PRO</span>
       </h1>
       <h2 className="mt-72 text-3xl font-semibold text-white max-md:mt-10 max-md:max-w-full">
-        Welcome to MedTeqOPro Management <br />
+        Welcome to MedTeqPro Management <br />
         Portal
       </h2>
     </div>
