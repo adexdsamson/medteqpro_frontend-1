@@ -92,7 +92,7 @@ export function LoginForm() {
       case "superadmin":
         router.push("/super-admin/dashboard");
         break;
-      case "admin":
+      case "hospital_admin":
         router.push("/admin/dashboard");
         break;
       case "doctor":
