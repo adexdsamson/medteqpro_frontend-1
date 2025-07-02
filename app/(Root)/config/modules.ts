@@ -56,7 +56,7 @@ export const commonSettingsItems: MenuItem[] = [
   {
     label: "Logout",
     icon: LogOut,
-    href: "/auth/login",
+    href: "/sign-in",
   },
 ];
 

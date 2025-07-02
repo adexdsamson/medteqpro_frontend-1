@@ -81,13 +81,13 @@ function Dashboard() {
           <RecentlyRegisteredTable
             hospitals={dashboardData?.data?.data?.recent_hospitals?.map(
               (hospital) => ({
-                id: hospital.id,
-                name: hospital.name,
-                email: hospital.admin?.email || 'N/A',
-                hospitalName: hospital.name,
-                numberOfDoctors: hospital.no_of_doctors,
-                dateRegistered: hospital.created_at,
-                location: `${hospital.city}, ${hospital.state}`,
+                id: hospital.hospital_id,
+                name: hospital.hospital_name,
+                email: hospital.admin_email,
+                hospitalName: hospital.hospital_name,
+                numberOfDoctors: hospital.no_of_doctors.toString(),
+                dateRegistered: hospital.date_registered.toString(),
+                location: hospital.state,
                 status: hospital.status,
               })
             )}

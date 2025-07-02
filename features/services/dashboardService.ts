@@ -4,6 +4,18 @@ import { useQuery } from "@tanstack/react-query";
 import { getRequest } from "@/lib/axiosInstance";
 import { ApiResponse, ApiResponseError } from "@/types";
 
+export interface RecentHospitals {
+  hospital_id:     string;
+  hospital_name:   string;
+  admin_full_name: string;
+  admin_email:     string;
+  date_registered: Date;
+  no_of_doctors:   number;
+  state:           string;
+  status:          string;
+}
+
+
 // Define types based on the API response structure
 export interface DashboardAnalytics {
   total_revenue: number;
@@ -21,21 +33,7 @@ export interface DashboardAnalytics {
       percentage_of_total_patients: number;
     };
   };
-  recent_hospitals: Array<{
-    id: string;
-    name: string;
-    admin: {
-      email: string;
-      first_name: string;
-      last_name: string;
-    };
-    no_of_doctors: string;
-    state: string;
-    city: string;
-    address: string;
-    created_at: string;
-    status: string;
-  }>;
+  recent_hospitals: Array<RecentHospitals>;
   recent_subscriptions: Array<{
     id: string;
     hospital_name: string;
