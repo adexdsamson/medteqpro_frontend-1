@@ -14,6 +14,7 @@ export type TextSelectProps = {
   label?: string | any;
   containerClass?: string;
   error?: string;
+  helperText?: string;
   options: { label: string; value: string }[];
   placeholder?: string;
   onChange?: RegisterOptions["onChange"];
@@ -50,7 +51,11 @@ export const TextSelect = ({ label, ...rest }: TextSelectProps) => {
           ))}
         </SelectContent>
       </Select>
-      <span className="text-xs text-red-500 mt-1">{rest.error}</span>
+      {rest.error ? (
+        <span className="text-xs text-red-500 mt-1">{rest.error}</span>
+      ) : rest.helperText ? (
+        <span className="text-xs text-gray-500 mt-1">{rest.helperText}</span>
+      ) : null}
     </div>
   );
 };

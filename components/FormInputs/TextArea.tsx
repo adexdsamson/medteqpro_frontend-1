@@ -9,6 +9,7 @@ type TextAreaProps = React.InputHTMLAttributes<HTMLTextAreaElement> & {
   label?: any;
   containerClass?: string;
   error?: string;
+  helperText?: string;
   startAdornment?: ReactNode;
   endAdornment?: ReactNode;
   rows?: number;
@@ -32,7 +33,11 @@ export const TextArea = (props: TextAreaProps) => {
         />
         <span>{props.endAdornment}</span>
       </div>
-      <span className="text-xs text-red-500 mt-1">{props.error}</span>
+      {props.error ? (
+        <span className="text-xs text-red-500 mt-1">{props.error}</span>
+      ) : props.helperText ? (
+        <span className="text-xs text-gray-500 mt-1">{props.helperText}</span>
+      ) : null}
     </div>
   );
 };

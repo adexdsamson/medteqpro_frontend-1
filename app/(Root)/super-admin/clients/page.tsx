@@ -45,7 +45,7 @@ export default function ClientManagement() {
       },
     },
     {
-      accessorKey: "admin_full_name",
+      accessorKey: "name",
       header: "Hospital Name",
     },
     {

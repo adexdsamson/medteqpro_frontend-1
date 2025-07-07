@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-'use client'
+"use client";
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -10,6 +10,7 @@ export type TextInputProps = React.InputHTMLAttributes<HTMLInputElement> & {
   label?: any;
   containerClass?: string;
   error?: string;
+  helperText?: string;
   startAdornment?: ReactNode;
   endAdornment?: ReactNode;
 };
@@ -18,19 +19,25 @@ export type TextAreaProps = React.InputHTMLAttributes<HTMLTextAreaElement> & {
   label?: any;
   containerClass?: string;
   error?: string;
+  helperText?: string;
   startAdornment?: ReactNode;
   endAdornment?: ReactNode;
   rows?: number;
 };
 
-export const TextInput = ({ containerClass, startAdornment, endAdornment, ...props }: TextInputProps) => {
+export const TextInput = ({
+  containerClass,
+  startAdornment,
+  endAdornment,
+  ...props
+}: TextInputProps) => {
   return (
     <div
       className={`flex flex-col font-medium w-full relative ${
         containerClass ?? ""
       }`}
     >
-      <Label className="text-sm whitespace-nowrap text-stone-900 max-w-sm">
+      <Label className="text-sm whitespace-nowrap text-stone-900 max-w-xs text-wrap break-words">
         {props.label}
       </Label>
       <div className="flex items-center bg-white rounded-lg border border-solid border-stone-300 py-1 mt-2 px-3 gap-1">
@@ -41,7 +48,11 @@ export const TextInput = ({ containerClass, startAdornment, endAdornment, ...pro
         />
         <span>{endAdornment}</span>
       </div>
-      <span className="text-xs text-red-500 mt-1">{props.error}</span>
+      {props.error ? (
+        <span className="text-xs text-red-500 mt-1">{props.error}</span>
+      ) : props.helperText ? (
+        <span className="text-xs text-gray-500 mt-1">{props.helperText}</span>
+      ) : null}
     </div>
   );
 };
@@ -64,7 +75,11 @@ export const TextArea = ({ containerClass, ...props }: TextAreaProps) => {
         />
         <span>{props.endAdornment}</span>
       </div>
-      <span className="text-xs text-red-500 mt-1">{props.error}</span>
+      {props.error ? (
+        <span className="text-xs text-red-500 mt-1">{props.error}</span>
+      ) : props.helperText ? (
+        <span className="text-xs text-gray-500 mt-1">{props.helperText}</span>
+      ) : null}
     </div>
   );
 };
