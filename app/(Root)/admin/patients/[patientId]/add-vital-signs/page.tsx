@@ -1,38 +1,91 @@
 "use client";
 
-import React from 'react';
+import React, { useState } from 'react';
 import Subheader from '../../../../_components/Subheader'; // Corrected import path
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import Link from 'next/link';
-
-// Mock patient data - replace with actual data fetching
-const mockPatientData = {
-  patientId: 'Patient - 5560',
-  name: 'Oluwatosin Chidimma Aminah',
-  gender: 'Female',
-  dob: '22-03-1980',
-  vitals: {
-    temperature: '37',
-    pulseRate: '72',
-    respirationRate: '15',
-    bloodPressure: '120/80',
-    oxygenSaturation: '98',
-    weight: '84',
-  },
-};
+import { usePatientDetails } from '@/features/services/patientService';
+import { useAddVitalSigns, VitalSignsPayload } from '@/features/services/vitalSignsService';
+import { useToastHandler } from '@/hooks/useToaster';
 
 const AddVitalSignsPage = ({ params }: { params: { patientId: string } }) => {
-  // In a real app, you would fetch patient data based on params.patientId
-  const patient = mockPatientData; // Using mock data for now
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { data: patient, isLoading, error } = usePatientDetails(params.patientId);
+  const addVitalSigns = useAddVitalSigns();
+  const toast = useToastHandler();
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  // Show loading state
+  if (isLoading) {
+    return (
+      <>
+        <Subheader title={`Patients / Add Vital Signs`} />
+        <div className="p-6 lg:max-w-4xl mx-auto bg-white rounded-md shadow-sm mt-6">
+          <div className="text-center py-8">
+            <p>Loading patient details...</p>
+          </div>
+        </div>
+      </>
+    );
+  }
+
+  // Show error state
+  if (error || !patient) {
+    return (
+      <>
+        <Subheader title={`Patients / Add Vital Signs`} />
+        <div className="p-6 lg:max-w-4xl mx-auto bg-white rounded-md shadow-sm mt-6">
+          <div className="text-center py-8">
+            <p className="text-red-600">Error loading patient details. Please try again.</p>
+            <Link href="/admin/patients">
+              <Button variant="outline" className="mt-4">Back to Patients</Button>
+            </Link>
+          </div>
+        </div>
+      </>
+    );
+  }
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-    const data = Object.fromEntries(formData.entries());
-    console.log("Form submitted for patient ID:", params.patientId, "with data:", data);
-    // TODO: Implement API call to submit vital signs
+    setIsSubmitting(true);
+    
+    try {
+      const formData = new FormData(event.currentTarget);
+      const data = Object.fromEntries(formData.entries());
+      
+      // Parse blood pressure
+      const bloodPressure = (data.bloodPressure as string).split('/');
+      const systolic = parseInt(bloodPressure[0]);
+      const diastolic = parseInt(bloodPressure[1]);
+      
+      const vitalSignsPayload: VitalSignsPayload = {
+        body_temperature: parseFloat(data.temperature as string),
+        pulse_rate: parseInt(data.pulseRate as string),
+        systolic_blood_pressure: systolic,
+        diastolic_blood_pressure: diastolic,
+        oxygen_saturation: parseInt(data.oxygenSaturation as string),
+        respiration_rate: data.respirationRate ? parseInt(data.respirationRate as string) : undefined,
+        weight: data.weight ? parseFloat(data.weight as string) : undefined,
+      };
+      
+      await addVitalSigns.mutateAsync({
+        patientId: params.patientId,
+        data: vitalSignsPayload
+      });
+      
+      toast.success('Success', 'Vital signs added successfully');
+      
+      // Reset form
+      event.currentTarget.reset();
+      
+    } catch (error) {
+      console.error('Error submitting vital signs:', error);
+      toast.error('Error', 'Failed to add vital signs. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -58,8 +111,8 @@ const AddVitalSignsPage = ({ params }: { params: { patientId: string } }) => {
               <p className="text-gray-800 font-medium">{patient.gender}</p>
             </div>
             <div>
-              <p className="text-gray-500">Date of Birth</p>
-              <p className="text-gray-800 font-medium">{patient.dob}</p>
+              <p className="text-gray-500">Age</p>
+              <p className="text-gray-800 font-medium">{patient.age} years</p>
             </div>
           </div>
         </div>
@@ -73,37 +126,41 @@ const AddVitalSignsPage = ({ params }: { params: { patientId: string } }) => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
               <div className="space-y-1">
                 <Label htmlFor="temperature" className="text-sm text-gray-500">Body Temperature (C)</Label>
-                <Input id="temperature" name="temperature" defaultValue={patient.vitals.temperature} className="text-sm" />
+                <Input id="temperature" name="temperature" type="number" step="0.1" required className="text-sm" />
               </div>
               <div className="space-y-1">
                 <Label htmlFor="pulseRate" className="text-sm text-gray-500">Pulse Rate (B/M)</Label>
-                <Input id="pulseRate" name="pulseRate" defaultValue={patient.vitals.pulseRate} className="text-sm" />
+                <Input id="pulseRate" name="pulseRate" type="number" required className="text-sm" />
               </div>
               <div className="space-y-1">
                 <Label htmlFor="respirationRate" className="text-sm text-gray-500">Respiration Rate (C/M)</Label>
-                <Input id="respirationRate" name="respirationRate" defaultValue={patient.vitals.respirationRate} className="text-sm" />
+                <Input id="respirationRate" name="respirationRate" type="number" className="text-sm" />
               </div>
               <div className="space-y-1">
                 <Label htmlFor="bloodPressure" className="text-sm text-gray-500">Blood Pressure (mm/Hg)</Label>
-                <Input id="bloodPressure" name="bloodPressure" defaultValue={patient.vitals.bloodPressure} className="text-sm" />
+                <Input id="bloodPressure" name="bloodPressure" placeholder="120/80" required className="text-sm" />
               </div>
               <div className="space-y-1">
                 <Label htmlFor="oxygenSaturation" className="text-sm text-gray-500">Oxygen saturation (SPO2) (%)</Label>
-                <Input id="oxygenSaturation" name="oxygenSaturation" defaultValue={patient.vitals.oxygenSaturation} className="text-sm" />
+                <Input id="oxygenSaturation" name="oxygenSaturation" type="number" min="0" max="100" required className="text-sm" />
               </div>
               <div className="space-y-1">
                 <Label htmlFor="weight" className="text-sm text-gray-500">Weight (kg)</Label>
-                <Input id="weight" name="weight" defaultValue={patient.vitals.weight} className="text-sm" />
+                <Input id="weight" name="weight" type="number" step="0.1" className="text-sm" />
               </div>
             </div>
           </div>
 
           <div className="flex justify-end space-x-3 mt-8">
             <Link href={`/admin/patients`}>
-              <Button variant="outline" type="button">Back</Button>
+              <Button variant="outline" type="button" disabled={isSubmitting}>Back</Button>
             </Link>
-            <Button type="submit" className="bg-blue-600 hover:bg-blue-700 text-white">
-              Submit
+            <Button 
+              type="submit" 
+              className="bg-blue-600 hover:bg-blue-700 text-white"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? 'Adding...' : 'Add Vital Signs'}
             </Button>
           </div>
         </form>

@@ -43,6 +43,7 @@ export type ApiList<T> = {
 
 export type ApiResponse<T = unknown> = AxiosResponse<Api<T>>;
 export type ApiListResponse<T = unknown> = AxiosResponse<ApiList<Api<T>>>;
+export type ApiResponseList<T = unknown> = AxiosResponse<ApiList<T>>
 export type ApiResponseError = AxiosError<Api<any>>;
 
 // Hospital onboarding types

@@ -1,6 +1,7 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
+import { Button } from "@/components/ui/button";
 
 export interface BedData {
   bedId: string;
@@ -10,7 +11,7 @@ export interface BedData {
   duration: number | null;
 }
 
-export const bedColumns: ColumnDef<BedData>[] = [
+export const bedColumns = (onAssignBed?: (bedId: string) => void): ColumnDef<BedData>[] => [
   {
     accessorKey: "bedId",
     header: "BED ID",
@@ -57,6 +58,32 @@ export const bedColumns: ColumnDef<BedData>[] = [
       return (
         <div className="text-gray-700">
           {duration !== null ? duration : "N/A"}
+        </div>
+      );
+    },
+  },
+  {
+    id: "actions",
+    header: "ACTIONS",
+    cell: ({ row }) => {
+      const bedId = row.getValue("bedId") as string;
+      const patientId = row.getValue("patientId") as string | null;
+      const isAvailable = !patientId;
+      
+      return (
+        <div className="flex items-center gap-2">
+          {isAvailable && onAssignBed && (
+            <Button
+              size="sm"
+              className="bg-blue-600 hover:bg-blue-700 text-white"
+              onClick={() => onAssignBed(bedId)}
+            >
+              Assign
+            </Button>
+          )}
+          {!isAvailable && (
+            <span className="text-sm text-gray-500">Occupied</span>
+          )}
         </div>
       );
     },

@@ -41,14 +41,13 @@ export default function StaffManagementPage() {
   });
 
   const handleSubmit = async (data: { search: string }) => {
-    console.log("Search data:", data);
     setSearchQuery(data.search);
   };
 
   const filteredStaffData = useMemo(() => {
-      if (!staffData?.data?.data?.results) return [];
+      if (!staffData?.data?.results) return [];
       // Add search filtering logic here if needed
-      return staffData.data.data.results;
+      return staffData.data.results;
     }, [staffData]);
 
   if (isLoading) {

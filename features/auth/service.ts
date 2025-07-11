@@ -44,6 +44,17 @@ export type ConfirmOTPResponse = {
   user_id?: string;
 };
 
+export type SetPasswordCredentials = {
+  uid: string;
+  token: string;
+  password: string;
+};
+
+export type SetPasswordResponse = {
+  message: string;
+  status: boolean;
+};
+
 export const useLogin = () => {
   return useMutation<ApiResponse<LoginResponse>, ApiResponseError, LoginCredentials>({
     mutationKey: ["login"],
@@ -73,5 +84,13 @@ export const useConfirmOTP = () => {
     mutationKey: ["confirm-otp"],
     mutationFn: async (credentials) => 
       await postRequest({ url: "/auth/password/reset-confirm/", payload: credentials }),
+  });
+};
+
+export const useSetPassword = () => {
+  return useMutation<ApiResponse<SetPasswordResponse>, ApiResponseError, SetPasswordCredentials>({
+    mutationKey: ["set-password"],
+    mutationFn: async (credentials) => 
+      await postRequest({ url: "/hospital-admin/staff/set-password/", payload: credentials }),
   });
 };

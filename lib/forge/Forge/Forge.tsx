@@ -6,8 +6,6 @@ import {
   cloneElement,
   createElement,
   useImperativeHandle,
-  useEffect,
-  useState,
 } from "react";
 import { FieldValues, FormProvider } from "react-hook-form";
 import { ForgeProps } from "../types";
@@ -27,13 +25,9 @@ export const Forge = <TFieldValues extends FieldValues = FieldValues>({
   control,
   ref,
   isNative,
-  debug
+  debug,
 }: ForgeProps<TFieldValues>) => {
-  const [isMounted, setIsMounted] = useState(false);
 
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
   const updatedChildren = Children.map(children, (child) => {
     if (isButtonSlot(child)) {
       return cloneElement(child, {
@@ -71,7 +65,6 @@ export const Forge = <TFieldValues extends FieldValues = FieldValues>({
       : undefined;
   });
 
-
   useImperativeHandle(
     ref,
     () => {
@@ -99,7 +92,9 @@ export const Forge = <TFieldValues extends FieldValues = FieldValues>({
         {renderFieldProps}
         {updatedChildren}
       </div>
-      {isMounted && process.env.NODE_ENV === 'development' && debug && <DevTool control={control} />}
+      {debug && (
+        <DevTool control={control} />
+      )}
     </FormProvider>
   );
 };

@@ -13,42 +13,42 @@ import { useForge, Forge, Forger } from "@/lib/forge";
 import { TextInput } from "@/components/FormInputs/TextInput";
 import { TextSelect } from "@/components/FormInputs/TextSelect";
 import { TextArea } from "@/components/FormInputs/TextArea";
-// import { yupResolver } from "@hookform/resolvers/yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useCreatePatient } from "@/features/services/patientService";
 import { useToastHandler } from "@/hooks/useToaster";
 import { useWatch } from "react-hook-form";
 import { TextDateInput } from "@/components/FormInputs/TextDateInput";
+import { format } from "date-fns";
 
-// Validation schemas for each step
-const personalInfoSchema = yup.object().shape({
-  first_name: yup.string().required("First name is required"),
-  last_name: yup.string().required("Last name is required"),
-  address: yup.string().required("Address is required"),
-  city: yup.string().required("City is required"),
-  state: yup.string().required("State is required"),
-  phone_number: yup.string().required("Phone number is required"),
-  marital_status: yup.string().required("Marital status is required"),
-  date_of_birth: yup.string().required("Date of birth is required"),
-  gender: yup.string().required("Gender is required"),
+// Combined validation schema for all form steps
+const fullSchema = yup.object().shape({
+  // Personal Info fields
+  first_name: yup.string().optional(),
+  last_name: yup.string().optional(),
+  address: yup.string().optional(),
+  city: yup.string().optional(),
+  state: yup.string().optional(),
+  phone_number: yup.string().optional(),
+  marital_status: yup.string().optional(),
+  date_of_birth: yup.date().optional(),
+  gender: yup.string().optional(),
   height: yup.number().optional().positive("Height must be positive"),
   weight: yup.number().optional().positive("Weight must be positive"),
-  employment_status: yup.string().required("Employment status is required"),
+  employment_status: yup.string().optional(),
   emergency_contact: yup.object().shape({
-    name: yup.string().required("Emergency contact name is required"),
-    phone: yup.string().required("Emergency contact phone is required"),
-    address: yup.string().required("Emergency contact address is required"),
-  }),
-});
-
-const medicalInfoSchema = yup.object().shape({
+    name: yup.string().optional(),
+    phone: yup.string().optional(),
+    address: yup.string().optional(),
+  }).optional(),
+  // Medical Info fields
   current_medications: yup
     .array()
     .of(
       yup.object().shape({
-        medication: yup.string().required("Medication name is required"),
-        dosage: yup.string().required("Dosage is required"),
-        frequency: yup.string().required("Frequency is required"),
+        medication: yup.string().optional(),
+        dosage: yup.string().optional(),
+        frequency: yup.string().optional(),
       })
     )
     .optional(),
@@ -56,9 +56,8 @@ const medicalInfoSchema = yup.object().shape({
   family_history: yup.string().optional(),
   hereditary_conditions: yup.string().optional(),
   surgical_history: yup.string().optional(),
-});
-
-const socialInfoSchema = yup.object().shape({
+  blood_group: yup.string().optional(),
+  // Social Info fields
   social_history: yup
     .object()
     .shape({
@@ -68,17 +67,11 @@ const socialInfoSchema = yup.object().shape({
       exercise: yup.string().optional(),
       diet: yup.string().optional(),
     })
-    .required(),
+    .optional(),
 });
 
-// type PersonalInfoFormData = yup.InferType<typeof personalInfoSchema>;
-// type MedicalInfoFormData = yup.InferType<typeof medicalInfoSchema>;
-// type SocialInfoFormData = yup.InferType<typeof socialInfoSchema>;
-
-// Define the combined type for form data
-type FullFormData = yup.InferType<typeof personalInfoSchema> &
-  yup.InferType<typeof medicalInfoSchema> &
-  yup.InferType<typeof socialInfoSchema>;
+// Define the form data type from the full schema
+type FullFormData = yup.InferType<typeof fullSchema>;
 
 interface CreatePatientDialogProps {
   children: React.ReactNode;
@@ -110,7 +103,7 @@ const CreatePatientDialog: React.FC<CreatePatientDialogProps> = ({
   }, []);
 
   const { control, reset } = useForge<FullFormData, unknown>({
-    // resolver: yupResolver(fullSchema),
+    resolver: yupResolver(fullSchema),
     defaultValues: {
       first_name: "",
       last_name: "",
@@ -121,6 +114,7 @@ const CreatePatientDialog: React.FC<CreatePatientDialogProps> = ({
       marital_status: "",
       date_of_birth: undefined,
       gender: "",
+      blood_group: "",
       height: undefined,
       weight: undefined,
       employment_status: "",
@@ -161,12 +155,33 @@ const CreatePatientDialog: React.FC<CreatePatientDialogProps> = ({
       // Transform data to match API format
       const payload = {
         ...data,
-        email: "", // Add email field if needed
-        middle_name: "", // Add middle name if needed
-        blood_group: "", // Add blood group if needed
-        genotype: "", // Add genotype if needed
-        chronic_conditions: "", // Add chronic conditions if needed
-        other_conditions: "", // Add other conditions if needed
+        date_of_birth: data?.date_of_birth ? format(data.date_of_birth, "yyyy-MM-dd") : "",
+        first_name: data.first_name || "",
+        last_name: data.last_name || "",
+        address: data.address || "",
+        city: data.city || "",
+        state: data.state || "",
+        phone_number: data.phone_number || "",
+        marital_status: data.marital_status || "",
+        gender: data.gender || "",
+        employment_status: data.employment_status || "",
+        emergency_contact: {
+          name: data.emergency_contact?.name || "",
+          phone: data.emergency_contact?.phone || "",
+          address: data.emergency_contact?.address || ""
+        },
+        current_medications: data.current_medications?.map(med => ({
+          medication: med.medication || "",
+          dosage: med.dosage || "",
+          frequency: med.frequency || ""
+        })) || [],
+        social_history: {
+          smoking: data.social_history?.smoking || "",
+          alcohol: data.social_history?.alcohol || "",
+          drug_use: data.social_history?.drug_use || "",
+          exercise: data.social_history?.exercise || "",
+          diet: data.social_history?.diet || ""
+        },
       };
 
       await createPatient(payload);
@@ -249,17 +264,28 @@ const CreatePatientDialog: React.FC<CreatePatientDialogProps> = ({
     { label: "Special Diet", value: "special" },
   ];
 
+  const bloodGroupOptions = [
+    { label: "A+", value: "A+" },
+    { label: "A-", value: "A-" },
+    { label: "B+", value: "B+" },
+    { label: "B-", value: "B-" },
+    { label: "AB+", value: "AB+" },
+    { label: "AB-", value: "AB-" },
+    { label: "O+", value: "O+" },
+    { label: "O-", value: "O-" },
+  ];
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="text-center text-xl font-semibold">
             New Patient
           </DialogTitle>
         </DialogHeader>
 
-        <Forge control={control} onSubmit={onSubmit}>
+        <Forge control={control} onSubmit={onSubmit} debug>
           {/* Step 1: Personal Information */}
           {step === 1 && (
             <div className="space-y-6">
@@ -425,6 +451,14 @@ const CreatePatientDialog: React.FC<CreatePatientDialogProps> = ({
               />
 
               <Forger
+                name="blood_group"
+                component={TextSelect}
+                label="Blood Group"
+                placeholder="Select Option"
+                options={bloodGroupOptions}
+              />
+
+              <Forger
                 name="allergies"
                 component={TextArea}
                 label="Any Allergies?"
@@ -441,22 +475,20 @@ const CreatePatientDialog: React.FC<CreatePatientDialogProps> = ({
                 rows={4}
               />
 
-              <div className="grid grid-cols-2 gap-4">
-                <Forger
-                  name="hereditary_conditions"
-                  component={TextArea}
-                  label="Hereditary Disease"
-                  placeholder="If none, type N/A"
-                  rows={4}
-                />
-                <Forger
-                  name="surgical_history"
-                  component={TextArea}
-                  label="Surgery History"
-                  placeholder="If none, type N/A"
-                  rows={4}
-                />
-              </div>
+              <Forger
+                name="hereditary_conditions"
+                component={TextArea}
+                label="Hereditary Disease"
+                placeholder="If none, type N/A"
+                rows={4}
+              />
+              <Forger
+                name="surgical_history"
+                component={TextArea}
+                label="Surgery History"
+                placeholder="If none, type N/A"
+                rows={4}
+              />
             </div>
           )}
 

@@ -72,7 +72,7 @@ export const usePatientList = (params?: PatientListParams) => {
       const response = await getRequest({ url });
       
       // Transform the API response to match the PatientType format
-      const patients = response.data.data.results as PatientResponse[];
+      const patients = response.data.results as PatientResponse[];
       return patients.map(transformPatient);
     },
   });
