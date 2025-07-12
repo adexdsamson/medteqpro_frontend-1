@@ -1,7 +1,6 @@
 "use client";
 
 import Subheader from "../../_components/Subheader";
-import ToggleSession from "./_components/ToggleSession";
 import { H3, Large, Lead, P, Small } from "@/components/ui/Typography";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
@@ -41,7 +40,7 @@ const Dashboard = () => {
   if (error) {
     return (
       <>
-        <Subheader title="Dashboard" middle={<ToggleSession />} />
+        <Subheader title="Dashboard" />
         <div className="px-6 mt-6">
           <div className="text-center py-10">
             <P className="text-red-500">Failed to load dashboard data. Please try again.</P>
@@ -51,14 +50,14 @@ const Dashboard = () => {
     );
   }
 
-  const totalTransactions = dashboardData?.data?.data?.analytics?.total_transactions || 0;
-  const cashPercentage = dashboardData?.data?.data?.analytics?.payment_medium_percentage?.cash || 0;
-  const cardPercentage = dashboardData?.data?.data?.analytics?.payment_medium_percentage?.card || 0;
-  const bankTransferPercentage = dashboardData?.data?.data?.analytics?.payment_medium_percentage?.bank_transfer || 0;
+  const totalTransactions = dashboardData?.data?.data?.analytics?.total_no_of_transactions || 0;
+  const cashPercentage = dashboardData?.data?.data?.analytics?.payment_medium_percentages?.cash || 0;
+  const cardPercentage = dashboardData?.data?.data?.analytics?.payment_medium_percentages?.card || 0;
+  const bankTransferPercentage = dashboardData?.data?.data?.analytics?.payment_medium_percentages?.bank_transfer || 0;
 
   return (
     <>
-      <Subheader title="Dashboard" middle={<ToggleSession />} />
+      <Subheader title="Dashboard"  />
       <div className="px-6 mt-6 space-y-5">
         <div className="bg-[#F9F9F9] flex justify-between p-5">
           <div>
@@ -82,7 +81,10 @@ const Dashboard = () => {
 
         <Overview data={dashboardData?.data?.data} isLoading={isLoading} />
 
-        <HospitalManager />
+        <HospitalManager 
+            data={dashboardData?.data?.data} 
+            isLoading={isLoading} 
+          />
 
         {/* Hospital Facilities Overview */}
         <div className="mb-5">

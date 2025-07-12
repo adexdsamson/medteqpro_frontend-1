@@ -8,7 +8,7 @@ import {
   FileText,
   HelpCircle,
   UserCog,
-  LogOut,
+  // LogOut,
   FlaskConical,
   ScrollText,
   Pill,
@@ -53,11 +53,11 @@ export const commonSettingsItems: MenuItem[] = [
     icon: UserCog,
     href: "/profile",
   },
-  {
-    label: "Logout",
-    icon: LogOut,
-    href: "/sign-in",
-  },
+  // {
+  //   label: "Logout",
+  //   icon: LogOut,
+  //   href: "/sign-in",
+  // },
 ];
 
 const defaultUser = {
