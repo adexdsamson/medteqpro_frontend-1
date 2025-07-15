@@ -11,12 +11,11 @@ import { Button } from "@/components/ui/button";
 import { TextSelect } from "@/components/FormInputs/TextSelect";
 import { TextDateInput } from "@/components/FormInputs/TextDateInput";
 import { usePatientList } from "@/features/services/patientService";
-import {
-  useAssignBed,
-} from "@/features/services/bedManagementService";
+import { useAssignBed } from "@/features/services/bedManagementService";
 import { useToastHandler } from "@/hooks/useToaster";
 import { useForge, Forge, Forger, FormPropsRef } from "@/lib/forge";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useQueryClient } from "@tanstack/react-query";
 import * as yup from "yup";
 
 // Form validation schema
@@ -41,6 +40,7 @@ const AssignBedDialog: React.FC<AssignBedDialogProps> = ({
   bedId,
 }) => {
   const toast = useToastHandler();
+  const queryClient = useQueryClient();
   const formRef = useRef<FormPropsRef | null>(null);
 
   // Form state management with Forge
@@ -64,7 +64,6 @@ const AssignBedDialog: React.FC<AssignBedDialogProps> = ({
     value: patient.id,
   }));
 
-
   const handleSubmit = async (data: FormValues) => {
     try {
       // Convert date to ISO string
@@ -73,6 +72,16 @@ const AssignBedDialog: React.FC<AssignBedDialogProps> = ({
       await assignBedMutation.mutateAsync({
         patient_id: data.patient_id,
         expected_end_date: expectedEndDate,
+      });
+
+      // Refetch bed data after successful assignment
+      await queryClient.invalidateQueries({
+        queryKey: ["bedsInWard", wardId],
+      });
+
+      // Also invalidate all wards to update bed counts
+      await queryClient.invalidateQueries({
+        queryKey: ["allWards"],
       });
 
       toast.success("Success", "Bed assigned successfully");
@@ -94,20 +103,14 @@ const AssignBedDialog: React.FC<AssignBedDialogProps> = ({
         <Forge control={control} onSubmit={handleSubmit} ref={formRef}>
           <div className="space-y-6">
             {/* Patient ID/Name */}
-            <div>
-              {patientOptions.length > 0 && (
-                <div className="mt-2">
-                  <Forger
-                    name="patient_id"
-                    component={TextSelect}
-                    placeholder="Select Patient"
-                    options={patientOptions}
-                  />
-                </div>
-              )}
+            <div className="mt-2">
+              <Forger
+                name="patient_id"
+                component={TextSelect}
+                placeholder="Select Patient"
+                options={patientOptions}
+              />
             </div>
-
-
 
             {/* Expected End Date */}
             <div>

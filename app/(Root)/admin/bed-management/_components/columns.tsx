@@ -9,6 +9,7 @@ export interface BedData {
   patientId: string | null;
   allocationDateTime: string | null;
   duration: number | null;
+  id: string
 }
 
 export const bedColumns = (onAssignBed?: (bedId: string) => void): ColumnDef<BedData>[] => [
@@ -66,7 +67,7 @@ export const bedColumns = (onAssignBed?: (bedId: string) => void): ColumnDef<Bed
     id: "actions",
     header: "ACTIONS",
     cell: ({ row }) => {
-      const bedId = row.getValue("bedId") as string;
+      const bedId =  row.original?.id as string;
       const patientId = row.getValue("patientId") as string | null;
       const isAvailable = !patientId;
       

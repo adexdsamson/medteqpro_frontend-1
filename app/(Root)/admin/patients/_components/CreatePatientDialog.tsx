@@ -23,55 +23,90 @@ import { format } from "date-fns";
 
 // Combined validation schema for all form steps
 const fullSchema = yup.object().shape({
-  // Personal Info fields
-  first_name: yup.string().optional(),
-  last_name: yup.string().optional(),
-  address: yup.string().optional(),
-  city: yup.string().optional(),
-  state: yup.string().optional(),
-  phone_number: yup.string().optional(),
-  marital_status: yup.string().optional(),
-  date_of_birth: yup.date().optional(),
-  gender: yup.string().optional(),
-  height: yup.number().optional().positive("Height must be positive"),
-  weight: yup.number().optional().positive("Weight must be positive"),
-  employment_status: yup.string().optional(),
+  // Personal Info fields - Required fields based on API contract
+  first_name: yup.string().required("First name is required"),
+  last_name: yup.string().required("Last name is required"),
+  address: yup.string().required("Address is required"),
+  city: yup.string().required("City is required"),
+  state: yup.string().required("State is required"),
+  phone_number: yup.string().required("Phone number is required"),
+  marital_status: yup.string().required("Marital status is required"),
+  date_of_birth: yup.date().required("Date of birth is required"),
+  gender: yup.string().required("Gender is required"),
+  height: yup.number().positive("Height must be positive").required("Height is required"),
+  weight: yup.number().positive("Weight must be positive").required("Weight is required"),
+  employment_status: yup.string().required("Employment status is required"),
   emergency_contact: yup.object().shape({
-    name: yup.string().optional(),
-    phone: yup.string().optional(),
-    address: yup.string().optional(),
-  }).optional(),
+    name: yup.string().required("Emergency contact name is required"),
+    phone: yup.string().required("Emergency contact phone is required"),
+    address: yup.string().required("Emergency contact address is required"),
+  }).required(),
   // Medical Info fields
   current_medications: yup
     .array()
     .of(
       yup.object().shape({
-        medication: yup.string().optional(),
-        dosage: yup.string().optional(),
-        frequency: yup.string().optional(),
+        medication: yup.string().required(),
+        dosage: yup.string().required(),
+        frequency: yup.string().required(),
       })
     )
-    .optional(),
-  allergies: yup.string().optional(),
-  family_history: yup.string().optional(),
-  hereditary_conditions: yup.string().optional(),
-  surgical_history: yup.string().optional(),
-  blood_group: yup.string().optional(),
+    .required(),
+  allergies: yup.string().required(),
+  family_history: yup.string().required(),
+  hereditary_conditions: yup.string().required(),
+  surgical_history: yup.string().required(),
+  blood_group: yup.string().required(),
   // Social Info fields
   social_history: yup
     .object()
     .shape({
-      smoking: yup.string().optional(),
-      alcohol: yup.string().optional(),
-      drug_use: yup.string().optional(),
-      exercise: yup.string().optional(),
-      diet: yup.string().optional(),
+      smoking: yup.string().required(),
+      alcohol: yup.string().required(),
+      drug_use: yup.string().required(),
+      exercise: yup.string().required(),
+      diet: yup.string().required(),
     })
-    .optional(),
+    .required(),
 });
 
-// Define the form data type from the full schema
-type FullFormData = yup.InferType<typeof fullSchema>;
+// Define the form data type to match the API contract
+type FullFormData = {
+  first_name: string;
+  last_name: string;
+  address: string;
+  city: string;
+  state: string;
+  phone_number: string;
+  marital_status: string;
+  date_of_birth: Date;
+  gender: string;
+  height: number;
+  weight: number;
+  employment_status: string;
+  emergency_contact: {
+    name: string;
+    phone: string;
+    address: string;
+  };
+  current_medications: Array<{
+    medication: string;
+    dosage: string;
+    frequency: string;
+  }>;
+  allergies: string;
+  family_history: string;
+  hereditary_conditions: string;
+  surgical_history: string;
+  blood_group: string;
+  social_history: {
+    smoking: string;
+    alcohol: string;
+    drug_use: string;
+    exercise: string;
+    diet: string;
+  };
+};
 
 interface CreatePatientDialogProps {
   children: React.ReactNode;
@@ -102,7 +137,7 @@ const CreatePatientDialog: React.FC<CreatePatientDialogProps> = ({
     loadStatesData();
   }, []);
 
-  const { control, reset } = useForge<FullFormData, unknown>({
+  const { control, reset } = useForge<FullFormData>({
     resolver: yupResolver(fullSchema),
     defaultValues: {
       first_name: "",
@@ -112,11 +147,11 @@ const CreatePatientDialog: React.FC<CreatePatientDialogProps> = ({
       state: "",
       phone_number: "",
       marital_status: "",
-      date_of_birth: undefined,
+      date_of_birth: new Date(),
       gender: "",
       blood_group: "",
-      height: undefined,
-      weight: undefined,
+      height: 0,
+      weight: 0,
       employment_status: "",
       emergency_contact: {
         name: "",
@@ -155,32 +190,18 @@ const CreatePatientDialog: React.FC<CreatePatientDialogProps> = ({
       // Transform data to match API format
       const payload = {
         ...data,
-        date_of_birth: data?.date_of_birth ? format(data.date_of_birth, "yyyy-MM-dd") : "",
-        first_name: data.first_name || "",
-        last_name: data.last_name || "",
-        address: data.address || "",
-        city: data.city || "",
-        state: data.state || "",
-        phone_number: data.phone_number || "",
-        marital_status: data.marital_status || "",
-        gender: data.gender || "",
-        employment_status: data.employment_status || "",
-        emergency_contact: {
-          name: data.emergency_contact?.name || "",
-          phone: data.emergency_contact?.phone || "",
-          address: data.emergency_contact?.address || ""
-        },
-        current_medications: data.current_medications?.map(med => ({
-          medication: med.medication || "",
-          dosage: med.dosage || "",
-          frequency: med.frequency || ""
-        })) || [],
+        date_of_birth: data.date_of_birth ? format(data.date_of_birth, "yyyy-MM-dd") : "",
+        current_medications: data.current_medications.map(med => ({
+          medication: med.medication,
+          dosage: med.dosage,
+          frequency: med.frequency
+        })),
         social_history: {
-          smoking: data.social_history?.smoking || "",
-          alcohol: data.social_history?.alcohol || "",
-          drug_use: data.social_history?.drug_use || "",
-          exercise: data.social_history?.exercise || "",
-          diet: data.social_history?.diet || ""
+          smoking: data.social_history.smoking,
+          alcohol: data.social_history.alcohol,
+          drug_use: data.social_history.drug_use,
+          exercise: data.social_history.exercise,
+          diet: data.social_history.diet
         },
       };
 

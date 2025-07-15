@@ -44,7 +44,7 @@ export const TextInput = ({
         <span>{startAdornment}</span>
         <Input
           {...props}
-          className="w-full text-sm leading-5 border-0 text-stone-400 !focus-visible:ring-0 !ring-0 !focus:border-0 !focus:outline-none px-0 placeholder:text-xs placeholder:text-gray-300 flex-1 focus-visible:ring-offset-0"
+          className="w-full text-sm leading-5 border-0 text-stone-600 !focus-visible:ring-0 !ring-0 !focus:border-0 !focus:outline-none px-0 placeholder:text-xs placeholder:text-gray-300 flex-1 focus-visible:ring-offset-0"
         />
         <span>{endAdornment}</span>
       </div>

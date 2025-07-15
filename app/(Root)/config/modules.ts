@@ -15,7 +15,7 @@ import {
   CalendarCheck,
   Activity,
   Building,
-  UserPlus,
+  // UserPlus,
   Calendar,
   Database,
   // Stethoscope,
@@ -201,13 +201,13 @@ export const moduleConfigs: ModuleConfig[] = [
         icon: Building,
         href: "/bed-management",
       },
+      // {
+      //   label: "Payroll Management",
+      //   icon: UserPlus,
+      //   href: "/payroll-management",
+      // },
       {
-        label: "Payroll Management",
-        icon: UserPlus,
-        href: "/payroll-management",
-      },
-      {
-        label: "Queuuing System",
+        label: "Queuing System",
         icon: Activity,
         href: "/queuing-system",
       },

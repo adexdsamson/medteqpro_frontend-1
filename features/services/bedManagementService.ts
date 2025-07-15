@@ -1,7 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { ApiResponse, ApiResponseError } from "@/types";
-import { getRequest, postRequest, patchRequest, deleteRequest } from "@/lib/axiosInstance";
+import { ApiResponse, ApiResponseError, ApiResponseList } from "@/types";
+import {
+  getRequest,
+  postRequest,
+  patchRequest,
+  deleteRequest,
+} from "@/lib/axiosInstance";
 import { BedData } from "@/app/(Root)/admin/bed-management/_components/columns";
 
 // Ward response type based on API documentation
@@ -23,7 +28,7 @@ export type BedResponseType = {
   room_number: string;
   patient: string | null;
   patient_fullname_if_occupied: string | null;
-  status: 'occupied' | 'available';
+  status: "occupied" | "available";
   date_allocated: string | null;
   expected_end_date: string | null;
   duration: number | null;
@@ -47,6 +52,7 @@ export type WardCreationType = {
 export type BedCreationType = {
   bed_number: string;
   room_number: string;
+  wardId: string;
 };
 
 // Get all wards (this returns ward information, not individual beds)
@@ -61,22 +67,24 @@ export const useGetAllWards = () => {
 export const useGetWard = (wardId: string) => {
   return useQuery<ApiResponse<WardResponseType>, ApiResponseError>({
     queryKey: ["ward", wardId],
-    queryFn: async () => 
+    queryFn: async () =>
       await getRequest({ url: `/bed-management/wards/${wardId}/` }),
     enabled: !!wardId,
   });
 };
 
+type BedResponseTypeWithWardId = {
+  data: BedResponseType[];
+  total_beds: number;
+  available_beds: number;
+  occupied_beds: number;
+};
+
 // Get beds in a specific ward
 export const useGetBedsInWard = (wardId: string) => {
-  return useQuery<ApiResponse<{
-    data: BedResponseType[];
-    total_beds: number;
-    available_beds: number;
-    occupied_beds: number;
-  }>, ApiResponseError>({
+  return useQuery<ApiResponseList<BedResponseTypeWithWardId>, ApiResponseError>({
     queryKey: ["bedsInWard", wardId],
-    queryFn: async () => 
+    queryFn: async () =>
       await getRequest({ url: `/bed-management/wards/${wardId}/beds/` }),
     enabled: !!wardId,
   });
@@ -84,11 +92,15 @@ export const useGetBedsInWard = (wardId: string) => {
 
 // Assign bed to patient
 export const useAssignBed = (wardId: string, bedId: string) => {
-  return useMutation<ApiResponse<BedResponseType>, ApiResponseError, BedAssignmentType>({
+  return useMutation<
+    ApiResponse<BedResponseType>,
+    ApiResponseError,
+    BedAssignmentType
+  >({
     mutationFn: async (payload) =>
-      await postRequest({ 
-        url: `/bed-management/wards/${wardId}/beds/${bedId}/assign/`, 
-        payload 
+      await postRequest({
+        url: `/bed-management/wards/${wardId}/beds/${bedId}/assign/`,
+        payload,
       }),
   });
 };
@@ -97,39 +109,51 @@ export const useAssignBed = (wardId: string, bedId: string) => {
 export const useReleaseBed = (wardId: string, bedId: string) => {
   return useMutation<ApiResponse<BedResponseType>, ApiResponseError, void>({
     mutationFn: async () =>
-      await postRequest({ 
-        url: `/bed-management/wards/${wardId}/beds/${bedId}/release/`, 
-        payload: {} 
+      await postRequest({
+        url: `/bed-management/wards/${wardId}/beds/${bedId}/release/`,
+        payload: {},
       }),
   });
 };
 
 // Create new ward
 export const useCreateWard = () => {
-  return useMutation<ApiResponse<WardResponseType>, ApiResponseError, WardCreationType>({
+  return useMutation<
+    ApiResponse<WardResponseType>,
+    ApiResponseError,
+    WardCreationType
+  >({
     mutationFn: async (payload) =>
       await postRequest({ url: "/bed-management/wards/", payload }),
   });
 };
 
 // Create bed in ward
-export const useCreateBedInWard = (wardId: string) => {
-  return useMutation<ApiResponse<BedResponseType>, ApiResponseError, BedCreationType>({
-    mutationFn: async (payload) =>
-      await postRequest({ 
-        url: `/bed-management/wards/${wardId}/beds/`, 
-        payload 
+export const useCreateBedInWard = () => {
+  return useMutation<
+    ApiResponse<BedResponseType>,
+    ApiResponseError,
+    BedCreationType
+  >({
+    mutationFn: async ({ wardId, ...payload }) =>
+      await postRequest({
+        url: `/bed-management/wards/${wardId}/beds/`,
+        payload,
       }),
   });
 };
 
 // Update ward
 export const useUpdateWard = (wardId: string) => {
-  return useMutation<ApiResponse<WardResponseType>, ApiResponseError, Partial<WardCreationType>>({
+  return useMutation<
+    ApiResponse<WardResponseType>,
+    ApiResponseError,
+    Partial<WardCreationType>
+  >({
     mutationFn: async (payload) =>
-      await patchRequest({ 
-        url: `/bed-management/wards/${wardId}/`, 
-        payload
+      await patchRequest({
+        url: `/bed-management/wards/${wardId}/`,
+        payload,
       }),
   });
 };
@@ -138,8 +162,8 @@ export const useUpdateWard = (wardId: string) => {
 export const useDeleteWard = (wardId: string) => {
   return useMutation<ApiResponse<any>, ApiResponseError, void>({
     mutationFn: async () =>
-      await deleteRequest({ 
-        url: `/bed-management/wards/${wardId}/`
+      await deleteRequest({
+        url: `/bed-management/wards/${wardId}/`,
       }),
   });
 };
@@ -152,31 +176,39 @@ export const mapBedResponseToUIModel = (bed: BedResponseType): BedData => {
     patientId: bed.patient,
     allocationDateTime: bed.date_allocated,
     duration: bed.duration,
+    id: bed.id
   };
 };
 
 // Helper function to get all beds from all wards (for backward compatibility)
 // Hook to get all beds from all wards
 export const useGetAllBeds = () => {
-  const { data: wardsResponse, isLoading: wardsLoading, error: wardsError } = useGetAllWards();
-  
+  const {
+    data: wardsResponse,
+    isLoading: wardsLoading,
+    error: wardsError,
+  } = useGetAllWards();
+
   return useQuery<ApiResponse<BedResponseType[]>, ApiResponseError>({
-    queryKey: ["allBeds", wardsResponse?.data?.data?.map(w => w.id)],
+    queryKey: ["allBeds", wardsResponse?.data?.data?.map((w) => w.id)],
     queryFn: async () => {
       if (!wardsResponse?.data?.data) {
         throw new Error("No wards data available");
       }
-      
+
       const allBeds: BedResponseType[] = [];
-      
+
       // Fetch beds for each ward
       for (const ward of wardsResponse.data.data) {
         try {
-          const bedsResponse = await getRequest({ 
-            url: `/bed-management/wards/${ward.id}/beds/` 
+          const bedsResponse = await getRequest({
+            url: `/bed-management/wards/${ward.id}/beds/`,
           });
-          
-          if (bedsResponse.data?.data && Array.isArray(bedsResponse.data.data)) {
+
+          if (
+            bedsResponse.data?.data &&
+            Array.isArray(bedsResponse.data.data)
+          ) {
             allBeds.push(...bedsResponse.data.data);
           }
         } catch (error) {
@@ -184,20 +216,20 @@ export const useGetAllBeds = () => {
           // Continue with other wards even if one fails
         }
       }
-      
+
       // Return a proper ApiResponse structure by making a mock axios response
       const mockAxiosResponse = {
         data: {
           status: true,
           message: "All beds retrieved successfully",
-          data: allBeds
+          data: allBeds,
         },
         status: 200,
         statusText: "OK",
         headers: {},
-        config: {} as any
+        config: {} as any,
       };
-      
+
       return mockAxiosResponse;
     },
     enabled: !!wardsResponse?.data?.data && !wardsLoading && !wardsError,

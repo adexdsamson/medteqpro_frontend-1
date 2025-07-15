@@ -12,25 +12,33 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useForge, Forge, Forger } from "@/lib/forge";
+import { TextSelect } from "@/components/FormInputs/TextSelect";
+import { usePatientList } from "@/features/services/patientService";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 
 type AddToQueueDialogProps = {
   onAddToQueue: (data: QueueFormData) => void;
 };
 
-export type QueueFormData = {
-  patientId: string;
-  patientName: string;
-  serialNumber: string;
-  roomAssigned: string;
-  estimatedTime: string;
-};
+const schema = yup.object().shape({
+  patientId: yup.string().required("Patient is required"),
+  patientName: yup.string().required("Patient name is required"),
+  serialNumber: yup.string().required("Serial number is required"),
+  roomAssigned: yup.string().required("Room is required"),
+  estimatedTime: yup.string().required("Estimated time is required"),
+});
+
+export type QueueFormData = yup.InferType<typeof schema>;
 
 export default function AddToQueueDialog({
   onAddToQueue,
 }: AddToQueueDialogProps) {
   const [open, setOpen] = React.useState(false);
+  const { data: patients = [], isLoading } = usePatientList();
 
-  const { control, reset } = useForge<QueueFormData>({
+  const { control, reset, watch, setValue } = useForge<QueueFormData>({
+    resolver: yupResolver(schema),
     defaultValues: {
       patientId: "",
       patientName: "",
@@ -39,6 +47,26 @@ export default function AddToQueueDialog({
       estimatedTime: "40mins",
     },
   });
+
+  const selectedPatientId = watch("patientId");
+
+  // Auto-populate patient name when patient is selected
+  React.useEffect(() => {
+    if (selectedPatientId) {
+      const selectedPatient = patients.find(p => p.id === selectedPatientId);
+      if (selectedPatient) {
+        setValue("patientName", selectedPatient.name);
+      }
+    } else {
+      setValue("patientName", "");
+    }
+  }, [selectedPatientId, patients, setValue]);
+
+  // Transform patients data for select options
+  const patientOptions = patients.map(patient => ({
+    label: `${patient.name} (${patient.patientId})`,
+    value: patient.id,
+  }));
 
   const handleSubmit = (data: QueueFormData) => {
     onAddToQueue(data);
@@ -62,15 +90,17 @@ export default function AddToQueueDialog({
           <div className="grid gap-4 py-4">
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="patientId" className="text-right">
-                Patient ID
+                Patient
               </Label>
-              <Forger
-                name="patientId"
-                id="patientId"
-                className="col-span-3"
-                placeholder="Enter patient ID"
-                component={Input}
-              />
+              <div className="col-span-3">
+                <Forger
+                  name="patientId"
+                  component={TextSelect}
+                  options={patientOptions}
+                  placeholder={isLoading ? "Loading patients..." : "Select a patient"}
+                  containerClass=""
+                />
+              </div>
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="patientName" className="text-right">
@@ -80,8 +110,9 @@ export default function AddToQueueDialog({
                 name="patientName"
                 id="patientName"
                 className="col-span-3"
-                placeholder="Enter patient name"
+                placeholder="Patient name (auto-filled)"
                 component={Input}
+                disabled
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">

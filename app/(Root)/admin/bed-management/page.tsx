@@ -29,6 +29,7 @@ import { useToastHandler } from "@/hooks/useToaster";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import AddWardDialog from "./_components/AddWardDialog";
 import AssignBedDialog from "./_components/AssignBedDialog";
+import CreateBedDialog from "./_components/CreateBedDialog";
 
 const AdminBedManagementPage = () => {
   const [selectedRoom, setSelectedRoom] = useState<string>("all");
@@ -67,9 +68,9 @@ const AdminBedManagementPage = () => {
 
   // Process beds data for the active ward
   useEffect(() => {
-    if (bedsResponse?.data?.data) {
+    if (bedsResponse?.data?.results) {
       // Get beds from the response - handle the nested data structure
-      const wardBedsData = bedsResponse.data.data;
+      const wardBedsData = bedsResponse.data.results;
       const wardBeds: BedResponseType[] = Array.isArray(wardBedsData)
         ? wardBedsData
         : wardBedsData.data || [];
@@ -93,8 +94,6 @@ const AdminBedManagementPage = () => {
 
         return uiModel;
       });
-
-      console.log({ wardBeds, bedsResponse });
 
       setBedData(formattedBeds);
     } else {
@@ -157,95 +156,155 @@ const AdminBedManagementPage = () => {
     ...new Set(filteredBedData.map((bed) => bed.roomNo)),
   ].sort();
 
-  console.log({ filteredBedData, bedsResponse });
-
   return (
     <div className="container mx-auto bg-gray-50 min-h-screen">
       <Subheader title="Bed Management" />
 
-      <div className="mb-6 p-6 flex justify-end items-center">
-        <Button
-          className="bg-blue-600 hover:bg-blue-700"
-          onClick={() => setAssignBedDialogOpen(true)}
-        >
-          Assign Bed
-        </Button>
+      <div className="mb-6 p-6 flex gap-3 justify-end items-center">
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button
+              variant={'ghost'}
+            >
+              Create Bed
+            </Button>
+          </DialogTrigger>
+          <CreateBedDialog />
+        </Dialog>
+
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button className="bg-green-600 hover:bg-green-700 text-white">
+              Create Ward +
+            </Button>
+          </DialogTrigger>
+          <AddWardDialog />
+        </Dialog>
       </div>
 
-      <Tabs
-        value={activeTab}
-        onValueChange={setActiveTab}
-        className="w-full px-6"
-      >
-        <div className="flex justify-between items-center mb-6">
-          <TabsList className="h-auto rounded-none border-b bg-transparent p-0">
-            {wards.map((ward) => (
-              <TabsTrigger
-                key={ward.id}
-                value={ward.id}
-                className="data-[state=active]:after:bg-blue-600 relative rounded-none py-2 px-4 after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:text-blue-600"
-              >
-                {ward.name}
-              </TabsTrigger>
-            ))}
-          </TabsList>
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button className="bg-green-600 hover:bg-green-700 text-white">
-                Create Ward +
-              </Button>
-            </DialogTrigger>
-            <AddWardDialog />
-          </Dialog>
-        </div>
+      {wards.length > 0 ? (
+        <Tabs
+          value={activeTab}
+          onValueChange={setActiveTab}
+          className="w-full px-6"
+        >
+          <div className="flex justify-between items-center mb-6">
+            <TabsList className="h-auto rounded-none border-b bg-transparent p-0">
+              {wards.map((ward) => (
+                <TabsTrigger
+                  key={ward.id}
+                  value={ward.id}
+                  className="data-[state=active]:after:bg-blue-600 relative rounded-none py-2 px-4 after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:text-blue-600"
+                >
+                  {ward.name}
+                </TabsTrigger>
+              ))}
+            </TabsList>
+          </div>
 
-        {wards.map((ward) => (
-          <TabsContent key={ward.id} value={ward.id}>
-            <div className="mb-6">
-              <div className="flex items-center gap-4 mb-6">
-                <div className="flex items-center gap-2">
-                  <span className="text-sm text-gray-600">Select Room No</span>
-                  <Select value={selectedRoom} onValueChange={setSelectedRoom}>
-                    <SelectTrigger className="w-32 h-8">
-                      <SelectValue placeholder="All" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="all">All</SelectItem>
-                      {roomNumbers.map((room) => (
-                        <SelectItem key={room} value={room}>
-                          {room}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-                <BedStats
-                  totalBeds={totalBeds}
-                  availableBeds={availableBeds}
-                  occupiedBeds={occupiedBeds}
-                />
-              </div>
-
+          {wards.map((ward) => (
+            <TabsContent key={ward.id} value={ward.id}>
               <div className="mb-6">
-                <TextInput
-                  startAdornment={<SearchIcon className="h-5 w-5" />}
-                  label={"Search Keyword"}
-                  placeholder="Bed ID"
-                  containerClass="!w-60"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm text-gray-600">
+                      Select Room No
+                    </span>
+                    <Select
+                      value={selectedRoom}
+                      onValueChange={setSelectedRoom}
+                    >
+                      <SelectTrigger className="w-32 h-8">
+                        <SelectValue placeholder="All" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">All</SelectItem>
+                        {roomNumbers.map((room) => (
+                          <SelectItem key={room} value={room}>
+                            {room}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <BedStats
+                    totalBeds={totalBeds}
+                    availableBeds={availableBeds}
+                    occupiedBeds={occupiedBeds}
+                  />
+                </div>
+
+                <div className="mb-6">
+                  <TextInput
+                    startAdornment={<SearchIcon className="h-5 w-5" />}
+                    label={"Search Keyword"}
+                    placeholder="Bed ID"
+                    containerClass="!w-60"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                  />
+                </div>
+
+                <DataTable
+                  columns={bedColumns(handleAssignBed)}
+                  data={filteredBedData}
+                  options={{ isLoading: isLoading || wardsLoading }}
                 />
               </div>
-
-              <DataTable
-                columns={bedColumns(handleAssignBed)}
-                data={filteredBedData}
-                options={{ isLoading: isLoading || wardsLoading }}
-              />
+            </TabsContent>
+          ))}
+        </Tabs>
+      ) : (
+        <div className="px-6">
+          <div className="flex justify-between items-center mb-6">
+            <div className="h-auto rounded-none border-b bg-transparent p-0">
+              <div className="text-gray-500 py-2 px-4">No wards available</div>
             </div>
-          </TabsContent>
-        ))}
-      </Tabs>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button className="bg-green-600 hover:bg-green-700 text-white">
+                  Create Ward +
+                </Button>
+              </DialogTrigger>
+              <AddWardDialog />
+            </Dialog>
+          </div>
+
+          {/* Empty state placeholder */}
+          <div className="flex flex-col items-center justify-center py-16 bg-white rounded-lg border border-gray-200">
+            <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+              <svg
+                className="w-8 h-8 text-gray-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
+                />
+              </svg>
+            </div>
+            <h3 className="text-lg font-medium text-gray-900 mb-2">
+              No Wards Available
+            </h3>
+            <p className="text-gray-500 text-center mb-6 max-w-md">
+              Get started by creating your first ward. Wards help organize beds
+              and manage patient allocation efficiently.
+            </p>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button className="bg-blue-600 hover:bg-blue-700 text-white">
+                  Create Your First Ward
+                </Button>
+              </DialogTrigger>
+              <AddWardDialog />
+            </Dialog>
+          </div>
+        </div>
+      )}
 
       <AssignBedDialog
         open={assignBedDialogOpen}
