@@ -8,7 +8,7 @@ export type Appointment = {
   patientName: string;
   gender: string;
   appointmentDateTime: string;
-  status: 'Upcoming' | 'Completed' | 'Rescheduled' | 'Cancelled';
+  status: string;
 };
 
 export const appointmentColumns: ColumnDef<Appointment>[] = [
@@ -54,8 +54,8 @@ export type AppointmentFamily = {
   familyName: string;
   numberOfMembers: number;
   appointmentDateTime: string;
-  status: 'Upcoming' | 'Completed' | 'Rescheduled' | 'Cancelled';
-}
+  status: string;
+};
 
 export const appointmentFamilyColumns: ColumnDef<AppointmentFamily>[] = [
   {

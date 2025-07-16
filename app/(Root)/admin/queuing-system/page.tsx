@@ -8,7 +8,6 @@ import { Users } from "lucide-react";
 import { useToastHandler } from "@/hooks/useToaster";
 
 // Import custom components
-import SessionTimer from "./_components/SessionTimer";
 import QueueTable, { QueueEntry } from "./_components/QueueTable";
 import AISuggestionCard from "./_components/AISuggestionCard";
 import AddToQueueDialog, { QueueFormData } from "./_components/AddToQueueDialog";
@@ -43,16 +42,10 @@ export default function QueuingSystem() {
     if (queueEntriesData?.data) {
       // Transform API data to match our component's expected format
       const transformedData = queueEntriesData.data.map((item, index) => ({
-        id: item.id,
-        counter: index + 1,
-        serialNumber: item.patientId || `P00${index + 1}`,
-        patientId: item.patientId || '',
-        patientName: item.patient_fullname || '',
+        ...item,
+        serialNumber: index + 1,
         roomAssigned: item.assigned_hospital_staff_fullname || 'Unassigned',
         estimatedTime: `${item.estimated_waiting_time || 0} mins`,
-        status: item.status || 'waiting',
-        priority: item.priority || 'medium',
-        purpose: item.purpose || '',
         createdAt: item.created_at ? formatQueueDate(item.created_at) : '',
       }));
       
@@ -66,13 +59,13 @@ export default function QueuingSystem() {
   // Handle adding a new patient to the queue
   const handleAddToQueue = async (data: QueueFormData) => {
     try {
-      // Convert form data to API request format
+      // Form data now matches API request format directly
       const requestData: AddQueueEntryRequest = {
-        patient: data.patientId,
-        hospital_staff: data.roomAssigned, // Using roomAssigned as hospital_staff ID
-        purpose: data.patientName || 'Consultation', // Using patientName field for purpose
-        priority: 'medium', // Default priority
-        estimated_waiting_time: parseInt(data.estimatedTime) || 30, // Convert to number
+        patient: data.patient,
+        hospital_staff: data.hospital_staff,
+        purpose: data.purpose,
+        priority: data.priority,
+        estimated_waiting_time: data.estimated_waiting_time,
       };
       
       // Call the API
@@ -90,17 +83,12 @@ export default function QueuingSystem() {
       console.error(error);
     }
   };
-  
-  // Handle ending the current session
-  const handleEndSession = () => {
-    setSessionActive(false);
-    handler.success("Session Ended", "The current queue session has been ended");
-  };
+
   
   // Handle displaying the queue on a public screen
-  const handleDisplay = () => {
-    handler.success("Display Updated", "Queue display has been updated on public screens");
-  };
+  // const handleDisplay = () => {
+  //   handler.success("Display Updated", "Queue display has been updated on public screens");
+  // };
   
   // Handle updating a queue entry status
   // const handleUpdateStatus = async (queueId: string, status: string = 'in_progress') => {
@@ -121,7 +109,7 @@ export default function QueuingSystem() {
 
   return (
     <>
-      <Subheader title="Queuing System" middle={<SessionTimer onEndSession={handleEndSession} />} />
+      <Subheader title="Queuing System"  />
       
       <div className="p-6 space-y-6 min-h-screen w-full bg-gray-50">
         {/* Timer and Add to Queue button */}
@@ -156,14 +144,14 @@ export default function QueuingSystem() {
         </div>
         
         {/* Display Button */}
-        <div className="flex justify-end mt-4">
+        {/* <div className="flex justify-end mt-4">
           <Button 
             className="bg-gray-900 hover:bg-black"
             onClick={handleDisplay}
           >
             Display
           </Button>
-        </div>
+        </div> */}
         
         {/* Queue Table */}
         <div className="mt-4">

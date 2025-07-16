@@ -97,6 +97,7 @@ const AddStaffDialog: React.FC = () => {
   ];
 
   const formRef = useRef<FormPropsRef>(null)
+  const dialogCloseRef = useRef<HTMLButtonElement>(null)
   const createStaffMutation = useCreateHospitalStaff();
   const { success, error } = useToastHandler();
 
@@ -130,7 +131,7 @@ const AddStaffDialog: React.FC = () => {
       );
       
       // Close dialog after successful submission
-      // Note: You might want to pass a close function as prop to handle this
+      dialogCloseRef.current?.click();
     } catch (err: unknown) {
       error(
         "Failed to invite staff member",
@@ -156,7 +157,7 @@ const AddStaffDialog: React.FC = () => {
         {/* Form fields will be rendered by ForgeForm based on formFields config */}
         <DialogFooter>
           <DialogClose asChild>
-            <Button type="button" variant="outline">
+            <Button ref={dialogCloseRef} type="button" variant="outline">
               Cancel
             </Button>
           </DialogClose>
