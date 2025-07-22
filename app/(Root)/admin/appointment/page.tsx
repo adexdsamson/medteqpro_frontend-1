@@ -21,6 +21,7 @@ import {
   useFamilyAppointments, 
   useAppointmentStats 
 } from "@/features/services/appointmentService";
+import { BookAppointmentDialog } from "./_components/BookAppointmentDialog";
 
 const AdminAppointmentPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -29,41 +30,41 @@ const AdminAppointmentPage = () => {
   const { data: appointments, isLoading: isLoadingAppointments } = useAppointments();
   const { data: familyAppointments, isLoading: isLoadingFamilyAppointments } = useFamilyAppointments();
   
-  // Fetch stats data
-  const { data: yearlyStats } = useAppointmentStats('yearly');
-  const { data: monthlyStats } = useAppointmentStats('monthly');
-  const { data: dailyStats } = useAppointmentStats('daily');
+  // Fetch stats data - using current year for analytics
+  const currentYear = new Date().getFullYear();
+  const currentMonth = new Date().getMonth() + 1;
+  const { data: statsData } = useAppointmentStats(currentYear, currentMonth);
 
-  // Prepare stats for display
+  // Prepare stats for display based on API response structure
   const appointmentStats: AppointmentStatPRops[] = [
     {
       title: "Yearly",
-      period: yearlyStats?.period || "2024",
+      period: statsData?.period?.year?.toString() || currentYear.toString(),
       action: "Set Year",
       appointmentStatus: [
-        { label: "Completed", count: yearlyStats?.completed?.toString() || "0", color: "text-green-400" },
-        { label: "Rescheduled", count: yearlyStats?.rescheduled?.toString() || "0", color: "text-yellow-400" },
-        { label: "Cancelled", count: yearlyStats?.cancelled?.toString() || "0", color: "text-red-400" },
+        { label: "Completed", count: statsData?.yearly_appointments?.completed?.toString() || "0", color: "text-green-400" },
+        { label: "Rescheduled", count: statsData?.yearly_appointments?.rescheduled?.toString() || "0", color: "text-yellow-400" },
+        { label: "Cancelled", count: statsData?.yearly_appointments?.cancelled?.toString() || "0", color: "text-red-400" },
       ],
     },
     {
       title: "Monthly",
-      period: monthlyStats?.period || "April",
+      period: statsData?.period?.month ? new Date(0, statsData.period.month - 1).toLocaleString('default', { month: 'long' }) : "Current Month",
       action: "Set Month",
       appointmentStatus: [
-        { label: "Completed", count: monthlyStats?.completed?.toString() || "0", color: "text-green-400" },
-        { label: "Rescheduled", count: monthlyStats?.rescheduled?.toString() || "0", color: "text-yellow-400" },
-        { label: "Cancelled", count: monthlyStats?.cancelled?.toString() || "0", color: "text-red-400" },
+        { label: "Completed", count: statsData?.monthly_appointments?.completed?.toString() || "0", color: "text-green-400" },
+        { label: "Rescheduled", count: statsData?.monthly_appointments?.rescheduled?.toString() || "0", color: "text-yellow-400" },
+        { label: "Cancelled", count: statsData?.monthly_appointments?.cancelled?.toString() || "0", color: "text-red-400" },
       ],
     },
     {
       title: "Daily",
-      period: dailyStats?.period || "Today",
+      period: statsData?.period?.day ? `Day ${statsData.period.day}` : "Today",
       action: "Set Day",
       appointmentStatus: [
-        { label: "Completed", count: dailyStats?.completed?.toString() || "0", color: "text-green-400" },
-        { label: "Rescheduled", count: dailyStats?.rescheduled?.toString() || "0", color: "text-yellow-400" },
-        { label: "Cancelled", count: dailyStats?.cancelled?.toString() || "0", color: "text-red-400" },
+        { label: "Completed", count: statsData?.daily_appointments?.completed?.toString() || "0", color: "text-green-400" },
+        { label: "Rescheduled", count: statsData?.daily_appointments?.rescheduled?.toString() || "0", color: "text-yellow-400" },
+        { label: "Cancelled", count: statsData?.daily_appointments?.cancelled?.toString() || "0", color: "text-red-400" },
       ],
     },
   ];
@@ -85,7 +86,9 @@ const AdminAppointmentPage = () => {
       <Subheader title="Appointment" />
 
       <div className="mb-6 p-6 flex justify-end items-center">
-        <Button>Book Appointment</Button>
+        <BookAppointmentDialog>
+          <Button>Book Appointment</Button>
+        </BookAppointmentDialog>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6 p-6">

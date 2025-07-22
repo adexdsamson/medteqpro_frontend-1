@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import React from 'react';
-import { DataTable } from '@/components/DataTable';
-import { ColumnDef } from '@tanstack/react-table';
+import React from "react";
+import { DataTable } from "@/components/DataTable";
+import { ColumnDef } from "@tanstack/react-table";
 
 type Hospital = {
   id: string;
@@ -20,47 +20,52 @@ interface RecentlyRegisteredTableProps {
   isLoading?: boolean;
 }
 
-export function RecentlyRegisteredTable({ 
+export function RecentlyRegisteredTable({
   hospitals = [],
-  isLoading = false 
+  isLoading = false,
 }: RecentlyRegisteredTableProps) {
-  
   const columns: ColumnDef<Hospital>[] = [
     {
-      accessorKey: 'id',
-      header: 'ID',
+      accessorKey: "id",
+      header: "ID",
     },
     {
-      accessorKey: 'name',
-      header: 'Name',
+      accessorKey: "name",
+      header: "Name",
     },
     {
-      accessorKey: 'email',
-      header: 'Email',
+      accessorKey: "email",
+      header: "Email",
     },
     {
-      accessorKey: 'hospitalName',
-      header: 'Hospital Name',
+      accessorKey: "hospitalName",
+      header: "Hospital Name",
     },
     {
-      accessorKey: 'numberOfDoctors',
-      header: 'Number of Doctors',
+      accessorKey: "numberOfDoctors",
+      header: "Number of Doctors",
     },
     {
-      accessorKey: 'dateRegistered',
-      header: 'Date Registered',
+      accessorKey: "dateRegistered",
+      header: "Date Registered",
     },
     {
-      accessorKey: 'location',
-      header: 'Location',
+      accessorKey: "location",
+      header: "Location",
     },
     {
-      accessorKey: 'status',
-      header: 'Status',
+      accessorKey: "status",
+      header: "Status",
       cell: ({ row }) => {
-        const status = row.getValue('status') as string;
+        const status = row.getValue("status") as string;
         return (
-          <span className={`px-2 py-1 rounded-full text-xs ${status === 'Active' ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'}`}>
+          <span
+            className={`px-2 py-1 rounded-full text-xs ${
+              status === "active"
+                ? "bg-green-100 text-green-600"
+                : "bg-red-100 text-red-600"
+            }`}
+          >
             {status}
           </span>
         );

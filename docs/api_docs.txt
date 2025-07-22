@@ -1,9 +1,10 @@
 {
 	"info": {
-		"_postman_id": "4920e401-a6da-43aa-8804-3900fad801a4",
+		"_postman_id": "984a734b-23af-4a12-84d0-666cc8ca7298",
 		"name": "MedTeqPro",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "31378958"
+		"_exporter_id": "31378958",
+		"_collection_link": "https://autogon-ai-developers.postman.co/workspace/Autogon-Internal-APIs~62d0bb8c-e7a4-401c-9524-3a6fef08bf56/collection/31377695-984a734b-23af-4a12-84d0-666cc8ca7298?action=share&source=collection_link&creator=31378958"
 	},
 	"item": [
 		{
@@ -20,7 +21,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ5ODAyMTI2LCJpYXQiOjE3NDcyMTAxMjYsImp0aSI6IjE0NTYwOTI5M2IyZjRjOTM5YzRjNDNmOWE4ZmQwNDVhIiwidXNlcl9pZCI6IjhiNmUyYmI2LTBlZDktNDVlYi04OGYzLWRhNjIxMDgxZjBiZSJ9.jchx6o5fqdURtFq_ax_1t1of36TWEPLO3YlOuCEkK2w",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzUzNDM2Njg4LCJpYXQiOjE3NTA4NDQ2ODgsImp0aSI6ImMyYTM1ZDBhYWFhZjRlODZiNzkzZjgwZDkxZGQzODJmIiwidXNlcl9pZCI6IjE2OTc2M2RhLWQyYWMtNDNkYy04ZWRlLTYxNGIzNzI2NGU0NSJ9.XZLPujAQOQ0TpnVtW5aw7MTKBbbEKkSPbIbIBmIP6NM",
 											"type": "string"
 										}
 									]
@@ -37,9 +38,9 @@
 									}
 								},
 								"url": {
-									"raw": "{{LOCAL}}auth/onboard/hospital/",
+									"raw": "{{PROD}}auth/onboard/hospital/",
 									"host": [
-										"{{LOCAL}}auth"
+										"{{PROD}}auth"
 									],
 									"path": [
 										"onboard",
@@ -590,12 +591,12 @@
 									"query": [
 										{
 											"key": "search",
-											"value": "",
+											"value": null,
 											"disabled": true
 										},
 										{
 											"key": "role",
-											"value": "",
+											"value": null,
 											"description": "\"superadmin\", \"admin\", \"support\"",
 											"disabled": true
 										}
@@ -1386,7 +1387,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "// Super Admin\r\n// {\r\n//     \"email\": \"admin@medteqpro.com\",\r\n//     \"password\": \"adminadmin\"\r\n// }\r\n\r\n// Staff Admin\r\n// {\r\n//     \"email\": \"naarons700@gmail.com\",\r\n//     \"password\": \"userpass112\"\r\n// }\r\n\r\n// Hospital Admin\r\n{\r\n    \"email\": \"naarons800@gmail.com\",\r\n    \"password\": \"AdamsCharles@20250514\"\r\n}\r\n\r\n// Doctor\r\n// {\r\n//     \"email\": \"aaronnwokoro@gmail.com\",\r\n//     \"password\": \"userpass112\"\r\n// }",
+							"raw": "// Super Admin\r\n{\r\n    \"email\": \"admin@medteqpro.com\",\r\n    \"password\": \"adminadmin\"\r\n}\r\n\r\n// Staff Admin\r\n// {\r\n//     \"email\": \"naarons700@gmail.com\",\r\n//     \"password\": \"userpass112\"\r\n// }\r\n\r\n// Hospital Admin\r\n// {\r\n//     \"email\": \"naarons800@gmail.com\",\r\n//     \"password\": \"AdamsCharles@20250514\"\r\n// }\r\n\r\n// Doctor\r\n// {\r\n//     \"email\": \"aaronnwokoro@gmail.com\",\r\n//     \"password\": \"userpass112\"\r\n// }",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1394,9 +1395,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{LOCAL}}auth/login/",
+							"raw": "{{PROD}}auth/login/",
 							"host": [
-								"{{LOCAL}}auth"
+								"{{PROD}}auth"
 							],
 							"path": [
 								"login",
@@ -2629,6 +2630,34 @@
 							"response": []
 						}
 					]
+				},
+				{
+					"name": "Update Hospital Details",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"\", \r\n    \"email\": \"\", \r\n    \"phone_number\": \"\", \r\n    \"state\": \"\", \r\n    \"city\": \"\", \r\n    \"address\": \"\", \r\n    \"avatar\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{LOCAL}}hospital-admin/hospital/update/",
+							"host": [
+								"{{LOCAL}}hospital-admin"
+							],
+							"path": [
+								"hospital",
+								"update",
+								""
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -5769,6 +5798,9 @@
 				{
 					"name": "Create Patient (App)",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -5792,79 +5824,6 @@
 						}
 					},
 					"response": [
-						{
-							"name": "Create Patient (App)",
-							"originalRequest": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"hospital\": \"8bcb6a27-c7a6-4ece-a9fc-409e693ef03d\",\r\n    \"user_id\": \"Jane-Doe-1997-03-20-1234567822\",\r\n    \"first_name\": \"Jane\",\r\n    \"last_name\": \"Doe\",\r\n    \"middle_name\": \"Anne\",\r\n    \"date_of_birth\": \"1997-03-20\",\r\n    \"gender\": \"female\",\r\n    \"phone_number\": \"1234567822\",\r\n    \"email\": \"jane.anne@example.com\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{LOCAL}}patient-management/app-patients/",
-									"host": [
-										"{{LOCAL}}patient-management"
-									],
-									"path": [
-										"app-patients",
-										""
-									]
-								}
-							},
-							"status": "Created",
-							"code": 201,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Date",
-									"value": "Wed, 18 Jun 2025 12:56:24 GMT"
-								},
-								{
-									"key": "Server",
-									"value": "WSGIServer/0.2 CPython/3.10.0"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "Allow",
-									"value": "POST, OPTIONS"
-								},
-								{
-									"key": "X-Frame-Options",
-									"value": "DENY"
-								},
-								{
-									"key": "Vary",
-									"value": "origin"
-								},
-								{
-									"key": "Content-Length",
-									"value": "324"
-								},
-								{
-									"key": "X-Content-Type-Options",
-									"value": "nosniff"
-								},
-								{
-									"key": "Referrer-Policy",
-									"value": "same-origin"
-								},
-								{
-									"key": "Cross-Origin-Opener-Policy",
-									"value": "same-origin"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"status\": true,\n    \"message\": \"Patient created successfully\",\n    \"data\": {\n        \"hospital\": \"8bcb6a27-c7a6-4ece-a9fc-409e693ef03d\",\n        \"first_name\": \"Jane\",\n        \"last_name\": \"Doe\",\n        \"middle_name\": \"Anne\",\n        \"date_of_birth\": \"1997-03-20\",\n        \"gender\": \"female\",\n        \"phone_number\": \"1234567822\",\n        \"email\": \"jane.anne@example.com\",\n        \"user_id\": \"Jane-Doe-1997-03-20-1234567822\"\n    }\n}"
-						},
 						{
 							"name": "Create Patient (App)",
 							"originalRequest": {
@@ -7220,7 +7179,891 @@
 		},
 		{
 			"name": "Drug Mgt",
-			"item": []
+			"item": [
+				{
+					"name": "Overview",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{hospital_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{LOCAL}}drug-management/hospital/drugs/overview/",
+							"host": [
+								"{{LOCAL}}drug-management"
+							],
+							"path": [
+								"hospital",
+								"drugs",
+								"overview",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Overview",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}drug-management/hospital/drugs/overview/",
+									"host": [
+										"{{LOCAL}}drug-management"
+									],
+									"path": [
+										"hospital",
+										"drugs",
+										"overview",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Wed, 25 Jun 2025 17:04:17 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.10.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Length",
+									"value": "118"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"total_current_stock\": 100,\n    \"total_administered_quantity\": 0,\n    \"total_previously_stocked\": 0,\n    \"total_expired_drugs_count\": 0\n}"
+						}
+					]
+				},
+				{
+					"name": "List Drugs",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{hospital_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{LOCAL}}drug-management/hospital/drugs/",
+							"host": [
+								"{{LOCAL}}drug-management"
+							],
+							"path": [
+								"hospital",
+								"drugs",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "List Drugs",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}drug-management/hospital/drugs/",
+									"host": [
+										"{{LOCAL}}drug-management"
+									],
+									"path": [
+										"hospital",
+										"drugs",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Wed, 25 Jun 2025 17:16:27 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.10.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, POST, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Length",
+									"value": "845"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"count\": 2,\n    \"next\": null,\n    \"previous\": null,\n    \"results\": [\n        {\n            \"id\": \"d80c1312-e91f-4c03-83b1-2d4c36e05beb\",\n            \"hospital\": \"Divine Mercy\",\n            \"drug_name\": \"Panadol\",\n            \"drug_type\": \"tablet\",\n            \"drug_category\": \"analgesic\",\n            \"drug_expiry_date\": \"2027-12-31\",\n            \"drug_price\": \"500.00\",\n            \"quantity_in_stock\": 50,\n            \"initial_stock_at_creation\": 0,\n            \"countdown_to_expiration\": 919,\n            \"created_at\": \"2025-06-25T17:04:07.679661Z\",\n            \"updated_at\": \"2025-06-25T17:04:07.679661Z\",\n            \"created_by\": \"Adams Charles\"\n        },\n        {\n            \"id\": \"e60b1c4a-29b2-4185-84f6-66cf10988cfb\",\n            \"hospital\": \"Divine Mercy\",\n            \"drug_name\": \"Paracetamol\",\n            \"drug_type\": \"tablet\",\n            \"drug_category\": \"analgesic\",\n            \"drug_expiry_date\": \"2027-12-31\",\n            \"drug_price\": \"500.00\",\n            \"quantity_in_stock\": 50,\n            \"initial_stock_at_creation\": 0,\n            \"countdown_to_expiration\": 919,\n            \"created_at\": \"2025-06-25T17:03:46.269282Z\",\n            \"updated_at\": \"2025-06-25T17:03:46.269282Z\",\n            \"created_by\": \"Adams Charles\"\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Add Drug",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{hospital_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"drug_name\": \"Panadol\", \r\n    \"drug_type\": \"tablet\", \r\n    \"drug_category\": \"analgesic\", \r\n    \"drug_expiry_date\": \"2027-12-31\", \r\n    \"drug_price\": 500, \r\n    \"quantity_in_stock\": 50\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{LOCAL}}drug-management/hospital/drugs/",
+							"host": [
+								"{{LOCAL}}drug-management"
+							],
+							"path": [
+								"hospital",
+								"drugs",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Add Drug",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"drug_name\": \"Paracetamol\", \r\n    \"drug_type\": \"tablet\", \r\n    \"drug_category\": \"analgesic\", \r\n    \"drug_expiry_date\": \"2027-12-31\", \r\n    \"drug_price\": 500, \r\n    \"quantity_in_stock\": 50\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL}}drug-management/hospital/drugs/",
+									"host": [
+										"{{LOCAL}}drug-management"
+									],
+									"path": [
+										"hospital",
+										"drugs",
+										""
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Wed, 25 Jun 2025 17:03:46 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.10.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, POST, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1224"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"e60b1c4a-29b2-4185-84f6-66cf10988cfb\",\n    \"hospital\": {\n        \"id\": \"8bcb6a27-c7a6-4ece-a9fc-409e693ef03d\",\n        \"name\": \"Divine Mercy\",\n        \"email\": \"info@divinemercy.com\",\n        \"phone_number\": \"08012345678\",\n        \"state\": \"Rivers\",\n        \"city\": \"Port-Harcourt\",\n        \"address\": \"17 Birabi Street, Old GRA\",\n        \"avatar\": null,\n        \"status\": \"active\",\n        \"created_at\": \"2025-05-14T08:34:07.750847Z\",\n        \"updated_at\": \"2025-06-25T16:33:00.801217Z\"\n    },\n    \"drug_name\": \"Paracetamol\",\n    \"drug_type\": \"tablet\",\n    \"drug_category\": \"analgesic\",\n    \"drug_expiry_date\": \"2027-12-31\",\n    \"drug_price\": \"500.00\",\n    \"quantity_in_stock\": 50,\n    \"initial_stock_at_creation\": 0,\n    \"countdown_to_expiration\": 919,\n    \"created_at\": \"2025-06-25T17:03:46.269282Z\",\n    \"updated_at\": \"2025-06-25T17:03:46.269282Z\",\n    \"created_by\": {\n        \"id\": \"0d9142dc-fae3-452f-aae9-3078dc697e04\",\n        \"email\": \"naarons800@gmail.com\",\n        \"first_name\": \"Adams\",\n        \"last_name\": \"Charles\",\n        \"phone_number\": null,\n        \"hospital\": {\n            \"id\": \"8bcb6a27-c7a6-4ece-a9fc-409e693ef03d\",\n            \"name\": \"Divine Mercy\",\n            \"email\": \"info@divinemercy.com\",\n            \"phone_number\": \"08012345678\",\n            \"state\": \"Rivers\",\n            \"city\": \"Port-Harcourt\",\n            \"address\": \"17 Birabi Street, Old GRA\",\n            \"avatar\": null,\n            \"status\": \"active\",\n            \"created_at\": \"2025-05-14T08:34:07.750847Z\",\n            \"updated_at\": \"2025-06-25T16:33:00.801217Z\"\n        },\n        \"role\": \"hospital_admin\",\n        \"is_active\": true,\n        \"is_staff\": false\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Drug Detail",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{hospital_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{LOCAL}}drug-management/hospital/drugs/:drug_id/",
+							"host": [
+								"{{LOCAL}}drug-management"
+							],
+							"path": [
+								"hospital",
+								"drugs",
+								":drug_id",
+								""
+							],
+							"variable": [
+								{
+									"key": "drug_id",
+									"value": "d80c1312-e91f-4c03-83b1-2d4c36e05beb"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Detail",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}drug-management/hospital/drugs/:drug_id/",
+									"host": [
+										"{{LOCAL}}drug-management"
+									],
+									"path": [
+										"hospital",
+										"drugs",
+										":drug_id",
+										""
+									],
+									"variable": [
+										{
+											"key": "drug_id",
+											"value": "d80c1312-e91f-4c03-83b1-2d4c36e05beb"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Wed, 25 Jun 2025 17:27:27 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.10.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, PUT, DELETE, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Length",
+									"value": "414"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"d80c1312-e91f-4c03-83b1-2d4c36e05beb\",\n    \"hospital\": \"Divine Mercy\",\n    \"drug_name\": \"Panadol\",\n    \"drug_type\": \"tablet\",\n    \"drug_category\": \"analgesic\",\n    \"drug_expiry_date\": \"2027-12-31\",\n    \"drug_price\": \"500.00\",\n    \"quantity_in_stock\": 50,\n    \"initial_stock_at_creation\": 0,\n    \"countdown_to_expiration\": 919,\n    \"created_at\": \"2025-06-25T17:04:07.679661Z\",\n    \"updated_at\": \"2025-06-25T17:04:07.679661Z\",\n    \"created_by\": \"Adams Charles\",\n    \"is_archived\": false\n}"
+						}
+					]
+				},
+				{
+					"name": "Update Drug",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{hospital_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    // \"drug_name\": \"Panadol\", \r\n    // \"drug_type\": \"tablet\", \r\n    // \"drug_category\": \"analgesic\", \r\n    // \"drug_expiry_date\": \"2027-12-31\", \r\n    \"drug_price\": 5000\r\n    // \"quantity_in_stock\": 50\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{LOCAL}}drug-management/hospital/drugs/:drug_id/",
+							"host": [
+								"{{LOCAL}}drug-management"
+							],
+							"path": [
+								"hospital",
+								"drugs",
+								":drug_id",
+								""
+							],
+							"variable": [
+								{
+									"key": "drug_id",
+									"value": "d80c1312-e91f-4c03-83b1-2d4c36e05beb"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Update",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    // \"drug_name\": \"Panadol\", \r\n    // \"drug_type\": \"tablet\", \r\n    // \"drug_category\": \"analgesic\", \r\n    // \"drug_expiry_date\": \"2027-12-31\", \r\n    \"drug_price\": 5000\r\n    // \"quantity_in_stock\": 50\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL}}drug-management/hospital/drugs/:drug_id/",
+									"host": [
+										"{{LOCAL}}drug-management"
+									],
+									"path": [
+										"hospital",
+										"drugs",
+										":drug_id",
+										""
+									],
+									"variable": [
+										{
+											"key": "drug_id",
+											"value": "d80c1312-e91f-4c03-83b1-2d4c36e05beb"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Wed, 25 Jun 2025 17:29:23 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.10.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, PATCH, DELETE, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Length",
+									"value": "415"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"d80c1312-e91f-4c03-83b1-2d4c36e05beb\",\n    \"hospital\": \"Divine Mercy\",\n    \"drug_name\": \"Panadol\",\n    \"drug_type\": \"tablet\",\n    \"drug_category\": \"analgesic\",\n    \"drug_expiry_date\": \"2027-12-31\",\n    \"drug_price\": \"5000.00\",\n    \"quantity_in_stock\": 50,\n    \"initial_stock_at_creation\": 0,\n    \"countdown_to_expiration\": 919,\n    \"created_at\": \"2025-06-25T17:04:07.679661Z\",\n    \"updated_at\": \"2025-06-25T17:29:23.067546Z\",\n    \"created_by\": \"Adams Charles\",\n    \"is_archived\": false\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete Drug",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{hospital_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{LOCAL}}drug-management/hospital/drugs/:drug_id/",
+							"host": [
+								"{{LOCAL}}drug-management"
+							],
+							"path": [
+								"hospital",
+								"drugs",
+								":drug_id",
+								""
+							],
+							"variable": [
+								{
+									"key": "drug_id",
+									"value": "e9473926-2899-4c13-b593-a414fa37f285"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Delete",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}drug-management/hospital/drugs/:drug_id/",
+									"host": [
+										"{{LOCAL}}drug-management"
+									],
+									"path": [
+										"hospital",
+										"drugs",
+										":drug_id",
+										""
+									],
+									"variable": [
+										{
+											"key": "drug_id",
+											"value": "e9473926-2899-4c13-b593-a414fa37f285"
+										}
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Wed, 25 Jun 2025 17:31:18 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.10.0"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, PATCH, DELETE, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Length",
+									"value": "0"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Daily Drug Administration",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{hospital_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{LOCAL}}drug-management/hospital/drug-administrations/",
+							"host": [
+								"{{LOCAL}}drug-management"
+							],
+							"path": [
+								"hospital",
+								"drug-administrations",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "List",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}drug-management/hospital/drug-administrations/",
+									"host": [
+										"{{LOCAL}}drug-management"
+									],
+									"path": [
+										"hospital",
+										"drug-administrations",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Wed, 25 Jun 2025 17:50:17 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.10.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, POST, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1539"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": \"6dc510f4-650e-47cd-9d47-afacd4dffbf2\",\n        \"patient_name\": \"Aaron Lennon\",\n        \"hospital\": \"Divine Mercy\",\n        \"patient_id\": \"f81abbb2-8841-4f3a-8d01-6c2d287df4b0\",\n        \"drug\": {\n            \"id\": \"d80c1312-e91f-4c03-83b1-2d4c36e05beb\",\n            \"drug_name\": \"Panadol\",\n            \"drug_type\": \"tablet\",\n            \"drug_category\": \"analgesic\",\n            \"drug_expiry_date\": \"2027-12-31\",\n            \"drug_price\": \"5000.00\",\n            \"quantity_in_stock\": 30,\n            \"countdown_to_expiration\": 919,\n            \"created_at\": \"2025-06-25T17:04:07.679661Z\",\n            \"updated_at\": \"2025-06-25T17:47:20.394840Z\",\n            \"created_by\": \"Adams Charles\"\n        },\n        \"dosage\": \"500mg\",\n        \"frequency\": \"OD\",\n        \"date_administered\": \"2025-06-25T17:47:20.382837Z\",\n        \"quantity_administered\": 10,\n        \"status\": \"administered\",\n        \"administered_by\": \"Adams Charles\",\n        \"notes\": null,\n        \"created_at\": \"2025-06-25T17:47:20.382837Z\",\n        \"updated_at\": \"2025-06-25T17:47:20.382837Z\"\n    },\n    {\n        \"id\": \"636aaaf3-12b9-4905-901a-f6a8072c8275\",\n        \"patient_name\": \"Aaron Lennon\",\n        \"hospital\": \"Divine Mercy\",\n        \"patient_id\": \"f81abbb2-8841-4f3a-8d01-6c2d287df4b0\",\n        \"drug\": {\n            \"id\": \"d80c1312-e91f-4c03-83b1-2d4c36e05beb\",\n            \"drug_name\": \"Panadol\",\n            \"drug_type\": \"tablet\",\n            \"drug_category\": \"analgesic\",\n            \"drug_expiry_date\": \"2027-12-31\",\n            \"drug_price\": \"5000.00\",\n            \"quantity_in_stock\": 30,\n            \"countdown_to_expiration\": 919,\n            \"created_at\": \"2025-06-25T17:04:07.679661Z\",\n            \"updated_at\": \"2025-06-25T17:47:20.394840Z\",\n            \"created_by\": \"Adams Charles\"\n        },\n        \"dosage\": \"500mg\",\n        \"frequency\": \"OD\",\n        \"date_administered\": \"2025-06-25T17:46:53.951656Z\",\n        \"quantity_administered\": 10,\n        \"status\": \"administered\",\n        \"administered_by\": \"Adams Charles\",\n        \"notes\": null,\n        \"created_at\": \"2025-06-25T17:46:53.952655Z\",\n        \"updated_at\": \"2025-06-25T17:46:53.952655Z\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Dispense Drug",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{hospital_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"drug_id\": \"d80c1312-e91f-4c03-83b1-2d4c36e05beb\",\r\n    \"patient_id\": \"f81abbb2-8841-4f3a-8d01-6c2d287df4b0\",\r\n    \"dosage\": \"500mg\",\r\n    \"frequency\": \"OD\",\r\n    \"quantity_administered\": 5\r\n    // \"notes\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{LOCAL}}drug-management/hospital/drug-administrations/",
+							"host": [
+								"{{LOCAL}}drug-management"
+							],
+							"path": [
+								"hospital",
+								"drug-administrations",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Dispense",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"drug_id\": \"d80c1312-e91f-4c03-83b1-2d4c36e05beb\",\r\n    \"patient_id\": \"f81abbb2-8841-4f3a-8d01-6c2d287df4b0\",\r\n    \"dosage\": \"500mg\",\r\n    \"frequency\": \"OD\",\r\n    \"quantity_administered\": 5\r\n    // \"notes\": \"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL}}drug-management/hospital/drug-administrations/",
+									"host": [
+										"{{LOCAL}}drug-management"
+									],
+									"path": [
+										"hospital",
+										"drug-administrations",
+										""
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Wed, 25 Jun 2025 17:51:07 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.10.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, POST, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Length",
+									"value": "767"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"6201ae8c-7e38-42d8-87e3-663059072819\",\n    \"patient_name\": \"Aaron Lennon\",\n    \"hospital\": \"Divine Mercy\",\n    \"patient_id\": \"f81abbb2-8841-4f3a-8d01-6c2d287df4b0\",\n    \"drug\": {\n        \"id\": \"d80c1312-e91f-4c03-83b1-2d4c36e05beb\",\n        \"drug_name\": \"Panadol\",\n        \"drug_type\": \"tablet\",\n        \"drug_category\": \"analgesic\",\n        \"drug_expiry_date\": \"2027-12-31\",\n        \"drug_price\": \"5000.00\",\n        \"quantity_in_stock\": 25,\n        \"countdown_to_expiration\": 919,\n        \"created_at\": \"2025-06-25T17:04:07.679661Z\",\n        \"updated_at\": \"2025-06-25T17:51:07.288681Z\",\n        \"created_by\": \"Adams Charles\"\n    },\n    \"dosage\": \"500mg\",\n    \"frequency\": \"OD\",\n    \"date_administered\": \"2025-06-25T17:51:07.281665Z\",\n    \"quantity_administered\": 5,\n    \"status\": \"administered\",\n    \"administered_by\": \"Adams Charles\",\n    \"notes\": null,\n    \"created_at\": \"2025-06-25T17:51:07.281665Z\",\n    \"updated_at\": \"2025-06-25T17:51:07.281665Z\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Drug Reconciliation",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{hospital_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{LOCAL}}drug-management/hospital/drug-reconciliations/",
+							"host": [
+								"{{LOCAL}}drug-management"
+							],
+							"path": [
+								"hospital",
+								"drug-reconciliations",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		},
 		{
 			"name": "Appointment Mgt",
@@ -7257,12 +8100,12 @@
 								},
 								{
 									"key": "month",
-									"value": "",
+									"value": null,
 									"disabled": true
 								},
 								{
 									"key": "day",
-									"value": "",
+									"value": null,
 									"disabled": true
 								}
 							]
@@ -7379,19 +8222,19 @@
 							"query": [
 								{
 									"key": "start_date",
-									"value": "",
+									"value": null,
 									"description": "YYYY-MM-DD",
 									"disabled": true
 								},
 								{
 									"key": "end_date",
-									"value": "",
+									"value": null,
 									"description": "YYYY-MM-DD",
 									"disabled": true
 								},
 								{
 									"key": "search",
-									"value": "",
+									"value": null,
 									"description": "Patiend ID or Patient Name",
 									"disabled": true
 								},
@@ -7403,7 +8246,7 @@
 								},
 								{
 									"key": "staff_role",
-									"value": "",
+									"value": null,
 									"description": "doctor, nurse",
 									"disabled": true
 								}
@@ -7619,6 +8462,9 @@
 				{
 					"name": "Create Appointment",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -7642,79 +8488,6 @@
 						}
 					},
 					"response": [
-						{
-							"name": "New Request",
-							"originalRequest": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"patient\": \"8b2e59ba-7964-4e3d-ad36-5ff47b6c0094\",\r\n    \"appointment_date\": \"2025-06-23\",\r\n    \"appointment_time\": \"14:00:00\",\r\n    \"reason\": \"Routine checkup\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{LOCAL}}appointment-management/appointments/",
-									"host": [
-										"{{LOCAL}}appointment-management"
-									],
-									"path": [
-										"appointments",
-										""
-									]
-								}
-							},
-							"status": "Created",
-							"code": 201,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Date",
-									"value": "Fri, 20 Jun 2025 07:39:10 GMT"
-								},
-								{
-									"key": "Server",
-									"value": "WSGIServer/0.2 CPython/3.10.0"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "Allow",
-									"value": "GET, POST, HEAD, OPTIONS"
-								},
-								{
-									"key": "X-Frame-Options",
-									"value": "DENY"
-								},
-								{
-									"key": "Vary",
-									"value": "origin"
-								},
-								{
-									"key": "Content-Length",
-									"value": "468"
-								},
-								{
-									"key": "X-Content-Type-Options",
-									"value": "nosniff"
-								},
-								{
-									"key": "Referrer-Policy",
-									"value": "same-origin"
-								},
-								{
-									"key": "Cross-Origin-Opener-Policy",
-									"value": "same-origin"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"status\": true,\n    \"message\": \"Appointment created successfully\",\n    \"data\": {\n        \"id\": \"c223ef70-6782-4a74-a5de-ecc597f0d476\",\n        \"patient_id\": \"8b2e59ba-7964-4e3d-ad36-5ff47b6c0094\",\n        \"patient_fullname\": \"Jane Anne Doe\",\n        \"staff_name\": \"Adams Charles\",\n        \"staff_role\": \"Hospital Admin\",\n        \"appointment_date\": \"2025-06-23\",\n        \"appointment_time\": \"14:00:00\",\n        \"status\": \"scheduled\",\n        \"reason\": \"Routine checkup\",\n        \"notes\": null,\n        \"created_at\": \"2025-06-20T07:39:10.471314Z\",\n        \"updated_at\": \"2025-06-20T07:39:10.471314Z\"\n    }\n}"
-						},
 						{
 							"name": "New Request",
 							"originalRequest": {
@@ -8983,19 +9756,19 @@
 							"query": [
 								{
 									"key": "status",
-									"value": "",
+									"value": null,
 									"description": "open, in_progress, closed",
 									"disabled": true
 								},
 								{
 									"key": "priority",
-									"value": "",
+									"value": null,
 									"description": "low, medium, high, urgent",
 									"disabled": true
 								},
 								{
 									"key": "search",
-									"value": "",
+									"value": null,
 									"description": "Search in subject and description",
 									"disabled": true
 								}
@@ -9705,7 +10478,7 @@
 								},
 								{
 									"key": "hospital",
-									"value": "",
+									"value": null,
 									"disabled": true
 								}
 							]
@@ -10018,7 +10791,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"user_id\": \"Jane-Doe-1992-03-20-1234567890\",\r\n    \"doctor\": \"f1841d87-ed48-44e0-a755-093e5f0cc721\",\r\n    \"rating\": 4,\r\n    \"comment\": \"Very knowledgeable doctor with a good bedside manner.\"\r\n}",
+							"raw": "{\r\n    \"user_id\": \"Aaron-Lennon-20050126-08011345678\",\r\n    \"appointment_id\": \"bc445a54-817f-422c-97f1-8050dfd46424\",\r\n    \"doctor\": \"f1841d87-ed48-44e0-a755-093e5f0cc721\",\r\n    \"rating\": 3,\r\n    \"comment\": \"Very knowledgeable doctor with a good bedside manner.\"\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -10140,31 +10913,6 @@
 					"response": []
 				},
 				{
-					"name": "Get Patient Medications",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{LOCAL}}mobile/patient/medications/?user_id=Jane-Doe-1992-03-20-1234567890",
-							"host": [
-								"{{LOCAL}}mobile"
-							],
-							"path": [
-								"patient",
-								"medications",
-								""
-							],
-							"query": [
-								{
-									"key": "user_id",
-									"value": "Jane-Doe-1992-03-20-1234567890"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "Get Patient Test Result Detail",
 					"request": {
 						"method": "GET",
@@ -10190,6 +10938,31 @@
 								{
 									"key": "test_id",
 									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Patient Medications",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{LOCAL}}mobile/patient/medications/?user_id=Jane-Doe-1992-03-20-1234567890",
+							"host": [
+								"{{LOCAL}}mobile"
+							],
+							"path": [
+								"patient",
+								"medications",
+								""
+							],
+							"query": [
+								{
+									"key": "user_id",
+									"value": "Jane-Doe-1992-03-20-1234567890"
 								}
 							]
 						}
@@ -10514,7 +11287,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "{{super_admin}}",
+											"value": "{{prod_super_admin}}",
 											"type": "string"
 										}
 									]
@@ -10523,7 +11296,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"hospital_id\": \"8bcb6a27-c7a6-4ece-a9fc-409e693ef03d\",\r\n    \"plan_code\": \"PLN_veib0eqro1xihsj\",\r\n    \"callback_url\": \"https://www.github.com/Maxiron\"\r\n}",
+									"raw": "{\r\n    \"hospital_id\": \"30fe37fe-9ade-4a11-8b7c-9e6c40294df2\",\r\n    \"plan_code\": \"PLN_veib0eqro1xihsj\",\r\n    \"callback_url\": \"https://www.github.com/Maxiron\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -10531,9 +11304,9 @@
 									}
 								},
 								"url": {
-									"raw": "{{LOCAL}}billing/create-subscription/",
+									"raw": "{{PROD}}billing/create-subscription/",
 									"host": [
-										"{{LOCAL}}billing"
+										"{{PROD}}billing"
 									],
 									"path": [
 										"create-subscription",
@@ -10634,6 +11407,117 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "Create Custom Subscription",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{super_admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"hospital_id\": \"8bcb6a27-c7a6-4ece-a9fc-409e693ef03d\",\r\n    \"amount\": 20000,\r\n    \"expires_at\": \"2025-12-31T23:59:59Z\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL}}billing/create-custom-subscription/",
+									"host": [
+										"{{LOCAL}}billing"
+									],
+									"path": [
+										"create-custom-subscription",
+										""
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"hospital_id\": \"8bcb6a27-c7a6-4ece-a9fc-409e693ef03d\",\r\n    \"amount\": 20000,\r\n    \"expires_at\": \"2025-12-31T23:59:59Z\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{LOCAL}}billing/create-custom-subscription/",
+											"host": [
+												"{{LOCAL}}billing"
+											],
+											"path": [
+												"create-custom-subscription",
+												""
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Wed, 25 Jun 2025 16:33:00 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "WSGIServer/0.2 CPython/3.10.0"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Allow",
+											"value": "POST, OPTIONS"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "DENY"
+										},
+										{
+											"key": "Vary",
+											"value": "origin"
+										},
+										{
+											"key": "Content-Length",
+											"value": "362"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": true,\n    \"message\": \"Custom subscription created successfully.\",\n    \"data\": {\n        \"id\": \"a9c24f04-da68-4498-bed7-6c4d9a370152\",\n        \"hospital_name\": \"Divine Mercy\",\n        \"plan_code\": \"custom\",\n        \"plan_name\": \"Custom Plan\",\n        \"amount\": \"20000.00\",\n        \"status\": \"active\",\n        \"created_at\": \"2025-06-25T16:33:00.769212Z\",\n        \"updated_at\": \"2025-06-25T16:33:00.769212Z\",\n        \"expiry_date\": \"2025-12-31T23:59:59Z\"\n    }\n}"
+								}
+							]
 						}
 					]
 				}
@@ -10666,25 +11550,32 @@
 		{
 			"key": "LOCAL",
 			"value": "http://localhost:8000/api/v1/",
-			"disabled": true
+			"type": "string"
 		},
 		{
 			"key": "hospital_admin",
 			"value": "",
-			"disabled": true
+			"type": "default"
 		},
 		{
 			"key": "doctor",
 			"value": "",
-			"disabled": true
+			"type": "default"
 		},
 		{
 			"key": "PROD",
-			"value": "https://b2p2upqndjzvncqwhnfudgiazu0navlq.lambda-url.us-east-2.on.aws/api/v1/"
+			"value": "https://b2p2upqndjzvncqwhnfudgiazu0navlq.lambda-url.us-east-2.on.aws/api/v1/",
+			"type": "string"
 		},
 		{
 			"key": "super_admin",
-			"value": ""
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "prod_super_admin",
+			"value": "",
+			"type": "default"
 		}
 	]
 }

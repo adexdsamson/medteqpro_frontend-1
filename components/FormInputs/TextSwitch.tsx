@@ -11,6 +11,8 @@ export type TextSwitchProps = {
   startAdornment?: ReactNode;
   endAdornment?: ReactNode;
   dotColor?: string;
+  helperText?: string;
+  error?: string;
 };
 
 export const TextSwitch = ({ 
@@ -42,6 +44,11 @@ export const TextSwitch = ({
         />
         {endAdornment && <span>{endAdornment}</span>}
       </div>
+      {props.error ? (
+        <span className="text-xs text-red-500 mt-1">{props.error}</span>
+      ) : props.helperText ? (
+        <span className="text-xs text-gray-500 mt-1">{props.helperText}</span>
+      ) : null}
     </div>
   );
 };

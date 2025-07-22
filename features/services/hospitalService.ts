@@ -21,7 +21,7 @@ export type HospitalListType = {
   email: string;
   first_name: string;
   last_name: string;
-  hospital_name: string;
+  name: string;
   no_of_doctors: number;
   state: string;
   city: string;

@@ -1,11 +1,27 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { AxiosResponse, AxiosError } from "axios";
 
+export interface Hospital_Onboarding {
+  id:           string;
+  name:         string;
+  email:        null;
+  phone_number: null;
+  state:        string;
+  city:         string;
+  address:      string;
+  avatar:       null;
+  status:       string;
+  created_at:   Date;
+  updated_at:   Date;
+}
+
+
 export interface User {
   id: string;
   email: string;
   first_name: string;
   last_name: string;
+  hospital?: Hospital_Onboarding;
   phone_number: null | string;
   role: string;
   is_active: boolean;
@@ -27,6 +43,7 @@ export type ApiList<T> = {
 
 export type ApiResponse<T = unknown> = AxiosResponse<Api<T>>;
 export type ApiListResponse<T = unknown> = AxiosResponse<ApiList<Api<T>>>;
+export type ApiResponseList<T = unknown> = AxiosResponse<ApiList<T>>
 export type ApiResponseError = AxiosError<Api<any>>;
 
 // Hospital onboarding types

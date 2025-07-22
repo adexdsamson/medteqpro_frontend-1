@@ -8,14 +8,14 @@ import {
   FileText,
   HelpCircle,
   UserCog,
-  LogOut,
+  // LogOut,
   FlaskConical,
   ScrollText,
   Pill,
   CalendarCheck,
   Activity,
   Building,
-  UserPlus,
+  // UserPlus,
   Calendar,
   Database,
   // Stethoscope,
@@ -53,11 +53,11 @@ export const commonSettingsItems: MenuItem[] = [
     icon: UserCog,
     href: "/profile",
   },
-  {
-    label: "Logout",
-    icon: LogOut,
-    href: "/auth/login",
-  },
+  // {
+  //   label: "Logout",
+  //   icon: LogOut,
+  //   href: "/sign-in",
+  // },
 ];
 
 const defaultUser = {
@@ -201,13 +201,13 @@ export const moduleConfigs: ModuleConfig[] = [
         icon: Building,
         href: "/bed-management",
       },
+      // {
+      //   label: "Payroll Management",
+      //   icon: UserPlus,
+      //   href: "/payroll-management",
+      // },
       {
-        label: "Payroll Management",
-        icon: UserPlus,
-        href: "/payroll-management",
-      },
-      {
-        label: "Queuuing System",
+        label: "Queuing System",
         icon: Activity,
         href: "/queuing-system",
       },
@@ -288,6 +288,35 @@ export const moduleConfigs: ModuleConfig[] = [
         label: "Pickup",
         icon: ShoppingCart,
         href: "/pickup",
+      },
+    ],
+    settingsItems: commonSettingsItems,
+    defaultUserProfile: defaultUser,
+  },
+  {
+    key: "lab-scientist",
+    displayName: "Lab Scientist",
+    pathPrefix: "/lab-scientist",
+    menuItems: [
+      {
+        label: "Dashboard",
+        icon: LayoutDashboard,
+        href: "/dashboard",
+      },
+      {
+        label: "Laboratory",
+        icon: FlaskConical,
+        href: "/laboratory",
+      },
+      {
+        label: "Queuing System",
+        icon: Activity,
+        href: "/queuing-system",
+      },
+      {
+        label: "Appointment",
+        icon: Calendar,
+        href: "/appointment",
       },
     ],
     settingsItems: commonSettingsItems,

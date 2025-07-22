@@ -89,3 +89,35 @@ export const useCancelSubscription = () => {
     }
   });
 };
+
+// Custom subscription types
+export interface CreateCustomSubscriptionPayload {
+  hospital_id: string;
+  amount: number;
+  expires_at: string;
+}
+
+export interface CreateCustomSubscriptionResponse {
+  id: string;
+  hospital_name: string;
+  plan_code: string;
+  plan_name: string;
+  amount: string;
+  status: string;
+  created_at: string;
+  updated_at: string;
+  expiry_date: string;
+}
+
+// Hook to create a custom subscription
+export const useCreateCustomSubscription = () => {
+  return useMutation<ApiResponse<CreateCustomSubscriptionResponse>, ApiResponseError, CreateCustomSubscriptionPayload>({
+    mutationFn: async (payload) => {
+      const response = await postRequest({
+        url: '/billing/create-custom-subscription/',
+        payload
+      });
+      return response;
+    }
+  });
+};

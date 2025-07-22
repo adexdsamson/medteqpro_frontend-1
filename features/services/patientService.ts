@@ -72,8 +72,25 @@ export const usePatientList = (params?: PatientListParams) => {
       const response = await getRequest({ url });
       
       // Transform the API response to match the PatientType format
-      const patients = response.data.data.results as PatientResponse[];
+      const patients = response.data.results as PatientResponse[];
       return patients.map(transformPatient);
+    },
+  });
+};
+
+// Hook to fetch patients for appointment booking (simplified format)
+export const usePatientsForAppointment = () => {
+  return useQuery<{ value: string; label: string }[], ApiResponseError>({
+    queryKey: ['patients-for-appointment'],
+    queryFn: async () => {
+      const response = await getRequest({ url: 'patient-management/patients/' });
+      
+      // Transform the API response to select options format
+      const patients = response.data.results as PatientResponse[];
+      return patients.map(patient => ({
+        value: patient.id,
+        label: patient.full_name
+      }));
     },
   });
 };

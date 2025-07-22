@@ -1,8 +1,12 @@
-'use client';
+"use client";
 
-import { usePathname } from 'next/navigation';
-import { getModuleByPathname, getModuleByKey, type ModuleConfig } from '@/app/(Root)/config/modules';
-import { useUser } from '@/store/authSlice';
+import { usePathname } from "next/navigation";
+import {
+  getModuleByPathname,
+  getModuleByKey,
+  type ModuleConfig,
+} from "@/app/(Root)/config/modules";
+import { useUser } from "@/store/authSlice";
 
 /**
  * Custom hook to access the current module configuration
@@ -12,12 +16,12 @@ import { useUser } from '@/store/authSlice';
 export function useModule(moduleKey?: string) {
   const pathname = usePathname();
   const user = useUser();
-  
+
   // Get the module configuration either from the provided key or from the pathname
-  const moduleConfig: ModuleConfig = moduleKey 
-    ? getModuleByKey(moduleKey) 
+  const moduleConfig: ModuleConfig = moduleKey
+    ? getModuleByKey(moduleKey)
     : getModuleByPathname(pathname);
-  
+
   /**
    * Check if a path is active in the current module
    * @param href The path to check
@@ -26,7 +30,7 @@ export function useModule(moduleKey?: string) {
   const isActivePath = (href: string) => {
     return pathname?.startsWith(`${moduleConfig.pathPrefix}${href}`);
   };
-  
+
   /**
    * Generate a full path for a route in the current module
    * @param href The relative path within the module
@@ -35,7 +39,7 @@ export function useModule(moduleKey?: string) {
   const getModulePath = (href: string) => {
     return `${moduleConfig.pathPrefix}${href}`;
   };
-  
+
   return {
     moduleConfig,
     isActivePath,

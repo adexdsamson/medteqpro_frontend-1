@@ -11,28 +11,18 @@ import {
   PeriodPayment,
   TaxDeductionPayment,
 } from "./_components/PaymentCategories";
-import SessionTimer from "../queuing-system/_components/SessionTimer";
-import { useToastHandlers } from "@/hooks/useToaster";
+// import { useToastHandlers } from "@/hooks/useToaster";
 
 const PayrollManagement = () => {
   const [activeTab, setActiveTab] = useState<string>("employee-summary");
 
   // Hooks
-  const handler = useToastHandlers();
-
-  const handleEndSession = () => {
-    // setSessionActive(false);
-    handler.success(
-      "Session Ended",
-      "The current queue session has been ended"
-    );
-  };
+  // const handler = useToastHandlers();
 
   return (
     <>
       <Subheader
         title="Payroll Management"
-        middle={<SessionTimer onEndSession={handleEndSession} />}
       />
 
       <div className="p-6 space-y-6 min-h-screen w-full bg-gray-50">

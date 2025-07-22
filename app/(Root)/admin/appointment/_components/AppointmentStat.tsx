@@ -1,4 +1,4 @@
-"us client";
+"use client";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -36,10 +36,10 @@ export const AppointmentStats = ({
           {action}
         </Button>
       </CardHeader>
-      <CardContent>,
+      <CardContent>
         <div className="flex space-x-4 mt-2">
           {appointmentStatus.map((s, i) => (
-            <div key={i} className={cn("flex-1 border-r last:border-0",)}>
+            <div key={i} className={cn("flex-1 border-r last:border-0")}>
               <p className="text-xl font-semibold text-gray-700">{s.count}</p>
               <p className={`text-xs ${ s.color}`}>{s.label}</p>
             </div>

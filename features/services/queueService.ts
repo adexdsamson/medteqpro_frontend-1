@@ -5,22 +5,16 @@ import { format } from 'date-fns';
 
 // Types
 export type QueueEntry = {
-  id?: string;
-  counter: number;
-  serialNumber: string;
-  patientId: string;
-  patientName?: string;
-  patient_fullname?: string;
-  patient_gender?: string;
-  assigned_hospital_staff_fullname?: string;
-  roomAssigned: string;
-  estimatedTime: string;
-  estimated_waiting_time?: number;
-  status?: string;
-  priority?: string;
-  purpose?: string;
-  createdAt?: string;
-  created_at?: string;
+  id: string;
+  patient_id: string;
+  patient_fullname: string;
+  patient_gender: string;
+  assigned_hospital_staff_fullname: string;
+  estimated_waiting_time: number;
+  status: string;
+  priority: string;
+  purpose: string;
+  created_at: string;
 };
 
 export type ApiResponse<T> = {
@@ -38,7 +32,7 @@ export type AddQueueEntryRequest = {
   patient: string;
   hospital_staff: string;
   purpose: string;
-  priority: 'high' | 'medium' | 'low';
+  priority: 'high' | 'medium' | 'low' | 'urgent';
   estimated_waiting_time: number;
 };
 

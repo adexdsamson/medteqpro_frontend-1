@@ -8,6 +8,8 @@ import Subscription from "./layout/Subscription";
 import Notification from "./layout/Notification";
 import Integration from "./layout/Integration";
 import Security from "./layout/Security";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 export default function Settings() {
   const [tab, setTab] = useState('plan')
@@ -21,6 +23,45 @@ export default function Settings() {
       value: 'subscription',
       label: 'Subscription',
       renderComponent: <Subscription />
+    },
+    {
+      value: 'custom-subscription',
+      label: 'Custom Subscription',
+      renderComponent: (
+        <div className="space-y-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <h3 className="text-lg font-medium">Custom Subscription Management</h3>
+              <p className="text-sm text-gray-600 mt-1">
+                Create and manage custom subscription plans for individual hospitals
+              </p>
+            </div>
+            <Link href="/super-admin/settings/custom-subscription">
+              <Button>Manage Custom Subscriptions</Button>
+            </Link>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="p-4 border rounded-lg">
+              <h4 className="font-medium mb-2">Flexible Pricing</h4>
+              <p className="text-sm text-gray-600">
+                Set custom amounts for individual hospitals based on specific agreements
+              </p>
+            </div>
+            <div className="p-4 border rounded-lg">
+              <h4 className="font-medium mb-2">Custom Expiry</h4>
+              <p className="text-sm text-gray-600">
+                Define specific expiry dates that suit your business arrangements
+              </p>
+            </div>
+            <div className="p-4 border rounded-lg">
+              <h4 className="font-medium mb-2">Instant Activation</h4>
+              <p className="text-sm text-gray-600">
+                Subscriptions are activated immediately upon creation
+              </p>
+            </div>
+          </div>
+        </div>
+      )
     },
     {
       value: 'notification',

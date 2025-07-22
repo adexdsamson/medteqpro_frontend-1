@@ -14,10 +14,12 @@ export type TextSelectProps = {
   label?: string | any;
   containerClass?: string;
   error?: string;
+  helperText?: string;
   options: { label: string; value: string }[];
   placeholder?: string;
   onChange?: RegisterOptions["onChange"];
   value: RegisterOptions["value"];
+  disabled?: boolean;
 };
 
 export const TextSelect = ({ label, ...rest }: TextSelectProps) => {
@@ -35,8 +37,9 @@ export const TextSelect = ({ label, ...rest }: TextSelectProps) => {
         onValueChange={(value) =>
           rest?.onChange?.({ target: { name: rest.name ?? "", value } })
         }
+        disabled={rest.disabled}
       >
-        <SelectTrigger className="w-full bg-white 1text-xs !text-stone-400 !h-12">
+        <SelectTrigger className="w-full bg-white 1text-xs !text-stone-600 !h-12">
           <SelectValue
             className="!text-xs !text-gray-300 "
             placeholder={rest?.placeholder}
@@ -50,7 +53,11 @@ export const TextSelect = ({ label, ...rest }: TextSelectProps) => {
           ))}
         </SelectContent>
       </Select>
-      <span className="text-xs text-red-500 mt-1">{rest.error}</span>
+      {rest.error ? (
+        <span className="text-xs text-red-500 mt-1">{rest.error}</span>
+      ) : rest.helperText ? (
+        <span className="text-xs text-gray-500 mt-1">{rest.helperText}</span>
+      ) : null}
     </div>
   );
 };
