@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export default function PersonalInformation() {
   return (
     <div className="space-y-4 flex flex-col gap-10 md:flex-row-reverse">
@@ -5,9 +7,11 @@ export default function PersonalInformation() {
         <div className="bg-[#F1F4F8] rounded-lg p-3">
           <div className="flex gap-2">
             <div className="w-8 h-8 rounded-full bg-gray-100">
-              <img
+              <Image
                 src="/avatar.png"
                 alt="Patient"
+                width={32}
+                height={32}
                 className="w-full h-full rounded-full object-cover"
               />
             </div>

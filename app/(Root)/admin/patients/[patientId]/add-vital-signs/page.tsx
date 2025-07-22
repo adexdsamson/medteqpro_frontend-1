@@ -6,13 +6,16 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import Link from 'next/link';
+import { useParams } from 'next/navigation';
 import { usePatientDetails } from '@/features/services/patientService';
 import { useAddVitalSigns, VitalSignsPayload } from '@/features/services/vitalSignsService';
 import { useToastHandler } from '@/hooks/useToaster';
 
-const AddVitalSignsPage = ({ params }: { params: { patientId: string } }) => {
+const AddVitalSignsPage = () => {
+  const params = useParams();
+  const patientId = params.patientId as string;
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { data: patient, isLoading, error } = usePatientDetails(params.patientId);
+  const { data: patient, isLoading, error } = usePatientDetails(patientId);
   const addVitalSigns = useAddVitalSigns();
   const toast = useToastHandler();
 
@@ -71,7 +74,7 @@ const AddVitalSignsPage = ({ params }: { params: { patientId: string } }) => {
       };
       
       await addVitalSigns.mutateAsync({
-        patientId: params.patientId,
+        patientId: patientId,
         data: vitalSignsPayload
       });
       

@@ -7,6 +7,14 @@ import NotesList from "./_components/NotesList";
 import NoteDetail from "./_components/NoteDetail";
 import LoadMoreButton from "./_components/LoadMoreButton";
 
+interface Note {
+  doctor: string;
+  date: string;
+  note: string;
+  avatarUrl: string;
+  status: 'read' | 'unread';
+}
+
 const mockRecentNotes = [
   {
     doctor: "Dr Salami",
@@ -25,7 +33,7 @@ const mockRecentNotes = [
   },
 ];
 
-const mockNotes = [
+const mockNotes: Note[] = [
   {
     doctor: "Dr Salami",
     date: "22-Apr-2024",
@@ -65,8 +73,8 @@ const mockNotes = [
 
 const DoctorsNotePage = () => {
   const [filter, setFilter] = useState("all");
-  const [selectedNote, setSelectedNote] = useState(mockNotes[0]);
-  const [notes, setNotes] = useState(mockNotes);
+  const [selectedNote, setSelectedNote] = useState<Note>(mockNotes[0]);
+  const [notes, setNotes] = useState<Note[]>(mockNotes);
   const [loadingMore, setLoadingMore] = useState(false);
 
   const filteredNotes =
@@ -85,8 +93,8 @@ const DoctorsNotePage = () => {
   return (
     <div className="p-6 min-h-screen bg-[#F7F9FB]">
       <div className="mb-6">
-        <h1 className="text-2xl font-semibold mb-2">Doctor's Note</h1>
-        <div className="text-muted-foreground text-sm mb-2">All Doctor's Note</div>
+        <h1 className="text-2xl font-semibold mb-2">Doctor&apos;s Note</h1>
+        <div className="text-muted-foreground text-sm mb-2">All Doctor&apos;s Note</div>
         <RecentNotes notes={mockRecentNotes} />
       </div>
       <div className="bg-white rounded-lg shadow p-6">
