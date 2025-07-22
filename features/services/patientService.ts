@@ -78,6 +78,23 @@ export const usePatientList = (params?: PatientListParams) => {
   });
 };
 
+// Hook to fetch patients for appointment booking (simplified format)
+export const usePatientsForAppointment = () => {
+  return useQuery<{ value: string; label: string }[], ApiResponseError>({
+    queryKey: ['patients-for-appointment'],
+    queryFn: async () => {
+      const response = await getRequest({ url: 'patient-management/patients/' });
+      
+      // Transform the API response to select options format
+      const patients = response.data.results as PatientResponse[];
+      return patients.map(patient => ({
+        value: patient.id,
+        label: patient.full_name
+      }));
+    },
+  });
+};
+
 // Hook to fetch a single patient by ID
 export const usePatientDetails = (patientId: string) => {
   return useQuery<PatientType, ApiResponseError>({

@@ -107,8 +107,11 @@ export function LoginForm() {
       case "pharmacy":
         router.push("/pharmacy/dashboard");
         break;
+      case "lab_scientist":
+        router.push("/lab-scientist/dashboard");
+        break;
       default:
-        router.push("/dashboard");
+        router.push("/");
     }
   };
 

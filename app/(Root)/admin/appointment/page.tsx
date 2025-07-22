@@ -21,6 +21,7 @@ import {
   useFamilyAppointments, 
   useAppointmentStats 
 } from "@/features/services/appointmentService";
+import { BookAppointmentDialog } from "./_components/BookAppointmentDialog";
 
 const AdminAppointmentPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -85,7 +86,9 @@ const AdminAppointmentPage = () => {
       <Subheader title="Appointment" />
 
       <div className="mb-6 p-6 flex justify-end items-center">
-        <Button>Book Appointment</Button>
+        <BookAppointmentDialog>
+          <Button>Book Appointment</Button>
+        </BookAppointmentDialog>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6 p-6">

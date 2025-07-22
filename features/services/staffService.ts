@@ -119,6 +119,25 @@ export const useHospitalStaffList = (params?: HospitalStaffListParams) => {
   });
 };
 
+// Hook to fetch staff for appointment booking (simplified format)
+export const useStaffForAppointment = () => {
+  return useQuery<{ value: string; label: string }[], ApiResponseError>({
+    queryKey: ['staff-for-appointment'],
+    queryFn: async () => {
+      const response = await getRequest({ url: '/hospital-admin/staff/' });
+      
+      // Transform the API response to select options format
+      const staff = response.data.results as HospitalStaffMember[];
+      return staff.map(member => ({
+        value: member.id,
+        label: `${member.full_name} (${member.role})`
+      }));
+    },
+    refetchOnWindowFocus: false,
+    staleTime: 5 * 60 * 1000, // 5 minutes
+  });
+};
+
 // Hook for creating hospital staff
 export const useCreateHospitalStaff = () => {
   const queryClient = useQueryClient();

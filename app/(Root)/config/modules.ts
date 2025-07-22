@@ -293,6 +293,35 @@ export const moduleConfigs: ModuleConfig[] = [
     settingsItems: commonSettingsItems,
     defaultUserProfile: defaultUser,
   },
+  {
+    key: "lab-scientist",
+    displayName: "Lab Scientist",
+    pathPrefix: "/lab-scientist",
+    menuItems: [
+      {
+        label: "Dashboard",
+        icon: LayoutDashboard,
+        href: "/dashboard",
+      },
+      {
+        label: "Laboratory",
+        icon: FlaskConical,
+        href: "/laboratory",
+      },
+      {
+        label: "Queuing System",
+        icon: Activity,
+        href: "/queuing-system",
+      },
+      {
+        label: "Appointment",
+        icon: Calendar,
+        href: "/appointment",
+      },
+    ],
+    settingsItems: commonSettingsItems,
+    defaultUserProfile: defaultUser,
+  },
 ];
 
 // Utility functions to work with modules

@@ -19,6 +19,7 @@ export type TextSelectProps = {
   placeholder?: string;
   onChange?: RegisterOptions["onChange"];
   value: RegisterOptions["value"];
+  disabled?: boolean;
 };
 
 export const TextSelect = ({ label, ...rest }: TextSelectProps) => {
@@ -36,6 +37,7 @@ export const TextSelect = ({ label, ...rest }: TextSelectProps) => {
         onValueChange={(value) =>
           rest?.onChange?.({ target: { name: rest.name ?? "", value } })
         }
+        disabled={rest.disabled}
       >
         <SelectTrigger className="w-full bg-white 1text-xs !text-stone-600 !h-12">
           <SelectValue
