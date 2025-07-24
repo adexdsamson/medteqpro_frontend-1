@@ -2,7 +2,6 @@
 
 import { Card, CardContent } from "@/components/ui/card";
 import { Large, Lead, Small } from "@/components/ui/Typography";
-import { Button } from "@/components/ui/button";
 import { useState } from "react";
 
 type DoctorStatus = "at-work" | "at-break" | "off-duty";
@@ -40,7 +39,7 @@ const DoctorsMonitor = ({
   doctors = defaultDoctors, 
   className = "w-[35rem]" 
 }: DoctorsMonitorProps) => {
-  const [showAll, setShowAll] = useState(false);
+  const [showAll] = useState(false);
   const displayDoctors = showAll ? doctors : doctors.slice(0, 3);
   
   return (

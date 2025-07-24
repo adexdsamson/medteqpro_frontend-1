@@ -43,7 +43,7 @@ export default function PharmacyQueuingSystem() {
       const transformedData = queueEntriesData.data.map((item, index) => ({
         id: item.id,
         counter: index + 1,
-        serialNumber: item.patientId || `P00${index + 1}`,
+        serialNumber: item.patient_id || `P00${index + 1}`,
         patientName: item.patient_fullname || `Patient ${index + 1}`,
         gender: item.patient_gender || (index % 2 === 0 ? "Female" : "Male"),
         estimatedTime: `${item.estimated_waiting_time || 0} mins`,

@@ -1,6 +1,6 @@
 import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Large, Small } from "@/components/ui/Typography";
+import { Small } from "@/components/ui/Typography";
 
 interface Note {
   doctor: string;

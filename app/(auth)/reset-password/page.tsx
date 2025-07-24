@@ -1,10 +1,12 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { ResetPasswordForm } from "./_components/ResetPasswordForm";
 
 function ResetPasswordPage() {
   return (
     <div className="flex flex-col items-center justify-center w-full h-full ">
-      <ResetPasswordForm />
+      <Suspense fallback={<div>Loading...</div>}>
+        <ResetPasswordForm />
+      </Suspense>
     </div>
   );
 }

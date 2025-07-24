@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Subheader from "../../_components/Subheader";
 import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar-rac";
+import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Label } from "@/components/ui/label";
 import { CalendarIcon } from "lucide-react";
@@ -106,7 +106,7 @@ const VisitationFrequency = () => {
                       <Calendar
                         mode="single"
                         selected={customStartDate || undefined}
-                        onSelect={(date) => setCustomStartDate(date)}
+                        onSelect={(date) => setCustomStartDate(date || null)}
                         initialFocus
                       />
                     </PopoverContent>
@@ -135,7 +135,7 @@ const VisitationFrequency = () => {
                       <Calendar
                         mode="single"
                         selected={customEndDate || undefined}
-                        onSelect={(date) => setCustomEndDate(date)}
+                        onSelect={(date) => setCustomEndDate(date || null)}
                         initialFocus
                       />
                     </PopoverContent>

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import React, { useState } from "react";
@@ -117,16 +118,10 @@ const dailyAdministrationData = generateDailyAdministrationData();
 const reconciliationData = generateReconciliationData();
 const drugRequestData = generateDrugRequestData();
 
-type DrugOverviewProps = typeof drugOverviewData;
-type DailyAdministrationProps = typeof dailyAdministrationData;
-type ReconciliationProps = typeof reconciliationData;
-type DrugRequestProps = typeof drugRequestData;
-
-const drugOverviewHelper = createColumnHelper<DrugOverviewProps>()
-const dailyAdministrationHelper = createColumnHelper<DailyAdministrationProps>()
-const reconciliationHelper = createColumnHelper<ReconciliationProps>()
-const drugRequestHelper = createColumnHelper<DrugRequestProps>()
-
+type DrugOverviewProps = typeof drugOverviewData[0];
+type DailyAdministrationProps = typeof dailyAdministrationData[0];
+type ReconciliationProps = typeof reconciliationData[0];
+type DrugRequestProps = typeof drugRequestData[0];
 
 const InternalPharmacyPage = () => {
   const [activeTab, setActiveTab] = useState("drug-overview");
@@ -140,75 +135,85 @@ const InternalPharmacyPage = () => {
     additionalSupplied: 1000,
   };
 
-  const drugOverviewColumns = [
-    drugOverviewHelper.accessor("id", {
-      cell: props => (
-        <span className="font-medium">{props.row.getValue("id")}</span>
+  const drugOverviewColumns: ColumnDef<DrugOverviewProps>[] = [
+    {
+      accessorKey: "id",
+      cell: ({ row }) => (
+        <span className="font-medium">{row.getValue("id")}</span>
       ),
       header: "DRUG ID"
-    }),
-    drugOverviewHelper.accessor("drugName", {
-      cell: props => (
-        <span className="font-medium">{props.row.getValue("drugName")}</span>
+    },
+    {
+      accessorKey: "drugName",
+      cell: ({ row }) => (
+        <span className="font-medium">{row.getValue("drugName")}</span>
       ),
       header: "DRUG/EQUIPMENT NAME"
-    }),
-    drugOverviewHelper.accessor("expiryDate", {
-      cell: props => (
-        <span className="font-medium">{props.row.getValue("expiryDate")}</span>
+    },
+    {
+      accessorKey: "expiryDate",
+      cell: ({ row }) => (
+        <span className="font-medium">{row.getValue("expiryDate")}</span>
       ),
       header: "EXPIRY DATE"
-    }),
-    drugOverviewHelper.accessor("countDownToExpiration", {
-      cell: props => (
+    },
+    {
+      accessorKey: "countDownToExpiration",
+      cell: ({ row }) => (
         <span className="font-medium text-orange-600">
-          {props.row.getValue("countDownToExpiration")}
+          {row.getValue("countDownToExpiration")}
         </span>
       ),
       header: "COUNT DOWN TO EXPIRATION"
-    }),
-    drugOverviewHelper.accessor("quantityInStock", {
-      cell: props => (
-        <span className="font-medium">{props.row.getValue("quantityInStock")}</span>
+    },
+    {
+      accessorKey: "quantityInStock",
+      cell: ({ row }) => (
+        <span className="font-medium">{row.getValue("quantityInStock")}</span>
       ),
       header: "QUANTITY PREVIOUSLY IN STOCK"
-    }),
+    },
   ];
 
-  const dailyAdministrationColumns = [
-    dailyAdministrationHelper.accessor('dateTime', {
-      cell: props => (
-        <span className="font-medium">{props.row.getValue("dateTime")}</span>
+  const dailyAdministrationColumns: ColumnDef<DailyAdministrationProps>[] = [
+    {
+      accessorKey: 'dateTime',
+      cell: ({ row }) => (
+        <span className="font-medium">{row.getValue("dateTime")}</span>
       ),
       header: "DATE & TIME"
-    }),
-    dailyAdministrationHelper.accessor('patientId', {
-      cell: props => (
-        <span className="font-medium">{props.row.getValue("patientId")}</span>
+    },
+    {
+      accessorKey: 'patientId',
+      cell: ({ row }) => (
+        <span className="font-medium">{row.getValue("patientId")}</span>
       ),
       header: "PATIENT ID"
-    }),
-    dailyAdministrationHelper.accessor('patientName', {
-      cell: props => (
-        <span className="font-medium">{props.row.getValue("patientName")}</span>
+    },
+    {
+      accessorKey: 'patientName',
+      cell: ({ row }) => (
+        <span className="font-medium">{row.getValue("patientName")}</span>
       ),
       header: "PATIENT NAME"
-    }),
-    dailyAdministrationHelper.accessor('drugsDispensed', {
-      cell: props => (
-        <span className="font-medium">{props.row.getValue("drugsDispensed")}</span>
+    },
+    {
+      accessorKey: 'drugsDispensed',
+      cell: ({ row }) => (
+        <span className="font-medium">{row.getValue("drugsDispensed")}</span>
       ),
       header: "DRUGS DISPENSED"
-    }),
-    dailyAdministrationHelper.accessor('quantityGiven', {
-      cell: props => (
-        <span className="font-medium">{props.row.getValue("quantityGiven")}</span>
+    },
+    {
+      accessorKey: 'quantityGiven',
+      cell: ({ row }) => (
+        <span className="font-medium">{row.getValue("quantityGiven")}</span>
       ),
       header: "QUANTITY GIVEN"
-    })
+    }
   ];
 
-  const reconciliationColumns: ColumnDef<typeof reconciliationData>[] = [
+  const reconciliationColumns: ColumnDef<ReconciliationProps>[] = [
     {
       accessorKey: "drugName",
       header: "DRUG/EQUIPMENT NAME",
@@ -240,7 +245,7 @@ const InternalPharmacyPage = () => {
     },
   ];
 
-  const drugRequestColumns: ColumnDef<typeof drugRequestData>[] = [
+  const drugRequestColumns: ColumnDef<DrugRequestProps>[] = [
     {
       accessorKey: "drugs",
       header: "DRUGS",
@@ -438,8 +443,6 @@ const InternalPharmacyPage = () => {
                       .toLowerCase()
                       .includes(searchTerm.toLowerCase())
                 )}
-                showPagination={true}
-                pageSize={10}
               />
             </TabsContent>
 
@@ -449,8 +452,6 @@ const InternalPharmacyPage = () => {
                 data={reconciliationData.filter((item) =>
                   item.drugName.toLowerCase().includes(searchTerm.toLowerCase())
                 )}
-                showPagination={true}
-                pageSize={10}
               />
             </TabsContent>
 
@@ -460,8 +461,6 @@ const InternalPharmacyPage = () => {
                 data={drugRequestData.filter((item) =>
                   item.drugs.toLowerCase().includes(searchTerm.toLowerCase())
                 )}
-                showPagination={true}
-                pageSize={10}
               />
             </TabsContent>
           </div>

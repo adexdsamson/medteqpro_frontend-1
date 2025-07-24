@@ -79,7 +79,7 @@ const TaxesDeductions = () => {
     {
       id: "actions",
       header: () => <div className="font-semibold text-gray-700 text-right">ACTION</div>,
-      cell: ({ row }) => {
+      cell: () => {
         return (
           <div className="text-right">
             <Button 
