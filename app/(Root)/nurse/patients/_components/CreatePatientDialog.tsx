@@ -1,25 +1,32 @@
-"use client";
+'use client';
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { useForge, Forge, Forger } from "@/lib/forge";
-import { TextInput } from "@/components/FormInputs/TextInput";
-import { TextSelect } from "@/components/FormInputs/TextSelect";
-import { TextArea } from "@/components/FormInputs/TextArea";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
-import { useCreatePatient } from "@/features/services/patientService";
-import { useToastHandler } from "@/hooks/useToaster";
-import { useWatch } from "react-hook-form";
-import { TextDateInput } from "@/components/FormInputs/TextDateInput";
-import { format } from "date-fns";
+} from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { useForge } from '@/lib/forge';
+import { Forge } from '@/lib/forge/Forge';
+import { Forger } from '@/lib/forge/Forger';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+import { TextInput } from '@/components/FormInputs/TextInput';
+import { TextSelect } from '@/components/FormInputs/TextSelect';
+import { TextArea } from '@/components/FormInputs/TextArea';
+import { TextDateInput } from '@/components/FormInputs/TextDateInput';
+import { useCreatePatient, CreatePatientPayload } from '@/features/services/patientService';
+import { useToastHandler } from '@/hooks/useToaster';
+import { useWatch } from 'react-hook-form';
+import { format } from 'date-fns';
+import { Check } from 'lucide-react';
+
+interface CreatePatientDialogProps {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+}
 
 // Combined validation schema for all form steps
 const fullSchema = yup.object().shape({
@@ -58,6 +65,7 @@ const fullSchema = yup.object().shape({
   hereditary_conditions: yup.string().required(),
   surgical_history: yup.string().required(),
   blood_group: yup.string().required(),
+  genotype: yup.string().required(),
   // Social Info fields
   social_history: yup
     .object()
@@ -101,6 +109,7 @@ type FullFormData = {
   hereditary_conditions: string;
   surgical_history: string;
   blood_group: string;
+  genotype: string;
   social_history: {
     smoking: string;
     alcohol: string;
@@ -110,15 +119,99 @@ type FullFormData = {
   };
 };
 
-interface CreatePatientDialogProps {
-  children: React.ReactNode;
-}
 
-const CreatePatientDialog: React.FC<CreatePatientDialogProps> = ({
-  children,
+
+const maritalStatusOptions = [
+  { label: 'Single', value: 'single' },
+  { label: 'Married', value: 'married' },
+  { label: 'Divorced', value: 'divorced' },
+  { label: 'Widowed', value: 'widowed' },
+];
+
+const genderOptions = [
+  { label: 'Male', value: 'male' },
+  { label: 'Female', value: 'female' },
+  { label: 'Other', value: 'other' },
+];
+
+const employmentOptions = [
+  { label: 'Employed', value: 'employed' },
+  { label: 'Self Employed', value: 'self_employed' },
+  { label: 'Unemployed', value: 'unemployed' },
+  { label: 'Student', value: 'student' },
+  { label: 'Retired', value: 'retired' },
+];
+
+const bloodGroupOptions = [
+  { label: 'A+', value: 'A+' },
+  { label: 'A-', value: 'A-' },
+  { label: 'B+', value: 'B+' },
+  { label: 'B-', value: 'B-' },
+  { label: 'AB+', value: 'AB+' },
+  { label: 'AB-', value: 'AB-' },
+  { label: 'O+', value: 'O+' },
+  { label: 'O-', value: 'O-' },
+];
+
+const genotypeOptions = [
+  { label: 'AA', value: 'AA' },
+  { label: 'AS', value: 'AS' },
+  { label: 'SS', value: 'SS' },
+  { label: 'AC', value: 'AC' },
+  { label: 'SC', value: 'SC' },
+];
+
+const smokingOptions = [
+  { label: 'Never', value: 'never' },
+  { label: 'Former', value: 'former' },
+  { label: 'Current', value: 'current' },
+];
+
+const alcoholOptions = [
+  { label: 'Never', value: 'never' },
+  { label: 'Occasionally', value: 'occasionally' },
+  { label: 'Regularly', value: 'regularly' },
+];
+
+const drugUseOptions = [
+  { label: 'No', value: 'no' },
+  { label: 'Yes', value: 'yes' },
+];
+
+const exerciseOptions = [
+  { label: 'Never', value: 'never' },
+  { label: 'Rarely', value: 'rarely' },
+  { label: 'Sometimes', value: 'sometimes' },
+  { label: 'Regularly', value: 'regularly' },
+];
+
+const dietOptions = [
+  { label: 'Regular', value: 'regular' },
+  { label: 'Vegetarian', value: 'vegetarian' },
+  { label: 'Vegan', value: 'vegan' },
+  { label: 'Diabetic', value: 'diabetic' },
+  { label: 'Low Sodium', value: 'low_sodium' },
+];
+
+const SuccessStep = ({ onClose }: { onClose: () => void }) => (
+  <div className="flex flex-col items-center justify-center py-12 space-y-6">
+    <div className="h-16 w-16 rounded-full bg-green-100 flex items-center justify-center">
+      <Check className="h-8 w-8 text-green-500" />
+    </div>
+    <h2 className="text-2xl font-semibold">Success!</h2>
+    <p className="text-gray-600">The patient has been created successfully.</p>
+    <Button onClick={onClose} className="mt-4">
+      Ok
+    </Button>
+  </div>
+);
+
+export const CreatePatientDialog: React.FC<CreatePatientDialogProps> = ({
+  open,
+  onOpenChange,
 }) => {
   const [step, setStep] = useState(1);
-  const [open, setOpen] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
   const [statesData, setStatesData] = useState<
     Array<{ state: string; alias: string; lgas: string[] }>
   >([]);
@@ -139,42 +232,63 @@ const CreatePatientDialog: React.FC<CreatePatientDialogProps> = ({
     loadStatesData();
   }, []);
 
-  const { control, reset } = useForge<FullFormData>({
+  const { control } = useForge<FullFormData>({
     resolver: yupResolver(fullSchema),
     defaultValues: {
-      first_name: "",
-      last_name: "",
-      email: "",
-      address: "",
-      city: "",
-      state: "",
-      phone_number: "",
-      marital_status: "",
+      first_name: '',
+      last_name: '',
+      email: '',
+      address: '',
+      city: '',
+      state: '',
+      phone_number: '',
+      marital_status: '',
       date_of_birth: new Date(),
-      gender: "",
-      blood_group: "",
+      gender: '',
       height: 0,
       weight: 0,
-      employment_status: "",
+      employment_status: '',
       emergency_contact: {
-        name: "",
-        phone: "",
-        address: "",
+        name: '',
+        phone: '',
+        address: '',
       },
       current_medications: [],
-      allergies: "",
-      family_history: "",
-      hereditary_conditions: "",
-      surgical_history: "",
+      allergies: '',
+      family_history: '',
+      hereditary_conditions: '',
+      surgical_history: '',
+      blood_group: '',
+      genotype: '',
       social_history: {
-        smoking: "",
-        alcohol: "",
-        drug_use: "",
-        exercise: "",
-        diet: "",
+        smoking: '',
+        alcohol: '',
+        drug_use: '',
+        exercise: '',
+        diet: '',
       },
     },
   });
+
+  // Watch for state changes to update city options
+  const watchedState = useWatch({ control, name: "state" });
+
+  // Generate state options from loaded data
+  const stateOptions = statesData.length > 0 ? statesData.map((state) => ({
+    label: state.state,
+    value: state.alias,
+  })) : [];
+
+  // Generate city options based on selected state
+  const cityOptions =
+    statesData.length > 0 && watchedState
+      ? statesData
+          .find((state) => state?.alias === watchedState)
+          ?.lgas.map((lga) => ({
+            label: lga,
+            value: lga,
+          })) || []
+      : [];
 
   const handleNext = () => {
     if (step < 4) {
@@ -188,125 +302,66 @@ const CreatePatientDialog: React.FC<CreatePatientDialogProps> = ({
     }
   };
 
+  const handleClose = () => {
+    setStep(1);
+    setShowSuccess(false);
+    onOpenChange(false);
+  };
+
   const onSubmit = async (data: FullFormData) => {
     try {
-      // Transform data to match API format
-      const payload = {
-        ...data,
-        date_of_birth: data.date_of_birth ? format(data.date_of_birth, "yyyy-MM-dd") : "",
-        current_medications: data.current_medications.map(med => ({
-          medication: med.medication,
-          dosage: med.dosage,
-          frequency: med.frequency
-        })),
-        social_history: {
-          smoking: data.social_history.smoking,
-          alcohol: data.social_history.alcohol,
-          drug_use: data.social_history.drug_use,
-          exercise: data.social_history.exercise,
-          diet: data.social_history.diet
-        },
+      // Transform data to match API payload
+      const payload: CreatePatientPayload = {
+        first_name: data.first_name,
+        last_name: data.last_name,
+        email: data.email,
+        address: data.address,
+        city: data.city,
+        state: data.state,
+        phone_number: data.phone_number,
+        marital_status: data.marital_status,
+        date_of_birth: format(data.date_of_birth, 'yyyy-MM-dd'),
+        gender: data.gender,
+        height: data.height,
+        weight: data.weight,
+        employment_status: data.employment_status,
+        emergency_contact: data.emergency_contact,
+        current_medications: data.current_medications.filter(
+          (med) => med.medication && med.dosage && med.frequency
+        ),
+        allergies: data.allergies,
+        family_history: data.family_history,
+        hereditary_conditions: data.hereditary_conditions,
+        surgical_history: data.surgical_history,
+        blood_group: data.blood_group,
+        genotype: data.genotype,
+        social_history: data.social_history,
       };
 
       await createPatient(payload);
-      toast.success("Success", "Patient created successfully");
-      setOpen(false);
-      reset();
-      setStep(1);
+      setShowSuccess(true);
+      toast.success('Success', 'Patient created successfully');
     } catch (error) {
-      console.error("Error creating patient:", error);
-      toast.error("Error", "Failed to create patient");
+      console.error('Error creating patient:', error);
+      toast.error('Error', 'Failed to create patient');
     }
   };
 
-  // Watch for state changes to update city options
-  const watchedState = useWatch({ control, name: "state" });
-
-  // Generate state options from loaded data
-  const stateOptions = statesData.map((state) => ({
-    label: state.state,
-    value: state.alias,
-  }));
-
-  // Generate city options based on selected state
-  const cityOptions =
-    statesData
-      .find((state) => state?.alias === watchedState)
-      ?.lgas.map((lga) => ({
-        label: lga,
-        value: lga,
-      })) || [];
-
-  const genderOptions = [
-    { label: "Male", value: "male" },
-    { label: "Female", value: "female" },
-    { label: "Other", value: "other" },
-  ];
-
-  const maritalStatusOptions = [
-    { label: "Single", value: "single" },
-    { label: "Married", value: "married" },
-    { label: "Divorced", value: "divorced" },
-    { label: "Widowed", value: "widowed" },
-  ];
-
-  const employmentOptions = [
-    { label: "Employed", value: "employed" },
-    { label: "Unemployed", value: "unemployed" },
-    { label: "Student", value: "student" },
-    { label: "Retired", value: "retired" },
-  ];
-
-  const yesNoOptions = [
-    { label: "Yes", value: "yes" },
-    { label: "No", value: "no" },
-  ];
-
-  const smokingOptions = [
-    { label: "Non-smoker", value: "non-smoker" },
-    { label: "Occasional", value: "occasional" },
-    { label: "Regular", value: "regular" },
-  ];
-
-  const alcoholOptions = [
-    { label: "Never", value: "never" },
-    { label: "Occasional", value: "occasional" },
-    { label: "Regular", value: "regular" },
-  ];
-
-  const exerciseOptions = [
-    { label: "Never", value: "never" },
-    { label: "Rarely", value: "rarely" },
-    { label: "Regular", value: "regular" },
-    { label: "Daily", value: "daily" },
-  ];
-
-  const dietOptions = [
-    { label: "Balanced", value: "balanced" },
-    { label: "Vegetarian", value: "vegetarian" },
-    { label: "Vegan", value: "vegan" },
-    { label: "Special Diet", value: "special" },
-  ];
-
-  const bloodGroupOptions = [
-    { label: "A+", value: "A+" },
-    { label: "A-", value: "A-" },
-    { label: "B+", value: "B+" },
-    { label: "B-", value: "B-" },
-    { label: "AB+", value: "AB+" },
-    { label: "AB-", value: "AB-" },
-    { label: "O+", value: "O+" },
-    { label: "O-", value: "O-" },
-  ];
+  if (showSuccess) {
+    return (
+      <Dialog open={open} onOpenChange={onOpenChange}>
+        <DialogContent className="max-w-md">
+          <SuccessStep onClose={handleClose} />
+        </DialogContent>
+      </Dialog>
+    );
+  }
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="text-center text-xl font-semibold">
-            New Patient
-          </DialogTitle>
+          <DialogTitle>Create New Patient - Step {step} of 4</DialogTitle>
         </DialogHeader>
 
         <Forge control={control} onSubmit={onSubmit}>
@@ -370,7 +425,6 @@ const CreatePatientDialog: React.FC<CreatePatientDialogProps> = ({
                   label="City"
                   placeholder="Select City"
                   options={cityOptions}
-                  disabled={!watchedState}
                 />
               </div>
 
@@ -386,12 +440,11 @@ const CreatePatientDialog: React.FC<CreatePatientDialogProps> = ({
                   name="date_of_birth"
                   component={TextDateInput}
                   label="Date of Birth"
-                  placeholder="DD-MM-YYYY"
-                  type="date"
+                  placeholder="Select date"
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-3 gap-4">
                 <Forger
                   name="gender"
                   component={TextSelect}
@@ -402,30 +455,26 @@ const CreatePatientDialog: React.FC<CreatePatientDialogProps> = ({
                 <Forger
                   name="height"
                   component={TextInput}
-                  label="Height (FT)"
-                  placeholder="0"
+                  label="Height (cm)"
+                  placeholder="Height"
                   type="number"
                 />
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
                 <Forger
                   name="weight"
                   component={TextInput}
-                  label="Weight (KG)"
-                  placeholder="0"
+                  label="Weight (kg)"
+                  placeholder="Weight"
                   type="number"
-                />
-                <Forger
-                  name="employment_status"
-                  component={TextSelect}
-                  label="Employment Type"
-                  placeholder="Select Option"
-                  options={employmentOptions}
                 />
               </div>
 
-
+              <Forger
+                name="employment_status"
+                component={TextSelect}
+                label="Employment Type"
+                placeholder="Select Option"
+                options={employmentOptions}
+              />
             </div>
           )}
 
@@ -458,20 +507,28 @@ const CreatePatientDialog: React.FC<CreatePatientDialogProps> = ({
                 placeholder="Frequency (e.g., Daily, Twice a day)"
               />
 
-              <Forger
-                name="blood_group"
-                component={TextSelect}
-                label="Blood Group"
-                placeholder="Select Option"
-                options={bloodGroupOptions}
-              />
+              <div className="grid grid-cols-2 gap-4">
+                <Forger
+                  name="blood_group"
+                  component={TextSelect}
+                  label="Blood Group"
+                  placeholder="Select Option"
+                  options={bloodGroupOptions}
+                />
+                <Forger
+                  name="genotype"
+                  component={TextSelect}
+                  label="Genotype"
+                  placeholder="Select Option"
+                  options={genotypeOptions}
+                />
+              </div>
 
               <Forger
                 name="allergies"
                 component={TextArea}
                 label="Any Allergies?"
                 placeholder="If none, type N/A"
-                helperText="Any Allergies to Medication or Food (list reactions)"
                 rows={4}
               />
 
@@ -530,7 +587,7 @@ const CreatePatientDialog: React.FC<CreatePatientDialogProps> = ({
                   component={TextSelect}
                   label="Any history of illegal drug?"
                   placeholder="Select Option"
-                  options={yesNoOptions}
+                  options={drugUseOptions}
                 />
                 <Forger
                   name="social_history.exercise"
@@ -541,19 +598,17 @@ const CreatePatientDialog: React.FC<CreatePatientDialogProps> = ({
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
-                <Forger
-                  name="social_history.diet"
-                  component={TextSelect}
-                  label="Are you on any special diet?"
-                  placeholder="Select Option"
-                  options={dietOptions}
-                />
-              </div>
+              <Forger
+                name="social_history.diet"
+                component={TextSelect}
+                label="Are you on any special diet?"
+                placeholder="Select Option"
+                options={dietOptions}
+              />
             </div>
           )}
 
-          {/* Step 4: Emergency Contact Details */}
+          {/* Step 4: Emergency Contact */}
           {step === 4 && (
             <div className="space-y-6">
               <h3 className="text-lg font-medium text-gray-700">
@@ -610,7 +665,7 @@ const CreatePatientDialog: React.FC<CreatePatientDialogProps> = ({
                 disabled={isPending}
                 className="bg-blue-600 text-white hover:bg-blue-700"
               >
-                {isPending ? "Creating..." : "Submit"}
+                {isPending ? 'Creating...' : 'Submit'}
               </Button>
             )}
           </div>

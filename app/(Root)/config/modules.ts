@@ -252,13 +252,13 @@ export const moduleConfigs: ModuleConfig[] = [
       },
       {
         label: "Queuing System",
-        icon: FileText,
-        href: "/reports",
+        icon: Activity,
+        href: "/queuing-system",
       },
       {
         label: "Appointment",
-        icon: FileText,
-        href: "/reports",
+        icon: Calendar,
+        href: "/appointment",
       },
     ],
     settingsItems: commonSettingsItems,

@@ -69,14 +69,14 @@ export const TextDateInput = <T extends DateValue>({
         {props.label}
       </Label>
       <DatePicker 
-        className="*:not-first:mt-2" 
+        className="mt-2" 
         value={dateValue as T}
         onChange={handleChange as any}
         {...props}
       >
         <div className="flex">
-          <Group className="w-full">
-            <DateInput className="pe-9" />
+          <Group className="w-full ">
+            <DateInput className="pe-9 py-6" />
           </Group>
           <Button className="text-muted-foreground/80 hover:text-foreground data-focus-visible:border-ring data-focus-visible:ring-ring/50 z-10 -ms-9 -me-px flex w-9 items-center justify-center rounded-e-md transition-[color,box-shadow] outline-none data-focus-visible:ring-[3px]">
             <CalendarIcon size={16} />

@@ -1,120 +1,117 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import { DataTable } from '@/components/DataTable';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ColumnDef } from '@tanstack/react-table';
-import { SquarePen} from 'lucide-react';
-import Subheader from '../../_components/Subheader';
-import { NewPatientDialog } from "@/components/dialogs/NewPatientDialog";
+import React, { useState } from "react";
+import { DataTable } from "@/components/DataTable";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { ColumnDef } from "@tanstack/react-table";
+import { SquarePen } from "lucide-react";
+import Subheader from "../../_components/Subheader";
+import CreatePatientDialog from "./_components/CreatePatientDialog";
+import ModernTabs from "./_components/ModernTabs";
+import FamilyDataTable from "./_components/FamilyDataTable";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import Link from 'next/link';
+} from "@/components/ui/dropdown-menu";
+import Link from "next/link";
+import {
+  usePatientList,
+  useFamiliesList,
+} from "@/features/services/patientService";
+import { PatientType } from "@/app/(Root)/admin/patients/_components/patient-data";
 
-interface Patient {
+// Transform PatientType to match nurse interface
+interface NursePatient {
   id: string;
   name: string;
   gender: string;
   regDate: string;
 }
 
-const columns: ColumnDef<Patient>[] = [
+const transformPatientForNurse = (patient: PatientType): NursePatient => {
+  return {
+    id: patient.patientId,
+    name: patient.name,
+    gender: patient.gender,
+    regDate: patient.lastVisit,
+  };
+};
+
+const columns: ColumnDef<NursePatient>[] = [
   {
     accessorKey: "id",
-    header: "PATIENT ID",
+    header: "Patient ID",
   },
   {
     accessorKey: "name",
-    header: "PATIENT NAME",
+    header: "Name",
   },
   {
     accessorKey: "gender",
-    header: "GENDER",
+    header: "Gender",
   },
   {
     accessorKey: "regDate",
-    header: "REG DATE & TIME",
+    header: "Registration Date & Time",
   },
   {
     id: "actions",
-    cell: ({row}) => (
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="ghost" size="icon" className="h-8 w-8">
-            <SquarePen className="h-4 w-4" />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="w-40">
-        <Link  href={`patients/${row?.original.id}`}>
-          <DropdownMenuItem className="cursor-pointer">
-            View Details
-          </DropdownMenuItem>
-        </Link>
-          <DropdownMenuItem className="cursor-pointer">
-            Share Details
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    ),
     header: "ACTION",
-  },
-];
-
-const mockData: Patient[] = [
-  {
-    id: 'Patient-2234',
-    name: 'chioma Azeez',
-    gender: 'Female',
-    regDate: '22-May-24 11:24AM',
-  },
-  {
-    id: 'Patient-3409',
-    name: 'Rotimi Hassan',
-    gender: 'Male',
-    regDate: '22-May-24 11:24AM',
-  },
-  {
-    id: 'Patient-2234',
-    name: 'Bode Fagba',
-    gender: 'Male',
-    regDate: '22-May-24 11:24AM',
-  },
-  {
-    id: 'Patient-3409',
-    name: 'Queen Gabara',
-    gender: 'Female',
-    regDate: '22-May-24 11:24AM',
-  },
-  {
-    id: 'Patient-2234',
-    name: 'Babra Kone',
-    gender: 'Male',
-    regDate: '22-May-24 11:24AM',
+    cell: ({ row }) => {
+      const patient = row.original;
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" className="h-8 w-8 p-0">
+              <span className="sr-only">Open menu</span>
+              <SquarePen className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem asChild>
+              <Link href={`/nurse/patients/${patient.id}`}>View Details</Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem>Share Details</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      );
+    },
   },
 ];
 
 const PatientsPage = () => {
-  const [searchQuery, setSearchQuery] = useState('');
-const [openNewPatient, setOpenNewPatient] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [openNewPatient, setOpenNewPatient] = useState(false);
+
+  const { data: patients = [], isLoading } = usePatientList();
+  const { data: families = [], isLoading: familiesLoading } = useFamiliesList();
+
+  // Transform patients for nurse interface
+  const transformedPatients = patients.map(transformPatientForNurse);
+
+  // Filter patients based on search query and status
+  const filteredPatients = transformedPatients.filter((patient) => {
+    const matchesSearch =
+      patient.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      patient.id.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchesSearch;
+  });
+
+  // Error handling removed as it's not needed with current implementation
   return (
     <>
       <Subheader title="Patients" />
       <div className="p-6 min-h-screen ">
         <div className="flex justify-end mb-6">
-         
-            <Button  onClick={() => setOpenNewPatient(true)}>Add Patient</Button>
-         
+          <Button onClick={() => setOpenNewPatient(true)}>Add Patient</Button>
         </div>
-         <NewPatientDialog 
-        open={openNewPatient} 
-        onOpenChange={setOpenNewPatient}
-      />
+        <CreatePatientDialog
+          open={openNewPatient}
+          onOpenChange={setOpenNewPatient}
+        />
         <div className="flex justify-between items-center mb-6">
           <div className="flex items-center gap-4">
             <Input
@@ -126,22 +123,40 @@ const [openNewPatient, setOpenNewPatient] = useState(false);
           </div>
         </div>
 
-          <Tabs defaultValue="individual" className=" mb-4 bg-0  ">
-            <TabsList className="bg-0 border-gray-200 border-b  ">
-              <TabsTrigger value="individual" className="data-[state=active]:border-b-2 border-0 data-[state=active]:border-[#0D277F] w-max">Individual</TabsTrigger>
-              <TabsTrigger value="family" className="data-[state=active]:border-b-2 border-0 data-[state=active]:border-[#0D277F] w-max">Family</TabsTrigger>
-            </TabsList>
-          </Tabs>
-        <div className="bg-white rounded-lg p-6">
-          <DataTable
-            columns={columns}
-            data={mockData}
-            options={{
-              disablePagination: false,
-              disableSelection: true,
-            }}
-          />
-        </div>
+        <ModernTabs
+          tabs={[
+            {
+              id: "individual",
+              label: "Individual",
+              content: (
+                <div className="bg-white rounded-lg p-6">
+                  <DataTable
+                    columns={columns}
+                    data={filteredPatients}
+                    options={{
+                      isLoading,
+                      disablePagination: false,
+                      disableSelection: true,
+                    }}
+                  />
+                </div>
+              ),
+            },
+            {
+              id: "family",
+              label: "Family",
+              content: (
+                <div className="bg-white rounded-lg p-6">
+                  <FamilyDataTable
+                    families={families}
+                    isLoading={familiesLoading}
+                  />
+                </div>
+              ),
+            },
+          ]}
+          defaultTab="individual"
+        />
       </div>
     </>
   );
