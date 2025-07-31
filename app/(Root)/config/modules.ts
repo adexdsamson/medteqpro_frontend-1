@@ -247,8 +247,8 @@ export const moduleConfigs: ModuleConfig[] = [
       },
       {
         label: "Bed Management",
-        icon: Calendar,
-        href: "/medication-schedule",
+        icon: Building,
+        href: "/bed-management",
       },
       {
         label: "Queuing System",

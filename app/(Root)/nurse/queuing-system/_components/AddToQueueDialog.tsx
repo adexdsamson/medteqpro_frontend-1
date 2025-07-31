@@ -125,15 +125,16 @@ export default function AddToQueueDialog({
               <Label htmlFor="purpose" className="text-right">
                 Purpose
               </Label>
-              <Forger
-                name="purpose"
-                id="purpose"
-                className="col-span-3"
-                placeholder="Enter purpose of visit"
-                component={Input}
-              />
+              <div className="col-span-3">
+                <Forger
+                  name="purpose"
+                  id="purpose"
+                  placeholder="Enter purpose of visit"
+                  component={Input}
+                />
+              </div>
             </div>
-            <div className="grid grid-cols-4 items-center  gap-4">
+            <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="priority" className="text-right">
                 Priority
               </Label>
@@ -151,15 +152,16 @@ export default function AddToQueueDialog({
               <Label htmlFor="estimated_waiting_time" className="text-right">
                 Est. Time (mins)
               </Label>
-              <Forger
-                name="estimated_waiting_time"
-                id="estimated_waiting_time"
-                type="number"
-                min="1"
-                placeholder="Enter estimated time in minutes"
-                className="col-span-3"
-                component={Input}
-              />
+              <div className="col-span-3">
+                <Forger
+                  name="estimated_waiting_time"
+                  id="estimated_waiting_time"
+                  type="number"
+                  min="1"
+                  placeholder="Enter estimated time in minutes"
+                  component={Input}
+                />
+              </div>
             </div>
           </div>
           <div className="flex justify-end">
