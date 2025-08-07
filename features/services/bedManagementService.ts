@@ -7,7 +7,6 @@ import {
   patchRequest,
   deleteRequest,
 } from "@/lib/axiosInstance";
-import { BedData } from "@/app/(Root)/admin/bed-management/_components/columns";
 
 // Ward response type based on API documentation
 export type WardResponseType = {
@@ -169,14 +168,16 @@ export const useDeleteWard = (wardId: string) => {
 };
 
 // Map API response to UI model
-export const mapBedResponseToUIModel = (bed: BedResponseType): BedData => {
+export const mapBedResponseToUIModel = (bed: BedResponseType) => {
   return {
     bedId: bed.bed_number,
     roomNo: bed.room_number,
     patientId: bed.patient,
     allocationDateTime: bed.date_allocated,
     duration: bed.duration,
-    id: bed.id
+    id: bed.id,
+    status: bed.status,
+    patientName: bed.patient_fullname_if_occupied
   };
 };
 

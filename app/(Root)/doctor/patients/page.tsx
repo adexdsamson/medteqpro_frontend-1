@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Search } from "lucide-react";
 import PatientTable from "./_components/patient-table";
 import { usePatientList } from "@/features/services/patientService";
+import CreatePatientDialog from "./_components/CreatePatientDialog";
 
 const DoctorPatientPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -21,7 +22,9 @@ const DoctorPatientPage = () => {
       <div className="p-6 space-y-6 min-h-screen w-full">
         <div className="space-y-4">
           <div className="flex justify-end">
-            <Button>Add Patient</Button>
+            <CreatePatientDialog>
+              <Button>Add Patient</Button>
+            </CreatePatientDialog>
           </div>
 
           <div className="flex items-center gap-2 w-fit bg-white p-2 ">

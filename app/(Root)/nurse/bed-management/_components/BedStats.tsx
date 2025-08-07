@@ -1,54 +1,41 @@
 import React from "react";
-import { Card } from "@/components/ui/card";
 
 interface BedStatsProps {
   totalBeds: number;
-  occupiedBeds: number;
   availableBeds: number;
+  occupiedBeds: number;
 }
 
 export const BedStats: React.FC<BedStatsProps> = ({
   totalBeds,
-  occupiedBeds,
   availableBeds,
+  occupiedBeds,
 }) => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-      <Card className="p-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <p className="text-sm font-medium text-gray-600">Total Beds</p>
-            <p className="text-2xl font-bold text-gray-900">{totalBeds}</p>
-          </div>
-          <div className="h-12 w-12 bg-blue-100 rounded-lg flex items-center justify-center">
-            <span className="text-blue-600 font-bold text-lg">T</span>
-          </div>
-        </div>
-      </Card>
+    <div className="flex gap-3">
+      <div className="flex items-center gap-2 px-3 py-1.5 bg-cyan-50 border border-cyan-200 rounded-md">
+        <div className="w-2 h-2 bg-cyan-500 rounded-full"></div>
+        <span className="text-xs font-medium text-gray-700">Total Beds</span>
+        <span className="bg-cyan-500 text-white text-xs px-1.5 py-0.5 rounded-full font-bold min-w-[20px] text-center">
+          {totalBeds}
+        </span>
+      </div>
 
-      <Card className="p-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <p className="text-sm font-medium text-gray-600">Occupied Beds</p>
-            <p className="text-2xl font-bold text-red-600">{occupiedBeds}</p>
-          </div>
-          <div className="h-12 w-12 bg-red-100 rounded-lg flex items-center justify-center">
-            <span className="text-red-600 font-bold text-lg">O</span>
-          </div>
-        </div>
-      </Card>
+      <div className="flex items-center gap-2 px-3 py-1.5 bg-teal-50 border border-teal-200 rounded-md">
+        <div className="w-2 h-2 bg-teal-500 rounded-full"></div>
+        <span className="text-xs font-medium text-gray-700">Available</span>
+        <span className="bg-teal-500 text-white text-xs px-1.5 py-0.5 rounded-full font-bold min-w-[20px] text-center">
+          {availableBeds}
+        </span>
+      </div>
 
-      <Card className="p-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <p className="text-sm font-medium text-gray-600">Available Beds</p>
-            <p className="text-2xl font-bold text-green-600">{availableBeds}</p>
-          </div>
-          <div className="h-12 w-12 bg-green-100 rounded-lg flex items-center justify-center">
-            <span className="text-green-600 font-bold text-lg">A</span>
-          </div>
-        </div>
-      </Card>
+      <div className="flex items-center gap-2 px-3 py-1.5 bg-orange-50 border border-orange-200 rounded-md">
+        <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
+        <span className="text-xs font-medium text-gray-700">Occupied</span>
+        <span className="bg-orange-500 text-white text-xs px-1.5 py-0.5 rounded-full font-bold min-w-[20px] text-center">
+          {occupiedBeds}
+        </span>
+      </div>
     </div>
   );
 };

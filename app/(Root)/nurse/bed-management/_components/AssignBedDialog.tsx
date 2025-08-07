@@ -8,30 +8,24 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { useForge, Forge, Forger } from "@/lib/forge";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 import { TextInput } from "@/components/FormInputs/TextInput";
+import { TextArea } from "@/components/FormInputs/TextArea";
+import { TextDateInput } from "@/components/FormInputs/TextDateInput";
 import { useAssignBed } from "@/features/services/bedManagementService";
 import { useToastHandler } from "@/hooks/useToaster";
 import { Loader2 } from "lucide-react";
 
-const assignBedSchema = z.object({
-  patientId: z.string().min(1, "Patient ID is required"),
-  patientName: z.string().min(1, "Patient name is required"),
-  admissionDate: z.string().min(1, "Admission date is required"),
-  notes: z.string().optional(),
+const assignBedSchema = yup.object().shape({
+  patientId: yup.string().required("Patient ID is required"),
+  patientName: yup.string().required("Patient name is required"),
+  admissionDate: yup.string().required("Admission date is required"),
+  notes: yup.string().optional().default(""),
 });
 
-type AssignBedFormData = z.infer<typeof assignBedSchema>;
+type AssignBedFormData = yup.InferType<typeof assignBedSchema>;
 
 interface AssignBedDialogProps {
   open: boolean;
@@ -49,16 +43,16 @@ const AssignBedDialog: React.FC<AssignBedDialogProps> = ({
   onSuccess,
 }) => {
   const toast = useToastHandler();
-  const assignBedMutation = useAssignBed();
+  const assignBedMutation = useAssignBed(wardId, bedId);
 
-  const form = useForm<AssignBedFormData>({
-    resolver: zodResolver(assignBedSchema),
+  const { control } = useForge<AssignBedFormData>({
     defaultValues: {
       patientId: "",
       patientName: "",
       admissionDate: new Date().toISOString().split("T")[0],
       notes: "",
     },
+    resolver: yupResolver(assignBedSchema),
   });
 
   const onSubmit = async (data: AssignBedFormData) => {
@@ -69,22 +63,18 @@ const AssignBedDialog: React.FC<AssignBedDialogProps> = ({
 
     try {
       await assignBedMutation.mutateAsync({
-        bedId,
-        wardId,
-        patientId: data.patientId,
-        patientName: data.patientName,
-        admissionDate: data.admissionDate,
-        notes: data.notes,
+        patient_id: data.patientId,
+        expected_end_date: data.admissionDate,
       });
 
       toast.success("Success", "Bed assigned successfully");
-      form.reset();
       onOpenChange(false);
       onSuccess?.();
-    } catch (error: any) {
+    } catch (error) {
+      const err = error as { response?: { data?: { message?: string } }; message?: string };
       const errorMessage =
-        error?.response?.data?.message ||
-        error?.message ||
+        err?.response?.data?.message ||
+        err?.message ||
         "Failed to assign bed. Please try again.";
       toast.error("Error", errorMessage);
     }
@@ -100,84 +90,40 @@ const AssignBedDialog: React.FC<AssignBedDialogProps> = ({
           </DialogDescription>
         </DialogHeader>
 
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <FormField
-              control={form.control}
+        <Forge control={control} onSubmit={onSubmit}>
+          <div className="space-y-4">
+            <Forger
               name="patientId"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Patient ID *</FormLabel>
-                  <FormControl>
-                    <TextInput
-                      placeholder="Enter patient ID"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              component={TextInput}
+              label="Patient ID *"
+              placeholder="Enter patient ID"
             />
 
-            <FormField
-              control={form.control}
+            <Forger
               name="patientName"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Patient Name *</FormLabel>
-                  <FormControl>
-                    <TextInput
-                      placeholder="Enter patient name"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              component={TextInput}
+              label="Patient Name *"
+              placeholder="Enter patient name"
             />
 
-            <FormField
-              control={form.control}
+            <Forger
               name="admissionDate"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Admission Date *</FormLabel>
-                  <FormControl>
-                    <TextInput
-                      type="date"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              component={TextDateInput}
+              label="Admission Date *"
             />
 
-            <FormField
-              control={form.control}
+            <Forger
               name="notes"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Notes (Optional)</FormLabel>
-                  <FormControl>
-                    <TextInput
-                      placeholder="Enter any additional notes"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              component={TextArea}
+              label="Notes (Optional)"
+              placeholder="Enter any additional notes"
             />
 
             <DialogFooter>
               <Button
                 type="button"
                 variant="outline"
-                onClick={() => {
-                  form.reset();
-                  onOpenChange(false);
-                }}
+                onClick={() => onOpenChange(false)}
               >
                 Cancel
               </Button>
@@ -195,8 +141,8 @@ const AssignBedDialog: React.FC<AssignBedDialogProps> = ({
                 )}
               </Button>
             </DialogFooter>
-          </form>
-        </Form>
+          </div>
+        </Forge>
       </DialogContent>
     </Dialog>
   );

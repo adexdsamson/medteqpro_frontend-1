@@ -10,7 +10,7 @@ import {
 import { RegisterOptions } from "react-hook-form";
 
 export type TextSelectProps = {
-  name: string;
+  name?: string;
   label?: string | any;
   containerClass?: string;
   error?: string;

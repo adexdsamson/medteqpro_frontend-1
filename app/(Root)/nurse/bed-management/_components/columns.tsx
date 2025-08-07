@@ -1,136 +1,89 @@
-import { ColumnDef } from "@tanstack/react-table";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { BedData } from "@/features/services/bedManagementService";
+"use client";
 
-export const bedColumns = (
-  onAssignBed: (bedId: string) => void
-): ColumnDef<BedData>[] => [
+import { ColumnDef } from "@tanstack/react-table";
+import { Button } from "@/components/ui/button";
+
+export interface BedData {
+  bedId: string;
+  roomNo: string;
+  patientId: string | null;
+  allocationDateTime: string | null;
+  duration: number | null;
+  id: string
+}
+
+export const bedColumns = (onAssignBed?: (bedId: string) => void): ColumnDef<BedData>[] => [
   {
     accessorKey: "bedId",
-    header: "Bed ID",
+    header: "BED ID",
     cell: ({ row }) => (
-      <div className="font-medium">{row.getValue("bedId")}</div>
+      <div className="font-medium text-gray-900">{row.getValue("bedId")}</div>
     ),
   },
   {
     accessorKey: "roomNo",
-    header: "Room No",
+    header: "ROOM NO",
     cell: ({ row }) => (
-      <div className="text-center">{row.getValue("roomNo")}</div>
+      <div className="text-gray-700">{row.getValue("roomNo")}</div>
     ),
   },
   {
-    accessorKey: "status",
-    header: "Status",
-    cell: ({ row }) => {
-      const status = row.getValue("status") as string;
-      return (
-        <Badge
-          variant={status === "occupied" ? "destructive" : "default"}
-          className={`
-            ${status === "occupied" ? "bg-red-100 text-red-800" : ""}
-            ${status === "available" ? "bg-green-100 text-green-800" : ""}
-            ${status === "maintenance" ? "bg-yellow-100 text-yellow-800" : ""}
-            ${status === "reserved" ? "bg-blue-100 text-blue-800" : ""}
-          `}
-        >
-          {status.charAt(0).toUpperCase() + status.slice(1)}
-        </Badge>
-      );
-    },
-  },
-  {
     accessorKey: "patientId",
-    header: "Patient ID",
+    header: "PATIENT ID",
     cell: ({ row }) => {
-      const patientId = row.getValue("patientId") as string;
+      const patientId = row.getValue("patientId") as string | null;
       return (
-        <div className="text-center">
-          {patientId ? (
-            <span className="font-medium">{patientId}</span>
-          ) : (
-            <span className="text-gray-400">-</span>
-          )}
-        </div>
-      );
-    },
-  },
-  {
-    accessorKey: "patientName",
-    header: "Patient Name",
-    cell: ({ row }) => {
-      const patientName = row.getValue("patientName") as string;
-      return (
-        <div>
-          {patientName ? (
-            <span className="font-medium">{patientName}</span>
-          ) : (
-            <span className="text-gray-400">-</span>
-          )}
+        <div className="text-gray-700">
+          {patientId || "N/A"}
         </div>
       );
     },
   },
   {
     accessorKey: "allocationDateTime",
-    header: "Allocation Date",
+    header: "ALLOCATION DATE & TIME",
     cell: ({ row }) => {
-      const allocationDate = row.getValue("allocationDateTime") as string;
+      const allocationDateTime = row.getValue("allocationDateTime") as string | null;
       return (
-        <div>
-          {allocationDate ? (
-            <span className="text-sm">{allocationDate}</span>
-          ) : (
-            <span className="text-gray-400">-</span>
-          )}
+        <div className="text-gray-700">
+          {allocationDateTime || "N/A"}
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: "duration",
+    header: "DURATION (DAYS)",
+    cell: ({ row }) => {
+      const duration = row.getValue("duration") as number | null;
+      return (
+        <div className="text-gray-700">
+          {duration !== null ? duration : "N/A"}
         </div>
       );
     },
   },
   {
     id: "actions",
-    header: "Actions",
+    header: "ACTIONS",
     cell: ({ row }) => {
-      const bed = row.original;
+      const bedId =  row.original?.id as string;
+      const patientId = row.getValue("patientId") as string | null;
+      const isAvailable = !patientId;
       
       return (
-        <div className="flex items-center justify-end space-x-2">
-          {bed.status === "available" ? (
+        <div className="flex items-center gap-2">
+          {isAvailable && onAssignBed && (
             <Button
-              variant="default"
               size="sm"
-              onClick={() => onAssignBed(bed.id)}
+              className="bg-blue-600 hover:bg-blue-700 text-white"
+              onClick={() => onAssignBed(bedId)}
             >
-              Assign Bed
+              Assign
             </Button>
-          ) : bed.status === "occupied" ? (
-            <Button
-              variant="outline"
-              size="sm"
-              disabled
-              className="opacity-50 cursor-not-allowed"
-            >
-              Occupied
-            </Button>
-          ) : bed.status === "maintenance" ? (
-            <Button
-              variant="outline"
-              size="sm"
-              disabled
-              className="opacity-50 cursor-not-allowed"
-            >
-              Maintenance
-            </Button>
-          ) : (
-            <Button
-              variant="outline"
-              size="sm"
-              disabled
-              className="opacity-50 cursor-not-allowed"
-            >
-              Reserved
-            </Button>
+          )}
+          {!isAvailable && (
+            <span className="text-sm text-gray-500">Occupied</span>
           )}
         </div>
       );
