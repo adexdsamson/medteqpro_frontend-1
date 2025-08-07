@@ -6,6 +6,7 @@ import { getRequest, postRequest } from "@/lib/axiosInstance";
 import { ApiResponseError } from "@/types";
 import { format, parseISO } from 'date-fns';
 import { PatientStatus, PatientType } from "@/app/(Root)/admin/patients/_components/patient-data";
+import { PatientDetailResponse } from '@/app/(Root)/admin/patients/[patientId]/_components/types';
 
 // Define types based on the API response structure
 export interface PatientResponse {
@@ -110,6 +111,47 @@ export const usePatientDetails = (patientId: string) => {
   });
 };
 
+// Hook to fetch detailed patient information
+export const usePatientDetailedInfo = (patientId: string) => {
+  return useQuery<PatientDetailResponse, ApiResponseError>({
+    queryKey: ['patient-detailed', patientId],
+    queryFn: async () => {
+      const response = await getRequest({
+        url: `patient-management/patients/${patientId}/`
+      });
+      
+      return response.data.data as PatientDetailResponse;
+    },
+    enabled: !!patientId,
+  });
+};
+
+// Define family types
+export interface FamilyResponse {
+  id: string;
+  family_name: string;
+  no_of_members: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface FamilyType {
+  id: string;
+  familyName: string;
+  members: number;
+  createdAt: string;
+}
+
+// Transform family response to UI format
+const transformFamily = (family: FamilyResponse): FamilyType => {
+  return {
+    id: family.id,
+    familyName: family.family_name,
+    members: family.no_of_members,
+    createdAt: format(parseISO(family.created_at), 'dd-MMM-yyyy'),
+  };
+};
+
 // Define the create patient payload type
 export interface CreatePatientPayload {
   first_name: string;
@@ -152,6 +194,18 @@ export interface CreatePatientPayload {
     diet?: string;
   };
 }
+
+// Hook to fetch families list
+export const useFamiliesList = () => {
+  return useQuery<FamilyType[], ApiResponseError>({
+    queryKey: ['families'],
+    queryFn: async () => {
+      const response = await getRequest({ url: 'patient-management/families/' });
+      const families = response.data.results as FamilyResponse[];
+      return families.map(transformFamily);
+    },
+  });
+};
 
 // Hook to create a new patient
 export const useCreatePatient = () => {

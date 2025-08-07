@@ -17,6 +17,8 @@ import { PatientsIcon } from "@/components/icons/PatientsIcon";
 import { WoundCareIcon } from "@/components/icons/WoundCareIcon";
 import { InjectionsIcon } from "@/components/icons/InjectionsIcon";
 import { CalendarIcon } from "@/components/icons/CalendarIcon";
+import { useNurseDashboard } from "@/features/services/dashboardService";
+import { useToastHandler } from "@/hooks/useToaster";
 
 const data = [
   { month: "Jan", visits: 450 },
@@ -34,6 +36,19 @@ const data = [
 ];
 
 const NurseDashboard = () => {
+  const toast = useToastHandler();
+  const { data: dashboardData, isLoading, error } = useNurseDashboard();
+
+  // Handle error state
+  React.useEffect(() => {
+    if (error) {
+      toast.error("Error", error?.message ?? "Failed to load dashboard data");
+    }
+  }, [error, toast]);
+
+  // Extract analytics data
+  const analytics = dashboardData?.data?.data;
+
   return (
     <>
     <Subheader title="Dashboard"/>
@@ -44,25 +59,25 @@ const NurseDashboard = () => {
         <StatCard
           icon={<PatientsIcon className="h-5 w-5 text-[#118795]" />}
           title="Patients"
-          value={298}
+          value={isLoading ? "--" : analytics?.no_of_patients ?? 0}
         />
 
         <StatCard
           icon={<WoundCareIcon className="h-5 w-5 text-[#118795]" />}
           title="Wound Care Patient"
-          value={560}
+          value={isLoading ? "--" : analytics?.no_of_wound_care_patients ?? 0}
         />
 
         <StatCard
           icon={<InjectionsIcon className="h-5 w-5 text-[#118795]" />}
           title="Injections Administered"
-          value={96}
+          value={isLoading ? "--" : analytics?.no_of_injections_administered ?? 0}
         />
 
         <StatCard
           icon={<CalendarIcon className="h-5 w-5 text-[#118795]" />}
           title="Upcoming Appointment"
-          value={4}
+          value={isLoading ? "--" : analytics?.no_of_upcoming_appointments ?? 0}
         />
       </div>
 

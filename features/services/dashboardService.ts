@@ -81,11 +81,29 @@ export const useSuperAdminDashboard = () => {
   });
 };
 
+// Define types for Nurse Dashboard based on API documentation
+export interface NurseDashboardAnalytics {
+  no_of_patients: number;
+  no_of_wound_care_patients: number;
+  no_of_injections_administered: number;
+  no_of_upcoming_appointments: number;
+}
+
 // Hook for fetching hospital admin dashboard analytics
 export const useHospitalAdminDashboard = () => {
   return useQuery<ApiResponse<HospitalAdminDashboardAnalytics>, ApiResponseError>({
     queryKey: ["hospital-admin-dashboard"],
     queryFn: async () => await getRequest({ url: "/dashboard/hospital-admin/" }),
+    refetchOnWindowFocus: false,
+    staleTime: 5 * 60 * 1000, // 5 minutes
+  });
+};
+
+// Hook for fetching nurse dashboard analytics
+export const useNurseDashboard = () => {
+  return useQuery<ApiResponse<NurseDashboardAnalytics>, ApiResponseError>({
+    queryKey: ["nurse-dashboard"],
+    queryFn: async () => await getRequest({ url: "/dashboard/nurse/" }),
     refetchOnWindowFocus: false,
     staleTime: 5 * 60 * 1000, // 5 minutes
   });

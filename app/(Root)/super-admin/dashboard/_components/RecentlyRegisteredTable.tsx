@@ -3,6 +3,7 @@
 import React from "react";
 import { DataTable } from "@/components/DataTable";
 import { ColumnDef } from "@tanstack/react-table";
+import { format } from "date-fns";
 
 type Hospital = {
   id: string;
@@ -24,11 +25,12 @@ export function RecentlyRegisteredTable({
   hospitals = [],
   isLoading = false,
 }: RecentlyRegisteredTableProps) {
+
   const columns: ColumnDef<Hospital>[] = [
-    {
-      accessorKey: "id",
-      header: "ID",
-    },
+    // {
+    //   accessorKey: "id",
+    //   header: "ID",
+    // },
     {
       accessorKey: "name",
       header: "Name",
@@ -48,6 +50,10 @@ export function RecentlyRegisteredTable({
     {
       accessorKey: "dateRegistered",
       header: "Date Registered",
+      cell: ({ row }) => {
+        const value = row.getValue("dateRegistered") as string;
+        return value ? format(value, "yyyy LLL dd") : "-";
+      }
     },
     {
       accessorKey: "location",
@@ -74,7 +80,7 @@ export function RecentlyRegisteredTable({
   ];
 
   return (
-    <div className="rounded-md border bg-white">
+    <div className="">
       <DataTable
         data={hospitals}
         columns={columns}

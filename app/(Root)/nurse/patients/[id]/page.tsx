@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useEffect } from "react";
+import { useParams } from "next/navigation";
 import Subheader from "@/app/(Root)/_components/Subheader";
 import PersonalInformation from "./PersonalInformation";
 import MedicalInfo from "./MedicalInfo";
@@ -10,6 +10,10 @@ import VitalSignsReport from "./VitalSignsReport";
 import DiagnosticReport from "./DiagnosticReport";
 import PrescriptionReport from "./PrescriptionReport";
 import MedicalTest from "./MedicalTest";
+import { usePatientDetailedInfo } from "@/features/services/patientService";
+import { useToastHandler } from "@/hooks/useToaster";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 type TabType =
   | "personalInformation"
@@ -23,22 +27,21 @@ type TabType =
 type TabProps = { key: TabType; label: string };
 
 export default function PatientDetailPage() {
-  const [tab, setTab] = useState<TabType>("personalInformation");
-
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const section = searchParams.get("section");
-
+  const params = useParams();
+  
+  // Get patient ID from URL params
+  const patientId = params.id as string;
+  
+  // Fetch patient details
+  const { data: patient, isLoading, error } = usePatientDetailedInfo(patientId);
+  const toast = useToastHandler();
+  
+  // Show error toast if there's an error
   useEffect(() => {
-    router.push(`${pathname}?section=${tab}`);
-  }, [tab, pathname, router]);
-
-  useEffect(() => {
-    if (section) {
-      setTab(section as TabType);
+    if (error) {
+      toast.error('Error', 'Failed to load patient details');
     }
-  }, [section]);
+  }, [error, toast]);
 
   const tabs: TabProps[] = [
     { key: "personalInformation", label: "Personal Information" },
@@ -50,9 +53,22 @@ export default function PatientDetailPage() {
     { key: "medicalTest", label: "Medical Test" },
   ];
 
+  if (isLoading) {
+    return (
+      <>
+        <Subheader title="Patients / Patient Information" />
+        <div className="p-6 space-y-6">
+          <Skeleton className="h-32 w-full" />
+          <Skeleton className="h-12 w-full" />
+          <Skeleton className="h-64 w-full" />
+        </div>
+      </>
+    );
+  }
+
   return (
     <>
-      <Subheader title="Patients / Patient Information" />
+      <Subheader title={`Patients / ${patient?.full_name || 'Patient Information'}`} />
       <div className="p-6 space-y-6">
         <div className=" rounded-lg p-4">
           <div className="flex items-center justify-between">
@@ -92,29 +108,41 @@ export default function PatientDetailPage() {
           </div>
         </div>
 
-        <div className="flex items-center gap-4 border-b">
-          {tabs.map((tabData) => (
-            <div
-              key={tabData.key}
-              onClick={() => setTab(tabData.key)}
-              className={`px-4 py-2 cursor-pointer text-xs font-medium border-b-2 transition-colors ${
-                tab === tabData.key
-                  ? "border-[#118795] text-[#118795]"
-                  : "border-transparent text-gray-500 hover:text-gray-700"
-              }`}
-            >
-              {tabData.label}
-            </div>
-          ))}
-        </div>
-
-        {tab === "personalInformation" && <PersonalInformation />}
-        {tab === "medicalInfo" && <MedicalInfo />}
-        {tab === "socialInfo" && <SocialInfo />}
-        {tab === "vitalSignsReport" && <VitalSignsReport />}
-        {tab === "diagnosticReport" && <DiagnosticReport />}
-        {tab === "prescriptionReport" && <PrescriptionReport />}
-        {tab === "medicalTest" && <MedicalTest />}
+        <Tabs defaultValue="personalInformation" className="w-full">
+          <TabsList className="h-auto rounded-none border-b bg-transparent p-0">
+            {tabs.map((tabData) => (
+              <TabsTrigger
+                key={tabData.key}
+                value={tabData.key}
+                className="data-[state=active]:after:bg-primary relative rounded-none py-2 after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 data-[state=active]:bg-transparent data-[state=active]:shadow-none"
+              >
+                {tabData.label}
+              </TabsTrigger>
+            ))}
+          </TabsList>
+          
+          <TabsContent value="personalInformation">
+            <PersonalInformation patient={patient} />
+          </TabsContent>
+          <TabsContent value="medicalInfo">
+            <MedicalInfo patient={patient} />
+          </TabsContent>
+          <TabsContent value="socialInfo">
+            <SocialInfo patient={patient} />
+          </TabsContent>
+          <TabsContent value="vitalSignsReport">
+            <VitalSignsReport patient={patient} />
+          </TabsContent>
+          <TabsContent value="diagnosticReport">
+            <DiagnosticReport patient={patient} />
+          </TabsContent>
+          <TabsContent value="prescriptionReport">
+            <PrescriptionReport patient={patient} />
+          </TabsContent>
+          <TabsContent value="medicalTest">
+            <MedicalTest patient={patient} />
+          </TabsContent>
+        </Tabs>
       </div>
     </>
   );

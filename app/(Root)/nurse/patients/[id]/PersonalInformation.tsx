@@ -1,6 +1,53 @@
 import Image from "next/image";
+import { PatientDetailResponse } from '@/app/(Root)/admin/patients/[patientId]/_components/types';
 
-export default function PersonalInformation() {
+interface PersonalInformationProps {
+  patient?: PatientDetailResponse;
+}
+
+function calculateAge(dateOfBirth: string): string {
+  const today = new Date();
+  const birthDate = new Date(dateOfBirth);
+  let age = today.getFullYear() - birthDate.getFullYear();
+  const monthDiff = today.getMonth() - birthDate.getMonth();
+
+  if (
+    monthDiff < 0 ||
+    (monthDiff === 0 && today.getDate() < birthDate.getDate())
+  ) {
+    age--;
+  }
+
+  return `${age} years`;
+}
+
+function formatDate(dateString: string): string {
+  const date = new Date(dateString);
+  return date.toLocaleDateString('en-GB', {
+    day: '2-digit',
+    month: 'short',
+    year: '2-digit'
+  });
+}
+
+export default function PersonalInformation({ patient }: PersonalInformationProps) {
+  if (!patient) {
+    return (
+      <div className="space-y-4 flex flex-col gap-10 md:flex-row-reverse">
+        <div className="bg-white rounded-lg p-6 flex-1">
+          <div className="animate-pulse space-y-6">
+            <div className="h-6 bg-gray-200 rounded w-48"></div>
+            {[...Array(6)].map((_, i) => (
+              <div key={i} className="space-y-2">
+                <div className="h-4 bg-gray-200 rounded w-32"></div>
+                <div className="h-4 bg-gray-200 rounded w-48"></div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="space-y-4 flex flex-col gap-10 md:flex-row-reverse">
       <div className="bg-[white] rounded-lg p-2.5 h-max">
@@ -17,10 +64,10 @@ export default function PersonalInformation() {
             </div>
             <div>
               <p className="text-xs text-gray-500">Patient Contact</p>
-              <p className="text-sm font-medium">Oluwatosin Chidimma Aminah</p>
+              <p className="text-sm font-medium">{patient.full_name}</p>
             </div>
           </div>
-          <p className="text-sm font-medium text-text-primary ml-2">09078764478</p>
+          <p className="text-sm font-medium text-text-primary ml-2">{patient.phone_number}</p>
         </div>
       </div>
 
@@ -32,40 +79,40 @@ export default function PersonalInformation() {
         <div className="space-y-6">
           <div>
             <p className="text-xs text-gray-500 mb-1">Search Patient ID</p>
-            <p className="text-sm font-medium">Patient - 5560</p>
+            <p className="text-sm font-medium">{patient.id}</p>
           </div>
           <div>
             <p className="text-xs text-gray-500 mb-1">Patient Name</p>
-            <p className="text-sm font-medium">Oluwatosin Chidimma Aminah</p>
+            <p className="text-sm font-medium">{patient.full_name}</p>
           </div>
           <div>
             <p className="text-xs text-gray-500 mb-1">Gender</p>
-            <p className="text-sm font-medium">Female</p>
+            <p className="text-sm font-medium">{patient.gender.charAt(0).toUpperCase() + patient.gender.slice(1)}</p>
           </div>
           <div>
             <p className="text-xs text-gray-500 mb-1">Date of Birth</p>
-            <p className="text-sm font-medium">22-03-1980 (44years)</p>
+            <p className="text-sm font-medium">{formatDate(patient.date_of_birth)} ({calculateAge(patient.date_of_birth)})</p>
           </div>
           <div>
             <p className="text-xs text-gray-500 mb-1">Marital Status</p>
-            <p className="text-sm font-medium">Married</p>
+            <p className="text-sm font-medium">{patient.marital_status.charAt(0).toUpperCase() + patient.marital_status.slice(1)}</p>
           </div>
 
           <div className="pt-2">
             <h3 className="text-sm font-medium text-gray-900 mb-4">Address</h3>
             <div className="space-y-6">
               <div>
-                <p className="text-xs text-gray-500 mb-1">Street</p>
-                <p className="text-sm font-medium">No 2 Asuga street, Badore</p>
-              </div>
-              <div>
-                <p className="text-xs text-gray-500 mb-1">City</p>
-                <p className="text-sm font-medium">Lagos</p>
-              </div>
-              <div>
-                <p className="text-xs text-gray-500 mb-1">State</p>
-                <p className="text-sm font-medium">Lagos</p>
-              </div>
+            <p className="text-xs text-gray-500 mb-1">Address</p>
+            <p className="text-sm font-medium">{patient.address || 'N/A'}</p>
+          </div>
+          <div>
+            <p className="text-xs text-gray-500 mb-1">City</p>
+            <p className="text-sm font-medium">{patient.city || 'N/A'}</p>
+          </div>
+          <div>
+            <p className="text-xs text-gray-500 mb-1">State</p>
+            <p className="text-sm font-medium">{patient.state || 'N/A'}</p>
+          </div>
             </div>
           </div>
 
@@ -78,19 +125,19 @@ export default function PersonalInformation() {
                 <p className="text-xs text-gray-500 mb-1">
                   Emergency Contact Name
                 </p>
-                <p className="text-sm font-medium">Kure Fadola James</p>
+                <p className="text-sm font-medium">{patient.emergency_contact?.name || 'N/A'}</p>
               </div>
               <div>
                 <p className="text-xs text-gray-500 mb-1">
                   Emergency Contact Phone Number
                 </p>
-                <p className="text-sm font-medium">09000000000</p>
+                <p className="text-sm font-medium">{patient.emergency_contact?.phone || 'N/A'}</p>
               </div>
               <div>
                 <p className="text-xs text-gray-500 mb-1">
-                  Emergency Contact Address
+                  Relationship
                 </p>
-                <p className="text-sm font-medium">No 2 Asuga street, Badore</p>
+                <p className="text-sm font-medium">{patient.emergency_contact?.relationship || 'N/A'}</p>
               </div>
             </div>
           </div>

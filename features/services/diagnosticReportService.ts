@@ -19,7 +19,7 @@ export const usePatientDiagnosticReports = (patientId: string) => {
     queryKey: ['diagnostic-reports', patientId],
     queryFn: async () => {
       const response = await getRequest({
-        url: `patient-management/patients/${patientId}/diagnostic-reports/`
+        url: `patient-management/patients/${patientId}/diagnosis-reports/`
       });
       return response.data.results || response.data.data || [];
     },

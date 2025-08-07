@@ -26,6 +26,7 @@ const fullSchema = yup.object().shape({
   // Personal Info fields - Required fields based on API contract
   first_name: yup.string().required("First name is required"),
   last_name: yup.string().required("Last name is required"),
+  email: yup.string().email("Invalid email format").required("Email is required"),
   address: yup.string().required("Address is required"),
   city: yup.string().required("City is required"),
   state: yup.string().required("State is required"),
@@ -74,6 +75,7 @@ const fullSchema = yup.object().shape({
 type FullFormData = {
   first_name: string;
   last_name: string;
+  email: string;
   address: string;
   city: string;
   state: string;
@@ -142,6 +144,7 @@ const CreatePatientDialog: React.FC<CreatePatientDialogProps> = ({
     defaultValues: {
       first_name: "",
       last_name: "",
+      email: "",
       address: "",
       city: "",
       state: "",
@@ -174,7 +177,7 @@ const CreatePatientDialog: React.FC<CreatePatientDialogProps> = ({
   });
 
   const handleNext = () => {
-    if (step < 3) {
+    if (step < 4) {
       setStep(step + 1);
     }
   };
@@ -306,7 +309,7 @@ const CreatePatientDialog: React.FC<CreatePatientDialogProps> = ({
           </DialogTitle>
         </DialogHeader>
 
-        <Forge control={control} onSubmit={onSubmit} debug>
+        <Forge control={control} onSubmit={onSubmit}>
           {/* Step 1: Personal Information */}
           {step === 1 && (
             <div className="space-y-6">
@@ -328,6 +331,14 @@ const CreatePatientDialog: React.FC<CreatePatientDialogProps> = ({
                   placeholder="Last Name"
                 />
               </div>
+
+              <Forger
+                name="email"
+                component={TextInput}
+                label="Email Address"
+                placeholder="Email Address"
+                type="email"
+              />
 
               <div className="grid grid-cols-2 gap-4">
                 <Forger
@@ -414,31 +425,7 @@ const CreatePatientDialog: React.FC<CreatePatientDialogProps> = ({
                 />
               </div>
 
-              <h4 className="text-md font-medium text-gray-700 mt-6">
-                Emergency Contact Details
-              </h4>
 
-              <div className="grid grid-cols-2 gap-4">
-                <Forger
-                  name="emergency_contact.name"
-                  component={TextInput}
-                  label="Full Name"
-                  placeholder="Full Name"
-                />
-                <Forger
-                  name="emergency_contact.phone"
-                  component={TextInput}
-                  label="Phone Number"
-                  placeholder="Phone Number"
-                />
-              </div>
-
-              <Forger
-                name="emergency_contact.address"
-                component={TextInput}
-                label="Address"
-                placeholder="Address"
-              />
             </div>
           )}
 
@@ -566,6 +553,37 @@ const CreatePatientDialog: React.FC<CreatePatientDialogProps> = ({
             </div>
           )}
 
+          {/* Step 4: Emergency Contact Details */}
+          {step === 4 && (
+            <div className="space-y-6">
+              <h3 className="text-lg font-medium text-gray-700">
+                Emergency Contact Details
+              </h3>
+
+              <div className="grid grid-cols-2 gap-4">
+                <Forger
+                  name="emergency_contact.name"
+                  component={TextInput}
+                  label="Full Name"
+                  placeholder="Full Name"
+                />
+                <Forger
+                  name="emergency_contact.phone"
+                  component={TextInput}
+                  label="Phone Number"
+                  placeholder="Phone Number"
+                />
+              </div>
+
+              <Forger
+                name="emergency_contact.address"
+                component={TextInput}
+                label="Address"
+                placeholder="Address"
+              />
+            </div>
+          )}
+
           {/* Navigation Buttons */}
           <div className="flex justify-between mt-8">
             <Button
@@ -578,7 +596,7 @@ const CreatePatientDialog: React.FC<CreatePatientDialogProps> = ({
               Back
             </Button>
 
-            {step < 3 ? (
+            {step < 4 ? (
               <Button
                 type="button"
                 onClick={handleNext}
