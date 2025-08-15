@@ -73,7 +73,7 @@ export const columns: ColumnDef<PatientType>[] = [
     cell: ({ row }) => { // Changed to access row
       const patient = row.original;
       return (
-        <Link href={`/doctor/patients/${patient.patientId}/add-vital-signs`}>
+        <Link href={`/doctor/patients/${patient.patientId}`}>
           <Button variant="ghost" size="icon" className="h-8 w-8 p-0">
             <Edit className="h-4 w-4" />
           </Button>

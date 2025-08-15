@@ -104,7 +104,7 @@ export function LoginForm() {
       case "patient":
         router.push("/patient/dashboard");
         break;
-      case "pharmacy":
+      case "pharmacist":
         router.push("/pharmacy/dashboard");
         break;
       case "lab_scientist":
@@ -127,9 +127,15 @@ export function LoginForm() {
       <Card className="mt-7 w-full text-xs max-w-[400px] border-none shadow-none bg-transparent">
         <CardContent className="p-0 space-y-2.5">
           <Forge control={control} onSubmit={handleSubmit} ref={formRef} />
-          <div className="flex items-center">
+          <div className="flex items-center justify-between">
             <Link href="/forgot-password" className="mt- font-medium text-teal-600">
               Forgot Password?
+            </Link>
+            <Link
+              href="/patient-registration"
+              className="font-semibold text-[#0D277F] hover:underline"
+            >
+              New Patient? Register
             </Link>
           </div>
 

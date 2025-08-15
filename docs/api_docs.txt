@@ -1387,7 +1387,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "// Super Admin\r\n{\r\n    \"email\": \"admin@medteqpro.com\",\r\n    \"password\": \"adminadmin\"\r\n}\r\n\r\n// Staff Admin\r\n// {\r\n//     \"email\": \"naarons700@gmail.com\",\r\n//     \"password\": \"userpass112\"\r\n// }\r\n\r\n// Hospital Admin\r\n// {\r\n//     \"email\": \"naarons800@gmail.com\",\r\n//     \"password\": \"AdamsCharles@20250514\"\r\n// }\r\n\r\n// Doctor\r\n// {\r\n//     \"email\": \"aaronnwokoro@gmail.com\",\r\n//     \"password\": \"userpass112\"\r\n// }",
+							"raw": "// Super Admin\r\n// {\r\n//     \"email\": \"admin@medteqpro.com\",\r\n//     \"password\": \"adminadmin\"\r\n// }\r\n\r\n// Staff Admin\r\n// {\r\n//     \"email\": \"naarons700@gmail.com\",\r\n//     \"password\": \"userpass112\"\r\n// }\r\n\r\n// Hospital Admin\r\n// {\r\n//     \"email\": \"naarons800@gmail.com\",\r\n//     \"password\": \"AdamsCharles@20250514\"\r\n// }\r\n\r\n// Doctor\r\n// {\r\n//     \"email\": \"aaronnwokoro@gmail.com\",\r\n//     \"password\": \"userpass112\"\r\n// }\r\n\r\n// Nurse\r\n{\r\n    \"email\": \"naarons900@gmail.com\",\r\n    \"password\": \"userpass112\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1395,9 +1395,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{PROD}}auth/login/",
+							"raw": "{{LOCAL}}auth/login/",
 							"host": [
-								"{{PROD}}auth"
+								"{{LOCAL}}auth"
 							],
 							"path": [
 								"login",
@@ -1590,6 +1590,218 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "User Profile",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{doctor_prod}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{PROD}}auth/user/",
+							"host": [
+								"{{PROD}}auth"
+							],
+							"path": [
+								"user",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "ok",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{PROD}}auth/user/",
+									"host": [
+										"{{PROD}}auth"
+									],
+									"path": [
+										"user",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Wed, 13 Aug 2025 17:33:56 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "594"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Server",
+									"value": "gunicorn"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, PATCH, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"message\": \"User details retrieved successfully.\",\n    \"data\": {\n        \"id\": \"55a973b7-4035-42b2-8d68-a8bc0ffdf6b5\",\n        \"email\": \"yitah65290@ahvin.com\",\n        \"first_name\": \"Hellen\",\n        \"last_name\": \"Collier\",\n        \"phone_number\": null,\n        \"hospital\": {\n            \"id\": \"75eae182-b7a7-423c-ac8b-f89633b3a55e\",\n            \"name\": \"Harley\",\n            \"email\": null,\n            \"phone_number\": null,\n            \"state\": \"Lagos\",\n            \"city\": \"Lagos Mainland\",\n            \"address\": \"551 Hudson Parkways\",\n            \"avatar\": null,\n            \"status\": \"active\",\n            \"created_at\": \"2025-07-17T07:50:09.277984Z\",\n            \"updated_at\": \"2025-07-17T08:04:42.557183Z\"\n        },\n        \"role\": \"doctor\",\n        \"is_active\": true,\n        \"is_staff\": false,\n        \"specialization\": null,\n        \"avatar\": null\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Update User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{doctor_prod}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    // \"first_name\": \"\", \r\n    // \"middle_name\": \"\",\r\n    // \"last_name\": \"\", \r\n    // \"phone_number\": \"\", \r\n    \"specialization\": \"Gynaecologist\"\r\n    // \"avatar\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{PROD}}auth/user/",
+							"host": [
+								"{{PROD}}auth"
+							],
+							"path": [
+								"user",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "ok",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    // \"first_name\": \"\", \r\n    // \"middle_name\": \"\",\r\n    // \"last_name\": \"\", \r\n    // \"phone_number\": \"\", \r\n    \"specialization\": \"Gynaecologist\"\r\n    // \"avatar\": \"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{PROD}}auth/user/",
+									"host": [
+										"{{PROD}}auth"
+									],
+									"path": [
+										"user",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Wed, 13 Aug 2025 17:47:08 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "230"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Server",
+									"value": "gunicorn"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, PATCH, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"message\": \"User details updated successfully.\",\n    \"data\": {\n        \"email\": \"yitah65290@ahvin.com\",\n        \"first_name\": \"Hellen\",\n        \"middle_name\": \"\",\n        \"last_name\": \"Collier\",\n        \"phone_number\": null,\n        \"specialization\": \"Gynaecologist\",\n        \"avatar\": null\n    }\n}"
+						}
+					]
 				}
 			]
 		},
@@ -1722,7 +1934,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"uid\": \"ZjE4NDFkODctZWQ0OC00NGUwLWE3NTUtMDkzZTVmMGNjNzIx\",\r\n    \"token\": \"cpyi5s-7fc2fbd1edd1acad233866c2c50c1f24\",\r\n    \"password\": \"userpass112\"\r\n}\r\n\r\n// http://localhost:3000/set-password/?uid=ZjE4NDFkODctZWQ0OC00NGUwLWE3NTUtMDkzZTVmMGNjNzIx&token=cpyi5s-7fc2fbd1edd1acad233866c2c50c1f24",
+									"raw": "{\r\n    \"uid\": \"ZDE2ODVlZWYtODNkZi00ZWIwLWI2MmQtMDg2MTk2OWJiMzc4\",\r\n    \"token\": \"cu0up2-7807062cbd5417f1254f9e7e66ac4df6\",\r\n    \"password\": \"userpass112\"\r\n}\r\n\r\n// http://localhost:3000/set-password/?uid=ZjE4NDFkODctZWQ0OC00NGUwLWE3NTUtMDkzZTVmMGNjNzIx&token=cpyi5s-7fc2fbd1edd1acad233866c2c50c1f24",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -2186,6 +2398,115 @@
 									],
 									"cookie": [],
 									"body": "{\n    \"status\": true,\n    \"message\": \"Work status updated successfully.\",\n    \"data\": {\n        \"status\": \"on_leave\",\n        \"reason\": \"Maternity\",\n        \"start_date\": \"2025-10-01T00:00:00Z\",\n        \"end_date\": \"2026-10-01T00:00:00Z\"\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Reinvite Staff",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{hospital_admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}hospital-admin/staff/:staff_id/reinvite/",
+									"host": [
+										"{{LOCAL}}hospital-admin"
+									],
+									"path": [
+										"staff",
+										":staff_id",
+										"reinvite",
+										""
+									],
+									"variable": [
+										{
+											"key": "staff_id",
+											"value": "d1685eef-83df-4eb0-b62d-0861969bb378"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "ok",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{LOCAL}}hospital-admin/staff/:staff_id/reinvite/",
+											"host": [
+												"{{LOCAL}}hospital-admin"
+											],
+											"path": [
+												"staff",
+												":staff_id",
+												"reinvite",
+												""
+											],
+											"variable": [
+												{
+													"key": "staff_id",
+													"value": "d1685eef-83df-4eb0-b62d-0861969bb378"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "Date",
+											"value": "Mon, 04 Aug 2025 16:42:25 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "WSGIServer/0.2 CPython/3.10.0"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Allow",
+											"value": "POST, OPTIONS"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "DENY"
+										},
+										{
+											"key": "Vary",
+											"value": "origin"
+										},
+										{
+											"key": "Content-Length",
+											"value": "230"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": true,\n    \"message\": \"Reinvitation sent successfully.\",\n    \"data\": {\n        \"staff_id\": \"d1685eef-83df-4eb0-b62d-0861969bb378\",\n        \"email\": \"naarons900@gmail.com\",\n        \"role\": \"nurse\",\n        \"first_name\": \"Mary\",\n        \"last_name\": \"James\",\n        \"hospital\": \"Divine Mercy\"\n    }\n}"
 								}
 							]
 						}
@@ -5951,7 +6272,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "{{doctor}}",
+									"value": "{{hospital_admin}}",
 									"type": "string"
 								}
 							]
@@ -6006,7 +6327,7 @@
 							"header": [
 								{
 									"key": "Date",
-									"value": "Sat, 17 May 2025 17:57:30 GMT"
+									"value": "Thu, 24 Jul 2025 08:54:30 GMT"
 								},
 								{
 									"key": "Server",
@@ -6030,7 +6351,7 @@
 								},
 								{
 									"key": "Content-Length",
-									"value": "1515"
+									"value": "1628"
 								},
 								{
 									"key": "X-Content-Type-Options",
@@ -6046,7 +6367,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"status\": true,\n    \"data\": {\n        \"id\": \"a937ab0f-eb3d-4e07-9a09-3a3e4d29a54f\",\n        \"hospital\": \"8bcb6a27-c7a6-4ece-a9fc-409e693ef03d\",\n        \"family\": {\n            \"id\": \"9380f74e-f5ed-4281-ba73-5ebeb3e0d4cc\",\n            \"family_name\": \"Trump\",\n            \"no_of_members\": 1,\n            \"created_at\": \"2025-05-17T17:25:41.076072Z\",\n            \"updated_at\": \"2025-05-17T17:25:41.076072Z\"\n        },\n        \"first_name\": \"John\",\n        \"last_name\": \"Trump\",\n        \"middle_name\": \"Mark\",\n        \"full_name\": \"John Mark Trump\",\n        \"patient_type\": \"family\",\n        \"date_of_birth\": \"1992-03-20\",\n        \"age\": 33,\n        \"gender\": \"male\",\n        \"phone_number\": \"1264567890\",\n        \"email\": \"john.trump@example.com\",\n        \"address\": \"123 Main St\",\n        \"city\": \"Anytown\",\n        \"state\": \"Anystate\",\n        \"employment_status\": \"Employed\",\n        \"height\": 165,\n        \"weight\": 60,\n        \"bmi\": 22.04,\n        \"blood_group\": \"O+\",\n        \"genotype\": \"AA\",\n        \"allergies\": \"Pollen, Dust\",\n        \"chronic_conditions\": \"None\",\n        \"current_medications\": [\n            {\n                \"dosage\": \"500mg\",\n                \"frequency\": \"twice daily\",\n                \"medication\": \"Aspirin\"\n            }\n        ],\n        \"family_history\": \"Diabetes (Mother)\",\n        \"surgical_history\": \"Appendectomy (2010)\",\n        \"hereditary_conditions\": \"None\",\n        \"other_conditions\": \"None\",\n        \"emergency_contact\": {\n            \"name\": \"John Smith\",\n            \"phone\": \"0987654321\",\n            \"relationship\": \"Spouse\",\n            \"address\": \"123 Main St, Anytown\"\n        },\n        \"marital_status\": \"married\",\n        \"social_history\": {\n            \"smoking\": \"Non-smoker\",\n            \"alcohol\": \"Occasional\",\n            \"drug_use\": \"n/a\",\n            \"sexual_history\": null,\n            \"exercise\": \"Regular\",\n            \"diet\": \"Balanced\",\n            \"other_habits\": null,\n            \"created_at\": \"2025-05-17T17:52:38.602017Z\",\n            \"updated_at\": \"2025-05-17T17:52:38.602017Z\"\n        },\n        \"created_at\": \"2025-05-17T17:52:38.593613Z\",\n        \"updated_at\": \"2025-05-17T17:52:38.593613Z\",\n        \"registered_by\": \"f1841d87-ed48-44e0-a755-093e5f0cc721\"\n    }\n}"
+							"body": "{\n    \"status\": true,\n    \"data\": {\n        \"id\": \"a937ab0f-eb3d-4e07-9a09-3a3e4d29a54f\",\n        \"user_id\": null,\n        \"hospital\": \"8bcb6a27-c7a6-4ece-a9fc-409e693ef03d\",\n        \"family\": {\n            \"id\": \"9380f74e-f5ed-4281-ba73-5ebeb3e0d4cc\",\n            \"family_name\": \"Trump\",\n            \"no_of_members\": 1,\n            \"created_at\": \"2025-05-17T17:25:41.076072Z\",\n            \"updated_at\": \"2025-05-17T17:25:41.076072Z\"\n        },\n        \"first_name\": \"John\",\n        \"last_name\": \"Trump\",\n        \"middle_name\": \"Mark\",\n        \"full_name\": \"John Mark Trump\",\n        \"patient_type\": \"family\",\n        \"date_of_birth\": \"1992-03-20\",\n        \"age\": 33,\n        \"gender\": \"male\",\n        \"phone_number\": \"1264567890\",\n        \"email\": \"john.trump@example.com\",\n        \"address\": \"123 Main St\",\n        \"city\": \"Anytown\",\n        \"state\": \"Anystate\",\n        \"employment_status\": \"Employed\",\n        \"height\": 165,\n        \"weight\": 60,\n        \"bmi\": 22.04,\n        \"blood_group\": \"O+\",\n        \"genotype\": \"AA\",\n        \"allergies\": \"Pollen, Dust\",\n        \"chronic_conditions\": \"None\",\n        \"current_medications\": [\n            {\n                \"dosage\": \"500mg\",\n                \"frequency\": \"twice daily\",\n                \"medication\": \"Aspirin\"\n            }\n        ],\n        \"family_history\": \"Diabetes (Mother)\",\n        \"surgical_history\": \"Appendectomy (2010)\",\n        \"hereditary_conditions\": \"None\",\n        \"other_conditions\": \"None\",\n        \"emergency_contact\": {\n            \"name\": \"John Smith\",\n            \"phone\": \"0987654321\",\n            \"relationship\": \"Spouse\",\n            \"address\": \"123 Main St, Anytown\"\n        },\n        \"marital_status\": \"married\",\n        \"social_history\": {\n            \"smoking\": \"Non-smoker\",\n            \"alcohol\": \"Occasional\",\n            \"drug_use\": \"n/a\",\n            \"sexual_history\": null,\n            \"exercise\": \"Regular\",\n            \"diet\": \"Balanced\",\n            \"other_habits\": null,\n            \"created_at\": \"2025-05-17T17:52:38.602017Z\",\n            \"updated_at\": \"2025-05-17T17:52:38.602017Z\"\n        },\n        \"created_at\": \"2025-05-17T17:52:38.593613Z\",\n        \"updated_at\": \"2025-05-17T17:52:38.593613Z\",\n        \"registered_by\": \"f1841d87-ed48-44e0-a755-093e5f0cc721\",\n        \"last_seen\": {\n            \"doctor\": null,\n            \"nurse\": \"2025-05-18T10:00:00Z\",\n            \"lab_scientist\": null,\n            \"pharmacist\": null\n        }\n    }\n}"
 						}
 					]
 				},
@@ -6927,6 +7248,16 @@
 						{
 							"name": "Analytics",
 							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{nurse}}",
+											"type": "string"
+										}
+									]
+								},
 								"method": "GET",
 								"header": [],
 								"url": {
@@ -6940,7 +7271,72 @@
 									]
 								}
 							},
-							"response": []
+							"response": [
+								{
+									"name": "Analytics",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{LOCAL}}dashboard/nurse/",
+											"host": [
+												"{{LOCAL}}dashboard"
+											],
+											"path": [
+												"nurse",
+												""
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "Date",
+											"value": "Mon, 04 Aug 2025 16:49:05 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "WSGIServer/0.2 CPython/3.10.0"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Allow",
+											"value": "GET, HEAD, OPTIONS"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "DENY"
+										},
+										{
+											"key": "Vary",
+											"value": "origin"
+										},
+										{
+											"key": "Content-Length",
+											"value": "268"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": true,\n    \"message\": \"Nurse dashboard analytics retrieved successfully.\",\n    \"data\": {\n        \"analytics\": {\n            \"no_of_patients\": 0,\n            \"no_of_wound_care_patients\": 0,\n            \"no_of_injections_administered\": 0,\n            \"no_of_upcoming_appointments\": 0\n        },\n        \"monthly_visitation_table\": [\n            0,\n            0,\n            0,\n            0,\n            0,\n            0,\n            0,\n            0,\n            0,\n            0,\n            0,\n            0\n        ]\n    }\n}"
+								}
+							]
 						}
 					]
 				},
@@ -7009,12 +7405,22 @@
 						{
 							"name": "Analytics",
 							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{doctor_prod}}",
+											"type": "string"
+										}
+									]
+								},
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{LOCAL}}dashboard/doctor/",
+									"raw": "{{PROD}}dashboard/doctor/",
 									"host": [
-										"{{LOCAL}}dashboard"
+										"{{PROD}}dashboard"
 									],
 									"path": [
 										"doctor",
@@ -7107,6 +7513,16 @@
 				{
 					"name": "Visitation List",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{nurse}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -7137,11 +7553,103 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Visitation List",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}dashboard/visitation-list/",
+									"host": [
+										"{{LOCAL}}dashboard"
+									],
+									"path": [
+										"visitation-list",
+										""
+									],
+									"query": [
+										{
+											"key": "patient_name",
+											"value": null,
+											"disabled": true
+										},
+										{
+											"key": "start_date",
+											"value": null,
+											"disabled": true
+										},
+										{
+											"key": "end_date",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 04 Aug 2025 16:50:26 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.10.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Length",
+									"value": "365"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"count\": 2,\n    \"next\": null,\n    \"previous\": null,\n    \"results\": [\n        {\n            \"patient_id\": \"f81abbb2-8841-4f3a-8d01-6c2d287df4b0\",\n            \"patient_fullname\": \"Aaron Lennon\",\n            \"no_of_visits\": 4,\n            \"last_visit_date\": \"2025-09-21\",\n            \"status\": \"rescheduled\"\n        },\n        {\n            \"patient_id\": \"8b2e59ba-7964-4e3d-ad36-5ff47b6c0094\",\n            \"patient_fullname\": \"Jane Doe\",\n            \"no_of_visits\": 6,\n            \"last_visit_date\": \"2025-07-21\",\n            \"status\": \"rescheduled\"\n        }\n    ]\n}"
+						}
+					]
 				},
 				{
 					"name": "Upcoming Appointments List",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{nurse}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -8058,6 +8566,988 @@
 								"hospital",
 								"drug-reconciliations",
 								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Drug Request list",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{hospital_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{LOCAL}}drug-management/hospital/drug-requests/",
+							"host": [
+								"{{LOCAL}}drug-management"
+							],
+							"path": [
+								"hospital",
+								"drug-requests",
+								""
+							],
+							"query": [
+								{
+									"key": "date_from",
+									"value": "",
+									"description": "YYYY-MM-DD",
+									"disabled": true
+								},
+								{
+									"key": "date_to",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "search",
+									"value": "pana",
+									"description": "drug name",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Drug Request list",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}drug-management/hospital/drug-requests/",
+									"host": [
+										"{{LOCAL}}drug-management"
+									],
+									"path": [
+										"hospital",
+										"drug-requests",
+										""
+									],
+									"query": [
+										{
+											"key": "date_from",
+											"value": null,
+											"description": "YYYY-MM-DD",
+											"disabled": true
+										},
+										{
+											"key": "date_to",
+											"value": null,
+											"disabled": true
+										},
+										{
+											"key": "search",
+											"value": null,
+											"description": "drug name",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sun, 13 Jul 2025 18:37:30 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.10.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, POST, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1083"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"count\": 2,\n    \"next\": null,\n    \"previous\": null,\n    \"results\": [\n        {\n            \"id\": \"901f8b59-24e5-4250-a070-3c5372219c59\",\n            \"hospital\": \"Divine Mercy\",\n            \"drug_name_requested\": \"Panadol\",\n            \"drug_type_requested\": \"tablet\",\n            \"drug_category_requested\": \"analgesic\",\n            \"quantity_requested\": 50,\n            \"quantity_approved\": null,\n            \"status\": \"pending\",\n            \"requested_by\": \"Adams Charles\",\n            \"approved_or_rejected_by\": null,\n            \"action_date\": null,\n            \"reason_for_request\": \"Stock running low\",\n            \"rejection_reason\": null,\n            \"created_at\": \"2025-07-13T18:36:23.337114Z\",\n            \"updated_at\": \"2025-07-13T18:36:23.337114Z\",\n            \"quantity_in_stock_of_requested_drug\": 25\n        },\n        {\n            \"id\": \"18b17ec2-7df8-4d1b-bcac-a2db7ef4c333\",\n            \"hospital\": \"Divine Mercy\",\n            \"drug_name_requested\": \"Paracetamol\",\n            \"drug_type_requested\": \"tablet\",\n            \"drug_category_requested\": \"analgesic\",\n            \"quantity_requested\": 50,\n            \"quantity_approved\": null,\n            \"status\": \"pending\",\n            \"requested_by\": \"Adams Charles\",\n            \"approved_or_rejected_by\": null,\n            \"action_date\": null,\n            \"reason_for_request\": \"Stock running low\",\n            \"rejection_reason\": null,\n            \"created_at\": \"2025-07-13T18:35:43.763764Z\",\n            \"updated_at\": \"2025-07-13T18:35:43.763764Z\",\n            \"quantity_in_stock_of_requested_drug\": 50\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Request Drug",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{hospital_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"drug_name_requested\": \"Panadol\",\r\n  \"drug_type_requested\": \"tablet\",\r\n  \"drug_category_requested\": \"analgesic\",\r\n  \"quantity_requested\": 50,\r\n  \"reason_for_request\": \"Stock running low\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{LOCAL}}drug-management/hospital/drug-requests/",
+							"host": [
+								"{{LOCAL}}drug-management"
+							],
+							"path": [
+								"hospital",
+								"drug-requests",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"drug_name_requested\": \"Panadol\",\r\n  \"drug_type_requested\": \"tablet\",\r\n  \"drug_category_requested\": \"analgesic\",\r\n  \"quantity_requested\": 50,\r\n  \"reason_for_request\": \"Stock running low\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL}}drug-management/hospital/drug-requests/",
+									"host": [
+										"{{LOCAL}}drug-management"
+									],
+									"path": [
+										"hospital",
+										"drug-requests",
+										""
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sun, 13 Jul 2025 18:37:41 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.10.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, POST, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Length",
+									"value": "513"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"1fd891dd-54f6-4eb2-a835-10a3d14b8628\",\n    \"hospital\": \"Divine Mercy\",\n    \"drug_name_requested\": \"Panadol\",\n    \"drug_type_requested\": \"tablet\",\n    \"drug_category_requested\": \"analgesic\",\n    \"quantity_requested\": 50,\n    \"quantity_approved\": null,\n    \"status\": \"pending\",\n    \"requested_by\": \"Adams Charles\",\n    \"approved_or_rejected_by\": null,\n    \"action_date\": null,\n    \"reason_for_request\": \"Stock running low\",\n    \"rejection_reason\": null,\n    \"created_at\": \"2025-07-13T18:37:41.981979Z\",\n    \"updated_at\": \"2025-07-13T18:37:41.981979Z\",\n    \"quantity_in_stock_of_requested_drug\": 25\n}"
+						}
+					]
+				},
+				{
+					"name": "Approve/Reject Drug Request",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{hospital_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"rejection_reason\": \"Insufficient stock\"\r\n}\r\n\r\n// for approval, quantity-approved is compulsory\r\n// {\r\n//   \"quantity_approved\": 40\r\n// }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{LOCAL}}drug-management/hospital/drug-requests/:request_id/:action/",
+							"host": [
+								"{{LOCAL}}drug-management"
+							],
+							"path": [
+								"hospital",
+								"drug-requests",
+								":request_id",
+								":action",
+								""
+							],
+							"variable": [
+								{
+									"key": "request_id",
+									"value": "1fd891dd-54f6-4eb2-a835-10a3d14b8628"
+								},
+								{
+									"key": "action",
+									"value": "reject",
+									"description": "approve or reject"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"rejection_reason\": \"Insufficient stock\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL}}drug-management/hospital/drug-requests/:request_id/:action/",
+									"host": [
+										"{{LOCAL}}drug-management"
+									],
+									"path": [
+										"hospital",
+										"drug-requests",
+										":request_id",
+										":action",
+										""
+									],
+									"variable": [
+										{
+											"key": "request_id",
+											"value": "1fd891dd-54f6-4eb2-a835-10a3d14b8628"
+										},
+										{
+											"key": "action",
+											"value": "reject",
+											"description": "approve or reject"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sun, 13 Jul 2025 18:52:39 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.10.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Allow",
+									"value": "POST, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1083"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"1fd891dd-54f6-4eb2-a835-10a3d14b8628\",\n    \"hospital\": \"Divine Mercy\",\n    \"drug_name_requested\": \"Panadol\",\n    \"drug_type_requested\": \"tablet\",\n    \"drug_category_requested\": \"analgesic\",\n    \"quantity_requested\": 50,\n    \"quantity_approved\": null,\n    \"status\": \"rejected\",\n    \"requested_by\": \"Adams Charles\",\n    \"approved_or_rejected_by\": \"Adams Charles\",\n    \"action_date\": \"2025-07-13T18:52:39.274590Z\",\n    \"reason_for_request\": \"Stock running low\",\n    \"rejection_reason\": \"Insufficient stock\",\n    \"created_at\": \"2025-07-13T18:37:41.981979Z\",\n    \"updated_at\": \"2025-07-13T18:52:39.274590Z\",\n    \"quantity_in_stock_of_requested_drug\": 25\n}"
+						}
+					]
+				},
+				{
+					"name": "List Drug Orders",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{hospital_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{LOCAL}}drug-management/hospital/drug-orders/",
+							"host": [
+								"{{LOCAL}}drug-management"
+							],
+							"path": [
+								"hospital",
+								"drug-orders",
+								""
+							],
+							"query": [
+								{
+									"key": "patient_type",
+									"value": "family",
+									"description": "individual or family",
+									"disabled": true
+								},
+								{
+									"key": "status",
+									"value": "pending_pickup",
+									"description": "pending_pickup or picked_up or cancelled",
+									"disabled": true
+								},
+								{
+									"key": "search",
+									"value": null,
+									"description": "patient name or patient id",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}drug-management/hospital/drug-orders/",
+									"host": [
+										"{{LOCAL}}drug-management"
+									],
+									"path": [
+										"hospital",
+										"drug-orders",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 14 Jul 2025 08:29:33 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.10.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, POST, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Length",
+									"value": "956"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"count\": 1,\n    \"next\": null,\n    \"previous\": null,\n    \"results\": [\n        {\n            \"id\": \"f3110d9c-99c8-4824-9f37-b90a375083ef\",\n            \"hospital\": \"Divine Mercy\",\n            \"patient\": \"Aaron Lennon\",\n            \"pickup_date\": \"2025-07-14T10:00:00Z\",\n            \"status\": \"pending_pickup\",\n            \"items\": [\n                {\n                    \"id\": \"97985de6-8ca2-49a7-ba45-8ab8021d1af1\",\n                    \"drug_order\": \"f3110d9c-99c8-4824-9f37-b90a375083ef\",\n                    \"drug\": {\n                        \"id\": \"d80c1312-e91f-4c03-83b1-2d4c36e05beb\",\n                        \"hospital\": \"Divine Mercy\",\n                        \"drug_name\": \"Panadol\",\n                        \"drug_type\": \"tablet\",\n                        \"drug_category\": \"analgesic\",\n                        \"drug_expiry_date\": \"2027-12-31\",\n                        \"drug_price\": \"5000.00\",\n                        \"quantity_in_stock\": 23,\n                        \"initial_stock_at_creation\": 0,\n                        \"countdown_to_expiration\": 900,\n                        \"created_at\": \"2025-06-25T17:04:07.679661Z\",\n                        \"updated_at\": \"2025-07-14T08:14:16.807975Z\",\n                        \"created_by\": \"Adams Charles\",\n                        \"is_archived\": false\n                    },\n                    \"quantity\": 2,\n                    \"created_at\": \"2025-07-14T08:14:16.776047Z\",\n                    \"updated_at\": \"2025-07-14T08:14:16.776047Z\"\n                }\n            ],\n            \"created_at\": \"2025-07-14T08:14:16.763801Z\",\n            \"updated_at\": \"2025-07-14T08:14:16.763801Z\",\n            \"created_by\": \"Adams Charles\"\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Drug Order Overview",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{hospital_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{LOCAL}}drug-management/hospital/drug-orders/overview/",
+							"host": [
+								"{{LOCAL}}drug-management"
+							],
+							"path": [
+								"hospital",
+								"drug-orders",
+								"overview",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}drug-management/hospital/drug-orders/overview/",
+									"host": [
+										"{{LOCAL}}drug-management"
+									],
+									"path": [
+										"hospital",
+										"drug-orders",
+										"overview",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 14 Jul 2025 08:07:16 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.10.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Length",
+									"value": "82"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"total_completed_orders\": 0,\n    \"total_pending_pickups\": 0,\n    \"total_cancelled_pickups\": 0\n}"
+						}
+					]
+				},
+				{
+					"name": "Create Drug Orders",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{hospital_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"patient_id\": \"f81abbb2-8841-4f3a-8d01-6c2d287df4b0\",\r\n  \"pickup_date\": \"2025-07-14T10:00:00Z\",\r\n  \"items\": [\r\n    {\r\n      \"drug_id\": \"d80c1312-e91f-4c03-83b1-2d4c36e05beb\",\r\n      \"quantity\": 2\r\n    }\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{LOCAL}}drug-management/hospital/drug-orders/",
+							"host": [
+								"{{LOCAL}}drug-management"
+							],
+							"path": [
+								"hospital",
+								"drug-orders",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"patient_id\": \"f81abbb2-8841-4f3a-8d01-6c2d287df4b0\",\r\n  \"pickup_date\": \"2025-07-14T10:00:00Z\",\r\n  \"items\": [\r\n    {\r\n      \"drug_id\": \"d80c1312-e91f-4c03-83b1-2d4c36e05beb\",\r\n      \"quantity\": 2\r\n    }\r\n  ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL}}drug-management/hospital/drug-orders/",
+									"host": [
+										"{{LOCAL}}drug-management"
+									],
+									"path": [
+										"hospital",
+										"drug-orders",
+										""
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 14 Jul 2025 08:14:16 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.10.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, POST, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Length",
+									"value": "904"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"f3110d9c-99c8-4824-9f37-b90a375083ef\",\n    \"hospital\": \"Divine Mercy\",\n    \"patient\": \"Aaron Lennon\",\n    \"pickup_date\": \"2025-07-14T10:00:00Z\",\n    \"status\": \"pending_pickup\",\n    \"items\": [\n        {\n            \"id\": \"97985de6-8ca2-49a7-ba45-8ab8021d1af1\",\n            \"drug_order\": \"f3110d9c-99c8-4824-9f37-b90a375083ef\",\n            \"drug\": {\n                \"id\": \"d80c1312-e91f-4c03-83b1-2d4c36e05beb\",\n                \"hospital\": \"Divine Mercy\",\n                \"drug_name\": \"Panadol\",\n                \"drug_type\": \"tablet\",\n                \"drug_category\": \"analgesic\",\n                \"drug_expiry_date\": \"2027-12-31\",\n                \"drug_price\": \"5000.00\",\n                \"quantity_in_stock\": 23,\n                \"initial_stock_at_creation\": 0,\n                \"countdown_to_expiration\": 900,\n                \"created_at\": \"2025-06-25T17:04:07.679661Z\",\n                \"updated_at\": \"2025-07-14T08:14:16.807975Z\",\n                \"created_by\": \"Adams Charles\",\n                \"is_archived\": false\n            },\n            \"quantity\": 2,\n            \"created_at\": \"2025-07-14T08:14:16.776047Z\",\n            \"updated_at\": \"2025-07-14T08:14:16.776047Z\"\n        }\n    ],\n    \"created_at\": \"2025-07-14T08:14:16.763801Z\",\n    \"updated_at\": \"2025-07-14T08:14:16.763801Z\",\n    \"created_by\": \"Adams Charles\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Get Drug Order",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{hospital_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{LOCAL}}drug-management/hospital/drug-orders/:order_id/",
+							"host": [
+								"{{LOCAL}}drug-management"
+							],
+							"path": [
+								"hospital",
+								"drug-orders",
+								":order_id",
+								""
+							],
+							"variable": [
+								{
+									"key": "order_id",
+									"value": "f3110d9c-99c8-4824-9f37-b90a375083ef"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}drug-management/hospital/drug-orders/:order_id/",
+									"host": [
+										"{{LOCAL}}drug-management"
+									],
+									"path": [
+										"hospital",
+										"drug-orders",
+										":order_id",
+										""
+									],
+									"variable": [
+										{
+											"key": "order_id",
+											"value": "f3110d9c-99c8-4824-9f37-b90a375083ef"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 14 Jul 2025 08:30:36 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.10.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, PUT, DELETE, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Length",
+									"value": "904"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"f3110d9c-99c8-4824-9f37-b90a375083ef\",\n    \"hospital\": \"Divine Mercy\",\n    \"patient\": \"Aaron Lennon\",\n    \"pickup_date\": \"2025-07-14T10:00:00Z\",\n    \"status\": \"pending_pickup\",\n    \"items\": [\n        {\n            \"id\": \"97985de6-8ca2-49a7-ba45-8ab8021d1af1\",\n            \"drug_order\": \"f3110d9c-99c8-4824-9f37-b90a375083ef\",\n            \"drug\": {\n                \"id\": \"d80c1312-e91f-4c03-83b1-2d4c36e05beb\",\n                \"hospital\": \"Divine Mercy\",\n                \"drug_name\": \"Panadol\",\n                \"drug_type\": \"tablet\",\n                \"drug_category\": \"analgesic\",\n                \"drug_expiry_date\": \"2027-12-31\",\n                \"drug_price\": \"5000.00\",\n                \"quantity_in_stock\": 23,\n                \"initial_stock_at_creation\": 0,\n                \"countdown_to_expiration\": 900,\n                \"created_at\": \"2025-06-25T17:04:07.679661Z\",\n                \"updated_at\": \"2025-07-14T08:14:16.807975Z\",\n                \"created_by\": \"Adams Charles\",\n                \"is_archived\": false\n            },\n            \"quantity\": 2,\n            \"created_at\": \"2025-07-14T08:14:16.776047Z\",\n            \"updated_at\": \"2025-07-14T08:14:16.776047Z\"\n        }\n    ],\n    \"created_at\": \"2025-07-14T08:14:16.763801Z\",\n    \"updated_at\": \"2025-07-14T08:14:16.763801Z\",\n    \"created_by\": \"Adams Charles\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Update Drug Order",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{hospital_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"status\": \"picked_up\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{LOCAL}}drug-management/hospital/drug-orders/:order_id/",
+							"host": [
+								"{{LOCAL}}drug-management"
+							],
+							"path": [
+								"hospital",
+								"drug-orders",
+								":order_id",
+								""
+							],
+							"variable": [
+								{
+									"key": "order_id",
+									"value": "f3110d9c-99c8-4824-9f37-b90a375083ef"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "success",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"status\": \"picked_up\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL}}drug-management/hospital/drug-orders/:order_id/",
+									"host": [
+										"{{LOCAL}}drug-management"
+									],
+									"path": [
+										"hospital",
+										"drug-orders",
+										":order_id",
+										""
+									],
+									"variable": [
+										{
+											"key": "order_id",
+											"value": "f3110d9c-99c8-4824-9f37-b90a375083ef"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 14 Jul 2025 08:34:48 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.10.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, PATCH, DELETE, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Length",
+									"value": "899"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"f3110d9c-99c8-4824-9f37-b90a375083ef\",\n    \"hospital\": \"Divine Mercy\",\n    \"patient\": \"Aaron Lennon\",\n    \"pickup_date\": \"2025-07-14T10:00:00Z\",\n    \"status\": \"picked_up\",\n    \"items\": [\n        {\n            \"id\": \"97985de6-8ca2-49a7-ba45-8ab8021d1af1\",\n            \"drug_order\": \"f3110d9c-99c8-4824-9f37-b90a375083ef\",\n            \"drug\": {\n                \"id\": \"d80c1312-e91f-4c03-83b1-2d4c36e05beb\",\n                \"hospital\": \"Divine Mercy\",\n                \"drug_name\": \"Panadol\",\n                \"drug_type\": \"tablet\",\n                \"drug_category\": \"analgesic\",\n                \"drug_expiry_date\": \"2027-12-31\",\n                \"drug_price\": \"5000.00\",\n                \"quantity_in_stock\": 23,\n                \"initial_stock_at_creation\": 0,\n                \"countdown_to_expiration\": 900,\n                \"created_at\": \"2025-06-25T17:04:07.679661Z\",\n                \"updated_at\": \"2025-07-14T08:14:16.807975Z\",\n                \"created_by\": \"Adams Charles\",\n                \"is_archived\": false\n            },\n            \"quantity\": 2,\n            \"created_at\": \"2025-07-14T08:14:16.776047Z\",\n            \"updated_at\": \"2025-07-14T08:14:16.776047Z\"\n        }\n    ],\n    \"created_at\": \"2025-07-14T08:14:16.763801Z\",\n    \"updated_at\": \"2025-07-14T08:34:48.462482Z\",\n    \"created_by\": \"Adams Charles\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete Drug Order",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{hospital_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{LOCAL}}drug-management/hospital/drug-orders/:order_id/",
+							"host": [
+								"{{LOCAL}}drug-management"
+							],
+							"path": [
+								"hospital",
+								"drug-orders",
+								":order_id",
+								""
+							],
+							"variable": [
+								{
+									"key": "order_id",
+									"value": "f3110d9c-99c8-4824-9f37-b90a375083ef"
+								}
 							]
 						}
 					},
@@ -11522,6 +13012,577 @@
 					]
 				}
 			]
+		},
+		{
+			"name": "Patient Module",
+			"item": [
+				{
+					"name": "Auth",
+					"item": [
+						{
+							"name": "Register",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"aaron@autogon.ai\", \r\n    \"phone_number\": \"08011111111\", \r\n    \"first_name\": \"Diogo\", \r\n    \"last_name\": \"Jota\", \r\n    \"dob\": \"2000-01-29\", \r\n    \"gender\": \"male\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL}}patient-management/auth/register/",
+									"host": [
+										"{{LOCAL}}patient-management"
+									],
+									"path": [
+										"auth",
+										"register",
+										""
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Register",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"email\": \"aaron@autogon.ai\", \r\n    \"phone_number\": \"08011111111\", \r\n    \"first_name\": \"Diogo\", \r\n    \"last_name\": \"Jota\", \r\n    \"dob\": \"2000-01-29\", \r\n    \"gender\": \"male\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{LOCAL}}patient-management/auth/register/",
+											"host": [
+												"{{LOCAL}}patient-management"
+											],
+											"path": [
+												"auth",
+												"register",
+												""
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Thu, 14 Aug 2025 09:33:21 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "WSGIServer/0.2 CPython/3.10.0"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json",
+											"description": "",
+											"type": "text"
+										},
+										{
+											"key": "Allow",
+											"value": "POST, OPTIONS"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "DENY"
+										},
+										{
+											"key": "Vary",
+											"value": "origin"
+										},
+										{
+											"key": "Content-Length",
+											"value": "108"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										}
+									],
+									"cookie": [
+										{
+											"expires": "Invalid Date"
+										}
+									],
+									"body": "{\n    \"status\": true,\n    \"message\": \"Patient registered and OTP sent successfully\",\n    \"data\": {\n        \"email\": \"aaron@autogon.ai\"\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Login",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"aaron@autogon.ai\",\r\n    \"password\": \"userpass\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL}}patient-management/auth/login/",
+									"host": [
+										"{{LOCAL}}patient-management"
+									],
+									"path": [
+										"auth",
+										"login",
+										""
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Login",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"email\": \"aaron@autogon.ai\",\r\n    \"password\": \"userpass\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{LOCAL}}patient-management/auth/login/",
+											"host": [
+												"{{LOCAL}}patient-management"
+											],
+											"path": [
+												"auth",
+												"login",
+												""
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "Date",
+											"value": "Thu, 14 Aug 2025 09:48:51 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "WSGIServer/0.2 CPython/3.10.0"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Allow",
+											"value": "POST, OPTIONS"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "DENY"
+										},
+										{
+											"key": "Vary",
+											"value": "origin"
+										},
+										{
+											"key": "Content-Length",
+											"value": "1015"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": true,\n    \"message\": \"Login successful\",\n    \"data\": {\n        \"access_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU3NzU2OTMxLCJpYXQiOjE3NTUxNjQ5MzEsImp0aSI6Ijg5ZTRmMmI0MDU1MjRmYjY5NDI5ZTc0ZjI5MjFiMGU4IiwidXNlcl9pZCI6IjkxMTAzMWEzLWY1ODYtNDZmOC1hZGIxLTdmN2E4YmI0MDBiMyJ9.OdSWed3R9JgoDrsnC7yYJdD9NnzpD0UGdDXTAduuGt0\",\n        \"refresh_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc2MDM0ODkzMSwiaWF0IjoxNzU1MTY0OTMxLCJqdGkiOiIyN2Y5YzI0OGJiODA0N2YxYThkY2Q1NDgwMmExYjQ5MyIsInVzZXJfaWQiOiI5MTEwMzFhMy1mNTg2LTQ2ZjgtYWRiMS03ZjdhOGJiNDAwYjMifQ.k8jvEnAsBk9RtZE5y8IxmH5mjzg9JI-gYbffTHdqOz8\",\n        \"user\": {\n            \"id\": \"911031a3-f586-46f8-adb1-7f7a8bb400b3\",\n            \"patient_id\": \"1SM77\",\n            \"role\": \"patient\",\n            \"first_name\": \"Diogo\",\n            \"middle_name\": \"\",\n            \"last_name\": \"Jota\",\n            \"email\": \"aaron@autogon.ai\",\n            \"phone_number\": \"08011111111\",\n            \"dob\": \"2000-01-29\",\n            \"gender\": \"male\",\n            \"avatar\": null,\n            \"two_factor_auth\": false,\n            \"is_active\": true,\n            \"date_registered\": \"2025-08-14 09:33:21\",\n            \"last_login\": \"2025-08-14 09:48:51\"\n        }\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Set Password",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"token\": \"1SM77\",\r\n    \"password\": \"userpass\",\r\n    \"password_confirmation\": \"userpass\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL}}patient-management/auth/set-password/",
+									"host": [
+										"{{LOCAL}}patient-management"
+									],
+									"path": [
+										"auth",
+										"set-password",
+										""
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Set Password",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"token\": \"1SM77\",\r\n    \"password\": \"userpass\",\r\n    \"password_confirmation\": \"userpass\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{LOCAL}}patient-management/auth/set-password/",
+											"host": [
+												"{{LOCAL}}patient-management"
+											],
+											"path": [
+												"auth",
+												"set-password",
+												""
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "Date",
+											"value": "Thu, 14 Aug 2025 09:48:15 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "WSGIServer/0.2 CPython/3.10.0"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Allow",
+											"value": "POST, PUT, PATCH, OPTIONS"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "DENY"
+										},
+										{
+											"key": "Vary",
+											"value": "origin"
+										},
+										{
+											"key": "Content-Length",
+											"value": "89"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": true,\n    \"message\": \"Password set successfully\",\n    \"data\": {\n        \"email\": \"aaron@autogon.ai\"\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Send OTP",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}patient-mgt/auth/send-otp/",
+									"host": [
+										"{{LOCAL}}patient-mgt"
+									],
+									"path": [
+										"auth",
+										"send-otp",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Verify OTP",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"aaron@autogon.ai\",\r\n    \"otp\": \"670087\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL}}patient-management/auth/verify-otp/",
+									"host": [
+										"{{LOCAL}}patient-management"
+									],
+									"path": [
+										"auth",
+										"verify-otp",
+										""
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Verify OTP",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"email\": \"aaron@autogon.ai\",\r\n    \"otp\": \"670087\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{LOCAL}}patient-management/auth/verify-otp/",
+											"host": [
+												"{{LOCAL}}patient-management"
+											],
+											"path": [
+												"auth",
+												"verify-otp",
+												""
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "Date",
+											"value": "Thu, 14 Aug 2025 09:37:57 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "WSGIServer/0.2 CPython/3.10.0"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Allow",
+											"value": "POST, OPTIONS"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "DENY"
+										},
+										{
+											"key": "Vary",
+											"value": "origin"
+										},
+										{
+											"key": "Content-Length",
+											"value": "105"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": true,\n    \"message\": \"OTP verified successfully\",\n    \"data\": {\n        \"email\": \"aaron@autogon.ai\",\n        \"token\": \"1SM77\"\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Enable/Disable 2FA",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}patient-mgt/auth/two-factor-auth/",
+									"host": [
+										"{{LOCAL}}patient-mgt"
+									],
+									"path": [
+										"auth",
+										"two-factor-auth",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Patient User",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{patient}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}patient-management/auth/user/",
+									"host": [
+										"{{LOCAL}}patient-management"
+									],
+									"path": [
+										"auth",
+										"user",
+										""
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Patient User",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{LOCAL}}patient-management/auth/user/",
+											"host": [
+												"{{LOCAL}}patient-management"
+											],
+											"path": [
+												"auth",
+												"user",
+												""
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "Date",
+											"value": "Thu, 14 Aug 2025 09:50:35 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "WSGIServer/0.2 CPython/3.10.0"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Allow",
+											"value": "GET, PATCH, HEAD, OPTIONS"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "DENY"
+										},
+										{
+											"key": "Vary",
+											"value": "origin"
+										},
+										{
+											"key": "Content-Length",
+											"value": "424"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": true,\n    \"message\": \"User retrieved successfully\",\n    \"data\": {\n        \"id\": \"911031a3-f586-46f8-adb1-7f7a8bb400b3\",\n        \"patient_id\": \"1SM77\",\n        \"role\": \"patient\",\n        \"first_name\": \"Diogo\",\n        \"middle_name\": \"\",\n        \"last_name\": \"Jota\",\n        \"email\": \"aaron@autogon.ai\",\n        \"phone_number\": \"08011111111\",\n        \"dob\": \"2000-01-29\",\n        \"gender\": \"male\",\n        \"avatar\": null,\n        \"two_factor_auth\": false,\n        \"is_active\": true,\n        \"date_registered\": \"2025-08-14 09:33:21\",\n        \"last_login\": \"2025-08-14 09:48:51\"\n    }\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Core",
+					"item": []
+				}
+			]
 		}
 	],
 	"event": [
@@ -11564,7 +13625,7 @@
 		},
 		{
 			"key": "PROD",
-			"value": "https://b2p2upqndjzvncqwhnfudgiazu0navlq.lambda-url.us-east-2.on.aws/api/v1/",
+			"value": "https://medteqweb.mygrantgenie.com/api/v1/",
 			"type": "string"
 		},
 		{
@@ -11575,6 +13636,21 @@
 		{
 			"key": "prod_super_admin",
 			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "nurse",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU2OTE4MDIyLCJpYXQiOjE3NTQzMjYwMjIsImp0aSI6ImIzMmZlNDYwNjY4YTRjNjliZjBhZjA2MTBiYWI4YTkyIiwidXNlcl9pZCI6ImQxNjg1ZWVmLTgzZGYtNGViMC1iNjJkLTA4NjE5NjliYjM3OCJ9.KyHWANn9KClz0M2jj-gUJ-bwoAhuHdPgIvngX5QO9Kw",
+			"type": "default"
+		},
+		{
+			"key": "doctor_prod",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU3Njk4NDA5LCJpYXQiOjE3NTUxMDY0MDksImp0aSI6ImVjYjRhN2Q3YWIwZjQ1YjZiMWZmOTc3ODUwMDA3NWFkIiwidXNlcl9pZCI6IjU1YTk3M2I3LTQwMzUtNDJiMi04ZDY4LWE4YmMwZmZkZjZiNSJ9.eDTXZhsk-A8n5_HTLS3p4d36zbxS3wU5NRAn13RlxBM",
+			"type": "default"
+		},
+		{
+			"key": "patient",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU3NzU2OTMxLCJpYXQiOjE3NTUxNjQ5MzEsImp0aSI6Ijg5ZTRmMmI0MDU1MjRmYjY5NDI5ZTc0ZjI5MjFiMGU4IiwidXNlcl9pZCI6IjkxMTAzMWEzLWY1ODYtNDZmOC1hZGIxLTdmN2E4YmI0MDBiMyJ9.OdSWed3R9JgoDrsnC7yYJdD9NnzpD0UGdDXTAduuGt0",
 			"type": "default"
 		}
 	]

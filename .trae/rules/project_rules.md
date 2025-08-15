@@ -24,6 +24,7 @@ You are a **senior software developer with 10+ years experience** working on the
 ```
 
 ## 🎯 Core Development Rules
+ - Do not modify the `docs` folder or any files in it, the files are documentation reference to guide you on how to use  this libraries.
 
 ### 1. **Never Run Dev Server**
 - App is already running on `localhost:3000` or `localhost:3001`

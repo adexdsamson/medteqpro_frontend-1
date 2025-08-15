@@ -17,7 +17,6 @@ import {
   Building,
   // UserPlus,
   Calendar,
-  Database,
   // Stethoscope,
   ShoppingCart,
 } from "lucide-react";
@@ -168,14 +167,14 @@ export const moduleConfigs: ModuleConfig[] = [
         href: "/patients",
       },
       {
-        label: "Medical Records",
-        icon: Database,
-        href: "/medical-records",
+        label: "Queuing System",
+        icon: Activity,
+        href: "/queuing-system",
       },
       {
-        label: "Write Prescription",
-        icon: Pill,
-        href: "/write-prescription",
+        label: "Wound Care",
+        icon: WoundCareIcon,
+        href: "/wound-care",
       },
     ],
     settingsItems: commonSettingsItems,

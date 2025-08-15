@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
 import { useQuery } from "@tanstack/react-query";
@@ -104,6 +105,151 @@ export const useNurseDashboard = () => {
   return useQuery<ApiResponse<NurseDashboardAnalytics>, ApiResponseError>({
     queryKey: ["nurse-dashboard"],
     queryFn: async () => await getRequest({ url: "/dashboard/nurse/" }),
+    refetchOnWindowFocus: false,
+    staleTime: 5 * 60 * 1000, // 5 minutes
+  });
+};
+
+// Define types for Doctor Dashboard based on API documentation
+export interface DoctorDashboardAnalytics {
+  my_patients: number;
+  my_patient_visits: number;
+  patient_observed: number;
+  patient_admitted: number;
+  upcoming_appointment: number;
+}
+
+// Define types for Doctor Diagnosis Analytics
+export interface DiagnosisAnalytic {
+  diagnosis: string;
+  number_of_patients: number;
+}
+
+export interface DoctorDiagnosisAnalytics {
+  diagnoses: DiagnosisAnalytic[];
+}
+
+// Hook for fetching doctor dashboard analytics
+export const useDoctorDashboard = () => {
+  return useQuery<ApiResponse<DoctorDashboardAnalytics>, ApiResponseError>({
+    queryKey: ["doctor-dashboard"],
+    queryFn: async () => await getRequest({ url: "/dashboard/doctor/" }),
+    refetchOnWindowFocus: false,
+    staleTime: 5 * 60 * 1000, // 5 minutes
+  });
+};
+
+// Hook for fetching doctor diagnosis analytics
+export const useDoctorDiagnosisAnalytics = () => {
+  return useQuery<ApiResponse<DoctorDiagnosisAnalytics>, ApiResponseError>({
+    queryKey: ["doctor-diagnosis-analytics"],
+    queryFn: async () => await getRequest({ url: "/dashboard/doctor/diagnosis-analytics/" }),
+    refetchOnWindowFocus: false,
+    staleTime: 5 * 60 * 1000, // 5 minutes
+  });
+};
+
+// Hook for fetching visitation frequency analytics
+export const useVisitationFrequencyAnalytics = (filter?: 'daily' | 'monthly' | 'yearly') => {
+  return useQuery<ApiResponse<any>, ApiResponseError>({
+    queryKey: ["visitation-frequency-analytics", filter],
+    queryFn: async () => {
+      let url = "/dashboard/visitation-frequency/";
+      if (filter) {
+        url += `?visitation_filter=${filter}`;
+      }
+      return await getRequest({ url });
+    },
+    refetchOnWindowFocus: false,
+    staleTime: 5 * 60 * 1000, // 5 minutes
+  });
+};
+
+// Hook for fetching upcoming appointments with optional filters
+export const useUpcomingAppointments = (options?: {
+  start_date?: string;
+  end_date?: string;
+  search?: string;
+}) => {
+  return useQuery<ApiResponse<any>, ApiResponseError>({
+    queryKey: ["upcoming-appointments", options],
+    queryFn: async () => {
+      let url = "/dashboard/upcoming-appointments/";
+      
+      const queryParams = [];
+      if (options?.start_date) queryParams.push(`start_date=${options.start_date}`);
+      if (options?.end_date) queryParams.push(`end_date=${options.end_date}`);
+      if (options?.search) queryParams.push(`search=${options.search}`);
+      
+      if (queryParams.length > 0) {
+        url += `?${queryParams.join('&')}`;
+      }
+      
+      return await getRequest({ url });
+    },
+    refetchOnWindowFocus: false,
+    staleTime: 5 * 60 * 1000, // 5 minutes
+  });
+};
+
+// Define types for Pharmacist Dashboard based on API documentation
+export interface PharmacistDashboardAnalytics {
+  no_of_medicines?: number;
+  medicine?: number;
+  available_drugs?: number;
+  out_of_stock_drugs?: number;
+  volume_dispensed?: number;
+  total_drug_sales?: number;
+  transfers_card?: number;
+  cash_payments?: number;
+  upcoming_pickups?: number;
+}
+
+// Define types for Pharmacist Upcoming Pickups
+export interface PharmacistPickup {
+  id: string | number;
+  pickup_date?: string;
+  date?: string;
+  scheduled_date?: string;
+  pickup_time?: string;
+  time?: string;
+  patient_fullname?: string;
+  patient_name?: string;
+  patient?: string;
+  status?: string;
+}
+
+// Pharmacist Dashboard hooks
+export const usePharmacistDashboard = () => {
+  return useQuery<ApiResponse<PharmacistDashboardAnalytics>, ApiResponseError>({
+    queryKey: ["pharmacist-dashboard"],
+    queryFn: async () => await getRequest({ url: "/dashboard/pharmacist/" }),
+    refetchOnWindowFocus: false,
+    staleTime: 5 * 60 * 1000, // 5 minutes
+  });
+};
+
+export const usePharmacistUpcomingPickups = (options?: {
+  start_date?: string;
+  end_date?: string;
+  search?: string;
+}) => {
+  return useQuery<ApiResponse<PharmacistPickup[]>, ApiResponseError>({
+    queryKey: ["pharmacist-upcoming-pickups", options],
+    queryFn: async () => {
+      let url = "/dashboard/pharmacist/upcoming-drug-pickup-list/";
+
+      const queryParams: string[] = [];
+      if (options?.start_date) queryParams.push(`start_date=${options.start_date}`);
+      if (options?.end_date) queryParams.push(`end_date=${options.end_date}`);
+      if (options?.search) queryParams.push(`search=${options.search}`);
+
+      if (queryParams.length > 0) {
+        url += `?${queryParams.join('&')}`;
+      }
+
+      return await getRequest({ url });
+    },
     refetchOnWindowFocus: false,
     staleTime: 5 * 60 * 1000, // 5 minutes
   });
