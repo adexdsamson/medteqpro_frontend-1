@@ -159,7 +159,7 @@ export const moduleConfigs: ModuleConfig[] = [
       {
         label: "Appointments",
         icon: Calendar,
-        href: "/appointments",
+        href: "/appointment",
       },
       {
         label: "Patients",
