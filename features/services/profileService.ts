@@ -15,7 +15,22 @@ export interface UserProfile {
   phone_number?: string;
   specialization?: string;
   role: string;
-  date_registered: string;
+  is_active: boolean;
+  is_staff: boolean;
+  avatar?: string;
+  hospital?: {
+    id: string;
+    name: string;
+    email?: string;
+    phone_number?: string;
+    state: string;
+    city: string;
+    address: string;
+    avatar?: string;
+    status: string;
+    created_at: string;
+    updated_at: string;
+  };
 }
 
 export interface UpdateProfilePayload {
@@ -24,56 +39,28 @@ export interface UpdateProfilePayload {
   last_name?: string;
   phone_number?: string;
   specialization?: string;
+  avatar?: string;
 }
 
 // Helper function to get the correct profile endpoint based on user role
-// Based on API documentation analysis, all roles currently use hospital-admin/profile endpoint
-const getProfileEndpoint = (userRole: string): string => {
-  switch (userRole) {
-    case "superadmin":
-      // No specific superadmin/profile endpoint found in API docs
-      // Using hospital-admin/profile as fallback
-      return "/hospital-admin/profile/";
-    case "hospital_admin":
-      return "/hospital-admin/profile/";
-    case "doctor":
-      return "/hospital-admin/profile/";
-    case "nurse":
-      return "/hospital-admin/profile/";
-    case "patient":
-      // No mobile/patient/profile endpoint found in API docs
-      // Only mobile/patient/test-results and mobile/patient/medications exist
-      // Using hospital-admin/profile as fallback
-      return "/hospital-admin/profile/";
-    case "pharmacy":
-      return "/hospital-admin/profile/";
-    case "lab_scientist":
-      return "/hospital-admin/profile/";
-    case "front_desk":
-      return "/hospital-admin/profile/";
-    default:
-      return "/hospital-admin/profile/";
-  }
+// Based on API documentation analysis, all roles use the /auth/user/ endpoint
+const getProfileEndpoint = (): string => {
+  // All user roles use the same /auth/user/ endpoint for profile operations
+  // as specified in the Auth section of the API documentation
+  return "/auth/user/";
 };
 
 // Get user profile
 export const useGetProfile = () => {
   const { user } = storeFunctions.getState();
   const userRole = user?.role || "hospital_admin";
-  const endpoint = getProfileEndpoint(userRole);
+  const endpoint = getProfileEndpoint();
   
   return useQuery<ApiResponse<UserProfile>, ApiResponseError>({
     queryKey: ["profile", userRole],
     queryFn: async () => await getRequest({ url: endpoint }),
     refetchOnWindowFocus: false,
     staleTime: 5 * 60 * 1000, // 5 minutes
-    select: (data) => ({
-      ...data,
-      data: {
-        ...data.data,
-        data: data.data.data // Extract the nested data from Api<UserProfile>
-      }
-    }),
     enabled: !!user // Only run query if user is available
   });
 };
@@ -83,7 +70,7 @@ export const useUpdateProfile = () => {
   const queryClient = useQueryClient();
   const { user } = storeFunctions.getState();
   const userRole = user?.role || "hospital_admin";
-  const endpoint = getProfileEndpoint(userRole);
+  const endpoint = getProfileEndpoint();
   
   return useMutation<ApiResponse<UserProfile>, ApiResponseError, UpdateProfilePayload>({
     mutationKey: ["updateProfile", userRole],
