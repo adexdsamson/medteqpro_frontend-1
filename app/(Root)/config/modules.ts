@@ -321,6 +321,35 @@ export const moduleConfigs: ModuleConfig[] = [
     settingsItems: commonSettingsItems,
     defaultUserProfile: defaultUser,
   },
+  {
+    key: "front-desk",
+    displayName: "Front Desk",
+    pathPrefix: "/front-desk",
+    menuItems: [
+      {
+        label: "Dashboard",
+        icon: LayoutDashboard,
+        href: "/dashboard",
+      },
+      {
+        label: "Patients",
+        icon: Users,
+        href: "/patients",
+      },
+      {
+        label: "Queuing System",
+        icon: Activity,
+        href: "/queuing-system",
+      },
+      {
+        label: "Appointment",
+        icon: Calendar,
+        href: "/appointment",
+      },
+    ],
+    settingsItems: commonSettingsItems,
+    defaultUserProfile: defaultUser,
+  },
 ];
 
 // Utility functions to work with modules

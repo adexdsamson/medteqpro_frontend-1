@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import Subheader from "../../_components/Subheader";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -18,258 +18,300 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
+import { ColumnDef } from "@tanstack/react-table";
+import { 
+  useGetDrugs, 
+  Drug, 
+  useGetDrugAdministrations, 
+  DrugAdministration,
+  useGetDrugRequests,
+  DrugRequest,
+  useGetDrugOrdersOverview,
+  useGetDrugReconciliations,
+  DrugReconciliation
+} from "@/features/services/drugManagementService";
+import RequestDrugDialog from "./_components/RequestDrugDialog";
+import AdvancedFilters from "./_components/AdvancedFilters";
+import { FilterOptions } from "@/features/services/drugManagementService";
 
-// Generate sample data for different tabs
-const generateDrugOverviewData = () => {
-  return Array.from({ length: 5 }, (_, index) => ({
-    id: `Drug-${index + 1}`,
-    drugName: faker.helpers.arrayElement([
-      "Paracetamol 100mg",
-      "Normal Saline",
-      "Syringe",
-      "Amitriptyline",
-      "Ibuprofen 200mg",
-      "Aspirin 75mg",
-      "Metformin 500mg",
-      "Lisinopril 10mg",
-    ]),
-    expiryDate: faker.date.future().toLocaleDateString("en-GB", {
-      day: "2-digit",
-      month: "short",
-      year: "2-digit",
-    }),
-    countDownToExpiration: faker.number.int({ min: 1, max: 365 }),
-    quantityInStock: faker.number.int({ min: 0, max: 1200 }),
-  }));
-};
 
-const generateDailyAdministrationData = () => {
-  return Array.from({ length: 20 }, (_, index) => ({
-    id: `Patient-${faker.number.int({ min: 1000, max: 9999 })}`,
-    dateTime:
-      faker.date.recent().toLocaleDateString("en-GB", {
-        day: "2-digit",
-        month: "short",
-        year: "2-digit",
-      }) +
-      " " +
-      faker.date.recent().toLocaleTimeString("en-GB", {
-        hour: "2-digit",
-        minute: "2-digit",
-        hour12: false,
-      }) +
-      "AM",
-    patientId: `Patient-${faker.number.int({ min: 1000, max: 9999 })}`,
-    patientName: faker.person.fullName(),
-    drugsDispensed: "Paracetamol tab",
-    quantityGiven: faker.number.int({ min: 1, max: 20 }),
-  }));
-};
-
-const generateReconciliationData = () => {
-  return Array.from({ length: 15 }, (_, index) => ({
-    id: index + 1,
-    drugName: faker.helpers.arrayElement([
-      "Paracetamol tab",
-      "Syringe",
-      "Cotton Wool",
-      "Amitriptyline",
-    ]),
-    expiryDate: faker.date.future().toLocaleDateString("en-GB", {
-      day: "2-digit",
-      month: "short",
-      year: "2-digit",
-    }),
-    deliveryDate: faker.date.recent().toLocaleDateString("en-GB", {
-      day: "2-digit",
-      month: "short",
-      year: "2-digit",
-    }),
-    quantityInvoiced: faker.number.int({ min: 50, max: 150 }),
-    quantityDelivered: faker.number.int({ min: 50, max: 150 }),
-  }));
-};
-
-const generateDrugRequestData = () => {
-  return Array.from({ length: 10 }, (_, index) => ({
-    id: index + 1,
-    drugs: faker.helpers.arrayElement([
-      "Paracetamol tab",
-      "Amitriptyline",
-      "Gascol",
-      "Danacid tab",
-    ]),
-    proposedQuantity: `${faker.number.int({
-      min: 10,
-      max: 100,
-    })} ${faker.helpers.arrayElement(["cups", "packs"])}`,
-    approvedQuantity: `${faker.number.int({
-      min: 10,
-      max: 100,
-    })} ${faker.helpers.arrayElement(["cups", "packs"])}`,
-    inStock: faker.number.int({ min: 0, max: 10 }),
-    action: "edit",
-  }));
-};
-
-const drugOverviewData = generateDrugOverviewData();
-const dailyAdministrationData = generateDailyAdministrationData();
-const reconciliationData = generateReconciliationData();
-const drugRequestData = generateDrugRequestData();
-
-type DrugOverviewProps = typeof drugOverviewData[0];
-type DailyAdministrationProps = typeof dailyAdministrationData[0];
-type ReconciliationProps = typeof reconciliationData[0];
-type DrugRequestProps = typeof drugRequestData[0];
 
 const InternalPharmacyPage = () => {
   const [activeTab, setActiveTab] = useState("drug-overview");
   const [searchTerm, setSearchTerm] = useState("");
+  const [filters, setFilters] = useState<FilterOptions>({});
 
-  // Overview stats
-  const overviewStats = {
-    totalCurrentStock: 22300,
-    totalAdministered: 1345,
-    previouslyStocked: 21300,
-    additionalSupplied: 1000,
+  const handleClearFilters = () => {
+    setFilters({
+      search: "",
+      dateFrom: "",
+      dateTo: "",
+      status: "",
+      drugType: "",
+      drugCategory: "",
+    });
   };
 
-  const drugOverviewColumns: ColumnDef<DrugOverviewProps>[] = [
+  // Pagination state for Drug Overview
+  const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 10 });
+  const page = useMemo(() => pagination.pageIndex + 1, [pagination.pageIndex]);
+
+  // Combine search term with filters
+  const getQueryParams = () => ({
+    search: searchTerm || filters.search,
+    date_from: filters.dateFrom,
+    date_to: filters.dateTo,
+    status: filters.status,
+    drugType: filters.drugType,
+    drugCategory: filters.drugCategory,
+  });
+
+  // Fetch drugs list
+  const { data: drugsResp, isLoading: isLoadingDrugs } = useGetDrugs({
+    page,
+    page_size: pagination.pageSize,
+    search: searchTerm || filters.search,
+    drugType: filters.drugType,
+    drugCategory: filters.drugCategory,
+  });
+
+  const drugs: Drug[] = useMemo(
+    () => (drugsResp?.data?.results as Drug[]) ?? [],
+    [drugsResp]
+  );
+  const totalCounts = useMemo(() => drugsResp?.data?.count ?? 0, [drugsResp]);
+
+  // Fetch daily drug administrations (server search only)
+  const { data: adminResp, isLoading: isLoadingAdmin } = useGetDrugAdministrations({
+    search: searchTerm || filters.search,
+    date_from: filters.dateFrom,
+    date_to: filters.dateTo,
+    status: filters.status,
+  });
+  const administrations: DrugAdministration[] = useMemo(
+    () => (adminResp?.data?.results as DrugAdministration[]) ?? [],
+    [adminResp]
+  );
+
+  // Fetch drug requests
+  const { data: requestsResp, isLoading: isLoadingRequests } = useGetDrugRequests({
+    search: searchTerm || filters.search,
+    date_from: filters.dateFrom,
+    date_to: filters.dateTo,
+    status: filters.status,
+    drugType: filters.drugType,
+    drugCategory: filters.drugCategory,
+  });
+  const drugRequests: DrugRequest[] = useMemo(
+    () => (requestsResp?.data?.results as DrugRequest[]) ?? [],
+    [requestsResp]
+  );
+
+  // Fetch drug reconciliations
+  const { data: reconciliationsResp, isLoading: isLoadingReconciliations } = useGetDrugReconciliations({
+    search: searchTerm || filters.search,
+    date_from: filters.dateFrom,
+    date_to: filters.dateTo,
+    status: filters.status,
+  });
+  const drugReconciliations: DrugReconciliation[] = useMemo(
+    () => (reconciliationsResp?.data?.results as DrugReconciliation[]) ?? [],
+    [reconciliationsResp]
+  );
+
+  // Fetch overview statistics
+  const { data: overviewResp, isLoading: isLoadingOverview } = useGetDrugOrdersOverview();
+  const overviewStats = useMemo(() => {
+    const overview = overviewResp?.data?.data;
+    if (overview) {
+      return {
+        totalCurrentStock: 22300, // Keep static for now as no API endpoint for this
+        totalAdministered: 1345, // Keep static for now as no API endpoint for this
+        totalCompletedOrders: overview.total_completed_orders,
+        totalPendingPickups: overview.total_pending_pickups,
+        totalCancelledPickups: overview.total_cancelled_pickups,
+      };
+    }
+    return {
+      totalCurrentStock: 22300,
+      totalAdministered: 1345,
+      totalCompletedOrders: 0,
+      totalPendingPickups: 0,
+      totalCancelledPickups: 0,
+    };
+  }, [overviewResp]);
+
+  // Columns for Drug Overview mapping to API fields
+  const drugOverviewColumns: ColumnDef<Drug>[] = [
     {
       accessorKey: "id",
       cell: ({ row }) => (
-        <span className="font-medium">{row.getValue("id")}</span>
+        <span className="font-medium">{row.getValue("id") as string}</span>
       ),
-      header: "DRUG ID"
+      header: "DRUG ID",
     },
     {
-      accessorKey: "drugName",
+      accessorKey: "drug_name",
       cell: ({ row }) => (
-        <span className="font-medium">{row.getValue("drugName")}</span>
+        <span className="font-medium">{row.getValue("drug_name") as string}</span>
       ),
-      header: "DRUG/EQUIPMENT NAME"
+      header: "DRUG/EQUIPMENT NAME",
     },
     {
-      accessorKey: "expiryDate",
+      accessorKey: "drug_expiry_date",
       cell: ({ row }) => (
-        <span className="font-medium">{row.getValue("expiryDate")}</span>
+        <span className="font-medium">{row.getValue("drug_expiry_date") as string}</span>
       ),
-      header: "EXPIRY DATE"
+      header: "EXPIRY DATE",
     },
     {
-      accessorKey: "countDownToExpiration",
+      accessorKey: "countdown_to_expiration",
       cell: ({ row }) => (
-        <span className="font-medium text-orange-600">
-          {row.getValue("countDownToExpiration")}
-        </span>
+        <span className="font-medium text-orange-600">{row.getValue("countdown_to_expiration") as number}</span>
       ),
-      header: "COUNT DOWN TO EXPIRATION"
+      header: "COUNT DOWN TO EXPIRATION",
     },
     {
-      accessorKey: "quantityInStock",
+      accessorKey: "quantity_in_stock",
       cell: ({ row }) => (
-        <span className="font-medium">{row.getValue("quantityInStock")}</span>
+        <span className="font-medium">{row.getValue("quantity_in_stock") as number}</span>
       ),
-      header: "QUANTITY PREVIOUSLY IN STOCK"
+      header: "QUANTITY PREVIOUSLY IN STOCK",
     },
   ];
 
-  const dailyAdministrationColumns: ColumnDef<DailyAdministrationProps>[] = [
+  const dailyAdministrationColumns: ColumnDef<DrugAdministration>[] = [
     {
-      accessorKey: 'dateTime',
+      accessorKey: 'date_administered',
       cell: ({ row }) => (
-        <span className="font-medium">{row.getValue("dateTime")}</span>
+        <span className="font-medium">{row.getValue("date_administered") as string}</span>
       ),
       header: "DATE & TIME"
     },
     {
-      accessorKey: 'patientId',
+      accessorKey: 'patient_id',
       cell: ({ row }) => (
-        <span className="font-medium">{row.getValue("patientId")}</span>
+        <span className="font-medium">{row.getValue("patient_id") as string}</span>
       ),
       header: "PATIENT ID"
     },
     {
-      accessorKey: 'patientName',
+      accessorKey: 'patient_name',
       cell: ({ row }) => (
-        <span className="font-medium">{row.getValue("patientName")}</span>
+        <span className="font-medium">{row.getValue("patient_name") as string}</span>
       ),
       header: "PATIENT NAME"
     },
     {
-      accessorKey: 'drugsDispensed',
-      cell: ({ row }) => (
-        <span className="font-medium">{row.getValue("drugsDispensed")}</span>
-      ),
+      accessorKey: 'drug',
+      cell: ({ row }) => {
+        const drug = row.getValue("drug") as DrugAdministration["drug"];
+        return <span className="font-medium">{drug?.drug_name}</span>;
+      },
       header: "DRUGS DISPENSED"
     },
     {
-      accessorKey: 'quantityGiven',
+      accessorKey: 'quantity_administered',
       cell: ({ row }) => (
-        <span className="font-medium">{row.getValue("quantityGiven")}</span>
+        <span className="font-medium">{row.getValue("quantity_administered") as number}</span>
       ),
       header: "QUANTITY GIVEN"
     }
   ];
 
-  const reconciliationColumns: ColumnDef<ReconciliationProps>[] = [
+  const reconciliationColumns: ColumnDef<DrugReconciliation>[] = [
     {
-      accessorKey: "drugName",
+      accessorKey: "drug_name",
       header: "DRUG/EQUIPMENT NAME",
-      cell: ({ row }) => <span>{row.getValue("drugName")}</span>,
+      cell: ({ row }) => <span className="font-medium">{row.getValue("drug_name") as string}</span>,
     },
     {
-      accessorKey: "expiryDate",
+      accessorKey: "expiry_date",
       header: "EXPIRY DATE",
-      cell: ({ row }) => <span>{row.getValue("expiryDate")}</span>,
+      cell: ({ row }) => {
+        const date = row.getValue("expiry_date") as string;
+        return <span>{new Date(date).toLocaleDateString("en-GB", {
+          day: "2-digit",
+          month: "short",
+          year: "2-digit",
+        })}</span>;
+      },
     },
     {
-      accessorKey: "deliveryDate",
+      accessorKey: "delivery_date",
       header: "DELIVERY DATE",
-      cell: ({ row }) => <span>{row.getValue("deliveryDate")}</span>,
+      cell: ({ row }) => {
+        const date = row.getValue("delivery_date") as string;
+        return <span>{new Date(date).toLocaleDateString("en-GB", {
+          day: "2-digit",
+          month: "short",
+          year: "2-digit",
+        })}</span>;
+      },
     },
     {
-      accessorKey: "quantityInvoiced",
+      accessorKey: "quantity_invoiced",
       header: "QUANTITY INVOICED",
       cell: ({ row }) => (
-        <span className="font-medium">{row.getValue("quantityInvoiced")}</span>
+        <span className="font-medium">{row.getValue("quantity_invoiced") as number}</span>
       ),
     },
     {
-      accessorKey: "quantityDelivered",
+      accessorKey: "quantity_delivered",
       header: "QUANTITY DELIVERED",
       cell: ({ row }) => (
-        <span className="font-medium">{row.getValue("quantityDelivered")}</span>
+        <span className="font-medium">{row.getValue("quantity_delivered") as number}</span>
       ),
     },
-  ];
+    {
+       accessorKey: "discrepancy",
+       header: "DISCREPANCY",
+       cell: ({ row }) => {
+         const invoiced = row.original.quantity_invoiced;
+         const delivered = row.original.quantity_delivered;
+         const discrepancy = invoiced - delivered;
+         const discrepancyColor = discrepancy > 0 ? "text-red-600" : discrepancy < 0 ? "text-green-600" : "text-gray-600";
+         return <span className={`font-medium ${discrepancyColor}`}>{discrepancy}</span>;
+       },
+     },
+   ];
 
-  const drugRequestColumns: ColumnDef<DrugRequestProps>[] = [
+  const drugRequestColumns: ColumnDef<DrugRequest>[] = [
     {
-      accessorKey: "drugs",
+      accessorKey: "drug_name_requested",
       header: "DRUGS",
-      cell: ({ row }) => <span>{row.getValue("drugs")}</span>,
+      cell: ({ row }) => <span>{row.getValue("drug_name_requested") as string}</span>,
     },
     {
-      accessorKey: "proposedQuantity",
-      header: "PROPOSED QUANTITY",
-      cell: ({ row }) => <span>{row.getValue("proposedQuantity")}</span>,
+      accessorKey: "quantity_requested",
+      header: "REQUESTED QUANTITY",
+      cell: ({ row }) => <span>{row.getValue("quantity_requested") as number}</span>,
     },
     {
-      accessorKey: "approvedQuantity",
-      header: "APPROVED QUANTITY",
-      cell: ({ row }) => <span>{row.getValue("approvedQuantity")}</span>,
+      accessorKey: "status",
+      header: "STATUS",
+      cell: ({ row }) => {
+        const status = row.getValue("status") as string;
+        const statusColor = status === "approved" ? "text-green-600" : 
+                          status === "rejected" ? "text-red-600" : 
+                          "text-yellow-600";
+        return <span className={`font-medium capitalize ${statusColor}`}>{status}</span>;
+      },
     },
     {
-      accessorKey: "inStock",
+      accessorKey: "quantity_in_stock_of_requested_drug",
       header: "IN STOCK",
       cell: ({ row }) => (
-        <span className="font-medium">{row.getValue("inStock")}</span>
+        <span className="font-medium">{row.getValue("quantity_in_stock_of_requested_drug") as number || 0}</span>
       ),
     },
     {
-      accessorKey: "action",
+      accessorKey: "requested_by",
+      header: "REQUESTED BY",
+      cell: ({ row }) => <span>{row.getValue("requested_by") as string}</span>,
+    },
+    {
+      id: "action",
       header: "ACTION",
       cell: () => (
         <DropdownMenu>
@@ -314,9 +356,11 @@ const InternalPharmacyPage = () => {
         </Button>
       ),
       "drug-request": (
-        <Button className="bg-blue-600 hover:bg-blue-700 text-white">
-          Request Drug
-        </Button>
+        <RequestDrugDialog>
+          <Button className="bg-blue-600 hover:bg-blue-700 text-white">
+            Request Drug
+          </Button>
+        </RequestDrugDialog>
       ),
     };
     return buttons[tabKey as keyof typeof buttons] || null;
@@ -334,47 +378,45 @@ const InternalPharmacyPage = () => {
         <div className="space-y-4">
           <Large className="text-lg font-semibold">Overview</Large>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <Card className="bg-white p-6">
-              <div className="text-center">
-                <H3 className="text-2xl font-bold text-gray-900">
-                  {overviewStats.totalCurrentStock.toLocaleString()}
-                </H3>
-                <P className="text-sm text-gray-600 mt-1">
-                  Total Current Stock
-                </P>
-              </div>
-            </Card>
+          <Card className="bg-white p-6">
+            <div className="text-center">
+              <H3 className="text-2xl font-bold text-gray-900">
+                {overviewStats.totalCurrentStock.toLocaleString()}
+              </H3>
+              <P className="text-sm text-gray-600 mt-1">
+                Total Current Stock
+              </P>
+            </div>
+          </Card>
 
-            <Card className="bg-white p-6">
-              <div className="text-center">
-                <H3 className="text-2xl font-bold text-gray-900">
-                  {overviewStats.totalAdministered.toLocaleString()}
-                </H3>
-                <P className="text-sm text-gray-600 mt-1">Total Administered</P>
-              </div>
-            </Card>
+          <Card className="bg-white p-6">
+            <div className="text-center">
+              <H3 className="text-2xl font-bold text-gray-900">
+                {overviewStats.totalAdministered.toLocaleString()}
+              </H3>
+              <P className="text-sm text-gray-600 mt-1">Total Administered</P>
+            </div>
+          </Card>
 
-            <Card className="bg-white p-6">
-              <div className="text-center">
-                <H3 className="text-2xl font-bold text-gray-900">
-                  {overviewStats.previouslyStocked.toLocaleString()}
-                </H3>
-                <P className="text-sm text-gray-600 mt-1">Previously Stocked</P>
-              </div>
-            </Card>
+          <Card className="bg-white p-6">
+            <div className="text-center">
+              <H3 className="text-2xl font-bold text-gray-900">
+                {overviewStats.totalCompletedOrders.toLocaleString()}
+              </H3>
+              <P className="text-sm text-gray-600 mt-1">Total Completed Orders</P>
+            </div>
+          </Card>
 
-            <Card className="bg-white p-6">
-              <div className="text-center">
-                <H3 className="text-2xl font-bold text-gray-900">
-                  {overviewStats.additionalSupplied.toLocaleString()}
-                </H3>
-                <P className="text-sm text-gray-600 mt-1">
-                  Additional Supplied
-                </P>
-              </div>
-            </Card>
-          </div>
+          <Card className="bg-white p-6">
+            <div className="text-center">
+              <H3 className="text-2xl font-bold text-gray-900">
+                {overviewStats.totalPendingPickups.toLocaleString()}
+              </H3>
+              <P className="text-sm text-gray-600 mt-1">
+                Total Pending Pickups
+              </P>
+            </div>
+          </Card>
         </div>
 
         {/* Tabs Section */}
@@ -409,58 +451,59 @@ const InternalPharmacyPage = () => {
                   />
                 </div>
               </div>
-              <Button variant="outline" className="flex items-center gap-2">
-                <Filter className="h-4 w-4" />
-                Filter
-              </Button>
+              <AdvancedFilters
+                filters={filters}
+                onFiltersChange={setFilters}
+                onClearFilters={handleClearFilters}
+                activeTab={activeTab}
+              />
             </div>
 
             {/* Tab Content */}
             <TabsContent value="drug-overview" className="mt-0">
-              <DataTable
+              <DataTable<Drug>
                 columns={drugOverviewColumns}
-                data={drugOverviewData.filter(
-                  (item) =>
-                    item.drugName
-                      .toLowerCase()
-                      .includes(searchTerm.toLowerCase()) ||
-                    item.id.toLowerCase().includes(searchTerm.toLowerCase())
-                )}
-                // showPagination={true}
-                // pageSize={10}
+                data={drugs}
+                options={{
+                  isLoading: isLoadingDrugs,
+                  totalCounts,
+                  manualPagination: true,
+                  pagination,
+                  setPagination,
+                  disableSelection: true,
+                }}
               />
             </TabsContent>
 
             <TabsContent value="daily-administration" className="mt-0">
-              <DataTable
+              <DataTable<DrugAdministration>
                 columns={dailyAdministrationColumns}
-                data={dailyAdministrationData.filter(
-                  (item) =>
-                    item.patientName
-                      .toLowerCase()
-                      .includes(searchTerm.toLowerCase()) ||
-                    item.patientId
-                      .toLowerCase()
-                      .includes(searchTerm.toLowerCase())
-                )}
+                data={administrations}
+                options={{ isLoading: isLoadingAdmin, disableSelection: true, disablePagination: true }}
               />
             </TabsContent>
 
             <TabsContent value="drug-reconciliation" className="mt-0">
-              <DataTable
+              <DataTable<DrugReconciliation>
                 columns={reconciliationColumns}
-                data={reconciliationData.filter((item) =>
-                  item.drugName.toLowerCase().includes(searchTerm.toLowerCase())
-                )}
+                data={drugReconciliations}
+                options={{ 
+                  isLoading: isLoadingReconciliations, 
+                  disableSelection: true, 
+                  disablePagination: true 
+                }}
               />
             </TabsContent>
 
             <TabsContent value="drug-request" className="mt-0">
-              <DataTable
+              <DataTable<DrugRequest>
                 columns={drugRequestColumns}
-                data={drugRequestData.filter((item) =>
-                  item.drugs.toLowerCase().includes(searchTerm.toLowerCase())
-                )}
+                data={drugRequests}
+                options={{ 
+                  isLoading: isLoadingRequests, 
+                  disableSelection: true, 
+                  disablePagination: true 
+                }}
               />
             </TabsContent>
           </div>
