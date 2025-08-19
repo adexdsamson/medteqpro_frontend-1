@@ -133,7 +133,7 @@ export const useWoundRecords = () => {
 };
 
 // Hook to fetch a specific wound record
-export const useWoundRecord = (woundId: string) => {
+export const useWoundRecord = (woundId: string, options?: { enabled?: boolean }) => {
   return useQuery<WoundRecord, ApiResponseError>({
     queryKey: ['wound-record', woundId],
     queryFn: async () => {
@@ -142,7 +142,7 @@ export const useWoundRecord = (woundId: string) => {
       });
       return response.data.data;
     },
-    enabled: !!woundId,
+    enabled: options?.enabled !== undefined ? options.enabled : !!woundId,
   });
 };
 

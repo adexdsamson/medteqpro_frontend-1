@@ -10,12 +10,12 @@ type SectionHeaderProps = {
 
 export function SectionHeader({ title, seeAllLink }: SectionHeaderProps) {
   return (
-    <div className="flex justify-between items-center mb-4">
-      <h2 className="text-sm font-semibold">{title}</h2>
+    <div className="flex justify-between items-center mb-3 sm:mb-4 gap-2">
+      <h2 className="text-xs sm:text-sm font-semibold truncate">{title}</h2>
       {seeAllLink && (
         <Link 
           href={seeAllLink} 
-          className="text-sm text-blue-600 hover:underline"
+          className="text-xs sm:text-sm text-blue-600 hover:underline touch-manipulation flex-shrink-0"
         >
           See all
         </Link>

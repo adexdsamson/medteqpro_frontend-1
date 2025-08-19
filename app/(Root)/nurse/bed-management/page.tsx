@@ -159,11 +159,12 @@ const NurseBedManagementPage = () => {
     <div className="container mx-auto bg-gray-50 min-h-screen">
       <Subheader title="Bed Management" />
 
-      <div className="mb-6 p-6 flex gap-3 justify-end items-center">
+      <div className="mb-4 sm:mb-6 p-3 sm:p-6 flex flex-col sm:flex-row gap-2 sm:gap-3 sm:justify-end items-stretch sm:items-center">
         <Dialog>
           <DialogTrigger asChild>
             <Button
               variant={'ghost'}
+              className="w-full sm:w-auto touch-manipulation"
             >
               Create Bed
             </Button>
@@ -173,7 +174,7 @@ const NurseBedManagementPage = () => {
 
         <Dialog>
           <DialogTrigger asChild>
-            <Button className="bg-green-600 hover:bg-green-700 text-white">
+            <Button className="bg-green-600 hover:bg-green-700 text-white w-full sm:w-auto touch-manipulation">
               Create Ward +
             </Button>
           </DialogTrigger>
@@ -185,15 +186,15 @@ const NurseBedManagementPage = () => {
         <Tabs
           value={activeTab}
           onValueChange={setActiveTab}
-          className="w-full px-6"
+          className="w-full px-3 sm:px-6"
         >
-          <div className="flex justify-between items-center mb-6">
-            <TabsList className="h-auto rounded-none border-b bg-transparent p-0">
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 sm:mb-6 gap-3 sm:gap-0">
+            <TabsList className="h-auto rounded-none border-b bg-transparent p-0 w-full sm:w-auto overflow-x-auto">
               {wards.map((ward) => (
                 <TabsTrigger
                   key={ward.id}
                   value={ward.id}
-                  className="data-[state=active]:after:bg-blue-600 relative rounded-none py-2 px-4 after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:text-blue-600"
+                  className="data-[state=active]:after:bg-blue-600 relative rounded-none py-2 px-3 sm:px-4 text-sm sm:text-base after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:text-blue-600 touch-manipulation flex-shrink-0"
                 >
                   {ward.name}
                 </TabsTrigger>
@@ -203,17 +204,17 @@ const NurseBedManagementPage = () => {
 
           {wards.map((ward) => (
             <TabsContent key={ward.id} value={ward.id}>
-              <div className="mb-6">
-                <div className="flex items-center gap-4 mb-6">
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm text-gray-600">
+              <div className="mb-4 sm:mb-6">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-2">
+                    <span className="text-sm text-gray-600 whitespace-nowrap">
                       Select Room No
                     </span>
                     <Select
                       value={selectedRoom}
                       onValueChange={setSelectedRoom}
                     >
-                      <SelectTrigger className="w-32 h-8">
+                      <SelectTrigger className="w-full sm:w-32 h-9 sm:h-8 touch-manipulation">
                         <SelectValue placeholder="All" />
                       </SelectTrigger>
                       <SelectContent>
@@ -226,19 +227,21 @@ const NurseBedManagementPage = () => {
                       </SelectContent>
                     </Select>
                   </div>
-                  <BedStats
-                    totalBeds={totalBeds}
-                    availableBeds={availableBeds}
-                    occupiedBeds={occupiedBeds}
-                  />
+                  <div className="w-full sm:w-auto">
+                    <BedStats
+                      totalBeds={totalBeds}
+                      availableBeds={availableBeds}
+                      occupiedBeds={occupiedBeds}
+                    />
+                  </div>
                 </div>
 
-                <div className="mb-6">
+                <div className="mb-4 sm:mb-6">
                   <TextInput
-                    startAdornment={<SearchIcon className="h-5 w-5" />}
+                    startAdornment={<SearchIcon className="h-4 w-4 sm:h-5 sm:w-5" />}
                     label={"Search Keyword"}
                     placeholder="Bed ID"
-                    containerClass="!w-60"
+                    containerClass="!w-full sm:!w-60 md:!w-72"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                   />

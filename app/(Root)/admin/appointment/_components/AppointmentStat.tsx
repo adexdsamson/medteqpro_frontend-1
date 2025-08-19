@@ -24,24 +24,24 @@ export const AppointmentStats = ({
   appointmentStatus
 }: AppointmentStatPRops) => {
   return (
-    <Card>
-      <CardHeader className="flex flex-row items-center justify-between pb-2">
-        <div>
-          <CardTitle className="text-lg font-medium text-gray-700">
+    <Card className="h-full">
+      <CardHeader className="flex flex-col sm:flex-row sm:items-center sm:justify-between pb-2 space-y-2 sm:space-y-0">
+        <div className="flex-1">
+          <CardTitle className="text-base sm:text-lg font-medium text-gray-700">
             {title}
           </CardTitle>
-          <p className="text-xs text-gray-500">{period}</p>
+          <p className="text-xs sm:text-sm text-gray-500">{period}</p>
         </div>
-        <Button variant="outline" size="sm">
+        <Button variant="outline" size="sm" className="w-full sm:w-auto touch-manipulation text-xs sm:text-sm">
           {action}
         </Button>
       </CardHeader>
-      <CardContent>
-        <div className="flex space-x-4 mt-2">
+      <CardContent className="pt-0">
+        <div className="flex flex-col sm:flex-row sm:space-x-4 space-y-2 sm:space-y-0 mt-2">
           {appointmentStatus.map((s, i) => (
-            <div key={i} className={cn("flex-1 border-r last:border-0")}>
-              <p className="text-xl font-semibold text-gray-700">{s.count}</p>
-              <p className={`text-xs ${ s.color}`}>{s.label}</p>
+            <div key={i} className={cn("flex-1 border-b sm:border-b-0 sm:border-r last:border-0 pb-2 sm:pb-0")}>
+              <p className="text-lg sm:text-xl font-semibold text-gray-700">{s.count}</p>
+              <p className={`text-xs sm:text-sm ${ s.color}`}>{s.label}</p>
             </div>
           ))}
         </div>

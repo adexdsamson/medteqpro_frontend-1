@@ -31,23 +31,23 @@ export const TimeInput: React.FC<TimeInputProps> = ({
       }`}
     >
       <TimeField 
-        className="*:not-first:mt-2"
+        className="*:not-first:mt-1 sm:*:not-first:mt-2"
         value={value}
         hourCycle={12}
         onChange={onChange}
         isDisabled={disabled}
       >
-        <Label className="text-sm whitespace-nowrap text-stone-900 max-w-xs text-wrap break-words">
+        <Label className="text-sm sm:text-base whitespace-nowrap text-stone-900 max-w-xs text-wrap break-words mb-1 sm:mb-2">
           {props.label}
         </Label>
         <DateInput 
-          className="w-full text-sm leading-5 border border-stone-300 rounded-lg py-2 px-3 mt-2 bg-white text-stone-600 placeholder:text-xs placeholder:text-gray-300 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+          className="w-full text-sm sm:text-base leading-5 border border-stone-300 rounded-lg py-2 sm:py-3 px-3 sm:px-4 mt-1 sm:mt-2 bg-white text-stone-600 placeholder:text-xs sm:placeholder:text-sm placeholder:text-gray-300 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 touch-manipulation min-h-[44px] sm:min-h-[48px]"
         />
       </TimeField>
       {props.error ? (
-        <span className="text-xs text-red-500 mt-1">{props.error}</span>
+        <span className="text-xs sm:text-sm text-red-500 mt-1 sm:mt-2">{props.error}</span>
       ) : props.helperText ? (
-        <span className="text-xs text-gray-500 mt-1">{props.helperText}</span>
+        <span className="text-xs sm:text-sm text-gray-500 mt-1 sm:mt-2">{props.helperText}</span>
       ) : null}
     </div>
   );

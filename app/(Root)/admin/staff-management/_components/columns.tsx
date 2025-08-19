@@ -1,6 +1,7 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
+import { getStatusBadgeClasses, formatStatusText } from "@/lib/statusColors";
 // import { MoreHorizontal } from "lucide-react";
 // import { Button } from "@/components/ui/button";
 // import {
@@ -47,15 +48,10 @@ const formatRole = (role: string): string => {
   return roleMap[role] || role;
 };
 
-// Helper function to format status display
-const formatStatus = (status: string): string => {
-  const statusMap: Record<string, string> = {
-    active: "Present",
-    inactive: "Inactive",
-    on_leave: "On Leave",
-    suspended: "Suspended",
-  };
-  return statusMap[status] || status;
+// Helper function to format status display for staff (keeping "Present" for active)
+const formatStaffStatus = (status: string): string => {
+  if (status === "active") return "Present";
+  return formatStatusText(status);
 };
 
 export const staffColumns: ColumnDef<StaffType>[] = [
@@ -109,20 +105,9 @@ export const staffColumns: ColumnDef<StaffType>[] = [
     header: "Status",
     cell: ({ row }) => {
       const status = row.getValue("status") as string;
-      const displayStatus = formatStatus(status);
+      const displayStatus = formatStaffStatus(status);
       return (
-        <Badge
-          variant={status === "active" ? "default" : "secondary"}
-          className={`${
-            status === "active"
-              ? "bg-green-100 text-green-800 hover:bg-green-200"
-              : status === "on_leave"
-              ? "bg-yellow-100 text-yellow-800 hover:bg-yellow-200"
-              : status === "suspended"
-              ? "bg-red-100 text-red-800 hover:bg-red-200"
-              : "bg-gray-100 text-gray-800 hover:bg-gray-200"
-          }`}
-        >
+        <Badge className={getStatusBadgeClasses(status)}>
           {displayStatus}
         </Badge>
       );

@@ -86,7 +86,7 @@ export default function EditWoundRecordDialog({ children, id }: EditWoundRecordD
   const updateWoundRecordMutation = useUpdateWoundRecord(id);
 
   // Form state management with Forge
-  const { control, setValues } = useForge<FormValues>({
+  const { control, reset } = useForge<FormValues>({
     resolver: yupResolver(schema) as any,
     defaultValues: {
       patient_id: "",
@@ -117,21 +117,21 @@ export default function EditWoundRecordDialog({ children, id }: EditWoundRecordD
 
   // Prefill form when record data is available
   useEffect(() => {
-    if (woundRecordData?.data) {
-      const r = woundRecordData.data;
-      setValues({
-        patient_id: r.patient_id,
+    if (woundRecordData) {
+      const r = woundRecordData;
+      reset({
+        patient_id: r.patient.id,
         date_recorded: r.date_recorded ? parseISO(r.date_recorded) : new Date(),
         description_tags: r.description_tags || [],
         affecting_factors_tags: r.affecting_factors_tags || [],
         previous_treatment: r.previous_treatment || "",
-        size_in_mm: r.size_in_mm || "",
-        width: r.width || "",
-        depth: r.depth || "",
+        size_in_mm: r.size_in_mm?.toString() || "",
+        width: r.width?.toString() || "",
+        depth: r.depth?.toString() || "",
         wound_bed_assessment: r.wound_bed_assessment || "",
-        exudate_amount: r.exudate_amount || "none",
-        consistency: r.consistency || "serous",
-        odour: r.odour || "none",
+        exudate_amount: (r.exudate_amount as "none" | "scant" | "small" | "moderate" | "large" | "copious") || "none",
+        consistency: (r.consistency as "serous" | "sanguineous" | "serosanguineous" | "purulent" | "haemopurulent" | "other") || "serous",
+        odour: (r.odour as "none" | "mild" | "moderate" | "strong" | "foul") || "none",
         infection_signs_tags: r.infection_signs_tags || [],
         edges_description_tags: r.edges_description_tags || [],
         wound_condition_overall: r.wound_condition_overall || "",
@@ -140,12 +140,12 @@ export default function EditWoundRecordDialog({ children, id }: EditWoundRecordD
         dressing_type: r.dressing_type || "",
         dressing_change_reason: r.dressing_change_reason || "",
         dressing_frequency: r.dressing_frequency || "",
-        follow_up_needed: r.follow_up_needed || "No",
-        follow_up_date: r.follow_up_date ? parseISO(r.follow_up_date) : undefined,
+        follow_up_needed: r.follow_up_needed ? "Yes" : "No",
+        follow_up_date: r.follow_up_date || undefined,
         follow_up_notes: r.follow_up_notes || undefined,
       });
     }
-  }, [woundRecordData, setValues]);
+  }, [woundRecordData, reset]);
 
   // Options for dropdowns based on API documentation
   const exudateAmountOptions = [

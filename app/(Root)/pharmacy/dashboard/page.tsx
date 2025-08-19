@@ -131,8 +131,8 @@ const PharmacyDashboard = () => {
           }}
         />
         <Subheader title="Dashboard" middle={<SessionTimer />} />
-        <div className="p-6 space-y-6 bg-gray-50 min-h-screen w-full">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="p-3 sm:p-6 space-y-3 sm:space-y-6 bg-gray-50 min-h-screen w-full">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
             {[...Array(4)].map((_, i) => (
               <Skeleton key={i} className="h-32 w-full" />
             ))}
@@ -178,10 +178,10 @@ const PharmacyDashboard = () => {
         )}
 
         {/* Shelve Section */}
-        <div className="space-y-4">
-          <Large className="text-lg font-semibold text-[#16C2D5]">Shelve</Large>
+        <div className="space-y-3 sm:space-y-4">
+          <Large className="text-base sm:text-lg font-semibold text-[#16C2D5]">Shelve</Large>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
             <StatCard
               title="Medicine"
               value={analytics?.no_of_medicines ?? analytics?.medicine ?? 0}
@@ -261,10 +261,10 @@ const PharmacyDashboard = () => {
         </div>
 
         {/* Revenue Section */}
-        <div className="space-y-4">
-          <Large className="text-lg font-semibold">Revenue</Large>
+        <div className="space-y-3 sm:space-y-4">
+          <Large className="text-base sm:text-lg font-semibold text-[#16C2D5]">Revenue</Large>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-fit">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-6 h-fit">
             {/* Left Column - Total Drug Sales and Payment Methods */}
             <div className="space-y-4">
               {/* Total Drug Sales */}
@@ -385,10 +385,15 @@ const PharmacyDashboard = () => {
         </div>
 
         {/* Pickups Section */}
-        <div className="space-y-4">
-          <Large className="text-lg font-semibold">Pickups</Large>
+        <div className="space-y-3 sm:space-y-4">
+          <div className="flex items-center justify-between flex-wrap gap-2">
+            <Large className="text-base sm:text-lg font-semibold text-[#16C2D5]">Pickups</Large>
+            <Button variant="outline" size="sm" className="text-xs sm:text-sm px-3 py-1 h-7 sm:h-8 touch-manipulation">
+              View All
+            </Button>
+          </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-3 sm:gap-6">
             {/* Upcoming Pickups Count */}
             <Card className="bg-white p-6 h-fit">
               <div className="flex items-center gap-2 mb-2">

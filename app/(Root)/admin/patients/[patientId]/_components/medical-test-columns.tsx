@@ -3,6 +3,7 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { getStatusBadgeClasses, formatStatusText } from "@/lib/statusColors";
 import { MoreHorizontal, Eye, Edit, Trash2 } from "lucide-react";
 import {
   DropdownMenu,
@@ -13,16 +14,11 @@ import {
 import { LabTest, formatLabDate } from "@/features/services/labResultService";
 
 const getStatusBadge = (status: string) => {
-  switch (status) {
-    case 'completed':
-      return <Badge variant="default" className="bg-green-100 text-green-800">Completed</Badge>;
-    case 'pending':
-      return <Badge variant="default" className="bg-yellow-100 text-yellow-800">Pending</Badge>;
-    case 'draft':
-      return <Badge variant="default" className="bg-gray-100 text-gray-800">Draft</Badge>;
-    default:
-      return <Badge variant="outline">{status}</Badge>;
-  }
+  return (
+    <Badge className={getStatusBadgeClasses(status)}>
+      {formatStatusText(status)}
+    </Badge>
+  );
 };
 
 export const medicalTestColumns: ColumnDef<LabTest>[] = [

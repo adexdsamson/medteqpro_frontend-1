@@ -21,26 +21,28 @@ export default function MedicalInfo({ patient }: MedicalInfoProps) {
     );
   }
   return (
-    <div className="bg-white rounded-lg p-6">
-      <h2 className="text-base font-medium mb-4">Medical Information</h2>
-      <div className="space-y-4">
+    <div className="bg-white rounded-lg p-3 sm:p-6">
+      <h2 className="text-sm sm:text-base font-medium mb-3 sm:mb-4">Medical Information</h2>
+      <div className="space-y-3 sm:space-y-4">
         <div>
-          <p className="text-sm text-gray-500">Current Medications</p>
-          <div className="text-sm font-medium">
+          <p className="text-xs sm:text-sm text-gray-500 mb-1 sm:mb-2">Current Medications</p>
+          <div className="text-xs sm:text-sm font-medium">
             {patient.current_medications && patient.current_medications.length > 0 ? (
               patient.current_medications.map((med, index) => (
-                <div key={index} className="mb-1">
-                  {med.medication} / {med.dosage} / {med.frequency}
+                <div key={index} className="mb-1 p-2 bg-gray-50 rounded text-xs sm:text-sm">
+                  <span className="block sm:inline">{med.medication}</span>
+                  <span className="block sm:inline sm:before:content-['/'] sm:before:mx-1">{med.dosage}</span>
+                  <span className="block sm:inline sm:before:content-['/'] sm:before:mx-1">{med.frequency}</span>
                 </div>
               ))
             ) : (
-              'N/A'
+              <span className="text-gray-400">N/A</span>
             )}
           </div>
         </div>
         <div>
-          <p className="text-sm text-gray-500">Any Allergies to Medication or Food (list reactions)?</p>
-          <p className="text-sm font-medium">{patient.allergies || 'N/A'}</p>
+          <p className="text-xs sm:text-sm text-gray-500 mb-1 sm:mb-2">Any Allergies to Medication or Food (list reactions)?</p>
+          <p className="text-xs sm:text-sm font-medium">{patient.allergies || <span className="text-gray-400">N/A</span>}</p>
         </div>
         <div>
           <p className="text-sm text-gray-500">Family Medical History</p>

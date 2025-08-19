@@ -97,75 +97,80 @@ export function DataTable<T = unknown>({
     <div className="w-full">
       <div className="">
         {header && (
-          <div className="flex items-center py-4">{header?.(table)}</div>
+          <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-0 py-4">{header?.(table)}</div>
         )}
-        <Table className="border-separate border-spacing-y-3">
-          <TableHeader className="bg-accent">
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <TableHead className="h-10" key={header.id}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
-                    </TableHead>
-                  );
-                })}
-              </TableRow>
-            ))}
-          </TableHeader>
-          <TableBody>
-            {table.getRowModel().rows?.length && !options?.isLoading ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                  className="bg-white"
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell className="p-2" key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))
-            ) : options?.isLoading ? (
-              [1, 2, 3, 4, 5].map((_, index) => (
-                <TableRow key={index}>
-                  {[1].map((_, index) => (
-                    <TableCell
-                      key={index}
-                      colSpan={columns.length}
-                      className="h-10 text-center"
+        {/* Mobile: Horizontal scroll container */}
+        <div className="overflow-x-auto -mx-4 sm:mx-0">
+          <div className="min-w-full px-4 sm:px-0">
+            <Table className="border-separate border-spacing-y-3 min-w-[640px] sm:min-w-full">
+              <TableHeader className="bg-accent">
+                {table.getHeaderGroups().map((headerGroup) => (
+                  <TableRow key={headerGroup.id}>
+                    {headerGroup.headers.map((header) => {
+                      return (
+                        <TableHead className="h-10 px-2 sm:px-4 text-xs sm:text-sm whitespace-nowrap" key={header.id}>
+                          {header.isPlaceholder
+                            ? null
+                            : flexRender(
+                                header.column.columnDef.header,
+                                header.getContext()
+                              )}
+                        </TableHead>
+                      );
+                    })}
+                  </TableRow>
+                ))}
+              </TableHeader>
+              <TableBody>
+                {table.getRowModel().rows?.length && !options?.isLoading ? (
+                  table.getRowModel().rows.map((row) => (
+                    <TableRow
+                      key={row.id}
+                      data-state={row.getIsSelected() && "selected"}
+                      className="bg-white hover:bg-gray-50 transition-colors touch-manipulation"
                     >
-                      <Skeleton key={index} className="h-4 bg-slate-300" />
+                      {row.getVisibleCells().map((cell) => (
+                        <TableCell className="p-2 sm:p-4 text-xs sm:text-sm" key={cell.id}>
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext()
+                          )}
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                  ))
+                ) : options?.isLoading ? (
+                  [1, 2, 3, 4, 5].map((_, index) => (
+                    <TableRow key={index}>
+                      {[1].map((_, index) => (
+                        <TableCell
+                          key={index}
+                          colSpan={columns.length}
+                          className="h-10 text-center p-2 sm:p-4"
+                        >
+                          <Skeleton key={index} className="h-4 bg-slate-300" />
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell
+                      colSpan={columns.length}
+                      className="h-24 text-center p-2 sm:p-4 text-sm sm:text-base"
+                    >
+                      No results.
                     </TableCell>
-                  ))}
-                </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center"
-                >
-                  No results.
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </div>
+        </div>
       </div>
-      <div className="grid grid-cols-2 py-4">
+      <div className="flex flex-col sm:grid sm:grid-cols-2 gap-4 sm:gap-0 py-4">
         {!options?.disableSelection ? (
-          <div className="flex-1 text-sm text-muted-foreground">
+          <div className="flex-1 text-xs sm:text-sm text-muted-foreground text-center sm:text-left">
             {table.getFilteredSelectedRowModel().rows.length} of{" "}
             {table.getFilteredRowModel().rows.length} row(s) selected.
           </div>
@@ -174,10 +179,11 @@ export function DataTable<T = unknown>({
         )}
 
         {!options?.disablePagination && (
-          <Pagination className="justify-end pt-10 md:pt-0 lg:pt-0">
-            <PaginationContent>
+          <Pagination className="justify-center sm:justify-end pt-0">
+            <PaginationContent className="flex-wrap gap-1">
               <PaginationItem>
                 <PaginationPrevious
+                  className="h-8 w-8 sm:h-10 sm:w-auto px-2 sm:px-4 text-xs sm:text-sm touch-manipulation"
                   onClick={() => {
                     table.previousPage();
                   }}
@@ -189,14 +195,15 @@ export function DataTable<T = unknown>({
                 table.getState().pagination.pageIndex + 1
               ).map((page) =>
                 typeof page === "string" ? (
-                  <PaginationItem key={page}>
-                    <PaginationEllipsis />
+                  <PaginationItem key={page} className="hidden sm:block">
+                    <PaginationEllipsis className="h-8 w-8 sm:h-10 sm:w-10" />
                   </PaginationItem>
                 ) : (
                   <PaginationItem key={page}>
                     <PaginationLink
                       href="#"
                       isActive={activePage === page}
+                      className="h-8 w-8 sm:h-10 sm:w-10 text-xs sm:text-sm touch-manipulation min-w-[32px] sm:min-w-[40px]"
                       onClick={() => table.setPageIndex(page - 1)}
                     >
                       {page}
@@ -207,6 +214,7 @@ export function DataTable<T = unknown>({
 
               <PaginationItem>
                 <PaginationNext
+                  className="h-8 w-8 sm:h-10 sm:w-auto px-2 sm:px-4 text-xs sm:text-sm touch-manipulation"
                   onClick={() => {
                     table.nextPage();
                   }}

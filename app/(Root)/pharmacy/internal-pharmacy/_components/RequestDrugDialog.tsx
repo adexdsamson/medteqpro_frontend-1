@@ -42,7 +42,7 @@ export default function RequestDrugDialog({ children }: RequestDrugDialogProps) 
   
   // Fetch existing drugs to populate options
   const { data: drugsData } = useGetDrugs({ page_size: 1000 }); // Get all drugs for options
-  const drugs = drugsData?.data || [];
+  const drugs = drugsData?.data?.results || [];
 
   const { control, reset } = useForge<RequestDrugFormData>({
     resolver: yupResolver(schema),
@@ -57,7 +57,7 @@ export default function RequestDrugDialog({ children }: RequestDrugDialogProps) 
 
   // Generate drug type options from existing drugs
   const drugTypeOptions = React.useMemo(() => {
-    if (!drugs?.data || drugs.data.length === 0) {
+    if (!drugs || drugs.length === 0) {
       return [
         { label: "Tablet", value: "tablet" },
         { label: "Capsule", value: "capsule" },
@@ -68,7 +68,7 @@ export default function RequestDrugDialog({ children }: RequestDrugDialogProps) 
       ];
     }
     
-    const uniqueTypes = [...new Set(drugs.data.map((drug: Drug) => drug.drug_type))]
+    const uniqueTypes = [...new Set(drugs.map((drug: Drug) => drug.drug_type))]
       .filter((type): type is string => Boolean(type))
       .sort();
     
@@ -82,7 +82,7 @@ export default function RequestDrugDialog({ children }: RequestDrugDialogProps) 
 
   // Generate drug category options from existing drugs
   const drugCategoryOptions = React.useMemo(() => {
-    if (!drugs?.data || drugs.data.length === 0) {
+    if (!drugs || drugs.length === 0) {
       return [
         { label: "Analgesic", value: "analgesic" },
         { label: "Antibiotic", value: "antibiotic" },
@@ -92,7 +92,7 @@ export default function RequestDrugDialog({ children }: RequestDrugDialogProps) 
       ];
     }
     
-    const uniqueCategories = [...new Set(drugs.data.map((drug: Drug) => drug.drug_category))]
+    const uniqueCategories = [...new Set(drugs.map((drug: Drug) => drug.drug_category))]
       .filter((category): category is string => Boolean(category))
       .sort();
     
@@ -106,9 +106,9 @@ export default function RequestDrugDialog({ children }: RequestDrugDialogProps) 
   
   // Generate drug name suggestions from existing drugs
   const drugNameOptions = React.useMemo(() => {
-    if (!drugs?.data || drugs.data.length === 0) return [];
+    if (!drugs || drugs.length === 0) return [];
     
-    return drugs.data.map((drug: Drug) => ({
+    return drugs.map((drug: Drug) => ({
       label: drug.drug_name,
       value: drug.drug_name
     })).sort((a: { label: string }, b: { label: string }) => a.label.localeCompare(b.label));

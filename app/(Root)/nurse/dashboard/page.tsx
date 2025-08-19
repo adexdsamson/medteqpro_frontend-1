@@ -150,22 +150,22 @@ const NurseDashboard = () => {
           </div>
         </Card>
         <Card className="p-6 shadow-sm border-0 max-w-[320px]">
-         <h2 className="text-base font-medium text-center mb-6">Upcoming Appointments</h2>
+         <h2 className="text-sm sm:text-base font-medium text-center mb-4 sm:mb-6">Upcoming Appointments</h2>
           
-          <div className="bg-gray-50 p-3 rounded-lg mb-4">
-            <div className="flex items-center justify-center gap-10 w-full mb-2">
-              <h3 className=" font-medium">18 Feb 2024</h3>
-              <CalendarIcon className="h-5 w-5 text-green-500" />
+          <div className="bg-gray-50 p-2 sm:p-3 rounded-lg mb-3 sm:mb-4">
+            <div className="flex items-center justify-center gap-4 sm:gap-10 w-full mb-2">
+              <h3 className="text-sm sm:text-base font-medium">18 Feb 2024</h3>
+              <CalendarIcon className="h-4 w-4 sm:h-5 sm:w-5 text-green-500" />
             </div>
           </div>
-            <p className="text-gray-600 text-sm ">
+            <p className="text-gray-600 text-xs sm:text-sm px-2 sm:px-0">
               Hi Doctor Ayo, you have an appointment scheduled for this date.
             </p>
 
-          <div className="flex items-center justify-between mt-8">
-            <button className="text-blue-500 hover:text-blue-600">Prev</button>
-            <div className="text-sm text-gray-500">1/4</div>
-            <button className="text-blue-500 hover:text-blue-600">Next</button>
+          <div className="flex items-center justify-between mt-6 sm:mt-8 px-2 sm:px-0">
+            <button className="text-blue-500 hover:text-blue-600 text-sm sm:text-base touch-manipulation min-h-[44px] flex items-center">Prev</button>
+            <div className="text-xs sm:text-sm text-gray-500">1/4</div>
+            <button className="text-blue-500 hover:text-blue-600 text-sm sm:text-base touch-manipulation min-h-[44px] flex items-center">Next</button>
           </div>
          </Card>
       </div>

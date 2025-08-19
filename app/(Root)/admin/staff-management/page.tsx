@@ -25,11 +25,11 @@ export default function StaffManagementPage() {
       label: "", // No label in design, placeholder is used
       type: "text",
       placeholder: "Search Name",
-      containerClass: "w-full md:w-60",
+      containerClass: "w-full sm:w-60",
       component: TextInput,
       showLabel: false,
       startAdornment: <SearchIcon className="h-4 w-4 text-gray-400" />,
-      inputClassName: "pl-10", // Padding for the icon
+      inputClassName: "pl-10 min-h-[44px] sm:min-h-[48px]", // Padding for the icon and responsive height
     },
   ];
 
@@ -73,9 +73,9 @@ export default function StaffManagementPage() {
   return (
     <Dialog>
       <Subheader title="Staff Management" />
-      <div className="p-6 space-y-6 bg-gray-50 min-h-screen">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="w-full md:w-auto">
+      <div className="p-3 sm:p-6 space-y-4 sm:space-y-6 bg-gray-50 min-h-screen">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
+          <div className="w-full sm:w-auto flex-1 sm:max-w-md">
             <p className="text-sm font-medium text-gray-600 mb-1">
               Search Keyword
             </p>
@@ -87,7 +87,7 @@ export default function StaffManagementPage() {
             />
           </div>
           <DialogTrigger asChild>
-            <Button className="w-full md:w-auto bg-blue-600 hover:bg-blue-700 text-white">
+            <Button className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white min-h-[44px] sm:min-h-[48px] touch-manipulation">
               Add Staff
             </Button>
           </DialogTrigger>

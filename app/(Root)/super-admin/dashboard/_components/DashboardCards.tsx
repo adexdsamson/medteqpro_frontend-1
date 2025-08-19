@@ -49,29 +49,29 @@ export function DashboardCards({
   isLoading = false
 }: DashboardCardsProps) {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 mb-4 sm:mb-8">
       <StatCard 
         title="Hospitals" 
         value={totalHospitals} 
-        icon={<Building className="h-5 w-5 text-blue-500" />}
+        icon={<Building className="h-5 w-5 sm:h-6 sm:w-6 text-blue-500" />}
         isLoading={isLoading}
       />
       <StatCard 
         title="Active Hospitals" 
         value={activeHospitals} 
-        icon={<Building2 className="h-5 w-5 text-green-500" />}
+        icon={<Building2 className="h-5 w-5 sm:h-6 sm:w-6 text-green-500" />}
         isLoading={isLoading}
       />
       <StatCard 
         title="Inactive Hospitals" 
         value={inactiveHospitals} 
-        icon={<Building className="h-5 w-5 text-red-500" />}
+        icon={<Building className="h-5 w-5 sm:h-6 sm:w-6 text-red-500" />}
         isLoading={isLoading}
       />
       <StatCard 
         title="Our Staff" 
         value={staffCount} 
-        icon={<Users className="h-5 w-5 text-purple-500" />}
+        icon={<Users className="h-5 w-5 sm:h-6 sm:w-6 text-purple-500" />}
         isLoading={isLoading}
       />
     </div>

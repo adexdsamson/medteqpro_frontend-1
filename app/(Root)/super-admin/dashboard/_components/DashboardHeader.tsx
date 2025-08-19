@@ -19,18 +19,18 @@ export function DashboardHeader({ revenue }: DashboardHeaderProps) {
     : "N0.00";
 
   return (
-    <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+    <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-3 sm:mb-6 gap-3 sm:gap-4">
       <div>
         {/* <Button className="bg-blue-800 hover:bg-blue-900">
           Register Hospital
         </Button> */}
       </div>
-      <div className="flex flex-col items-end">
-        <span className="text-sm text-muted-foreground">Revenue</span>
+      <div className="flex flex-col items-start md:items-end">
+        <span className="text-xs sm:text-sm text-muted-foreground">Revenue</span>
         {revenue !== undefined ? (
-          <span className="text-2xl font-bold">{formattedRevenue}</span>
+          <span className="text-xl sm:text-2xl font-bold">{formattedRevenue}</span>
         ) : (
-          <Skeleton className="h-8 w-40" />
+          <Skeleton className="h-6 sm:h-8 w-32 sm:w-40" />
         )}
       </div>
     </div>

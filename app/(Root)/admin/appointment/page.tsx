@@ -85,41 +85,41 @@ const AdminAppointmentPage = () => {
     <div className="container mx-auto bg-gray-50 min-h-screen">
       <Subheader title="Appointment" />
 
-      <div className="mb-6 p-6 flex justify-end items-center">
+      <div className="mb-4 sm:mb-6 p-3 sm:p-6 flex justify-end items-center">
         <BookAppointmentDialog>
-          <Button>Book Appointment</Button>
+          <Button className="w-full sm:w-auto touch-manipulation">Book Appointment</Button>
         </BookAppointmentDialog>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6 p-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6 mb-4 sm:mb-6 p-3 sm:p-6">
         {appointmentStats.map((stat, index) => (
           <AppointmentStats key={index} {...stat} />
         ))}
       </div>
 
-      <div className="mb-6 flex px-6 justify-between items-center">
+      <div className="mb-4 sm:mb-6 flex flex-col sm:flex-row px-3 sm:px-6 gap-3 sm:gap-0 sm:justify-between sm:items-center">
         <TextInput
-          startAdornment={<SearchIcon className="h-5 w-5" />}
+          startAdornment={<SearchIcon className="h-4 w-4 sm:h-5 sm:w-5" />}
           label={"Search Keyword"}
           placeholder="Search (Patient ID/Name)"
-          containerClass="!w-60"
+          containerClass="!w-full sm:!w-60 md:!w-72"
           onChange={handleSearch}
           value={searchTerm}
         />
       </div>
 
-      <Tabs defaultValue="individual" className="w-full px-6">
-        <div className="flex justify-between items-center mb-4">
-          <TabsList className="h-auto rounded-none border-b bg-transparent p-0">
+      <Tabs defaultValue="individual" className="w-full px-3 sm:px-6">
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 gap-3 sm:gap-0">
+          <TabsList className="h-auto rounded-none border-b bg-transparent p-0 w-full sm:w-auto overflow-x-auto">
             <TabsTrigger
               value="individual"
-              className="data-[state=active]:after:bg-primary relative rounded-none py-2 after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 data-[state=active]:bg-transparent data-[state=active]:shadow-none"
+              className="data-[state=active]:after:bg-primary relative rounded-none py-2 px-3 sm:px-4 text-sm sm:text-base after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 data-[state=active]:bg-transparent data-[state=active]:shadow-none touch-manipulation flex-shrink-0"
             >
               Individual
             </TabsTrigger>
             <TabsTrigger
               value="family"
-              className="data-[state=active]:after:bg-primary relative rounded-none py-2 after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 data-[state=active]:bg-transparent data-[state=active]:shadow-none"
+              className="data-[state=active]:after:bg-primary relative rounded-none py-2 px-3 sm:px-4 text-sm sm:text-base after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 data-[state=active]:bg-transparent data-[state=active]:shadow-none touch-manipulation flex-shrink-0"
             >
               Family
             </TabsTrigger>

@@ -19,11 +19,11 @@ function Dashboard() {
     <>
       <Subheader title="Dashboard" />
 
-      <div className="p-6 space-y-6 bg-gray-50 min-h-screen w-full">
+      <div className="p-3 sm:p-6 space-y-3 sm:space-y-6 bg-gray-50 min-h-screen w-full">
         <DashboardHeader revenue={dashboardData?.data.data?.total_revenue} />
 
         <div>
-          <h2 className="text-base font-semibold mb-4">Overview</h2>
+          <h2 className="text-sm sm:text-base font-semibold mb-3 sm:mb-4">Overview</h2>
           <DashboardCards
             totalHospitals={
               dashboardData?.data.data?.hospital_analytics?.total_hospitals
@@ -39,7 +39,7 @@ function Dashboard() {
           />
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 sm:gap-6">
           <div className="lg:col-span-1">
             <SectionHeader title="Top 3 Performing Hospitals" />
             <PatientStatistics
@@ -73,7 +73,7 @@ function Dashboard() {
           </div>
         </div>
 
-        <div className="mb-5">
+        <div className="mb-3 sm:mb-5">
           <SectionHeader
             title="Recently Registered"
             seeAllLink="/super-admin/hospitals"

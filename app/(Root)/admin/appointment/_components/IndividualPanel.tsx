@@ -28,12 +28,12 @@ export const IndividualPanel = ({ appointments = [], isLoading = false }: Indivi
   );
   return (
     <Tabs defaultValue="all">
-      <TabsList className="bg-transparent p-0">
-        <TabsTrigger value="all" className="text-gray-600 data-[state=active]:border-2 data-[state=active]:border-cyan-600 px-6 data-[state=active]:bg-cyan-200 rounded-none">All</TabsTrigger>
-        <TabsTrigger value="upcoming"  className="text-gray-600 data-[state=active]:border-2 data-[state=active]:border-cyan-600 px-6 data-[state=active]:bg-cyan-200 rounded-none">Upcoming</TabsTrigger>
-        <TabsTrigger value="completed"  className="text-gray-600 data-[state=active]:border-2 data-[state=active]:border-cyan-600 px-6 data-[state=active]:bg-cyan-200 rounded-none">Completed</TabsTrigger>
-        <TabsTrigger value="rescheduled"  className="text-gray-600 data-[state=active]:border-2 data-[state=active]:border-cyan-600 px-6 data-[state=active]:bg-cyan-200 rounded-none">Rescheduled</TabsTrigger>
-        <TabsTrigger value="cancelled"  className="text-gray-600 data-[state=active]:border-2 data-[state=active]:border-cyan-600 px-6 data-[state=active]:bg-cyan-200 rounded-none">Cancelled</TabsTrigger>
+      <TabsList className="bg-transparent p-0 w-full overflow-x-auto flex-nowrap">
+        <TabsTrigger value="all" className="text-gray-600 data-[state=active]:border-2 data-[state=active]:border-cyan-600 px-3 sm:px-6 py-2 data-[state=active]:bg-cyan-200 rounded-none touch-manipulation text-sm sm:text-base flex-shrink-0">All</TabsTrigger>
+        <TabsTrigger value="upcoming"  className="text-gray-600 data-[state=active]:border-2 data-[state=active]:border-cyan-600 px-3 sm:px-6 py-2 data-[state=active]:bg-cyan-200 rounded-none touch-manipulation text-sm sm:text-base flex-shrink-0">Upcoming</TabsTrigger>
+        <TabsTrigger value="completed"  className="text-gray-600 data-[state=active]:border-2 data-[state=active]:border-cyan-600 px-3 sm:px-6 py-2 data-[state=active]:bg-cyan-200 rounded-none touch-manipulation text-sm sm:text-base flex-shrink-0">Completed</TabsTrigger>
+        <TabsTrigger value="rescheduled"  className="text-gray-600 data-[state=active]:border-2 data-[state=active]:border-cyan-600 px-3 sm:px-6 py-2 data-[state=active]:bg-cyan-200 rounded-none touch-manipulation text-sm sm:text-base flex-shrink-0">Rescheduled</TabsTrigger>
+        <TabsTrigger value="cancelled"  className="text-gray-600 data-[state=active]:border-2 data-[state=active]:border-cyan-600 px-3 sm:px-6 py-2 data-[state=active]:bg-cyan-200 rounded-none touch-manipulation text-sm sm:text-base flex-shrink-0">Cancelled</TabsTrigger>
       </TabsList>
       <TabsContent value="all">
         <DataTable 

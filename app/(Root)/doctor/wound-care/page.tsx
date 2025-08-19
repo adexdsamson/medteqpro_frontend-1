@@ -19,6 +19,7 @@ import { useWoundRecords, transformWoundRecord } from "@/features/services/wound
 import { useToastHandler } from "@/hooks/useToaster";
 import CreateWoundRecordDialog from "./_components/CreateWoundRecordDialog";
 import EditWoundRecordDialog from "./_components/EditWoundRecordDialog";
+import { getStatusBadgeClasses, formatStatusText } from "@/lib/statusColors";
 
 // Type for wound care patients in UI
 interface WoundCarePatient {
@@ -48,16 +49,11 @@ const columns: ColumnDef<WoundCarePatient>[] = [
     header: "ORA STATUS",
     cell: ({ row }) => {
       const status = row.getValue("oraStatus") as string;
+      // Map "Referred" to "pending" for consistent color scheme
+      const mappedStatus = status === "Referred" ? "pending" : status.toLowerCase();
       return (
-        <Badge
-          variant={status === "Admitted" ? "default" : "secondary"}
-          className={`${
-            status === "Admitted"
-              ? "bg-green-100 text-green-800 hover:bg-green-100"
-              : "bg-gray-100 text-gray-800 hover:bg-gray-100"
-          }`}
-        >
-          {status}
+        <Badge className={getStatusBadgeClasses(mappedStatus)}>
+          {formatStatusText(status)}
         </Badge>
       );
     },

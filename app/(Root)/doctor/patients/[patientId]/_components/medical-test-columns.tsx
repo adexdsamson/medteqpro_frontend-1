@@ -11,18 +11,14 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { LabTest, formatLabDate } from "@/features/services/labResultService";
+import { getStatusBadgeClasses, formatStatusText } from "@/lib/statusColors";
 
 const getStatusBadge = (status: string) => {
-  switch (status) {
-    case 'completed':
-      return <Badge variant="default" className="bg-green-100 text-green-800">Completed</Badge>;
-    case 'pending':
-      return <Badge variant="default" className="bg-yellow-100 text-yellow-800">Pending</Badge>;
-    case 'draft':
-      return <Badge variant="default" className="bg-gray-100 text-gray-800">Draft</Badge>;
-    default:
-      return <Badge variant="outline">{status}</Badge>;
-  }
+  return (
+    <Badge className={getStatusBadgeClasses(status)}>
+      {formatStatusText(status)}
+    </Badge>
+  );
 };
 
 export const medicalTestColumns: ColumnDef<LabTest>[] = [

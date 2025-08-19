@@ -20,6 +20,7 @@ import { useToastHandler } from "@/hooks/useToaster";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getRequest, postRequest, patchRequest, deleteRequest } from "@/lib/axiosInstance";
 import { Badge } from "@/components/ui/badge";
+import { getStatusBadgeClasses, formatStatusText } from "@/lib/statusColors";
 
 // Types
 type LabTest = {
@@ -98,24 +99,9 @@ const deleteLabTest = async (testId: string): Promise<void> => {
 
 // Status badge component
 const StatusBadge = ({ status }: { status: string }) => {
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "completed":
-        return "bg-green-100 text-green-800";
-      case "in_progress":
-        return "bg-blue-100 text-blue-800";
-      case "pending":
-        return "bg-yellow-100 text-yellow-800";
-      case "cancelled":
-        return "bg-red-100 text-red-800";
-      default:
-        return "bg-gray-100 text-gray-800";
-    }
-  };
-
   return (
-    <Badge className={getStatusColor(status)}>
-      {status.charAt(0).toUpperCase() + status.slice(1).replace("_", " ")}
+    <Badge className={getStatusBadgeClasses(status)}>
+      {formatStatusText(status)}
     </Badge>
   );
 };

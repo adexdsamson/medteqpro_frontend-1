@@ -34,17 +34,24 @@ export function AppHeader() {
   };
 
   return (
-    <header className="p-4 border-b bg-white">
+    <header className="px-3 py-3 sm:px-4 sm:py-4 border-b bg-white">
       <div className="container mx-auto flex justify-between items-center">
 
         {/* Date display and Notification */}
-        <div className="flex items-center gap-2 text-gray-600">
-          <Calendar className="text-[#16C2D5]" />
-          <span className="text-sm font-semibold">{getCurrentDate()}</span>
+        <div className="flex items-center gap-1 sm:gap-2 text-gray-600">
+          <Calendar className="text-[#16C2D5] h-4 w-4 sm:h-5 sm:w-5" />
+          <span className="text-xs sm:text-sm font-semibold hidden sm:inline">{getCurrentDate()}</span>
+          <span className="text-xs font-semibold sm:hidden">
+            {new Date().toLocaleDateString("en-US", { month: "short", day: "numeric" })}
+          </span>
           {/* Notification Bell */}
-          <Button variant="ghost" size="icon" className="relative">
-            <BellIcon className="h-5 w-5" />
-            <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            className="relative ml-1 sm:ml-2 h-8 w-8 sm:h-10 sm:w-10 touch-manipulation"
+          >
+            <BellIcon className="h-4 w-4 sm:h-5 sm:w-5" />
+            <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 sm:h-5 sm:w-5 flex items-center justify-center text-[10px] sm:text-xs">
               2
             </span>
           </Button>
@@ -55,37 +62,56 @@ export function AppHeader() {
           {/* User Profile Dropdown */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <div className="flex items-center gap-3 cursor-pointer">
-                <Avatar>
+              <div className="flex items-center gap-2 sm:gap-3 cursor-pointer touch-manipulation p-1 rounded-lg hover:bg-gray-50 transition-colors">
+                <Avatar className="h-8 w-8 sm:h-10 sm:w-10">
                   <AvatarImage
                     src={"https://avatar.iran.liara.run/public/35"}
                     alt={userProfile?.first_name}
                   />
-                  <AvatarFallback>{userProfile?.first_name?.substring?.(0, 2)?.toUpperCase?.()}</AvatarFallback>
+                  <AvatarFallback className="text-xs sm:text-sm">
+                    {userProfile?.first_name?.substring?.(0, 2)?.toUpperCase?.()}
+                  </AvatarFallback>
                 </Avatar>
                 <div className="text-right hidden md:block">
-                  <p className="text-sm font-medium">Hi, {userProfile?.first_name + " " + userProfile?.last_name}</p>
-                  <p className="text-xs text-muted-foreground">{userProfile?.role}</p>
+                  <p className="text-sm font-medium truncate max-w-[120px] lg:max-w-none">
+                    Hi, {userProfile?.first_name + " " + userProfile?.last_name}
+                  </p>
+                  <p className="text-xs text-muted-foreground truncate max-w-[120px] lg:max-w-none">
+                    {userProfile?.role}
+                  </p>
                 </div>
               </div>
             </DropdownMenuTrigger>
             
-            <DropdownMenuContent align="end" className="w-56">
-              <DropdownMenuLabel>My Account</DropdownMenuLabel>
+            <DropdownMenuContent align="end" className="w-48 sm:w-56 mr-2 sm:mr-0">
+              <DropdownMenuLabel className="text-sm">
+                <div className="md:hidden">
+                  <p className="font-medium truncate">
+                    {userProfile?.first_name + " " + userProfile?.last_name}
+                  </p>
+                  <p className="text-xs text-muted-foreground font-normal truncate">
+                    {userProfile?.role}
+                  </p>
+                </div>
+                <div className="hidden md:block">My Account</div>
+              </DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>
+              <DropdownMenuItem className="touch-manipulation py-3 sm:py-2">
                 <User className="mr-2 h-4 w-4" />
                 <span>Profile</span>
               </DropdownMenuItem>
-              <DropdownMenuItem>
+              <DropdownMenuItem className="touch-manipulation py-3 sm:py-2">
                 <Settings className="mr-2 h-4 w-4" />
                 <span>Settings</span>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={() => {
-                storeFunctions.getState().setReset();
-                router.push("/sign-in");
-              }}>
+              <DropdownMenuItem 
+                className="touch-manipulation py-3 sm:py-2 text-red-600 focus:text-red-600"
+                onClick={() => {
+                  storeFunctions.getState().setReset();
+                  router.push("/sign-in");
+                }}
+              >
                 <LogOut className="mr-2 h-4 w-4" />
                 <span>Log out</span>
               </DropdownMenuItem>
