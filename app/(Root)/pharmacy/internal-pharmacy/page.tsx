@@ -19,22 +19,20 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ColumnDef } from "@tanstack/react-table";
-import { 
-  useGetDrugs, 
-  Drug, 
-  useGetDrugAdministrations, 
+import {
+  useGetDrugs,
+  Drug,
+  useGetDrugAdministrations,
   DrugAdministration,
   useGetDrugRequests,
   DrugRequest,
   useGetDrugOrdersOverview,
   useGetDrugReconciliations,
-  DrugReconciliation
+  DrugReconciliation,
 } from "@/features/services/drugManagementService";
 import RequestDrugDialog from "./_components/RequestDrugDialog";
 import AdvancedFilters from "./_components/AdvancedFilters";
 import { FilterOptions } from "@/features/services/drugManagementService";
-
-
 
 const InternalPharmacyPage = () => {
   const [activeTab, setActiveTab] = useState("drug-overview");
@@ -82,45 +80,49 @@ const InternalPharmacyPage = () => {
   const totalCounts = useMemo(() => drugsResp?.data?.count ?? 0, [drugsResp]);
 
   // Fetch daily drug administrations (server search only)
-  const { data: adminResp, isLoading: isLoadingAdmin } = useGetDrugAdministrations({
-    search: searchTerm || filters.search,
-    date_from: filters.dateFrom,
-    date_to: filters.dateTo,
-    status: filters.status,
-  });
+  const { data: adminResp, isLoading: isLoadingAdmin } =
+    useGetDrugAdministrations({
+      search: searchTerm || filters.search,
+      date_from: filters.dateFrom,
+      date_to: filters.dateTo,
+      status: filters.status,
+    });
   const administrations: DrugAdministration[] = useMemo(
     () => (adminResp?.data?.results as DrugAdministration[]) ?? [],
     [adminResp]
   );
 
   // Fetch drug requests
-  const { data: requestsResp, isLoading: isLoadingRequests } = useGetDrugRequests({
-    search: searchTerm || filters.search,
-    date_from: filters.dateFrom,
-    date_to: filters.dateTo,
-    status: filters.status,
-    drugType: filters.drugType,
-    drugCategory: filters.drugCategory,
-  });
+  const { data: requestsResp, isLoading: isLoadingRequests } =
+    useGetDrugRequests({
+      search: searchTerm || filters.search,
+      date_from: filters.dateFrom,
+      date_to: filters.dateTo,
+      status: filters.status,
+      drugType: filters.drugType,
+      drugCategory: filters.drugCategory,
+    });
   const drugRequests: DrugRequest[] = useMemo(
     () => (requestsResp?.data?.results as DrugRequest[]) ?? [],
     [requestsResp]
   );
 
   // Fetch drug reconciliations
-  const { data: reconciliationsResp, isLoading: isLoadingReconciliations } = useGetDrugReconciliations({
-    search: searchTerm || filters.search,
-    date_from: filters.dateFrom,
-    date_to: filters.dateTo,
-    status: filters.status,
-  });
+  const { data: reconciliationsResp, isLoading: isLoadingReconciliations } =
+    useGetDrugReconciliations({
+      search: searchTerm || filters.search,
+      date_from: filters.dateFrom,
+      date_to: filters.dateTo,
+      status: filters.status,
+    });
   const drugReconciliations: DrugReconciliation[] = useMemo(
     () => (reconciliationsResp?.data?.results as DrugReconciliation[]) ?? [],
     [reconciliationsResp]
   );
 
   // Fetch overview statistics
-  const { data: overviewResp, isLoading: isLoadingOverview } = useGetDrugOrdersOverview();
+  const { data: overviewResp, isLoading: isLoadingOverview } =
+    useGetDrugOrdersOverview();
   const overviewStats = useMemo(() => {
     const overview = overviewResp?.data?.data;
     if (overview) {
@@ -153,28 +155,36 @@ const InternalPharmacyPage = () => {
     {
       accessorKey: "drug_name",
       cell: ({ row }) => (
-        <span className="font-medium">{row.getValue("drug_name") as string}</span>
+        <span className="font-medium">
+          {row.getValue("drug_name") as string}
+        </span>
       ),
       header: "DRUG/EQUIPMENT NAME",
     },
     {
       accessorKey: "drug_expiry_date",
       cell: ({ row }) => (
-        <span className="font-medium">{row.getValue("drug_expiry_date") as string}</span>
+        <span className="font-medium">
+          {row.getValue("drug_expiry_date") as string}
+        </span>
       ),
       header: "EXPIRY DATE",
     },
     {
       accessorKey: "countdown_to_expiration",
       cell: ({ row }) => (
-        <span className="font-medium text-orange-600">{row.getValue("countdown_to_expiration") as number}</span>
+        <span className="font-medium text-orange-600">
+          {row.getValue("countdown_to_expiration") as number}
+        </span>
       ),
       header: "COUNT DOWN TO EXPIRATION",
     },
     {
       accessorKey: "quantity_in_stock",
       cell: ({ row }) => (
-        <span className="font-medium">{row.getValue("quantity_in_stock") as number}</span>
+        <span className="font-medium">
+          {row.getValue("quantity_in_stock") as number}
+        </span>
       ),
       header: "QUANTITY PREVIOUSLY IN STOCK",
     },
@@ -182,59 +192,75 @@ const InternalPharmacyPage = () => {
 
   const dailyAdministrationColumns: ColumnDef<DrugAdministration>[] = [
     {
-      accessorKey: 'date_administered',
+      accessorKey: "date_administered",
       cell: ({ row }) => (
-        <span className="font-medium">{row.getValue("date_administered") as string}</span>
+        <span className="font-medium">
+          {row.getValue("date_administered") as string}
+        </span>
       ),
-      header: "DATE & TIME"
+      header: "DATE & TIME",
     },
     {
-      accessorKey: 'patient_id',
+      accessorKey: "patient_id",
       cell: ({ row }) => (
-        <span className="font-medium">{row.getValue("patient_id") as string}</span>
+        <span className="font-medium">
+          {row.getValue("patient_id") as string}
+        </span>
       ),
-      header: "PATIENT ID"
+      header: "PATIENT ID",
     },
     {
-      accessorKey: 'patient_name',
+      accessorKey: "patient_name",
       cell: ({ row }) => (
-        <span className="font-medium">{row.getValue("patient_name") as string}</span>
+        <span className="font-medium">
+          {row.getValue("patient_name") as string}
+        </span>
       ),
-      header: "PATIENT NAME"
+      header: "PATIENT NAME",
     },
     {
-      accessorKey: 'drug',
+      accessorKey: "drug",
       cell: ({ row }) => {
         const drug = row.getValue("drug") as DrugAdministration["drug"];
         return <span className="font-medium">{drug?.drug_name}</span>;
       },
-      header: "DRUGS DISPENSED"
+      header: "DRUGS DISPENSED",
     },
     {
-      accessorKey: 'quantity_administered',
+      accessorKey: "quantity_administered",
       cell: ({ row }) => (
-        <span className="font-medium">{row.getValue("quantity_administered") as number}</span>
+        <span className="font-medium">
+          {row.getValue("quantity_administered") as number}
+        </span>
       ),
-      header: "QUANTITY GIVEN"
-    }
+      header: "QUANTITY GIVEN",
+    },
   ];
 
   const reconciliationColumns: ColumnDef<DrugReconciliation>[] = [
     {
       accessorKey: "drug_name",
       header: "DRUG/EQUIPMENT NAME",
-      cell: ({ row }) => <span className="font-medium">{row.getValue("drug_name") as string}</span>,
+      cell: ({ row }) => (
+        <span className="font-medium">
+          {row.getValue("drug_name") as string}
+        </span>
+      ),
     },
     {
       accessorKey: "expiry_date",
       header: "EXPIRY DATE",
       cell: ({ row }) => {
         const date = row.getValue("expiry_date") as string;
-        return <span>{new Date(date).toLocaleDateString("en-GB", {
-          day: "2-digit",
-          month: "short",
-          year: "2-digit",
-        })}</span>;
+        return (
+          <span>
+            {new Date(date).toLocaleDateString("en-GB", {
+              day: "2-digit",
+              month: "short",
+              year: "2-digit",
+            })}
+          </span>
+        );
       },
     },
     {
@@ -242,67 +268,97 @@ const InternalPharmacyPage = () => {
       header: "DELIVERY DATE",
       cell: ({ row }) => {
         const date = row.getValue("delivery_date") as string;
-        return <span>{new Date(date).toLocaleDateString("en-GB", {
-          day: "2-digit",
-          month: "short",
-          year: "2-digit",
-        })}</span>;
+        return (
+          <span>
+            {new Date(date).toLocaleDateString("en-GB", {
+              day: "2-digit",
+              month: "short",
+              year: "2-digit",
+            })}
+          </span>
+        );
       },
     },
     {
       accessorKey: "quantity_invoiced",
       header: "QUANTITY INVOICED",
       cell: ({ row }) => (
-        <span className="font-medium">{row.getValue("quantity_invoiced") as number}</span>
+        <span className="font-medium">
+          {row.getValue("quantity_invoiced") as number}
+        </span>
       ),
     },
     {
       accessorKey: "quantity_delivered",
       header: "QUANTITY DELIVERED",
       cell: ({ row }) => (
-        <span className="font-medium">{row.getValue("quantity_delivered") as number}</span>
+        <span className="font-medium">
+          {row.getValue("quantity_delivered") as number}
+        </span>
       ),
     },
     {
-       accessorKey: "discrepancy",
-       header: "DISCREPANCY",
-       cell: ({ row }) => {
-         const invoiced = row.original.quantity_invoiced;
-         const delivered = row.original.quantity_delivered;
-         const discrepancy = invoiced - delivered;
-         const discrepancyColor = discrepancy > 0 ? "text-red-600" : discrepancy < 0 ? "text-green-600" : "text-gray-600";
-         return <span className={`font-medium ${discrepancyColor}`}>{discrepancy}</span>;
-       },
-     },
-   ];
+      accessorKey: "discrepancy",
+      header: "DISCREPANCY",
+      cell: ({ row }) => {
+        const invoiced = row.original.quantity_invoiced;
+        const delivered = row.original.quantity_delivered;
+        const discrepancy = invoiced - delivered;
+        const discrepancyColor =
+          discrepancy > 0
+            ? "text-red-600"
+            : discrepancy < 0
+            ? "text-green-600"
+            : "text-gray-600";
+        return (
+          <span className={`font-medium ${discrepancyColor}`}>
+            {discrepancy}
+          </span>
+        );
+      },
+    },
+  ];
 
   const drugRequestColumns: ColumnDef<DrugRequest>[] = [
     {
       accessorKey: "drug_name_requested",
       header: "DRUGS",
-      cell: ({ row }) => <span>{row.getValue("drug_name_requested") as string}</span>,
+      cell: ({ row }) => (
+        <span>{row.getValue("drug_name_requested") as string}</span>
+      ),
     },
     {
       accessorKey: "quantity_requested",
       header: "REQUESTED QUANTITY",
-      cell: ({ row }) => <span>{row.getValue("quantity_requested") as number}</span>,
+      cell: ({ row }) => (
+        <span>{row.getValue("quantity_requested") as number}</span>
+      ),
     },
     {
       accessorKey: "status",
       header: "STATUS",
       cell: ({ row }) => {
         const status = row.getValue("status") as string;
-        const statusColor = status === "approved" ? "text-green-600" : 
-                          status === "rejected" ? "text-red-600" : 
-                          "text-yellow-600";
-        return <span className={`font-medium capitalize ${statusColor}`}>{status}</span>;
+        const statusColor =
+          status === "approved"
+            ? "text-green-600"
+            : status === "rejected"
+            ? "text-red-600"
+            : "text-yellow-600";
+        return (
+          <span className={`font-medium capitalize ${statusColor}`}>
+            {status}
+          </span>
+        );
       },
     },
     {
       accessorKey: "quantity_in_stock_of_requested_drug",
       header: "IN STOCK",
       cell: ({ row }) => (
-        <span className="font-medium">{row.getValue("quantity_in_stock_of_requested_drug") as number || 0}</span>
+        <span className="font-medium">
+          {(row.getValue("quantity_in_stock_of_requested_drug") as number) || 0}
+        </span>
       ),
     },
     {
@@ -368,7 +424,7 @@ const InternalPharmacyPage = () => {
 
   return (
     <>
-      <Subheader title="Pharmacy" middle={<SessionTimer />} />
+      <Subheader title="Pharmacy"  />
 
       <div className="p-6 space-y-6 bg-gray-50 min-h-screen w-full">
         <div className="flex items-center justify-end">
@@ -378,60 +434,80 @@ const InternalPharmacyPage = () => {
         <div className="space-y-4">
           <Large className="text-lg font-semibold">Overview</Large>
 
-          <Card className="bg-white p-6">
-            <div className="text-center">
-              <H3 className="text-2xl font-bold text-gray-900">
-                {overviewStats.totalCurrentStock.toLocaleString()}
-              </H3>
-              <P className="text-sm text-gray-600 mt-1">
-                Total Current Stock
-              </P>
-            </div>
-          </Card>
+          <div className="grid grid-cols-4 gap-4 ">
+            <Card className="bg-white p-6">
+              <div className="text-center">
+                <H3 className="text-2xl font-bold text-gray-900">
+                  {overviewStats.totalCurrentStock.toLocaleString()}
+                </H3>
+                <P className="text-sm text-gray-600 mt-1">
+                  Total Current Stock
+                </P>
+              </div>
+            </Card>
 
-          <Card className="bg-white p-6">
-            <div className="text-center">
-              <H3 className="text-2xl font-bold text-gray-900">
-                {overviewStats.totalAdministered.toLocaleString()}
-              </H3>
-              <P className="text-sm text-gray-600 mt-1">Total Administered</P>
-            </div>
-          </Card>
+            <Card className="bg-white p-6">
+              <div className="text-center">
+                <H3 className="text-2xl font-bold text-gray-900">
+                  {overviewStats.totalAdministered.toLocaleString()}
+                </H3>
+                <P className="text-sm text-gray-600 mt-1">Total Administered</P>
+              </div>
+            </Card>
 
-          <Card className="bg-white p-6">
-            <div className="text-center">
-              <H3 className="text-2xl font-bold text-gray-900">
-                {overviewStats.totalCompletedOrders.toLocaleString()}
-              </H3>
-              <P className="text-sm text-gray-600 mt-1">Total Completed Orders</P>
-            </div>
-          </Card>
+            <Card className="bg-white p-6">
+              <div className="text-center">
+                <H3 className="text-2xl font-bold text-gray-900">
+                  {overviewStats.totalCompletedOrders.toLocaleString()}
+                </H3>
+                <P className="text-sm text-gray-600 mt-1">
+                  Total Completed Orders
+                </P>
+              </div>
+            </Card>
 
-          <Card className="bg-white p-6">
-            <div className="text-center">
-              <H3 className="text-2xl font-bold text-gray-900">
-                {overviewStats.totalPendingPickups.toLocaleString()}
-              </H3>
-              <P className="text-sm text-gray-600 mt-1">
-                Total Pending Pickups
-              </P>
-            </div>
-          </Card>
+            <Card className="bg-white p-6">
+              <div className="text-center">
+                <H3 className="text-2xl font-bold text-gray-900">
+                  {overviewStats.totalPendingPickups.toLocaleString()}
+                </H3>
+                <P className="text-sm text-gray-600 mt-1">
+                  Total Pending Pickups
+                </P>
+              </div>
+            </Card>
+          </div>
         </div>
 
         {/* Tabs Section */}
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full space-y-3">
+        <Tabs
+          value={activeTab}
+          onValueChange={setActiveTab}
+          className="w-full space-y-3"
+        >
           <TabsList className="h-auto rounded-none border-b bg-transparent p-0">
-            <TabsTrigger value="drug-overview" className="data-[state=active]:after:bg-primary relative rounded-none py-2 after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 data-[state=active]:bg-transparent data-[state=active]:shadow-none">
+            <TabsTrigger
+              value="drug-overview"
+              className="data-[state=active]:after:bg-primary relative rounded-none py-2 after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 data-[state=active]:bg-transparent data-[state=active]:shadow-none"
+            >
               Drug Overview
             </TabsTrigger>
-            <TabsTrigger value="daily-administration" className="data-[state=active]:after:bg-primary relative rounded-none py-2 after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 data-[state=active]:bg-transparent data-[state=active]:shadow-none">
+            <TabsTrigger
+              value="daily-administration"
+              className="data-[state=active]:after:bg-primary relative rounded-none py-2 after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 data-[state=active]:bg-transparent data-[state=active]:shadow-none"
+            >
               Daily Drug Administration
             </TabsTrigger>
-            <TabsTrigger value="drug-reconciliation" className="data-[state=active]:after:bg-primary relative rounded-none py-2 after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 data-[state=active]:bg-transparent data-[state=active]:shadow-none">
+            <TabsTrigger
+              value="drug-reconciliation"
+              className="data-[state=active]:after:bg-primary relative rounded-none py-2 after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 data-[state=active]:bg-transparent data-[state=active]:shadow-none"
+            >
               Drug Reconciliation
             </TabsTrigger>
-            <TabsTrigger value="drug-request" className="data-[state=active]:after:bg-primary relative rounded-none py-2 after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 data-[state=active]:bg-transparent data-[state=active]:shadow-none">
+            <TabsTrigger
+              value="drug-request"
+              className="data-[state=active]:after:bg-primary relative rounded-none py-2 after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 data-[state=active]:bg-transparent data-[state=active]:shadow-none"
+            >
               Drug Request
             </TabsTrigger>
           </TabsList>
@@ -479,7 +555,11 @@ const InternalPharmacyPage = () => {
               <DataTable<DrugAdministration>
                 columns={dailyAdministrationColumns}
                 data={administrations}
-                options={{ isLoading: isLoadingAdmin, disableSelection: true, disablePagination: true }}
+                options={{
+                  isLoading: isLoadingAdmin,
+                  disableSelection: true,
+                  disablePagination: true,
+                }}
               />
             </TabsContent>
 
@@ -487,10 +567,10 @@ const InternalPharmacyPage = () => {
               <DataTable<DrugReconciliation>
                 columns={reconciliationColumns}
                 data={drugReconciliations}
-                options={{ 
-                  isLoading: isLoadingReconciliations, 
-                  disableSelection: true, 
-                  disablePagination: true 
+                options={{
+                  isLoading: isLoadingReconciliations,
+                  disableSelection: true,
+                  disablePagination: true,
                 }}
               />
             </TabsContent>
@@ -499,10 +579,10 @@ const InternalPharmacyPage = () => {
               <DataTable<DrugRequest>
                 columns={drugRequestColumns}
                 data={drugRequests}
-                options={{ 
-                  isLoading: isLoadingRequests, 
-                  disableSelection: true, 
-                  disablePagination: true 
+                options={{
+                  isLoading: isLoadingRequests,
+                  disableSelection: true,
+                  disablePagination: true,
                 }}
               />
             </TabsContent>

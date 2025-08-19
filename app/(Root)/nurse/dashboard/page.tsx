@@ -105,7 +105,7 @@ const NurseDashboard = () => {
             </div>
           </div>
 
-          <div className=" w-full">
+          <div className="w-full">
             <ChartContainer
               config={{
                 visits: {
@@ -113,9 +113,9 @@ const NurseDashboard = () => {
                   label: "Patient Visits",
                 },
               }}
-              className="min-h-[200px] w-full"
+              className="min-h-[400px] w-full"
             >
-              <ResponsiveContainer width="100%" height="100%">
+              <ResponsiveContainer width="100%" height={400}>
                 <BarChart data={data}>
                   <CartesianGrid
                     strokeDasharray="3 3"
