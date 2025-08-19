@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import { useToastHandler } from "@/hooks/useToaster";
 
 // Import custom components
-import SessionTimer from "./_components/SessionTimer";
 import QueueTable, { QueueEntry } from "./_components/QueueTable";
 // import AISuggestionCard from "./_components/AISuggestionCard";
 // import AddToQueueDialog, { QueueFormData } from "./_components/AddToQueueDialog";
@@ -88,12 +87,6 @@ export default function PharmacyQueuingSystem() {
   //   }
   // };
   
-  // Handle ending the current session
-  const handleEndSession = () => {
-    setSessionActive(false);
-    handler.success("Session Ended", "The current queue session has been ended");
-  };
-  
   // Handle starting a patient's consultation
   const handleStartPatient = async (queueId: string, status: string) => {
     try {
@@ -124,7 +117,7 @@ export default function PharmacyQueuingSystem() {
 
   return (
     <>
-      <Subheader title="Queuing System" middle={<SessionTimer onEndSession={handleEndSession} />} />
+      <Subheader title="Queuing System" />
       
       <div className="p-6 space-y-6 min-h-screen w-full bg-gray-50">
         {/* Header with Next Patient button */}
