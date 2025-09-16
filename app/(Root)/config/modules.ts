@@ -216,6 +216,11 @@ export const moduleConfigs: ModuleConfig[] = [
         href: "/staff-management",
       },
       {
+        label: "Billing & Payments",
+        icon: FileText,
+        href: "/billing-payments",
+      },
+      {
         label: "Appointment",
         icon: Settings,
         href: "/appointment",

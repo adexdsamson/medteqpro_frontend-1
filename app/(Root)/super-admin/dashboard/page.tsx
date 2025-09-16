@@ -82,7 +82,7 @@ function Dashboard() {
             hospitals={dashboardData?.data?.data?.recent_hospitals?.map(
               (hospital) => ({
                 id: hospital.hospital_id,
-                name: hospital.hospital_name,
+                name: hospital.admin_full_name,
                 email: hospital.admin_email,
                 hospitalName: hospital.hospital_name,
                 numberOfDoctors: hospital.no_of_doctors.toString(),

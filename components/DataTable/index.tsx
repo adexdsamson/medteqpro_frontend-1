@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { Skeleton } from "@/components/ui/skeleton";
 import {
@@ -97,18 +97,23 @@ export function DataTable<T = unknown>({
     <div className="w-full">
       <div className="">
         {header && (
-          <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-0 py-4">{header?.(table)}</div>
+          <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-0 py-4">
+            {header?.(table)}
+          </div>
         )}
-        {/* Mobile: Horizontal scroll container */}
-        <div className="overflow-x-auto -mx-4 sm:mx-0">
-          <div className="min-w-full px-4 sm:px-0">
-            <Table className="border-separate border-spacing-y-3 min-w-[640px] sm:min-w-full">
+        {/* Horizontal scroll container with fixed boundaries */}
+        <div className="relative w-full overflow-hidden">
+          <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
+            <Table className="border-separate border-spacing-y-3 min-w-[500px] w-full">
               <TableHeader className="bg-accent">
                 {table.getHeaderGroups().map((headerGroup) => (
                   <TableRow key={headerGroup.id}>
                     {headerGroup.headers.map((header) => {
                       return (
-                        <TableHead className="h-10 px-2 sm:px-4 text-xs sm:text-sm whitespace-nowrap" key={header.id}>
+                        <TableHead
+                          className="h-10 px-4 text-sm whitespace-nowrap min-w-[120px]"
+                          key={header.id}
+                        >
                           {header.isPlaceholder
                             ? null
                             : flexRender(
@@ -127,10 +132,13 @@ export function DataTable<T = unknown>({
                     <TableRow
                       key={row.id}
                       data-state={row.getIsSelected() && "selected"}
-                      className="bg-white hover:bg-gray-50 transition-colors touch-manipulation"
+                      className="hover:bg-gray-50 transition-colors touch-manipulation"
                     >
                       {row.getVisibleCells().map((cell) => (
-                        <TableCell className="p-2 sm:p-4 text-xs sm:text-sm" key={cell.id}>
+                        <TableCell
+                          className="text-xs text-wrap"
+                          key={cell.id}
+                        >
                           {flexRender(
                             cell.column.columnDef.cell,
                             cell.getContext()
@@ -146,7 +154,7 @@ export function DataTable<T = unknown>({
                         <TableCell
                           key={index}
                           colSpan={columns.length}
-                          className="h-10 text-center p-2 sm:p-4"
+                          className="h-10 text-center p-4"
                         >
                           <Skeleton key={index} className="h-4 bg-slate-300" />
                         </TableCell>
@@ -157,7 +165,7 @@ export function DataTable<T = unknown>({
                   <TableRow>
                     <TableCell
                       colSpan={columns.length}
-                      className="h-24 text-center p-2 sm:p-4 text-sm sm:text-base"
+                      className="h-24 text-center p-4 text-sm"
                     >
                       No results.
                     </TableCell>
@@ -170,7 +178,7 @@ export function DataTable<T = unknown>({
       </div>
       <div className="flex flex-col sm:grid sm:grid-cols-2 gap-4 sm:gap-0 py-4">
         {!options?.disableSelection ? (
-          <div className="flex-1 text-xs sm:text-sm text-muted-foreground text-center sm:text-left">
+          <div className="flex-1 text-sm text-muted-foreground text-center sm:text-left">
             {table.getFilteredSelectedRowModel().rows.length} of{" "}
             {table.getFilteredRowModel().rows.length} row(s) selected.
           </div>
@@ -183,7 +191,7 @@ export function DataTable<T = unknown>({
             <PaginationContent className="flex-wrap gap-1">
               <PaginationItem>
                 <PaginationPrevious
-                  className="h-8 w-8 sm:h-10 sm:w-auto px-2 sm:px-4 text-xs sm:text-sm touch-manipulation"
+                  className="h-10 w-auto px-4 text-sm touch-manipulation"
                   onClick={() => {
                     table.previousPage();
                   }}
@@ -196,14 +204,14 @@ export function DataTable<T = unknown>({
               ).map((page) =>
                 typeof page === "string" ? (
                   <PaginationItem key={page} className="hidden sm:block">
-                    <PaginationEllipsis className="h-8 w-8 sm:h-10 sm:w-10" />
+                    <PaginationEllipsis className="h-10 w-10" />
                   </PaginationItem>
                 ) : (
                   <PaginationItem key={page}>
                     <PaginationLink
                       href="#"
                       isActive={activePage === page}
-                      className="h-8 w-8 sm:h-10 sm:w-10 text-xs sm:text-sm touch-manipulation min-w-[32px] sm:min-w-[40px]"
+                      className="h-10 w-10 text-sm touch-manipulation min-w-[40px]"
                       onClick={() => table.setPageIndex(page - 1)}
                     >
                       {page}
@@ -214,7 +222,7 @@ export function DataTable<T = unknown>({
 
               <PaginationItem>
                 <PaginationNext
-                  className="h-8 w-8 sm:h-10 sm:w-auto px-2 sm:px-4 text-xs sm:text-sm touch-manipulation"
+                  className="h-10 w-auto px-4 text-sm touch-manipulation"
                   onClick={() => {
                     table.nextPage();
                   }}

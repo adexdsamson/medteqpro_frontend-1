@@ -4,6 +4,14 @@ import React from "react";
 import { DataTable } from "@/components/DataTable";
 import { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
+import { MoreHorizontal } from "lucide-react";
 
 type Hospital = {
   id: string;
@@ -27,13 +35,13 @@ export function RecentlyRegisteredTable({
 }: RecentlyRegisteredTableProps) {
 
   const columns: ColumnDef<Hospital>[] = [
-    // {
-    //   accessorKey: "id",
-    //   header: "ID",
-    // },
     {
       accessorKey: "name",
       header: "Name",
+      cell: ({ row }) => {
+        const value = row.getValue("name") as string;
+        return <span className="text-wrap">{value}</span>;
+      }
     },
     {
       accessorKey: "email",
@@ -42,6 +50,10 @@ export function RecentlyRegisteredTable({
     {
       accessorKey: "hospitalName",
       header: "Hospital Name",
+      cell: ({ row }) => {
+        const value = row.getValue("name") as string;
+        return <span className="text-wrap">{value}</span>;
+      }
     },
     {
       accessorKey: "numberOfDoctors",
@@ -77,10 +89,57 @@ export function RecentlyRegisteredTable({
         );
       },
     },
+    {
+      id: "actions",
+      header: "Actions",
+      cell: ({ row }) => {
+        const hospital = row.original;
+        
+        return (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-8 w-8 p-0">
+                <span className="sr-only">Open menu</span>
+                <MoreHorizontal className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem
+                className="text-xs text-center"
+                onClick={() => {
+                  // Handle activate action
+                  console.log('Activate hospital:', hospital.id);
+                }}
+              >
+                Activate
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                className="text-xs text-center"
+                onClick={() => {
+                  // Handle suspend action
+                  console.log('Suspend hospital:', hospital.id);
+                }}
+              >
+                Suspend
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                className="text-xs text-center"
+                onClick={() => {
+                  // Handle view license action
+                  console.log('View license for hospital:', hospital.id);
+                }}
+              >
+                View License
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        );
+      },
+    },
   ];
 
   return (
-    <div className="">
+    <div className="bg-white px-2 overflow-auto max-w-[76vw]">
       <DataTable
         data={hospitals}
         columns={columns}

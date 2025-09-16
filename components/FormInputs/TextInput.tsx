@@ -40,11 +40,11 @@ export const TextInput = ({
       <Label className="text-sm sm:text-base whitespace-nowrap text-stone-900 max-w-xs text-wrap break-words mb-1 sm:mb-2">
         {props.label}
       </Label>
-      <div className="flex items-center bg-white rounded-lg border border-solid border-stone-300 py-2 sm:py-3 mt-1 sm:mt-2 px-3 sm:px-4 gap-2 touch-manipulation min-h-[44px] sm:min-h-[48px]">
-        <span>{startAdornment}</span>
+      <div className="flex items-center bg-white rounded-lg border border-solid border-stone-300 gap-2 touch-manipulation min-h-[44px] sm:min-h-[48px]">
+       {startAdornment &&  <span className="px-2">{startAdornment}</span>}
         <Input
           {...props}
-          className="w-full text-sm sm:text-base leading-5 border-0 text-stone-600 !focus-visible:ring-0 !ring-0 !focus:border-0 !focus:outline-none px-0 placeholder:text-xs sm:placeholder:text-sm placeholder:text-gray-300 flex-1 focus-visible:ring-offset-0 touch-manipulation"
+          className="w-full text-sm sm:text-base leading-5 border-0 text-stone-600 !focus-visible:ring-0 !ring-0 !focus:border-0 !focus:outline-none px-0 placeholder:text-xs sm:placeholder:text-sm placeholder:text-gray-300 flex-1 focus-visible:ring-offset-0 "
         />
         <span>{endAdornment}</span>
       </div>

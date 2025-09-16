@@ -11,6 +11,13 @@ import Subheader from "../../_components/Subheader";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import RegisterHospitalDialog from "./_components/RegisterHospitalDialog";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { MoreHorizontal } from "lucide-react";
 
 enum Status {
   Active = "active",
@@ -33,8 +40,10 @@ export type SubscriptionType = {
 export type ClientType = HospitalListType;
 
 export default function ClientManagement() {
-  const { data: hospitalList, isLoading: isLoadingHospitals } = useGetHospitalList();
-  const { data: subscriptionList, isLoading: isLoadingSubscriptions } = useGetSubscriptionList();
+  const { data: hospitalList, isLoading: isLoadingHospitals } =
+    useGetHospitalList();
+  const { data: subscriptionList, isLoading: isLoadingSubscriptions } =
+    useGetSubscriptionList();
 
   const columns: ColumnDef<ClientType>[] = [
     {
@@ -60,7 +69,9 @@ export default function ClientManagement() {
       accessorKey: "created_at",
       header: "Date Registered",
       cell({ getValue }) {
-        return getValue<string>() ? format(new Date(getValue<string>() ?? "01/05/1994"), "dd-MMM-yyyy") : "No date";
+        return getValue<string>()
+          ? format(new Date(getValue<string>() ?? "01/05/1994"), "dd-MMM-yyyy")
+          : "No date";
       },
     },
     {
@@ -72,6 +83,44 @@ export default function ClientManagement() {
       header: "Status",
       cell({ getValue }) {
         return <span>{getValue<string>()}</span>;
+      },
+    },
+    {
+      id: "actions",
+      header: "Actions",
+      cell: ({ row }) => {
+        const client = row.original;
+
+        return (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-8 w-8 p-0">
+                <span className="sr-only">Open menu</span>
+                <MoreHorizontal className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem
+                className="text-xs text-center"
+                onClick={() => console.log("Activate", client)}
+              >
+                Activate
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                className="text-xs text-center"
+                onClick={() => console.log("Suspend", client)}
+              >
+                Suspend
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                className="text-xs text-center"
+                onClick={() => console.log("View License", client)}
+              >
+                View License
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        );
       },
     },
   ];
@@ -91,17 +140,23 @@ export default function ClientManagement() {
     {
       accessorKey: "amount",
       header: "Amount",
+      cell({ getValue }) {
+        const amount = getValue<string>();
+        return amount ? `₦${parseFloat(amount).toLocaleString()}` : "N/A";
+      },
     },
     {
-      accessorKey: "numberOfMonths",
-      header: "Number of Months",
+      accessorKey: "no_of_doctors",
+      header: "Number of Doctors",
     },
     {
       accessorKey: "subscriptionDate",
       header: "Subscription Date",
       cell({ getValue }) {
         const dateValue = getValue<string>();
-        return dateValue ? format(parseISO(dateValue), "dd-MMM-yyyy") : "No date";
+        return dateValue
+          ? format(parseISO(dateValue), "dd-MMM-yyyy")
+          : "No date";
       },
     },
     {
@@ -109,7 +164,9 @@ export default function ClientManagement() {
       header: "Expiry Date",
       cell({ getValue }) {
         const dateValue = getValue<string | null>();
-        return dateValue ? format(parseISO(dateValue), "dd-MMM-yyyy") : "No expiry date";
+        return dateValue
+          ? format(parseISO(dateValue), "dd-MMM-yyyy")
+          : "No expiry date";
       },
     },
     {
@@ -118,13 +175,52 @@ export default function ClientManagement() {
       cell({ getValue }) {
         const status = getValue<string>();
         return (
-          <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-            status === "active" ? "bg-green-100 text-green-800" :
-            status === "inactive" ? "bg-gray-100 text-gray-800" :
-            "bg-red-100 text-red-800"
-          }`}>
+          <span
+            className={`px-2 py-1 rounded-full text-xs font-medium ${
+              status === "active"
+                ? "bg-green-100 text-green-800"
+                : status === "inactive"
+                ? "bg-gray-100 text-gray-800"
+                : "bg-red-100 text-red-800"
+            }`}
+          >
             {status.charAt(0).toUpperCase() + status.slice(1)}
           </span>
+        );
+      },
+    },
+    {
+      id: "actions",
+      header: "Actions",
+      cell: ({ row }) => {
+        const subscription = row.original;
+
+        return (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-8 w-8 p-0">
+                <span className="sr-only">Open menu</span>
+                <MoreHorizontal className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem
+                onClick={() => console.log("Activate", subscription)}
+              >
+                Activate
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => console.log("Suspend", subscription)}
+              >
+                Suspend
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => console.log("View License", subscription)}
+              >
+                View License
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         );
       },
     },
@@ -162,32 +258,40 @@ export default function ClientManagement() {
           </ScrollArea>
 
           <TabsContent value="tab-1">
-            <div className="bg-white p-1.5 rounded-lg">
+            <div className="bg-white p-1.5 rounded-lg overflow-auto max-w-[76vw]">
               <DataTable
                 {...{
                   columns,
                   data: hospitalList?.data?.data || [],
-                  options: { disableSelection: true, isLoading: isLoadingHospitals },
+                  options: {
+                    disableSelection: true,
+                    isLoading: isLoadingHospitals,
+                  },
                 }}
               />
             </div>
           </TabsContent>
 
           <TabsContent value="tab-2">
-            <div className="bg-white p-1.5 rounded-lg">
+            <div className="bg-white p-1.5 rounded-lg overflow-auto max-w-[76vw]">
               <DataTable
                 {...{
                   columns: columns2,
-                  data: subscriptionList?.data?.data ? subscriptionList.data.data.map((subscription, index) => ({
-                    id: index + 1,
-                    hospitalName: subscription.hospital_name,
-                    planName: subscription.plan_name,
-                    amount: subscription.amount,
-                    subscriptionDate: subscription.last_subscription_date,
-                    expiryDate: subscription.expiry_date,
-                    status: subscription.status as Status,
-                  })) : [],
-                  options: { disableSelection: true, isLoading: isLoadingSubscriptions },
+                  data: subscriptionList?.data?.data
+                    ? subscriptionList.data.data.map((subscription, index) => ({
+                        id: index + 1,
+                        hospitalName: subscription.hospital_name,
+                        planName: subscription.plan_name,
+                        amount: subscription.amount,
+                        subscriptionDate: subscription.last_subscription_date,
+                        expiryDate: subscription.expiry_date,
+                        status: subscription.status as Status,
+                      }))
+                    : [],
+                  options: {
+                    disableSelection: true,
+                    isLoading: isLoadingSubscriptions,
+                  },
                 }}
               />
             </div>

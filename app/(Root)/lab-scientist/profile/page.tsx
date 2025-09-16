@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import Subheader from "../../_components/Subheader";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -20,7 +20,14 @@ export default function Profile() {
 
   const profile = profileData?.data.data;
 
-  const { control } = useForge({
+  const { control, reset, watch } = useForge({
+    defaultValues: {
+      first_name: profile?.first_name || "",
+      middle_name: profile?.middle_name || "",
+      last_name: profile?.last_name || "",
+      phone_number: profile?.phone_number || "",
+      specialization: profile?.specialization || "",
+    },
     fields: [
       {
         name: "first_name",
@@ -28,7 +35,6 @@ export default function Profile() {
         type: "text",
         placeholder: "John",
         component: TextInput,
-        defaultValue: profile?.first_name || "",
       },
       {
         name: "middle_name",
@@ -36,7 +42,6 @@ export default function Profile() {
         type: "text",
         placeholder: "Middle",
         component: TextInput,
-        defaultValue: profile?.middle_name || "",
       },
       {
         name: "last_name",
@@ -44,31 +49,56 @@ export default function Profile() {
         type: "text",
         placeholder: "Doe",
         component: TextInput,
-        defaultValue: profile?.last_name || "",
       },
       {
         name: "phone_number",
         label: "Phone Number",
         type: "text",
         component: TextInput,
-        defaultValue: profile?.phone_number || "",
       },
       {
         name: "specialization",
         label: "Specialization",
         type: "text",
         component: TextInput,
-        defaultValue: profile?.specialization || "",
       },
     ],
   });
 
+  // Reset form values when profile data loads
+  useEffect(() => {
+    if (profile) {
+      reset({
+        first_name: profile.first_name || "",
+        middle_name: profile.middle_name || "",
+        last_name: profile.last_name || "",
+        phone_number: profile.phone_number || "",
+        specialization: profile.specialization || "",
+      });
+    }
+  }, [profile, reset]);
+
   const handleSubmit = async (values: UpdateProfilePayload) => {
+    console.log("=== FORM SUBMISSION DEBUG ===");
+    console.log("Form values received in handleSubmit:", values);
+    console.log("Form values type:", typeof values);
+    console.log("Form values keys:", Object.keys(values || {}));
+    console.log("Form values stringified:", JSON.stringify(values, null, 2));
+    
+    // Check if values is empty or undefined
+    if (!values || Object.keys(values).length === 0) {
+      console.error("ERROR: Form values are empty or undefined!");
+      toast.error("Error", "Form data is empty. Please fill in the fields.");
+      return;
+    }
+    
     try {
-      await updateProfile(values);
+      console.log("Sending payload to API:", values);
+      const response = await updateProfile(values);
+      console.log("API response:", response);
       toast.success("Success", "Profile updated successfully");
     } catch (error) {
-      console.log(error);
+      console.log("Error in handleSubmit:", error);
       const err = error as any;
       toast.error("Error", err?.message || "Failed to update profile");
     }
@@ -151,24 +181,26 @@ export default function Profile() {
           <TabsContent value="personal">
             <Card>
               <CardContent>
-                <Forge control={control} className="grid grid-cols-1 md:grid-cols-2 gap-3" onSubmit={handleSubmit} />
-                <div className="flex justify-end mt-5">
-                  <Button type="submit" disabled={isPending}>
-                    {isPending ? "Saving..." : "Save"}
-                  </Button>
-                </div>
+                <Forge control={control} className="grid grid-cols-1 md:grid-cols-2 gap-3" onSubmit={handleSubmit}>
+                  <div className="flex justify-end mt-5 col-span-full">
+                    <Button type="submit" disabled={isPending}>
+                      {isPending ? "Saving..." : "Save"}
+                    </Button>
+                  </div>
+                </Forge>
               </CardContent>
             </Card>
           </TabsContent>
           <TabsContent value="security">
             <Card>
-              <CardContent className="grid grid-cols-1 md:grid-cols-2">
-                <Forge control={control} onSubmit={handleSubmit} />
-                <div className="flex justify-end">
-                  <Button type="submit" disabled={isPending}>
-                    {isPending ? "Saving..." : "Save"}
-                  </Button>
-                </div>
+              <CardContent>
+                <Forge control={control} className="grid grid-cols-1 md:grid-cols-2" onSubmit={handleSubmit}>
+                  <div className="flex justify-end col-span-full">
+                    <Button type="submit" disabled={isPending}>
+                      {isPending ? "Saving..." : "Save"}
+                    </Button>
+                  </div>
+                </Forge>
               </CardContent>
             </Card>
           </TabsContent>

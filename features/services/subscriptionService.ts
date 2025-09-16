@@ -121,3 +121,60 @@ export const useCreateCustomSubscription = () => {
     }
   });
 };
+
+export interface HospitalAdminSubscriptionOverview {
+  id: string;
+  hospital_name: string;
+  plan_code: string;
+  plan_name: string;
+  amount: string;
+  status: string;
+  created_at: string | null;
+  updated_at: string;
+  expiry_date: string | null;
+}
+
+export interface SubscriptionHistoryItem {
+  subscription_plan: string;
+  amount: number;
+  start_date: string;
+  end_date: string;
+  status: string;
+}
+
+export const useGetHospitalSubscriptionOverview = () => {
+  return useQuery<ApiResponse<HospitalAdminSubscriptionOverview>, ApiResponseError>({
+    queryKey: ["hospital-admin", "subscription", "overview"],
+    queryFn: async () => {
+      const response = await getRequest({
+        url: "/hospital-admin/subscription/overview/",
+      });
+      return response;
+    },
+  });
+};
+
+export const useGetHospitalSubscriptionHistory = () => {
+  return useQuery<ApiResponse<SubscriptionHistoryItem[]>, ApiResponseError>({
+    queryKey: ["hospital-admin", "subscription", "history"],
+    queryFn: async () => {
+      const response = await getRequest({
+        url: "/hospital-admin/subscription/history/",
+      });
+      return response;
+    },
+  });
+};
+
+export const useGetSubscriptionReceipt = (subscription_id: string | null) => {
+  return useQuery<ApiResponse<any>, ApiResponseError>({
+    enabled: !!subscription_id,
+    queryKey: ["hospital-admin", "subscription", "receipt", subscription_id],
+    queryFn: async () => {
+      const response = await getRequest({
+        url: `/hospital-admin/subscription/receipt/${subscription_id}/`,
+      });
+      return response;
+    },
+  });
+};

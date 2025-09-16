@@ -23,7 +23,7 @@ export function AppSidebar({ moduleKey }: AppSidebarProps) {
   const { moduleConfig, isActivePath, getModulePath } = useModule(moduleKey);
 
   return (
-    <Sidebar className="!bg-white">
+    <Sidebar variant="sidebar" className="!bg-white">
       <SidebarHeader className="p-4">
         <div className="flex items-center">
           <span className="text-xl font-bold text-primary mx-auto">
