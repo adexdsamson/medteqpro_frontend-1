@@ -69,7 +69,7 @@ export const TextDateInput = <T extends DateValue>({
         {props.label}
       </Label>
       <DatePicker 
-        className="mt-1 sm:mt-2" 
+        className="" 
         value={dateValue as T}
         onChange={handleChange as any}
         {...props}

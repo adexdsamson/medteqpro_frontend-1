@@ -31,6 +31,8 @@ import {
   DrugReconciliation,
 } from "@/features/services/drugManagementService";
 import RequestDrugDialog from "./_components/RequestDrugDialog";
+import AddSupplyDialog from "./_components/AddSupplyDialog";
+import RequestNewDrugDialog from "./_components/RequestNewDrugDialog";
 import AdvancedFilters from "./_components/AdvancedFilters";
 import { FilterOptions } from "@/features/services/drugManagementService";
 
@@ -145,13 +147,13 @@ const InternalPharmacyPage = () => {
 
   // Columns for Drug Overview mapping to API fields
   const drugOverviewColumns: ColumnDef<Drug>[] = [
-    {
-      accessorKey: "id",
-      cell: ({ row }) => (
-        <span className="font-medium">{row.getValue("id") as string}</span>
-      ),
-      header: "DRUG ID",
-    },
+    // {
+    //   accessorKey: "id",
+    //   cell: ({ row }) => (
+    //     <span className="font-medium">{row.getValue("id") as string}</span>
+    //   ),
+    //   header: "DRUG ID",
+    // },
     {
       accessorKey: "drug_name",
       cell: ({ row }) => (
@@ -390,15 +392,19 @@ const InternalPharmacyPage = () => {
     const buttons = {
       "drug-overview": (
         <div className="flex gap-2">
-          <Button className="bg-green-600 hover:bg-green-700 text-white">
-            Add Supply
-          </Button>
-          <Button
-            variant="outline"
-            className="border-blue-600 text-blue-600 hover:bg-blue-50"
-          >
-            Request New Drug
-          </Button>
+          <AddSupplyDialog>
+            <Button className="bg-green-600 hover:bg-green-700 text-white">
+              Add Supply
+            </Button>
+          </AddSupplyDialog>
+          <RequestNewDrugDialog>
+            <Button
+              variant="outline"
+              className="border-blue-600 text-blue-600 hover:bg-blue-50"
+            >
+              Request New Drug
+            </Button>
+          </RequestNewDrugDialog>
         </div>
       ),
       "daily-administration": (
@@ -536,7 +542,7 @@ const InternalPharmacyPage = () => {
             </div>
 
             {/* Tab Content */}
-            <TabsContent value="drug-overview" className="mt-0">
+            <TabsContent value="drug-overview" className="mt-0 overflow-auto max-w-[76vw]">
               <DataTable<Drug>
                 columns={drugOverviewColumns}
                 data={drugs}

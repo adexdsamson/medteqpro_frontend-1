@@ -129,6 +129,15 @@ export type RejectDrugRequestPayload = {
   rejection_reason: string;
 };
 
+export type AddDrugPayload = {
+  drug_name: string;
+  drug_type: string;
+  drug_category: string;
+  drug_expiry_date: string;
+  drug_price: number;
+  quantity_in_stock: number;
+};
+
 export type DrugOrderItem = {
   drug: {
     id: string;
@@ -353,6 +362,21 @@ export const useRejectDrugRequest = (requestId: string | null) => {
     mutationFn: async (payload) =>
       await postRequest<RejectDrugRequestPayload>({
         url: `drug-management/hospital/drug-requests/${requestId}/reject/`,
+        payload,
+      }),
+  });
+};
+
+export const useAddDrug = () => {
+  return useMutation<
+    ApiResponse<Drug>,
+    ApiResponseError,
+    AddDrugPayload
+  >({
+    mutationKey: ["add-drug"],
+    mutationFn: async (payload) =>
+      await postRequest<AddDrugPayload>({
+        url: `drug-management/hospital/drugs/`,
         payload,
       }),
   });
