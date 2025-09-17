@@ -107,6 +107,7 @@ export const formatAppointmentDateTime = (date: string, time: string): string =>
 
 // Transform API response to match component props
 const transformAppointment = (appointment: AppointmentResponse): Appointment => ({
+  id: appointment.id,
   patientId: appointment.patient_id,
   patientName: appointment.patient_fullname,
   gender: 'N/A', // Gender not provided in API response

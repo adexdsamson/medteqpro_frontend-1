@@ -108,7 +108,7 @@ export default function AdminBillingPaymentsPage() {
           </CreateBillDialog>
         </div>
 
-        <div className="bg-white p-1.5 rounded-lg shadow">
+        <div className="bg-white p-1.5 rounded-lg shadow overflow-auto max-w-[76vw]">
           <DataTable
             columns={billColumns}
             data={paged}

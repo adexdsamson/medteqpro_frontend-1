@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { getStatusBadgeClasses, formatStatusText } from '@/lib/statusColors';
 
 export type Appointment = {
+  id: string;
   patientId: string;
   patientName: string;
   gender: string;

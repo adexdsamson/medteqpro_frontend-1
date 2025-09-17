@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import React, { useRef, useState } from "react";
@@ -15,14 +16,19 @@ import { Button } from "@/components/ui/button";
 import { Forge, Forger, useForge, FormPropsRef } from "@/lib/forge";
 import { TextInput } from "@/components/FormInputs/TextInput";
 import { TextSelect } from "@/components/FormInputs/TextSelect";
+import { MultiSelect } from "@/components/FormInputs/MultiSelect";
 import { useToastHandler } from "@/hooks/useToaster";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { usePatientsForAppointment } from "@/features/services/patientService";
+import { useCreateBill } from "@/features/services/billingService";
+import { useGetDrugs, Drug } from "@/features/services/drugManagementService";
+import { ApiResponseError } from "@/types";
 
 const schema = yup.object({
   patient_id: yup.string().required("Patient is required"),
   purpose: yup.string().required("Purpose is required"),
+  drugs: yup.array().of(yup.string()).optional(),
   total_payable: yup
     .number()
     .typeError("Total payable must be a number")
@@ -31,57 +37,90 @@ const schema = yup.object({
     .number()
     .typeError("Min. deposit must be a number")
     .min(0, "Min. deposit cannot be negative")
+    .nullable()
     .optional(),
   amount_paid: yup
     .number()
     .typeError("Amount paid must be a number")
     .min(0, "Amount paid cannot be negative")
     .default(0),
-  mode_of_payment: yup.string().optional(),
+  mode_of_payment: yup.string().nullable().optional(),
 });
 
-export type CreateBillFormData = yup.InferType<typeof schema>;
+type FormValues = yup.InferType<typeof schema>;
 
-type CreateBillDialogProps = {
-  children?: React.ReactNode;
-};
-
-const paymentOptions = [
-  { label: "Cash", value: "cash" },
-  { label: "POS", value: "pos" },
-  { label: "PAYSTACK", value: "paystack" },
-  { label: "Transfer", value: "transfer" },
-  { label: "N/A", value: "na" },
-];
-
-export default function CreateBillDialog({ children }: CreateBillDialogProps) {
+export default function CreateBillDialog({ children }: { children: React.ReactNode }) {
   const [open, setOpen] = useState(false);
   const formRef = useRef<FormPropsRef | null>(null);
+
+  // API hooks
+  const { data: patientsData, isLoading: isPatientsLoading } = usePatientsForAppointment();
+  const { data: drugsData, isLoading: isDrugsLoading } = useGetDrugs();
+  const { mutateAsync: createBill, isPending: isCreatingBill } = useCreateBill();
+
+  // Options for dropdowns
+  const purposeOptions = [
+    { label: "Treatment", value: "treatment" },
+    { label: "Drugs", value: "drug" },
+    { label: "Laboratory Test", value: "lab_test" },
+  ];
+
+  const patientOptions = patientsData || [];
+
+  const drugOptions = drugsData?.data?.results?.map((drug: Drug) => ({
+    value: drug.id,
+    label: drug.drug_name,
+  })) || [];
+
+  console.log({ drugOptions })
+
+  const paymentOptions = [
+    { label: "Cash", value: "cash" },
+    { label: "Card", value: "card" },
+    { label: "POS", value: "pos" },
+    { label: "PAYSTACK", value: "paystack" },
+    { label: "Transfer", value: "transfer" },
+    { label: "N/A", value: "na" },
+  ];
+
   const toast = useToastHandler();
 
-  const { data: patientOptions, isLoading: loadingPatients } = usePatientsForAppointment();
-
-  const { control, reset } = useForge<CreateBillFormData>({
-    resolve: yupResolver(schema),
+  const { control, reset } = useForge<FormValues>({
+    resolver: yupResolver(schema) as any,
     defaultValues: {
       patient_id: "",
       purpose: "",
-      total_payable: undefined as unknown as number,
-      min_deposit: undefined,
+      drugs: [],
+      total_payable: 0,
+      min_deposit: 0,
       amount_paid: 0,
       mode_of_payment: "",
     },
   });
 
-  const onSubmit = async () => {
-    // API schema not yet defined for billing creation - keep UI only
+  const onSubmit = async (data: FormValues) => {
     try {
-      // Close dialog and reset after optimistic success
-      toast.success("Success", "Bill created successfully (UI only)");
+      // Transform form data to match API payload
+      const payload = {
+        patient_id: data.patient_id,
+        purpose: data.purpose,
+        total_amount: data.total_payable.toString(),
+        min_deposit: data.min_deposit?.toString(),
+        payment_method: data.mode_of_payment || undefined,
+        drugs: data.drugs?.filter(drugId => drugId).map(drugId => ({ 
+          drug: drugId as string, 
+          quantity: 1 
+        })),
+      };
+
+      await createBill(payload);
+      toast.success("Success", "Bill created successfully");
       setOpen(false);
       reset();
     } catch (error) {
-      toast.error("Error", error);
+      console.log(error);
+      const err = error as ApiResponseError;
+      toast.error("Error", err?.message ?? "Something went wrong");
     }
   };
 
@@ -106,14 +145,25 @@ export default function CreateBillDialog({ children }: CreateBillDialogProps) {
               name="patient_id"
               component={TextSelect}
               label="Patient"
-              placeholder={loadingPatients ? "Loading patients..." : "Select patient"}
-              options={patientOptions ?? []}
+              placeholder={isPatientsLoading ? "Loading patients..." : "Select patient"}
+              options={patientOptions}
             />
             <Forger
               name="purpose"
-              component={TextInput}
+              component={TextSelect}
               label="Purpose"
-              placeholder="e.g. Treatment"
+              placeholder="Select purpose"
+              options={purposeOptions}
+            />
+          </div>
+
+          <div className="space-y-4">
+            <Forger
+              name="drugs"
+              component={MultiSelect}
+              label="Drugs"
+              placeholder={isDrugsLoading ? "Loading drugs..." : "Select drugs"}
+              options={drugOptions}
             />
           </div>
 
@@ -159,9 +209,10 @@ export default function CreateBillDialog({ children }: CreateBillDialogProps) {
             </DialogClose>
             <Button
               onClick={() => formRef.current?.onSubmit()}
-              className="flex-1 bg-blue-600 hover:bg-blue-700 text-white"
+              disabled={isCreatingBill}
+              className="flex-1 bg-blue-600 hover:bg-blue-700 text-white disabled:opacity-50"
             >
-              Create Bill
+              {isCreatingBill ? "Creating..." : "Create Bill"}
             </Button>
           </DialogFooter>
         </Forge>

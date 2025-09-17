@@ -1387,7 +1387,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "// Super Admin\r\n// {\r\n//     \"email\": \"admin@medteqpro.com\",\r\n//     \"password\": \"adminadmin\"\r\n// }\r\n\r\n// Staff Admin\r\n// {\r\n//     \"email\": \"naarons700@gmail.com\",\r\n//     \"password\": \"userpass112\"\r\n// }\r\n\r\n// Hospital Admin\r\n// {\r\n//     \"email\": \"naarons800@gmail.com\",\r\n//     \"password\": \"AdamsCharles@20250514\"\r\n// }\r\n\r\n// Doctor\r\n// {\r\n//     \"email\": \"aaronnwokoro@gmail.com\",\r\n//     \"password\": \"userpass112\"\r\n// }\r\n\r\n// Nurse\r\n{\r\n    \"email\": \"naarons900@gmail.com\",\r\n    \"password\": \"userpass112\"\r\n}",
+							"raw": "// Super Admin\r\n// {\r\n//     \"email\": \"admin@medteqpro.com\",\r\n//     \"password\": \"adminadmin\"\r\n// }\r\n\r\n// Staff Admin\r\n// {\r\n//     \"email\": \"naarons700@gmail.com\",\r\n//     \"password\": \"userpass112\"\r\n// }\r\n\r\n// Hospital Admin\r\n// {\r\n//     \"email\": \"naarons800@gmail.com\",\r\n//     \"password\": \"AdamsCharles@20250514\"\r\n// }\r\n\r\n// Doctor\r\n{\r\n    \"email\": \"aaronnwokoro@gmail.com\",\r\n    \"password\": \"userpass112\"\r\n}\r\n\r\n// Nurse\r\n// {\r\n//     \"email\": \"yitah65290@ahvin.com\",\r\n//     \"password\": \"password\"\r\n// }",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1802,6 +1802,192 @@
 							"body": "{\n    \"status\": true,\n    \"message\": \"User details updated successfully.\",\n    \"data\": {\n        \"email\": \"yitah65290@ahvin.com\",\n        \"first_name\": \"Hellen\",\n        \"middle_name\": \"\",\n        \"last_name\": \"Collier\",\n        \"phone_number\": null,\n        \"specialization\": \"Gynaecologist\",\n        \"avatar\": null\n    }\n}"
 						}
 					]
+				},
+				{
+					"name": "Set Availability",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{doctor}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"day_of_week\": \"Tuesday\", \r\n    \"start_time\": \"9:00\", \r\n    \"end_time\": \"16:00\", \r\n    \"duration_minutes\": 30\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{LOCAL}}auth/settings/availability/",
+							"host": [
+								"{{LOCAL}}auth"
+							],
+							"path": [
+								"settings",
+								"availability",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Ok",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"day_of_week\": \"Monday\", \r\n    \"start_time\": \"9:00\", \r\n    \"end_time\": \"16:00\", \r\n    \"duration_minutes\": 30\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL}}auth/settings/availability/",
+									"host": [
+										"{{LOCAL}}auth"
+									],
+									"path": [
+										"settings",
+										"availability",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 15 Sep 2025 12:08:00 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.10.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, POST, PATCH, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Length",
+									"value": "196"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"message\": \"Availability settings saved successfully.\",\n    \"data\": {\n        \"id\": 1,\n        \"day_of_week\": \"Monday\",\n        \"start_time\": \"09:00:00\",\n        \"end_time\": \"16:00:00\",\n        \"duration_minutes\": 30,\n        \"is_available\": true\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Get Availability",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{doctor}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{LOCAL}}auth/settings/availability/",
+							"host": [
+								"{{LOCAL}}auth"
+							],
+							"path": [
+								"settings",
+								"availability",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Availability",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{doctor}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \r\n    \"start_time\": \"8:00\", \r\n    \"end_time\": \"16:00\", \r\n    \"duration_minutes\": 30\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{LOCAL}}auth/settings/availability/?day_of_week=Monday",
+							"host": [
+								"{{LOCAL}}auth"
+							],
+							"path": [
+								"settings",
+								"availability",
+								""
+							],
+							"query": [
+								{
+									"key": "day_of_week",
+									"value": "Monday"
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -5464,6 +5650,236 @@
 					]
 				},
 				{
+					"name": "Doctor Notes",
+					"item": [
+						{
+							"name": "List Notes",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{doctor}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}patient-management/doctor-notes/",
+									"host": [
+										"{{LOCAL}}patient-management"
+									],
+									"path": [
+										"doctor-notes",
+										""
+									],
+									"query": [
+										{
+											"key": "status",
+											"value": "read",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Ok",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{LOCAL}}patient-management/doctor-notes/",
+											"host": [
+												"{{LOCAL}}patient-management"
+											],
+											"path": [
+												"doctor-notes",
+												""
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "Date",
+											"value": "Mon, 08 Sep 2025 20:09:18 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "WSGIServer/0.2 CPython/3.10.0"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Allow",
+											"value": "GET, POST, HEAD, OPTIONS"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "DENY"
+										},
+										{
+											"key": "Vary",
+											"value": "origin"
+										},
+										{
+											"key": "Content-Length",
+											"value": "683"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"count\": 2,\n    \"next\": null,\n    \"previous\": null,\n    \"results\": [\n        {\n            \"id\": \"906cfb82-8fd0-4cf1-babb-89312b9eaedf\",\n            \"patient\": \"0814409b-706d-4dae-9b4c-1fb36d906633\",\n            \"noted_by\": \"f1841d87-ed48-44e0-a755-093e5f0cc721\",\n            \"doctor_name\": \"Mike Tyson\",\n            \"note\": \"Dont forget to take your food\",\n            \"is_read\": false,\n            \"created_at\": \"2025-09-08T20:09:10.964115Z\",\n            \"updated_at\": \"2025-09-08T20:09:10.964115Z\"\n        },\n        {\n            \"id\": \"6a45d547-4d82-42c6-8181-ba98f493f9d8\",\n            \"patient\": \"0814409b-706d-4dae-9b4c-1fb36d906633\",\n            \"noted_by\": \"f1841d87-ed48-44e0-a755-093e5f0cc721\",\n            \"doctor_name\": \"Mike Tyson\",\n            \"note\": \"Dont forget to take your medication\",\n            \"is_read\": false,\n            \"created_at\": \"2025-09-08T20:08:17.913213Z\",\n            \"updated_at\": \"2025-09-08T20:08:17.913213Z\"\n        }\n    ]\n}"
+								}
+							]
+						},
+						{
+							"name": "Create Patient Note",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{doctor}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"note\": \"Dont forget to take your food\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL}}patient-management/doctor-notes/:patient_id/",
+									"host": [
+										"{{LOCAL}}patient-management"
+									],
+									"path": [
+										"doctor-notes",
+										":patient_id",
+										""
+									],
+									"variable": [
+										{
+											"key": "patient_id",
+											"value": "0814409b-706d-4dae-9b4c-1fb36d906633"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Ok",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"note\": \"Dont forget to take your medication\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{LOCAL}}patient-management/doctor-notes/:patient_id/",
+											"host": [
+												"{{LOCAL}}patient-management"
+											],
+											"path": [
+												"doctor-notes",
+												":patient_id",
+												""
+											],
+											"variable": [
+												{
+													"key": "patient_id",
+													"value": "0814409b-706d-4dae-9b4c-1fb36d906633"
+												}
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "Date",
+											"value": "Mon, 08 Sep 2025 20:08:17 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "WSGIServer/0.2 CPython/3.10.0"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Allow",
+											"value": "GET, POST, HEAD, OPTIONS"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "DENY"
+										},
+										{
+											"key": "Vary",
+											"value": "origin"
+										},
+										{
+											"key": "Content-Length",
+											"value": "341"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": true,\n    \"data\": {\n        \"id\": \"6a45d547-4d82-42c6-8181-ba98f493f9d8\",\n        \"patient\": \"0814409b-706d-4dae-9b4c-1fb36d906633\",\n        \"noted_by\": \"f1841d87-ed48-44e0-a755-093e5f0cc721\",\n        \"doctor_name\": \"Mike Tyson\",\n        \"note\": \"Dont forget to take your medication\",\n        \"is_read\": false,\n        \"created_at\": \"2025-09-08T20:08:17.913213Z\",\n        \"updated_at\": \"2025-09-08T20:08:17.913213Z\"\n    }\n}"
+								}
+							]
+						}
+					]
+				},
+				{
 					"name": "Add Family",
 					"request": {
 						"auth": {
@@ -7467,6 +7883,42 @@
 									"path": [
 										"laboratory",
 										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Lab Test Analytics",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{hospital_admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}dashboard/laboratory/test-analytics/?filter=yearly",
+									"host": [
+										"{{LOCAL}}dashboard"
+									],
+									"path": [
+										"laboratory",
+										"test-analytics",
+										""
+									],
+									"query": [
+										{
+											"key": "filter",
+											"value": "yearly",
+											"description": "daily, monthly, yearly"
+										}
 									]
 								}
 							},
@@ -12464,7 +12916,7 @@
 		{
 			"name": "Billing",
 			"item": [
-				{ 
+				{
 					"name": "Plans",
 					"item": [
 						{
@@ -13014,6 +13466,704 @@
 			]
 		},
 		{
+			"name": "BillMgt",
+			"item": [
+				{
+					"name": "List Bills",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{hospital_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{LOCAL}}bill-management/bills/",
+							"host": [
+								"{{LOCAL}}bill-management"
+							],
+							"path": [
+								"bills",
+								""
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "cancelled",
+									"description": "'pending', 'paid', 'cancelled'",
+									"disabled": true
+								},
+								{
+									"key": "search",
+									"value": "Jota",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "List Bills",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}bill-management/bills/?status=cancelled",
+									"host": [
+										"{{LOCAL}}bill-management"
+									],
+									"path": [
+										"bills",
+										""
+									],
+									"query": [
+										{
+											"key": "status",
+											"value": "cancelled",
+											"description": "'pending', 'paid', 'cancelled'"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 01 Sep 2025 09:17:14 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.10.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, POST, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1284"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"count\": 3,\n    \"next\": null,\n    \"previous\": null,\n    \"results\": {\n        \"status\": true,\n        \"message\": \"Bills retrieved successfully\",\n        \"data\": [\n            {\n                \"id\": \"bb29e072-72b5-4471-91de-5c4593340aef\",\n                \"patient_id\": \"0814409b-706d-4dae-9b4c-1fb36d906633\",\n                \"patient_fullname\": \"Diogo Jota\",\n                \"purpose\": \"Emergency Consultation\",\n                \"total_amount\": \"150.00\",\n                \"min_deposit\": \"75.00\",\n                \"payment_method\": \"cash\",\n                \"status\": \"pending\",\n                \"amount_paid\": \"0.00\",\n                \"remaining_amount\": \"150.00\",\n                \"created_at\": \"2025-09-01T09:14:16.526966Z\",\n                \"updated_at\": \"2025-09-01T09:14:16.526966Z\"\n            },\n            {\n                \"id\": \"40b920ec-ed18-4e91-9278-0698161619f8\",\n                \"patient_id\": \"0814409b-706d-4dae-9b4c-1fb36d906633\",\n                \"patient_fullname\": \"Diogo Jota\",\n                \"purpose\": \"Emergency Consultation\",\n                \"total_amount\": \"150.00\",\n                \"min_deposit\": \"75.00\",\n                \"payment_method\": \"cash\",\n                \"status\": \"cancelled\",\n                \"amount_paid\": \"0.00\",\n                \"remaining_amount\": \"150.00\",\n                \"created_at\": \"2025-09-01T09:13:45.405449Z\",\n                \"updated_at\": \"2025-09-01T09:14:37.585708Z\"\n            },\n            {\n                \"id\": \"d03387ea-91d1-4fff-a092-5de466820b94\",\n                \"patient_id\": \"0814409b-706d-4dae-9b4c-1fb36d906633\",\n                \"patient_fullname\": \"Diogo Jota\",\n                \"purpose\": \"Emergency Consultation\",\n                \"total_amount\": \"150.00\",\n                \"min_deposit\": \"75.00\",\n                \"payment_method\": \"cash\",\n                \"status\": \"pending\",\n                \"amount_paid\": \"75.00\",\n                \"remaining_amount\": \"75.00\",\n                \"created_at\": \"2025-09-01T08:58:20.162968Z\",\n                \"updated_at\": \"2025-09-01T09:11:20.658182Z\"\n            }\n        ]\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Create Bill",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{hospital_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"patient_id\": \"0814409b-706d-4dae-9b4c-1fb36d906633\",\r\n    \"purpose\": \"drug\", // drug, lab_test, treatment\r\n    \"total_amount\": \"1000.00\",\r\n    \"min_deposit\": \"75.00\",\r\n    \"payment_method\": \"cash\",\r\n    \"comments\": \"Pay up please\",\r\n    \"drugs\": [\r\n        {\r\n            \"drug\": \"e60b1c4a-29b2-4185-84f6-66cf10988cfb\",\r\n            \"quantity\": 2\r\n        },\r\n        {\r\n            \"drug\": \"d80c1312-e91f-4c03-83b1-2d4c36e05beb\",\r\n            \"quantity\": 1\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{LOCAL}}bill-management/bills/",
+							"host": [
+								"{{LOCAL}}bill-management"
+							],
+							"path": [
+								"bills",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Create Bill",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"patient_id\": \"0814409b-706d-4dae-9b4c-1fb36d906633\",\r\n    \"purpose\": \"drug\", // drug, lab_test, treatment\r\n    \"total_amount\": \"1000.00\",\r\n    \"min_deposit\": \"75.00\",\r\n    \"payment_method\": \"cash\",\r\n    \"comments\": \"Pay up please\",\r\n    \"drugs\": [\r\n        {\r\n            \"drug\": \"e60b1c4a-29b2-4185-84f6-66cf10988cfb\",\r\n            \"quantity\": 2\r\n        },\r\n        {\r\n            \"drug\": \"d80c1312-e91f-4c03-83b1-2d4c36e05beb\",\r\n            \"quantity\": 1\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL}}bill-management/bills/",
+									"host": [
+										"{{LOCAL}}bill-management"
+									],
+									"path": [
+										"bills",
+										""
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 15 Sep 2025 17:05:53 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.10.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, POST, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Length",
+									"value": "548"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"message\": \"Bill created successfully\",\n    \"data\": {\n        \"id\": \"9e06f008-2159-4106-8b20-1e4c3b27bc1d\",\n        \"patient_id\": \"0814409b-706d-4dae-9b4c-1fb36d906633\",\n        \"patient_fullname\": \"Diogo Jota\",\n        \"purpose\": \"drug\",\n        \"total_amount\": \"1000.00\",\n        \"min_deposit\": \"75.00\",\n        \"payment_method\": \"cash\",\n        \"status\": \"pending\",\n        \"amount_paid\": \"0.00\",\n        \"remaining_amount\": \"1000.00\",\n        \"created_at\": \"2025-09-15T17:05:53.408603Z\",\n        \"updated_at\": \"2025-09-15T17:05:53.438339Z\",\n        \"comments\": \"Pay up please\",\n        \"drugs\": [\n            \"92a6d56c-ea14-4ad9-8295-12913e92a6c2\",\n            \"279704f9-7161-45ab-af72-da930dd09b3f\"\n        ]\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Bill Details",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{hospital_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{LOCAL}}bill-management/bills/:bill_id/",
+							"host": [
+								"{{LOCAL}}bill-management"
+							],
+							"path": [
+								"bills",
+								":bill_id",
+								""
+							],
+							"variable": [
+								{
+									"key": "bill_id",
+									"value": "9e06f008-2159-4106-8b20-1e4c3b27bc1d"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Bill Details",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}bill-management/bills/:bill_id/",
+									"host": [
+										"{{LOCAL}}bill-management"
+									],
+									"path": [
+										"bills",
+										":bill_id",
+										""
+									],
+									"variable": [
+										{
+											"key": "bill_id",
+											"value": "9e06f008-2159-4106-8b20-1e4c3b27bc1d"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 15 Sep 2025 17:11:18 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.10.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Length",
+									"value": "666"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"message\": \"Bill details retrieved successfully\",\n    \"data\": {\n        \"bill\": {\n            \"id\": \"9e06f008-2159-4106-8b20-1e4c3b27bc1d\",\n            \"patient_id\": \"0814409b-706d-4dae-9b4c-1fb36d906633\",\n            \"patient_fullname\": \"Diogo Jota\",\n            \"purpose\": \"drug\",\n            \"total_amount\": \"1000.00\",\n            \"min_deposit\": \"75.00\",\n            \"payment_method\": \"cash\",\n            \"status\": \"pending\",\n            \"amount_paid\": \"0.00\",\n            \"remaining_amount\": \"1000.00\",\n            \"created_at\": \"2025-09-15T17:05:53.408603Z\",\n            \"updated_at\": \"2025-09-15T17:05:53.438339Z\",\n            \"comments\": \"Pay up please\",\n            \"drugs\": [\n                {\n                    \"drug_name\": \"Panadol\",\n                    \"quantity\": 1,\n                    \"unit_price\": 5000,\n                    \"total_price\": 5000\n                },\n                {\n                    \"drug_name\": \"Paracetamol\",\n                    \"quantity\": 2,\n                    \"unit_price\": 500,\n                    \"total_price\": 1000\n                }\n            ]\n        },\n        \"transactions\": []\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Pay Bill (cash, pos)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{hospital_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"amount\": \"75.00\",\r\n    \"payment_method\": \"cash\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{LOCAL}}bill-management/bills/:bill_id/pay/",
+							"host": [
+								"{{LOCAL}}bill-management"
+							],
+							"path": [
+								"bills",
+								":bill_id",
+								"pay",
+								""
+							],
+							"variable": [
+								{
+									"key": "bill_id",
+									"value": "d03387ea-91d1-4fff-a092-5de466820b94"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Ok",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"amount\": \"75.00\",\r\n    \"payment_method\": \"cash\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL}}bill-management/bills/:bill_id/pay/",
+									"host": [
+										"{{LOCAL}}bill-management"
+									],
+									"path": [
+										"bills",
+										":bill_id",
+										"pay",
+										""
+									],
+									"variable": [
+										{
+											"key": "bill_id",
+											"value": "d03387ea-91d1-4fff-a092-5de466820b94"
+										}
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 01 Sep 2025 09:11:20 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.10.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Allow",
+									"value": "POST, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Length",
+									"value": "360"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"message\": \"Payment processed successfully via CASH\",\n    \"data\": {\n        \"transaction_id\": \"89b9ba70-3d04-4e62-81b6-4ca4b705e275\",\n        \"bill_id\": \"d03387ea-91d1-4fff-a092-5de466820b94\",\n        \"amount_paid\": \"75.00\",\n        \"remaining_amount\": \"75.00\",\n        \"bill_status\": \"pending\",\n        \"transaction_status\": \"completed\",\n        \"payment_method\": \"cash\",\n        \"reference_number\": \"TXN-20250901091120-89b9ba70\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Cancel Bill",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{hospital_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"reason\": \"Nothing\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{LOCAL}}bill-management/bills/:bill_id/cancel/",
+							"host": [
+								"{{LOCAL}}bill-management"
+							],
+							"path": [
+								"bills",
+								":bill_id",
+								"cancel",
+								""
+							],
+							"variable": [
+								{
+									"key": "bill_id",
+									"value": "40b920ec-ed18-4e91-9278-0698161619f8"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Cancel Bill",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"reason\": \"Nothing\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL}}bill-management/bills/:bill_id/cancel/",
+									"host": [
+										"{{LOCAL}}bill-management"
+									],
+									"path": [
+										"bills",
+										":bill_id",
+										"cancel",
+										""
+									],
+									"variable": [
+										{
+											"key": "bill_id",
+											"value": ""
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "",
+							"header": [],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"domain": "",
+									"path": ""
+								}
+							],
+							"body": "{\r\n    \"status\": true,\r\n    \"message\": \"Bill cancelled successfully\",\r\n    \"data\": {\r\n        \"bill_id\": \"40b920ec-ed18-4e91-9278-0698161619f8\",\r\n        \"status\": \"cancelled\",\r\n        \"patient_name\": \"Diogo Jota\",\r\n        \"purpose\": \"Emergency Consultation\"\r\n    }\r\n}"
+						}
+					]
+				},
+				{
+					"name": "Bill Transactions",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{hospital_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{LOCAL}}bill-management/transactions/",
+							"host": [
+								"{{LOCAL}}bill-management"
+							],
+							"path": [
+								"transactions",
+								""
+							],
+							"query": [
+								{
+									"key": "bill_id",
+									"value": "40b920ec-ed18-4e91-9278-0698161619f8",
+									"disabled": true
+								},
+								{
+									"key": "search",
+									"value": null,
+									"description": "Bill Purpose",
+									"disabled": true
+								},
+								{
+									"key": "start_date",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "end_date",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Ok",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}bill-management/transactions/",
+									"host": [
+										"{{LOCAL}}bill-management"
+									],
+									"path": [
+										"transactions",
+										""
+									],
+									"query": [
+										{
+											"key": "bill_id",
+											"value": "40b920ec-ed18-4e91-9278-0698161619f8",
+											"disabled": true
+										},
+										{
+											"key": "search",
+											"value": null,
+											"description": "Bill Purpose",
+											"disabled": true
+										},
+										{
+											"key": "start_date",
+											"value": null,
+											"disabled": true
+										},
+										{
+											"key": "end_date",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 01 Sep 2025 09:57:36 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.10.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Length",
+									"value": "520"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"count\": 1,\n    \"next\": null,\n    \"previous\": null,\n    \"results\": {\n        \"status\": true,\n        \"message\": \"Transactions retrieved successfully\",\n        \"data\": [\n            {\n                \"id\": \"89b9ba70-3d04-4e62-81b6-4ca4b705e275\",\n                \"patient_id\": \"0814409b-706d-4dae-9b4c-1fb36d906633\",\n                \"patient_name\": \"Diogo Jota\",\n                \"bill_id\": \"d03387ea-91d1-4fff-a092-5de466820b94\",\n                \"bill_amount\": \"150.00\",\n                \"amount\": \"75.00\",\n                \"transaction_date\": \"2025-09-01T09:11:20.646287Z\",\n                \"bill_purpose\": \"Emergency Consultation\",\n                \"payment_method\": \"cash\",\n                \"status\": \"completed\",\n                \"reference_number\": \"TXN-20250901091120-89b9ba70\"\n            }\n        ]\n    }\n}"
+						}
+					]
+				}
+			]
+		},
+		{
 			"name": "Patient Module",
 			"item": [
 				{
@@ -13124,7 +14274,9 @@
 									],
 									"cookie": [
 										{
-											"expires": "Invalid Date"
+											"expires": "Invalid Date",
+											"domain": "",
+											"path": ""
 										}
 									],
 									"body": "{\n    \"status\": true,\n    \"message\": \"Patient registered and OTP sent successfully\",\n    \"data\": {\n        \"email\": \"aaron@autogon.ai\"\n    }\n}"
@@ -13580,7 +14732,2581 @@
 				},
 				{
 					"name": "Core",
-					"item": []
+					"item": [
+						{
+							"name": "Appointments",
+							"item": [
+								{
+									"name": "My Appointments",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{patient}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{LOCAL}}patient-management/appointments/",
+											"host": [
+												"{{LOCAL}}patient-management"
+											],
+											"path": [
+												"appointments",
+												""
+											],
+											"query": [
+												{
+													"key": "status",
+													"value": "past",
+													"description": "upcoming, past",
+													"disabled": true
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "My Appointments",
+											"originalRequest": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{LOCAL}}patient-management/appointments/",
+													"host": [
+														"{{LOCAL}}patient-management"
+													],
+													"path": [
+														"appointments",
+														""
+													],
+													"query": [
+														{
+															"key": "status",
+															"value": null,
+															"description": "upcoming, past",
+															"disabled": true
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": null,
+											"header": [
+												{
+													"key": "Date",
+													"value": "Thu, 28 Aug 2025 08:31:38 GMT"
+												},
+												{
+													"key": "Server",
+													"value": "WSGIServer/0.2 CPython/3.10.0"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												},
+												{
+													"key": "Allow",
+													"value": "GET, HEAD, OPTIONS"
+												},
+												{
+													"key": "X-Frame-Options",
+													"value": "DENY"
+												},
+												{
+													"key": "Vary",
+													"value": "origin"
+												},
+												{
+													"key": "Content-Length",
+													"value": "1155"
+												},
+												{
+													"key": "X-Content-Type-Options",
+													"value": "nosniff"
+												},
+												{
+													"key": "Referrer-Policy",
+													"value": "same-origin"
+												},
+												{
+													"key": "Cross-Origin-Opener-Policy",
+													"value": "same-origin"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"count\": 2,\n    \"next\": null,\n    \"previous\": null,\n    \"results\": [\n        {\n            \"id\": \"b582e51d-dc0e-4904-9804-7cfb013e12b5\",\n            \"hospital_name\": \"Divine Mercy\",\n            \"hospital_address\": \"17 Birabi Street, Old GRA, Port-Harcourt, Rivers\",\n            \"patient_id\": \"0814409b-706d-4dae-9b4c-1fb36d906633\",\n            \"patient_fullname\": \"Diogo Jota\",\n            \"staff_name\": \"Mike Tyson\",\n            \"staff_profile_picture\": null,\n            \"staff_role\": \"Doctor\",\n            \"staff_phone_number\": \"08012345678\",\n            \"appointment_date\": \"2025-09-23\",\n            \"appointment_time\": \"12:00:00\",\n            \"status\": \"scheduled\",\n            \"reason\": \"Routine checkup\",\n            \"notes\": null,\n            \"created_at\": \"2025-08-28T08:31:18.324194Z\",\n            \"updated_at\": \"2025-08-28T08:31:18.324194Z\"\n        },\n        {\n            \"id\": \"fc1729ec-734e-4c67-9090-4268be7a9989\",\n            \"hospital_name\": \"Divine Mercy\",\n            \"hospital_address\": \"17 Birabi Street, Old GRA, Port-Harcourt, Rivers\",\n            \"patient_id\": \"0814409b-706d-4dae-9b4c-1fb36d906633\",\n            \"patient_fullname\": \"Diogo Jota\",\n            \"staff_name\": \"Mike Tyson\",\n            \"staff_profile_picture\": null,\n            \"staff_role\": \"Doctor\",\n            \"staff_phone_number\": \"08012345678\",\n            \"appointment_date\": \"2025-09-22\",\n            \"appointment_time\": \"12:00:00\",\n            \"status\": \"scheduled\",\n            \"reason\": \"Routine checkup\",\n            \"notes\": null,\n            \"created_at\": \"2025-08-28T08:28:16.184996Z\",\n            \"updated_at\": \"2025-08-28T08:28:16.184996Z\"\n        }\n    ]\n}"
+										}
+									]
+								},
+								{
+									"name": "Book Appointment",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{patient}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"specialist_id\": \"f1841d87-ed48-44e0-a755-093e5f0cc721\",\r\n    \"hospital_id\": \"8bcb6a27-c7a6-4ece-a9fc-409e693ef03d\",\r\n    \"appointment_date\": \"2025-09-23\",\r\n    \"appointment_time\": \"12:00:00\",\r\n    \"reason\": \"Routine checkup\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{LOCAL}}patient-management/appointments/book/",
+											"host": [
+												"{{LOCAL}}patient-management"
+											],
+											"path": [
+												"appointments",
+												"book",
+												""
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Book Appointment",
+											"originalRequest": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"specialist_id\": \"f1841d87-ed48-44e0-a755-093e5f0cc721\",\r\n    \"hospital_id\": \"8bcb6a27-c7a6-4ece-a9fc-409e693ef03d\",\r\n    \"appointment_date\": \"2025-09-23\",\r\n    \"appointment_time\": \"12:00:00\",\r\n    \"reason\": \"Routine checkup\"\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{LOCAL}}patient-management/appointments/book/",
+													"host": [
+														"{{LOCAL}}patient-management"
+													],
+													"path": [
+														"appointments",
+														"book",
+														""
+													]
+												}
+											},
+											"status": "Created",
+											"code": 201,
+											"_postman_previewlanguage": null,
+											"header": [
+												{
+													"key": "Date",
+													"value": "Thu, 28 Aug 2025 08:31:18 GMT"
+												},
+												{
+													"key": "Server",
+													"value": "WSGIServer/0.2 CPython/3.10.0"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												},
+												{
+													"key": "Allow",
+													"value": "POST, OPTIONS"
+												},
+												{
+													"key": "X-Frame-Options",
+													"value": "DENY"
+												},
+												{
+													"key": "Vary",
+													"value": "origin"
+												},
+												{
+													"key": "Content-Length",
+													"value": "254"
+												},
+												{
+													"key": "X-Content-Type-Options",
+													"value": "nosniff"
+												},
+												{
+													"key": "Referrer-Policy",
+													"value": "same-origin"
+												},
+												{
+													"key": "Cross-Origin-Opener-Policy",
+													"value": "same-origin"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"status\": true,\n    \"message\": \"Appointment booked successfully.\",\n    \"data\": {\n        \"patient\": \"0814409b-706d-4dae-9b4c-1fb36d906633\",\n        \"staff\": \"f1841d87-ed48-44e0-a755-093e5f0cc721\",\n        \"appointment_date\": \"2025-09-23\",\n        \"appointment_time\": \"12:00:00\",\n        \"reason\": \"Routine checkup\"\n    }\n}"
+										}
+									]
+								},
+								{
+									"name": "Cancel Appointment",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{patient}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{LOCAL}}patient-management/appointments/:appointment_id/cancel/",
+											"host": [
+												"{{LOCAL}}patient-management"
+											],
+											"path": [
+												"appointments",
+												":appointment_id",
+												"cancel",
+												""
+											],
+											"variable": [
+												{
+													"key": "appointment_id",
+													"value": "b582e51d-dc0e-4904-9804-7cfb013e12b5"
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Cancel Appointment",
+											"originalRequest": {
+												"method": "POST",
+												"header": [],
+												"url": {
+													"raw": "{{LOCAL}}patient-management/appointments/:appointment_id/cancel/",
+													"host": [
+														"{{LOCAL}}patient-management"
+													],
+													"path": [
+														"appointments",
+														":appointment_id",
+														"cancel",
+														""
+													],
+													"variable": [
+														{
+															"key": "appointment_id",
+															"value": "b582e51d-dc0e-4904-9804-7cfb013e12b5"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Date",
+													"value": "Thu, 28 Aug 2025 08:50:13 GMT"
+												},
+												{
+													"key": "Server",
+													"value": "WSGIServer/0.2 CPython/3.10.0"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json",
+													"description": "",
+													"type": "text"
+												},
+												{
+													"key": "Allow",
+													"value": "POST, OPTIONS"
+												},
+												{
+													"key": "X-Frame-Options",
+													"value": "DENY"
+												},
+												{
+													"key": "Vary",
+													"value": "origin"
+												},
+												{
+													"key": "Content-Length",
+													"value": "48"
+												},
+												{
+													"key": "X-Content-Type-Options",
+													"value": "nosniff"
+												},
+												{
+													"key": "Referrer-Policy",
+													"value": "same-origin"
+												},
+												{
+													"key": "Cross-Origin-Opener-Policy",
+													"value": "same-origin"
+												}
+											],
+											"cookie": [
+												{
+													"expires": "Invalid Date",
+													"domain": "",
+													"path": ""
+												}
+											],
+											"body": "{\n    \"status\": true,\n    \"message\": \"Appointment cancelled successfully.\",\n    \"data\": {}\n}"
+										}
+									]
+								},
+								{
+									"name": "Reschedule Appointment",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{patient}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"new_appointment_date\": \"2025-09-22\",\r\n    \"new_appointment_time\": \"14:00:00\",\r\n    \"reason_for_reschedule\": \"Couldn't meetup\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{LOCAL}}patient-management/appointments/:appointment_id/reschedule/",
+											"host": [
+												"{{LOCAL}}patient-management"
+											],
+											"path": [
+												"appointments",
+												":appointment_id",
+												"reschedule",
+												""
+											],
+											"variable": [
+												{
+													"key": "appointment_id",
+													"value": "b582e51d-dc0e-4904-9804-7cfb013e12b5"
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Reschedule Appointment",
+											"originalRequest": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"new_appointment_date\": \"2025-09-22\",\r\n    \"new_appointment_time\": \"14:00:00\",\r\n    \"reason_for_reschedule\": \"Couldn't meetup\"\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{LOCAL}}patient-management/appointments/:appointment_id/reschedule/",
+													"host": [
+														"{{LOCAL}}patient-management"
+													],
+													"path": [
+														"appointments",
+														":appointment_id",
+														"reschedule",
+														""
+													],
+													"variable": [
+														{
+															"key": "appointment_id",
+															"value": "b582e51d-dc0e-4904-9804-7cfb013e12b5"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": null,
+											"header": [
+												{
+													"key": "Date",
+													"value": "Thu, 28 Aug 2025 08:47:31 GMT"
+												},
+												{
+													"key": "Server",
+													"value": "WSGIServer/0.2 CPython/3.10.0"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												},
+												{
+													"key": "Allow",
+													"value": "POST, OPTIONS"
+												},
+												{
+													"key": "X-Frame-Options",
+													"value": "DENY"
+												},
+												{
+													"key": "Vary",
+													"value": "origin"
+												},
+												{
+													"key": "Content-Length",
+													"value": "259"
+												},
+												{
+													"key": "X-Content-Type-Options",
+													"value": "nosniff"
+												},
+												{
+													"key": "Referrer-Policy",
+													"value": "same-origin"
+												},
+												{
+													"key": "Cross-Origin-Opener-Policy",
+													"value": "same-origin"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"status\": true,\n    \"message\": \"Appointment rescheduled successfully.\",\n    \"data\": {\n        \"patient\": \"0814409b-706d-4dae-9b4c-1fb36d906633\",\n        \"staff\": \"f1841d87-ed48-44e0-a755-093e5f0cc721\",\n        \"appointment_date\": \"2025-09-22\",\n        \"appointment_time\": \"14:00:00\",\n        \"reason\": \"Couldn't meetup\"\n    }\n}"
+										}
+									]
+								},
+								{
+									"name": "Review Appointment",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{patient}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"rating\": 4,\r\n    \"comment\": \"Very knowledgeable doctor with a good bedside manner.\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{LOCAL}}patient-management/reviews/:appointment_id/create/",
+											"host": [
+												"{{LOCAL}}patient-management"
+											],
+											"path": [
+												"reviews",
+												":appointment_id",
+												"create",
+												""
+											],
+											"variable": [
+												{
+													"key": "appointment_id",
+													"value": "b582e51d-dc0e-4904-9804-7cfb013e12b5"
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Review Appointment",
+											"originalRequest": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"rating\": 4,\r\n    \"comment\": \"Very knowledgeable doctor with a good bedside manner.\"\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{LOCAL}}patient-management/reviews/:appointment_id/create/",
+													"host": [
+														"{{LOCAL}}patient-management"
+													],
+													"path": [
+														"reviews",
+														":appointment_id",
+														"create",
+														""
+													],
+													"variable": [
+														{
+															"key": "appointment_id",
+															"value": "b582e51d-dc0e-4904-9804-7cfb013e12b5"
+														}
+													]
+												}
+											},
+											"status": "Created",
+											"code": 201,
+											"_postman_previewlanguage": null,
+											"header": [
+												{
+													"key": "Date",
+													"value": "Sun, 07 Sep 2025 16:30:16 GMT"
+												},
+												{
+													"key": "Server",
+													"value": "WSGIServer/0.2 CPython/3.10.0"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												},
+												{
+													"key": "Allow",
+													"value": "POST, OPTIONS"
+												},
+												{
+													"key": "X-Frame-Options",
+													"value": "DENY"
+												},
+												{
+													"key": "Vary",
+													"value": "origin"
+												},
+												{
+													"key": "Content-Length",
+													"value": "78"
+												},
+												{
+													"key": "X-Content-Type-Options",
+													"value": "nosniff"
+												},
+												{
+													"key": "Referrer-Policy",
+													"value": "same-origin"
+												},
+												{
+													"key": "Cross-Origin-Opener-Policy",
+													"value": "same-origin"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"rating\": 4,\n    \"comment\": \"Very knowledgeable doctor with a good bedside manner.\"\n}"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "List Hospitals",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}patient-management/hospitals/",
+									"host": [
+										"{{LOCAL}}patient-management"
+									],
+									"path": [
+										"hospitals",
+										""
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "ok",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{LOCAL}}patient-management/hospitals/",
+											"host": [
+												"{{LOCAL}}patient-management"
+											],
+											"path": [
+												"hospitals",
+												""
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "Date",
+											"value": "Fri, 15 Aug 2025 11:51:15 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "WSGIServer/0.2 CPython/3.10.0"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Allow",
+											"value": "GET, HEAD, OPTIONS"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "DENY"
+										},
+										{
+											"key": "Vary",
+											"value": "origin"
+										},
+										{
+											"key": "Content-Length",
+											"value": "331"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"count\": 1,\n    \"next\": null,\n    \"previous\": null,\n    \"results\": [\n        {\n            \"id\": \"8bcb6a27-c7a6-4ece-a9fc-409e693ef03d\",\n            \"name\": \"Divine Mercy\",\n            \"avatar\": null,\n            \"address\": \"17 Birabi Street, Old GRA\",\n            \"rating\": 0,\n            \"no_of_reviews\": 0,\n            \"distance_from_user_in_km\": 0,\n            \"phone_number\": \"08012345678\",\n            \"email\": \"info@divinemercy.com\",\n            \"state\": \"Rivers\",\n            \"city\": \"Port-Harcourt\"\n        }\n    ]\n}"
+								}
+							]
+						},
+						{
+							"name": "List Specialists",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}patient-management/specialists/?hospital_id=8bcb6a27-c7a6-4ece-a9fc-409e693ef03d",
+									"host": [
+										"{{LOCAL}}patient-management"
+									],
+									"path": [
+										"specialists",
+										""
+									],
+									"query": [
+										{
+											"key": "search",
+											"value": "mercy",
+											"description": "'first_name', 'last_name', 'specialization',  'hospital name'",
+											"disabled": true
+										},
+										{
+											"key": "hospital_id",
+											"value": "8bcb6a27-c7a6-4ece-a9fc-409e693ef03d"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "ok",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{LOCAL}}patient-management/specialists/",
+											"host": [
+												"{{LOCAL}}patient-management"
+											],
+											"path": [
+												"specialists",
+												""
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "Date",
+											"value": "Fri, 15 Aug 2025 11:55:57 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "WSGIServer/0.2 CPython/3.10.0"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Allow",
+											"value": "GET, HEAD, OPTIONS"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "DENY"
+										},
+										{
+											"key": "Vary",
+											"value": "origin"
+										},
+										{
+											"key": "Content-Length",
+											"value": "341"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"count\": 1,\n    \"next\": null,\n    \"previous\": null,\n    \"results\": [\n        {\n            \"id\": \"f1841d87-ed48-44e0-a755-093e5f0cc721\",\n            \"first_name\": \"Mike\",\n            \"last_name\": \"Tyson\",\n            \"specialization\": \"Gynaecologist\",\n            \"role\": \"doctor\",\n            \"avatar\": null,\n            \"rating\": 0,\n            \"no_of_reviews\": 0,\n            \"hospital_name\": \"Divine Mercy\",\n            \"hospital\": \"8bcb6a27-c7a6-4ece-a9fc-409e693ef03d\",\n            \"distance_from_user_in_km\": 0\n        }\n    ]\n}"
+								}
+							]
+						},
+						{
+							"name": "List Specialist Reviews",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}patient-management/reviews/:specialist_id/list/",
+									"host": [
+										"{{LOCAL}}patient-management"
+									],
+									"path": [
+										"reviews",
+										":specialist_id",
+										"list",
+										""
+									],
+									"variable": [
+										{
+											"key": "specialist_id",
+											"value": "f1841d87-ed48-44e0-a755-093e5f0cc721"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "List Specialist Reviews",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{LOCAL}}patient-management/reviews/:specialist_id/list/",
+											"host": [
+												"{{LOCAL}}patient-management"
+											],
+											"path": [
+												"reviews",
+												":specialist_id",
+												"list",
+												""
+											],
+											"variable": [
+												{
+													"key": "specialist_id",
+													"value": "f1841d87-ed48-44e0-a755-093e5f0cc721"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "Date",
+											"value": "Sun, 07 Sep 2025 16:42:29 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "WSGIServer/0.2 CPython/3.10.0"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Allow",
+											"value": "GET, HEAD, OPTIONS"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "DENY"
+										},
+										{
+											"key": "Vary",
+											"value": "origin"
+										},
+										{
+											"key": "Content-Length",
+											"value": "223"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"count\": 1,\n    \"next\": null,\n    \"previous\": null,\n    \"results\": [\n        {\n            \"doctor\": \"Mike Tyson\",\n            \"patient_name\": \"Diogo Jota\",\n            \"rating\": 4,\n            \"comment\": \"Very knowledgeable doctor with a good bedside manner.\",\n            \"created_at\": \"2025-09-07T16:30:16.495354Z\"\n        }\n    ]\n}"
+								}
+							]
+						},
+						{
+							"name": "Get Hospital",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{hospital_admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}patient-management/hospitals/:hospitalId/",
+									"host": [
+										"{{LOCAL}}patient-management"
+									],
+									"path": [
+										"hospitals",
+										":hospitalId",
+										""
+									],
+									"variable": [
+										{
+											"key": "hospitalId",
+											"value": "8bcb6a27-c7a6-4ece-a9fc-409e693ef03d"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "ok",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{LOCAL}}patient-management/hospitals/:hospitalId/",
+											"host": [
+												"{{LOCAL}}patient-management"
+											],
+											"path": [
+												"hospitals",
+												":hospitalId",
+												""
+											],
+											"variable": [
+												{
+													"key": "hospitalId",
+													"value": "8bcb6a27-c7a6-4ece-a9fc-409e693ef03d"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "Date",
+											"value": "Fri, 15 Aug 2025 11:55:10 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "WSGIServer/0.2 CPython/3.10.0"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Allow",
+											"value": "GET, HEAD, OPTIONS"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "DENY"
+										},
+										{
+											"key": "Vary",
+											"value": "origin"
+										},
+										{
+											"key": "Content-Length",
+											"value": "279"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"id\": \"8bcb6a27-c7a6-4ece-a9fc-409e693ef03d\",\n    \"name\": \"Divine Mercy\",\n    \"avatar\": null,\n    \"address\": \"17 Birabi Street, Old GRA\",\n    \"rating\": 0,\n    \"no_of_reviews\": 0,\n    \"distance_from_user_in_km\": 0,\n    \"phone_number\": \"08012345678\",\n    \"email\": \"info@divinemercy.com\",\n    \"state\": \"Rivers\",\n    \"city\": \"Port-Harcourt\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Get Specialist",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}patient-management/specialists/:specialistId/",
+									"host": [
+										"{{LOCAL}}patient-management"
+									],
+									"path": [
+										"specialists",
+										":specialistId",
+										""
+									],
+									"variable": [
+										{
+											"key": "specialistId",
+											"value": "f1841d87-ed48-44e0-a755-093e5f0cc721"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Get Specialist",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{LOCAL}}patient-management/specialists/:specialistId/",
+											"host": [
+												"{{LOCAL}}patient-management"
+											],
+											"path": [
+												"specialists",
+												":specialistId",
+												""
+											],
+											"variable": [
+												{
+													"key": "specialistId",
+													"value": "f1841d87-ed48-44e0-a755-093e5f0cc721"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "Date",
+											"value": "Mon, 15 Sep 2025 12:35:53 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "WSGIServer/0.2 CPython/3.10.0"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Allow",
+											"value": "GET, HEAD, OPTIONS"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "DENY"
+										},
+										{
+											"key": "Vary",
+											"value": "origin"
+										},
+										{
+											"key": "Content-Length",
+											"value": "747"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"id\": \"f1841d87-ed48-44e0-a755-093e5f0cc721\",\n    \"first_name\": \"Mike\",\n    \"last_name\": \"Tyson\",\n    \"specialization\": \"Gynaecologist\",\n    \"role\": \"doctor\",\n    \"avatar\": null,\n    \"rating\": 4,\n    \"no_of_reviews\": 1,\n    \"hospital_name\": \"Divine Mercy\",\n    \"hospital\": \"8bcb6a27-c7a6-4ece-a9fc-409e693ef03d\",\n    \"distance_from_user_in_km\": 0,\n    \"total_patients_seen\": 0,\n    \"availability\": [\n        {\n            \"id\": 2,\n            \"day_of_week\": \"Monday\",\n            \"start_time\": \"08:00:00\",\n            \"end_time\": \"16:00:00\",\n            \"duration_minutes\": 30,\n            \"is_available\": true\n        },\n        {\n            \"id\": 1,\n            \"day_of_week\": \"Tuesday\",\n            \"start_time\": \"09:00:00\",\n            \"end_time\": \"16:00:00\",\n            \"duration_minutes\": 30,\n            \"is_available\": true\n        }\n    ],\n    \"occupied_slots\": [\n        {\n            \"appointment_date\": \"2025-09-22\",\n            \"appointment_time\": \"12:00:00\"\n        }\n    ],\n    \"reviews\": [\n        {\n            \"rating\": 4,\n            \"comment\": \"Very knowledgeable doctor with a good bedside manner.\"\n        }\n    ]\n}"
+								}
+							]
+						},
+						{
+							"name": "Dashboard",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{patient}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}patient-management/dashboard/",
+									"host": [
+										"{{LOCAL}}patient-management"
+									],
+									"path": [
+										"dashboard",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "List Profiles",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{patient}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}patient-management/profiles/",
+									"host": [
+										"{{LOCAL}}patient-management"
+									],
+									"path": [
+										"profiles",
+										""
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "List Profiles",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{LOCAL}}patient-management/profiles/",
+											"host": [
+												"{{LOCAL}}patient-management"
+											],
+											"path": [
+												"profiles",
+												""
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "Date",
+											"value": "Mon, 08 Sep 2025 20:28:01 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "WSGIServer/0.2 CPython/3.10.0"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Allow",
+											"value": "GET, HEAD, OPTIONS"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "DENY"
+										},
+										{
+											"key": "Vary",
+											"value": "origin"
+										},
+										{
+											"key": "Content-Length",
+											"value": "227"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": true,\n    \"message\": \"Patient profiles retrieved successfully.\",\n    \"data\": [\n        {\n            \"id\": \"0814409b-706d-4dae-9b4c-1fb36d906633\",\n            \"full_name\": \"Diogo Jota\",\n            \"hospital_name\": \"Divine Mercy\",\n            \"date_registered\": \"2025-08-28T08:26:23.780364Z\"\n        }\n    ]\n}"
+								}
+							]
+						},
+						{
+							"name": "Profile Detail",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{patient}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}patient-management/profiles/:profileId/",
+									"host": [
+										"{{LOCAL}}patient-management"
+									],
+									"path": [
+										"profiles",
+										":profileId",
+										""
+									],
+									"variable": [
+										{
+											"key": "profileId",
+											"value": "0814409b-706d-4dae-9b4c-1fb36d906633"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Profile Detail",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{LOCAL}}patient-management/profiles/:profileId/",
+											"host": [
+												"{{LOCAL}}patient-management"
+											],
+											"path": [
+												"profiles",
+												":profileId",
+												""
+											],
+											"variable": [
+												{
+													"key": "profileId",
+													"value": "0814409b-706d-4dae-9b4c-1fb36d906633"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "Date",
+											"value": "Mon, 08 Sep 2025 20:32:24 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "WSGIServer/0.2 CPython/3.10.0"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Allow",
+											"value": "GET, HEAD, OPTIONS"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "DENY"
+										},
+										{
+											"key": "Vary",
+											"value": "origin"
+										},
+										{
+											"key": "Content-Length",
+											"value": "1061"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": true,\n    \"message\": \"Patient profile retrieved successfully.\",\n    \"data\": {\n        \"id\": \"0814409b-706d-4dae-9b4c-1fb36d906633\",\n        \"user_id\": \"1SM77\",\n        \"hospital\": \"8bcb6a27-c7a6-4ece-a9fc-409e693ef03d\",\n        \"family\": null,\n        \"first_name\": \"Diogo\",\n        \"last_name\": \"Jota\",\n        \"middle_name\": null,\n        \"full_name\": \"Diogo Jota\",\n        \"patient_type\": \"individual\",\n        \"date_of_birth\": \"2000-01-29\",\n        \"age\": 25,\n        \"gender\": \"male\",\n        \"phone_number\": \"08011111111\",\n        \"email\": \"aaron@autogon.ai\",\n        \"address\": null,\n        \"city\": null,\n        \"state\": null,\n        \"employment_status\": null,\n        \"height\": null,\n        \"weight\": null,\n        \"bmi\": null,\n        \"blood_group\": \"unknown\",\n        \"genotype\": null,\n        \"allergies\": null,\n        \"chronic_conditions\": null,\n        \"current_medications\": [],\n        \"family_history\": null,\n        \"surgical_history\": null,\n        \"hereditary_conditions\": null,\n        \"other_conditions\": null,\n        \"emergency_contact\": {\n            \"name\": null,\n            \"phone\": null,\n            \"relationship\": null,\n            \"address\": null\n        },\n        \"marital_status\": \"unknown\",\n        \"social_history\": null,\n        \"created_at\": \"2025-08-28T08:26:23.780364Z\",\n        \"updated_at\": \"2025-08-28T08:26:23.780364Z\",\n        \"registered_by\": null,\n        \"last_seen\": {\n            \"doctor\": \"2025-09-22\",\n            \"nurse\": null,\n            \"lab_scientist\": null,\n            \"pharmacist\": null\n        }\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Lab Tests",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{patient}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}patient-management/lab-tests/",
+									"host": [
+										"{{LOCAL}}patient-management"
+									],
+									"path": [
+										"lab-tests",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Doctor Notes",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{patient}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}patient-management/patient/doctor-patient-notes/",
+									"host": [
+										"{{LOCAL}}patient-management"
+									],
+									"path": [
+										"patient",
+										"doctor-patient-notes",
+										""
+									],
+									"query": [
+										{
+											"key": "status",
+											"value": "read",
+											"description": "unread",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Doctor Notes",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{LOCAL}}patient-management/patient/doctor-patient-notes/",
+											"host": [
+												"{{LOCAL}}patient-management"
+											],
+											"path": [
+												"patient",
+												"doctor-patient-notes",
+												""
+											],
+											"query": [
+												{
+													"key": "status",
+													"value": "read",
+													"description": "unread",
+													"disabled": true
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "Date",
+											"value": "Mon, 08 Sep 2025 20:15:49 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "WSGIServer/0.2 CPython/3.10.0"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Allow",
+											"value": "GET, HEAD, OPTIONS"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "DENY"
+										},
+										{
+											"key": "Vary",
+											"value": "origin"
+										},
+										{
+											"key": "Content-Length",
+											"value": "724"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"count\": 2,\n    \"next\": null,\n    \"previous\": null,\n    \"results\": [\n        {\n            \"id\": \"906cfb82-8fd0-4cf1-babb-89312b9eaedf\",\n            \"patient\": \"0814409b-706d-4dae-9b4c-1fb36d906633\",\n            \"noted_by\": \"f1841d87-ed48-44e0-a755-093e5f0cc721\",\n            \"doctor_name\": \"Mike Tyson\",\n            \"doctor_avatar\": null,\n            \"note\": \"Dont forget to take your food\",\n            \"is_read\": true,\n            \"created_at\": \"2025-09-08T20:09:10.964115Z\",\n            \"updated_at\": \"2025-09-08T20:13:13.408614Z\"\n        },\n        {\n            \"id\": \"6a45d547-4d82-42c6-8181-ba98f493f9d8\",\n            \"patient\": \"0814409b-706d-4dae-9b4c-1fb36d906633\",\n            \"noted_by\": \"f1841d87-ed48-44e0-a755-093e5f0cc721\",\n            \"doctor_name\": \"Mike Tyson\",\n            \"doctor_avatar\": null,\n            \"note\": \"Dont forget to take your medication\",\n            \"is_read\": false,\n            \"created_at\": \"2025-09-08T20:08:17.913213Z\",\n            \"updated_at\": \"2025-09-08T20:08:17.913213Z\"\n        }\n    ]\n}"
+								}
+							]
+						},
+						{
+							"name": "Doctor Note Detail",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{patient}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}patient-management/patient/doctor-patient-notes/:note_id/",
+									"host": [
+										"{{LOCAL}}patient-management"
+									],
+									"path": [
+										"patient",
+										"doctor-patient-notes",
+										":note_id",
+										""
+									],
+									"query": [
+										{
+											"key": "status",
+											"value": "read",
+											"description": "unread",
+											"disabled": true
+										}
+									],
+									"variable": [
+										{
+											"key": "note_id",
+											"value": "906cfb82-8fd0-4cf1-babb-89312b9eaedf"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Doctor Note Detail",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{LOCAL}}patient-management/patient/doctor-patient-notes/:note_id/",
+											"host": [
+												"{{LOCAL}}patient-management"
+											],
+											"path": [
+												"patient",
+												"doctor-patient-notes",
+												":note_id",
+												""
+											],
+											"query": [
+												{
+													"key": "status",
+													"value": "read",
+													"description": "unread",
+													"disabled": true
+												}
+											],
+											"variable": [
+												{
+													"key": "note_id",
+													"value": "906cfb82-8fd0-4cf1-babb-89312b9eaedf"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "Date",
+											"value": "Mon, 08 Sep 2025 20:15:05 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "WSGIServer/0.2 CPython/3.10.0"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Allow",
+											"value": "GET, HEAD, OPTIONS"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "DENY"
+										},
+										{
+											"key": "Vary",
+											"value": "origin"
+										},
+										{
+											"key": "Content-Length",
+											"value": "355"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": true,\n    \"data\": {\n        \"id\": \"906cfb82-8fd0-4cf1-babb-89312b9eaedf\",\n        \"patient\": \"0814409b-706d-4dae-9b4c-1fb36d906633\",\n        \"noted_by\": \"f1841d87-ed48-44e0-a755-093e5f0cc721\",\n        \"doctor_name\": \"Mike Tyson\",\n        \"doctor_avatar\": null,\n        \"note\": \"Dont forget to take your food\",\n        \"is_read\": true,\n        \"created_at\": \"2025-09-08T20:09:10.964115Z\",\n        \"updated_at\": \"2025-09-08T20:13:13.408614Z\"\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Prescription List",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{patient}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}patient-management/patient/prescription-list/",
+									"host": [
+										"{{LOCAL}}patient-management"
+									],
+									"path": [
+										"patient",
+										"prescription-list",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Billing",
+					"item": [
+						{
+							"name": "TopUp",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{patient}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"amount\": 20000, // in naira\r\n    \"callback_url\": \"https://www.githu.com/Maxiron\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL}}billing/topup/",
+									"host": [
+										"{{LOCAL}}billing"
+									],
+									"path": [
+										"topup",
+										""
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "TopUp",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"amount\": 20000, // in naira\r\n    \"callback_url\": \"https://www.githu.com/Maxiron\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{LOCAL}}billing/topup/",
+											"host": [
+												"{{LOCAL}}billing"
+											],
+											"path": [
+												"topup",
+												""
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "Date",
+											"value": "Sun, 07 Sep 2025 18:30:38 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "WSGIServer/0.2 CPython/3.10.0"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Allow",
+											"value": "POST, OPTIONS"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "DENY"
+										},
+										{
+											"key": "Vary",
+											"value": "origin"
+										},
+										{
+											"key": "Content-Length",
+											"value": "222"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": true,\n    \"message\": \"Transaction initiated successfully\",\n    \"data\": {\n        \"authorization_url\": \"https://checkout.paystack.com/e9katjpfjzzz8ma\",\n        \"access_code\": \"e9katjpfjzzz8ma\",\n        \"reference\": \"4ee7e111-25f8-453d-b51d-8a7858b73c78\"\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Wallet",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ4MTg5NTg1LCJpYXQiOjE3NDU1OTc1ODUsImp0aSI6IjVkMzhlOTg5Njk4NjQxMTk4YWU4YjBjMDhhYmI3ZjRmIiwidXNlcl9pZCI6M30.RN8y1JeM3ct0G4wv8tYsUc02r4SdrWMZ42HTZ23x86Y",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}/billing/wallet/",
+									"host": [
+										"{{LOCAL}}"
+									],
+									"path": [
+										"billing",
+										"wallet",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Transactions List",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ4MTg5NTg1LCJpYXQiOjE3NDU1OTc1ODUsImp0aSI6IjVkMzhlOTg5Njk4NjQxMTk4YWU4YjBjMDhhYmI3ZjRmIiwidXNlcl9pZCI6M30.RN8y1JeM3ct0G4wv8tYsUc02r4SdrWMZ42HTZ23x86Y",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}/billing/transactions/",
+									"host": [
+										"{{LOCAL}}"
+									],
+									"path": [
+										"billing",
+										"transactions",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Health Library",
+					"item": [
+						{
+							"name": "Query",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"query\": \"ibuprofen\"\r\n//   \"query_type\": \"treatment\"\r\n}\r\n\r\n\r\n// query types\r\n// condition: Medical conditions and symptoms\r\n// disease: Specific diseases and pathophysiology\r\n// drug: Medications and pharmaceutical information\r\n// treatment: Medical treatments and procedures\r\n// general: General medical queries",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL}}patient-management/library/medical-info/",
+									"host": [
+										"{{LOCAL}}patient-management"
+									],
+									"path": [
+										"library",
+										"medical-info",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Bills",
+					"item": [
+						{
+							"name": "Total Payable Amount",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{patient}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}patient-management/my-bills/total-payable/",
+									"host": [
+										"{{LOCAL}}patient-management"
+									],
+									"path": [
+										"my-bills",
+										"total-payable",
+										""
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "ok",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{LOCAL}}patient-management/my-bills/total-payable/",
+											"host": [
+												"{{LOCAL}}patient-management"
+											],
+											"path": [
+												"my-bills",
+												"total-payable",
+												""
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "Date",
+											"value": "Mon, 01 Sep 2025 10:55:57 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "WSGIServer/0.2 CPython/3.10.0"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Allow",
+											"value": "GET, HEAD, OPTIONS"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "DENY"
+										},
+										{
+											"key": "Vary",
+											"value": "origin"
+										},
+										{
+											"key": "Content-Length",
+											"value": "241"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": true,\n    \"message\": \"Total payable retrieved successfully\",\n    \"data\": {\n        \"total_payable\": \"225.00\",\n        \"pending_bills_count\": 2,\n        \"hospitals_count\": 1,\n        \"breakdown_by_hospital\": [\n            {\n                \"hospital_name\": \"Divine Mercy\",\n                \"total_amount\": \"225.00\",\n                \"bills_count\": 2\n            }\n        ]\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "List Patient Bills",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{patient}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}patient-management/my-bills/",
+									"host": [
+										"{{LOCAL}}patient-management"
+									],
+									"path": [
+										"my-bills",
+										""
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "0k",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{LOCAL}}patient-management/my-bills/",
+											"host": [
+												"{{LOCAL}}patient-management"
+											],
+											"path": [
+												"my-bills",
+												""
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "Date",
+											"value": "Mon, 01 Sep 2025 10:57:17 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "WSGIServer/0.2 CPython/3.10.0"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Allow",
+											"value": "GET, HEAD, OPTIONS"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "DENY"
+										},
+										{
+											"key": "Vary",
+											"value": "origin"
+										},
+										{
+											"key": "Content-Length",
+											"value": "675"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"count\": 3,\n    \"next\": null,\n    \"previous\": null,\n    \"results\": {\n        \"status\": true,\n        \"message\": \"Bills retrieved successfully\",\n        \"data\": [\n            {\n                \"id\": \"bb29e072-72b5-4471-91de-5c4593340aef\",\n                \"hospital_name\": \"Divine Mercy\",\n                \"date\": \"2025-09-01T09:14:16.526966Z\",\n                \"amount\": \"150.00\",\n                \"purpose\": \"Emergency Consultation\",\n                \"status\": \"pending\"\n            },\n            {\n                \"id\": \"40b920ec-ed18-4e91-9278-0698161619f8\",\n                \"hospital_name\": \"Divine Mercy\",\n                \"date\": \"2025-09-01T09:13:45.405449Z\",\n                \"amount\": \"150.00\",\n                \"purpose\": \"Emergency Consultation\",\n                \"status\": \"cancelled\"\n            },\n            {\n                \"id\": \"d03387ea-91d1-4fff-a092-5de466820b94\",\n                \"hospital_name\": \"Divine Mercy\",\n                \"date\": \"2025-09-01T08:58:20.162968Z\",\n                \"amount\": \"150.00\",\n                \"purpose\": \"Emergency Consultation\",\n                \"status\": \"pending\"\n            }\n        ]\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Get Bill",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{patient}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}patient-management/my-bills/:bill_id/",
+									"host": [
+										"{{LOCAL}}patient-management"
+									],
+									"path": [
+										"my-bills",
+										":bill_id",
+										""
+									],
+									"variable": [
+										{
+											"key": "bill_id",
+											"value": "9e06f008-2159-4106-8b20-1e4c3b27bc1d"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Get Bill",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{LOCAL}}patient-management/my-bills/:bill_id/",
+											"host": [
+												"{{LOCAL}}patient-management"
+											],
+											"path": [
+												"my-bills",
+												":bill_id",
+												""
+											],
+											"variable": [
+												{
+													"key": "bill_id",
+													"value": "9e06f008-2159-4106-8b20-1e4c3b27bc1d"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "Date",
+											"value": "Mon, 15 Sep 2025 17:09:21 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "WSGIServer/0.2 CPython/3.10.0"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Allow",
+											"value": "GET, HEAD, OPTIONS"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "DENY"
+										},
+										{
+											"key": "Vary",
+											"value": "origin"
+										},
+										{
+											"key": "Content-Length",
+											"value": "657"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": true,\n    \"message\": \"Bill details retrieved successfully\",\n    \"data\": {\n        \"bill\": {\n            \"id\": \"9e06f008-2159-4106-8b20-1e4c3b27bc1d\",\n            \"hospital_name\": \"Divine Mercy\",\n            \"patient_fullname\": \"Diogo Jota\",\n            \"purpose\": \"drug\",\n            \"min_deposit\": \"75.00\",\n            \"comments\": \"Pay up please\",\n            \"total_amount\": \"1000.00\",\n            \"payment_method\": \"cash\",\n            \"status\": \"pending\",\n            \"amount_paid\": \"0.00\",\n            \"remaining_amount\": \"1000.00\",\n            \"created_at\": \"2025-09-15T17:05:53.408603Z\",\n            \"updated_at\": \"2025-09-15T17:05:53.438339Z\",\n            \"details\": {\n                \"drugs\": [\n                    {\n                        \"drug_name\": \"Panadol\",\n                        \"quantity\": 1,\n                        \"unit_price\": 5000,\n                        \"total_price\": 5000\n                    },\n                    {\n                        \"drug_name\": \"Paracetamol\",\n                        \"quantity\": 2,\n                        \"unit_price\": 500,\n                        \"total_price\": 1000\n                    }\n                ]\n            }\n        },\n        \"transactions\": []\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Bill Transaction Receipt",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{patient}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}patient-management/my-bills/receipts/:tx_id/",
+									"host": [
+										"{{LOCAL}}patient-management"
+									],
+									"path": [
+										"my-bills",
+										"receipts",
+										":tx_id",
+										""
+									],
+									"variable": [
+										{
+											"key": "tx_id",
+											"value": "89b9ba70-3d04-4e62-81b6-4ca4b705e275"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "New Request",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{LOCAL}}patient-management/my-bills/receipts/:tx_id/",
+											"host": [
+												"{{LOCAL}}patient-management"
+											],
+											"path": [
+												"my-bills",
+												"receipts",
+												":tx_id",
+												""
+											],
+											"variable": [
+												{
+													"key": "tx_id",
+													"value": "89b9ba70-3d04-4e62-81b6-4ca4b705e275"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "Date",
+											"value": "Mon, 01 Sep 2025 11:04:45 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "WSGIServer/0.2 CPython/3.10.0"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Allow",
+											"value": "GET, HEAD, OPTIONS"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "DENY"
+										},
+										{
+											"key": "Vary",
+											"value": "origin"
+										},
+										{
+											"key": "Content-Length",
+											"value": "463"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": true,\n    \"message\": \"Receipt retrieved successfully\",\n    \"data\": {\n        \"id\": \"89b9ba70-3d04-4e62-81b6-4ca4b705e275\",\n        \"bill_id\": \"d03387ea-91d1-4fff-a092-5de466820b94\",\n        \"bill_amount\": \"150.00\",\n        \"amount\": \"75.00\",\n        \"transaction_date\": \"2025-09-01T09:11:20.646287Z\",\n        \"bill_purpose\": \"Emergency Consultation\",\n        \"payment_method\": \"cash\",\n        \"status\": \"completed\",\n        \"reference_number\": \"TXN-20250901091120-89b9ba70\",\n        \"hospital_name\": \"Divine Mercy\",\n        \"patient_name\": \"Diogo Jota\",\n        \"payment_details\": {}\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Pay Bill with Token",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{patient}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}patient-management/my-bills/pay-with-tokens/:bill_id/",
+									"host": [
+										"{{LOCAL}}patient-management"
+									],
+									"path": [
+										"my-bills",
+										"pay-with-tokens",
+										":bill_id",
+										""
+									],
+									"variable": [
+										{
+											"key": "bill_id",
+											"value": "bb29e072-72b5-4471-91de-5c4593340aef"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Pay Bill with Token",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{LOCAL}}patient-management/my-bills/pay-with-tokens/:bill_id/",
+											"host": [
+												"{{LOCAL}}patient-management"
+											],
+											"path": [
+												"my-bills",
+												"pay-with-tokens",
+												":bill_id",
+												""
+											],
+											"variable": [
+												{
+													"key": "bill_id",
+													"value": "bb29e072-72b5-4471-91de-5c4593340aef"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "Date",
+											"value": "Sun, 07 Sep 2025 18:40:50 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "WSGIServer/0.2 CPython/3.10.0"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Allow",
+											"value": "POST, OPTIONS"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "DENY"
+										},
+										{
+											"key": "Vary",
+											"value": "origin"
+										},
+										{
+											"key": "Content-Length",
+											"value": "473"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": true,\n    \"message\": \"Bill paid successfully using tokens\",\n    \"data\": {\n        \"id\": \"e37c22e2-2704-4391-b333-4923c0bf5675\",\n        \"bill_id\": \"bb29e072-72b5-4471-91de-5c4593340aef\",\n        \"bill_amount\": \"150.00\",\n        \"amount\": \"150.00\",\n        \"transaction_date\": \"2025-09-07T18:40:50.131586Z\",\n        \"bill_purpose\": \"Emergency Consultation\",\n        \"payment_method\": \"wallet\",\n        \"status\": \"completed\",\n        \"reference_number\": \"TOKENPAY-bb29e-20250907184050\",\n        \"hospital_name\": \"Divine Mercy\",\n        \"patient_name\": \"Diogo Jota\",\n        \"payment_details\": {}\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Pay Bill with Paystack",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{patient}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"callback_url\": \"https://www.githu.com/Maxiron\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL}}patient-management/my-bills/pay-with-paystack/:bill_id/",
+									"host": [
+										"{{LOCAL}}patient-management"
+									],
+									"path": [
+										"my-bills",
+										"pay-with-paystack",
+										":bill_id",
+										""
+									],
+									"variable": [
+										{
+											"key": "bill_id",
+											"value": "d03387ea-91d1-4fff-a092-5de466820b94"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Pay Bill with Paystack",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"callback_url\": \"https://www.githu.com/Maxiron\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{LOCAL}}patient-management/my-bills/pay-with-paystack/:bill_id/",
+											"host": [
+												"{{LOCAL}}patient-management"
+											],
+											"path": [
+												"my-bills",
+												"pay-with-paystack",
+												":bill_id",
+												""
+											],
+											"variable": [
+												{
+													"key": "bill_id",
+													"value": "d03387ea-91d1-4fff-a092-5de466820b94"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "Date",
+											"value": "Sun, 07 Sep 2025 18:44:26 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "WSGIServer/0.2 CPython/3.10.0"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Allow",
+											"value": "POST, OPTIONS"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "DENY"
+										},
+										{
+											"key": "Vary",
+											"value": "origin"
+										},
+										{
+											"key": "Content-Length",
+											"value": "250"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": true,\n    \"message\": \"Paystack payment initiated successfully\",\n    \"data\": {\n        \"authorization_url\": \"https://checkout.paystack.com/j1mwywoxvwarzc1\",\n        \"access_code\": \"j1mwywoxvwarzc1\",\n        \"reference\": \"BILLPAY-d03387ea-91d1-4fff-a092-5de466820b94-20250907184425\"\n    }\n}"
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "File Upload",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/C:/Users/naaro/Downloads/element.png"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{LOCAL}}core/upload/",
+					"host": [
+						"{{LOCAL}}core"
+					],
+					"path": [
+						"upload",
+						""
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Success",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/naaro/Downloads/element.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{LOCAL}}core/upload/",
+							"host": [
+								"{{LOCAL}}core"
+							],
+							"path": [
+								"upload",
+								""
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "Date",
+							"value": "Thu, 28 Aug 2025 21:05:00 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "WSGIServer/0.2 CPython/3.10.0"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Allow",
+							"value": "POST, OPTIONS"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "Vary",
+							"value": "origin"
+						},
+						{
+							"key": "Content-Length",
+							"value": "201"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Cross-Origin-Opener-Policy",
+							"value": "same-origin"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": true,\n    \"message\": \"File uploaded successfully\",\n    \"data\": {\n        \"file_url\": \"https://autogon-omniguard.s3.amazonaws.com/media/element.png\",\n        \"file_name\": \"element\",\n        \"file_size\": 121134,\n        \"file_extension\": \"png\"\n    }\n}"
 				}
 			]
 		}
@@ -13610,48 +17336,39 @@
 	"variable": [
 		{
 			"key": "LOCAL",
-			"value": "http://localhost:8000/api/v1/",
-			"type": "string"
+			"value": "http://localhost:8000/api/v1/"
 		},
 		{
 			"key": "hospital_admin",
-			"value": "",
-			"type": "default"
+			"value": ""
 		},
 		{
 			"key": "doctor",
-			"value": "",
-			"type": "default"
+			"value": ""
 		},
 		{
 			"key": "PROD",
-			"value": "https://medteqweb.mygrantgenie.com/api/v1/",
-			"type": "string"
+			"value": "https://medteqweb.mygrantgenie.com/api/v1/"
 		},
 		{
 			"key": "super_admin",
-			"value": "",
-			"type": "default"
+			"value": ""
 		},
 		{
 			"key": "prod_super_admin",
-			"value": "",
-			"type": "default"
+			"value": ""
 		},
 		{
 			"key": "nurse",
-			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU2OTE4MDIyLCJpYXQiOjE3NTQzMjYwMjIsImp0aSI6ImIzMmZlNDYwNjY4YTRjNjliZjBhZjA2MTBiYWI4YTkyIiwidXNlcl9pZCI6ImQxNjg1ZWVmLTgzZGYtNGViMC1iNjJkLTA4NjE5NjliYjM3OCJ9.KyHWANn9KClz0M2jj-gUJ-bwoAhuHdPgIvngX5QO9Kw",
-			"type": "default"
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU2OTE4MDIyLCJpYXQiOjE3NTQzMjYwMjIsImp0aSI6ImIzMmZlNDYwNjY4YTRjNjliZjBhZjA2MTBiYWI4YTkyIiwidXNlcl9pZCI6ImQxNjg1ZWVmLTgzZGYtNGViMC1iNjJkLTA4NjE5NjliYjM3OCJ9.KyHWANn9KClz0M2jj-gUJ-bwoAhuHdPgIvngX5QO9Kw"
 		},
 		{
 			"key": "doctor_prod",
-			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU3Njk4NDA5LCJpYXQiOjE3NTUxMDY0MDksImp0aSI6ImVjYjRhN2Q3YWIwZjQ1YjZiMWZmOTc3ODUwMDA3NWFkIiwidXNlcl9pZCI6IjU1YTk3M2I3LTQwMzUtNDJiMi04ZDY4LWE4YmMwZmZkZjZiNSJ9.eDTXZhsk-A8n5_HTLS3p4d36zbxS3wU5NRAn13RlxBM",
-			"type": "default"
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU3Njk4NDA5LCJpYXQiOjE3NTUxMDY0MDksImp0aSI6ImVjYjRhN2Q3YWIwZjQ1YjZiMWZmOTc3ODUwMDA3NWFkIiwidXNlcl9pZCI6IjU1YTk3M2I3LTQwMzUtNDJiMi04ZDY4LWE4YmMwZmZkZjZiNSJ9.eDTXZhsk-A8n5_HTLS3p4d36zbxS3wU5NRAn13RlxBM"
 		},
 		{
 			"key": "patient",
-			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU3NzU2OTMxLCJpYXQiOjE3NTUxNjQ5MzEsImp0aSI6Ijg5ZTRmMmI0MDU1MjRmYjY5NDI5ZTc0ZjI5MjFiMGU4IiwidXNlcl9pZCI6IjkxMTAzMWEzLWY1ODYtNDZmOC1hZGIxLTdmN2E4YmI0MDBiMyJ9.OdSWed3R9JgoDrsnC7yYJdD9NnzpD0UGdDXTAduuGt0",
-			"type": "default"
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU3NzU2OTMxLCJpYXQiOjE3NTUxNjQ5MzEsImp0aSI6Ijg5ZTRmMmI0MDU1MjRmYjY5NDI5ZTc0ZjI5MjFiMGU4IiwidXNlcl9pZCI6IjkxMTAzMWEzLWY1ODYtNDZmOC1hZGIxLTdmN2E4YmI0MDBiMyJ9.OdSWed3R9JgoDrsnC7yYJdD9NnzpD0UGdDXTAduuGt0"
 		}
 	]
 }

@@ -18,6 +18,7 @@ export type TextSelectProps = {
   options: { label: string; value: string }[];
   placeholder?: string;
   onChange?: RegisterOptions["onChange"];
+  onBlur?: RegisterOptions["onBlur"];
   value: RegisterOptions["value"];
   disabled?: boolean;
 };
@@ -33,10 +34,14 @@ export const TextSelect = ({ label, ...rest }: TextSelectProps) => {
       </Label>
 
       <Select
-        defaultValue={rest.value}
-        onValueChange={(value) =>
-          rest?.onChange?.({ target: { name: rest.name ?? "", value } })
-        }
+        value={rest.value as string | undefined}
+        onValueChange={(value) => {
+          rest?.onChange?.(value as any);
+          rest?.onBlur?.({} as any);
+        }}
+        onOpenChange={(open) => {
+          if (!open) rest?.onBlur?.({} as any);
+        }}
         disabled={rest.disabled}
       >
         <SelectTrigger className="w-full bg-white text-sm sm:text-base !text-stone-600 !h-11 sm:!h-12 touch-manipulation min-h-[44px] sm:min-h-[48px] px-3 sm:px-4">

@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { getRequest, postRequest } from "@/lib/axiosInstance";
@@ -8,30 +8,30 @@ import { ApiResponse, ApiResponseError, ApiResponseList } from "@/types";
 // Enums and Utility Types
 // =====================
 export enum DrugRequestStatus {
-  PENDING = 'pending',
-  APPROVED = 'approved',
-  REJECTED = 'rejected',
-  COMPLETED = 'completed'
+  PENDING = "pending",
+  APPROVED = "approved",
+  REJECTED = "rejected",
+  COMPLETED = "completed",
 }
 
 export enum DrugAdministrationStatus {
-  SCHEDULED = 'scheduled',
-  ADMINISTERED = 'administered',
-  MISSED = 'missed',
-  CANCELLED = 'cancelled'
+  SCHEDULED = "scheduled",
+  ADMINISTERED = "administered",
+  MISSED = "missed",
+  CANCELLED = "cancelled",
 }
 
 export enum DrugOrderStatus {
-  PENDING = 'pending',
-  READY_FOR_PICKUP = 'ready_for_pickup',
-  COMPLETED = 'completed',
-  CANCELLED = 'cancelled'
+  PENDING = "pending",
+  READY_FOR_PICKUP = "ready_for_pickup",
+  COMPLETED = "completed",
+  CANCELLED = "cancelled",
 }
 
 export enum ReconciliationStatus {
-  PENDING = 'pending',
-  RESOLVED = 'resolved',
-  DISCREPANCY = 'discrepancy'
+  PENDING = "pending",
+  RESOLVED = "resolved",
+  DISCREPANCY = "discrepancy",
 }
 
 // Common filter options type
@@ -171,7 +171,10 @@ export type DrugReconciliation = {
 // =====================
 // Queries
 // =====================
-export const useGetDrugs = (options?: PaginationOptions & Pick<FilterOptions, 'search' | 'drugType' | 'drugCategory'>) => {
+export const useGetDrugs = (
+  options?: PaginationOptions &
+    Pick<FilterOptions, "search" | "drugType" | "drugCategory">
+) => {
   return useQuery<ApiResponseList<Drug[]>, ApiResponseError>({
     queryKey: ["drugs", options],
     queryFn: async () => {
@@ -179,9 +182,14 @@ export const useGetDrugs = (options?: PaginationOptions & Pick<FilterOptions, 's
       const params: string[] = [];
       if (options?.page) params.push(`page=${options.page}`);
       if (options?.page_size) params.push(`page_size=${options.page_size}`);
-      if (options?.search) params.push(`search=${encodeURIComponent(options.search)}`);
-      if (options?.drugType) params.push(`drug_type=${encodeURIComponent(options.drugType)}`);
-      if (options?.drugCategory) params.push(`drug_category=${encodeURIComponent(options.drugCategory)}`);
+      if (options?.search)
+        params.push(`search=${encodeURIComponent(options.search)}`);
+      if (options?.drugType)
+        params.push(`drug_type=${encodeURIComponent(options.drugType)}`);
+      if (options?.drugCategory)
+        params.push(
+          `drug_category=${encodeURIComponent(options.drugCategory)}`
+        );
       if (params.length) url += `?${params.join("&")}`;
 
       return await getRequest({ url });
@@ -190,7 +198,12 @@ export const useGetDrugs = (options?: PaginationOptions & Pick<FilterOptions, 's
   });
 };
 
-export const useGetDrugAdministrations = (options?: Pick<FilterOptions, 'search' | 'status'> & { date_from?: string; date_to?: string }) => {
+export const useGetDrugAdministrations = (
+  options?: Pick<FilterOptions, "search" | "status"> & {
+    date_from?: string;
+    date_to?: string;
+  }
+) => {
   return useQuery<ApiResponseList<DrugAdministration[]>, ApiResponseError>({
     queryKey: ["drug-administrations", options],
     queryFn: async () => {
@@ -198,8 +211,10 @@ export const useGetDrugAdministrations = (options?: Pick<FilterOptions, 'search'
       const params: string[] = [];
       if (options?.date_from) params.push(`date_from=${options.date_from}`);
       if (options?.date_to) params.push(`date_to=${options.date_to}`);
-      if (options?.search) params.push(`search=${encodeURIComponent(options.search)}`);
-      if (options?.status) params.push(`status=${encodeURIComponent(options.status)}`);
+      if (options?.search)
+        params.push(`search=${encodeURIComponent(options.search)}`);
+      if (options?.status)
+        params.push(`status=${encodeURIComponent(options.status)}`);
       if (params.length) url += `?${params.join("&")}`;
 
       return await getRequest({ url });
@@ -208,7 +223,9 @@ export const useGetDrugAdministrations = (options?: Pick<FilterOptions, 'search'
   });
 };
 
-export const useGetDrugRequests = (options?: FilterOptions & { date_from?: string; date_to?: string }) => {
+export const useGetDrugRequests = (
+  options?: FilterOptions & { date_from?: string; date_to?: string }
+) => {
   return useQuery<ApiResponseList<DrugRequest[]>, ApiResponseError>({
     queryKey: ["drug-requests", options],
     queryFn: async () => {
@@ -216,10 +233,16 @@ export const useGetDrugRequests = (options?: FilterOptions & { date_from?: strin
       const params: string[] = [];
       if (options?.date_from) params.push(`date_from=${options.date_from}`);
       if (options?.date_to) params.push(`date_to=${options.date_to}`);
-      if (options?.search) params.push(`search=${encodeURIComponent(options.search)}`);
-      if (options?.status) params.push(`status=${encodeURIComponent(options.status)}`);
-      if (options?.drugType) params.push(`drug_type=${encodeURIComponent(options.drugType)}`);
-      if (options?.drugCategory) params.push(`drug_category=${encodeURIComponent(options.drugCategory)}`);
+      if (options?.search)
+        params.push(`search=${encodeURIComponent(options.search)}`);
+      if (options?.status)
+        params.push(`status=${encodeURIComponent(options.status)}`);
+      if (options?.drugType)
+        params.push(`drug_type=${encodeURIComponent(options.drugType)}`);
+      if (options?.drugCategory)
+        params.push(
+          `drug_category=${encodeURIComponent(options.drugCategory)}`
+        );
       if (params.length) url += `?${params.join("&")}`;
 
       return await getRequest({ url });
@@ -228,15 +251,21 @@ export const useGetDrugRequests = (options?: FilterOptions & { date_from?: strin
   });
 };
 
-export const useGetDrugOrders = (options?: { patient_type?: string; status?: string; search?: string }) => {
+export const useGetDrugOrders = (options?: {
+  patient_type?: string;
+  status?: string;
+  search?: string;
+}) => {
   return useQuery<ApiResponseList<DrugOrder[]>, ApiResponseError>({
     queryKey: ["drug-orders", options],
     queryFn: async () => {
       let url = `drug-management/hospital/drug-orders/`;
       const params: string[] = [];
-      if (options?.patient_type) params.push(`patient_type=${options.patient_type}`);
+      if (options?.patient_type)
+        params.push(`patient_type=${options.patient_type}`);
       if (options?.status) params.push(`status=${options.status}`);
-      if (options?.search) params.push(`search=${encodeURIComponent(options.search)}`);
+      if (options?.search)
+        params.push(`search=${encodeURIComponent(options.search)}`);
       if (params.length) url += `?${params.join("&")}`;
 
       return await getRequest({ url });
@@ -248,12 +277,20 @@ export const useGetDrugOrders = (options?: { patient_type?: string; status?: str
 export const useGetDrugOrdersOverview = () => {
   return useQuery<ApiResponse<DrugOrdersOverview>, ApiResponseError>({
     queryKey: ["drug-orders-overview"],
-    queryFn: async () => await getRequest({ url: `drug-management/hospital/drug-orders/overview/` }),
+    queryFn: async () =>
+      await getRequest({
+        url: `drug-management/hospital/drug-orders/overview/`,
+      }),
     refetchOnWindowFocus: false,
   });
 };
 
-export const useGetDrugReconciliations = (options?: Pick<FilterOptions, 'search' | 'status'> & { date_from?: string; date_to?: string }) => {
+export const useGetDrugReconciliations = (
+  options?: Pick<FilterOptions, "search" | "status"> & {
+    date_from?: string;
+    date_to?: string;
+  }
+) => {
   return useQuery<ApiResponseList<DrugReconciliation[]>, ApiResponseError>({
     queryKey: ["drug-reconciliations", options],
     queryFn: async () => {
@@ -261,8 +298,10 @@ export const useGetDrugReconciliations = (options?: Pick<FilterOptions, 'search'
       const params: string[] = [];
       if (options?.date_from) params.push(`date_from=${options.date_from}`);
       if (options?.date_to) params.push(`date_to=${options.date_to}`);
-      if (options?.search) params.push(`search=${encodeURIComponent(options.search)}`);
-      if (options?.status) params.push(`status=${encodeURIComponent(options.status)}`);
+      if (options?.search)
+        params.push(`search=${encodeURIComponent(options.search)}`);
+      if (options?.status)
+        params.push(`status=${encodeURIComponent(options.status)}`);
       if (params.length) url += `?${params.join("&")}`;
 
       return await getRequest({ url });
@@ -275,25 +314,46 @@ export const useGetDrugReconciliations = (options?: Pick<FilterOptions, 'search'
 // Mutations
 // =====================
 export const useRequestDrug = () => {
-  return useMutation<ApiResponse<DrugRequest>, ApiResponseError, RequestDrugPayload>({
+  return useMutation<
+    ApiResponse<DrugRequest>,
+    ApiResponseError,
+    RequestDrugPayload
+  >({
     mutationKey: ["request-drug"],
     mutationFn: async (payload) =>
-      await postRequest<RequestDrugPayload>({ url: `drug-management/hospital/drug-requests/`, payload }),
+      await postRequest<RequestDrugPayload>({
+        url: `drug-management/hospital/drug-requests/`,
+        payload,
+      }),
   });
 };
 
 export const useApproveDrugRequest = (requestId: string | null) => {
-  return useMutation<ApiResponse<DrugRequest>, ApiResponseError, ApproveDrugRequestPayload>({
+  return useMutation<
+    ApiResponse<DrugRequest>,
+    ApiResponseError,
+    ApproveDrugRequestPayload
+  >({
     mutationKey: ["approve-drug-request", requestId],
     mutationFn: async (payload) =>
-      await postRequest<ApproveDrugRequestPayload>({ url: `drug-management/hospital/drug-requests/${requestId}/approve/`, payload }),
+      await postRequest<ApproveDrugRequestPayload>({
+        url: `drug-management/hospital/drug-requests/${requestId}/approve/`,
+        payload,
+      }),
   });
 };
 
 export const useRejectDrugRequest = (requestId: string | null) => {
-  return useMutation<ApiResponse<DrugRequest>, ApiResponseError, RejectDrugRequestPayload>({
+  return useMutation<
+    ApiResponse<DrugRequest>,
+    ApiResponseError,
+    RejectDrugRequestPayload
+  >({
     mutationKey: ["reject-drug-request", requestId],
     mutationFn: async (payload) =>
-      await postRequest<RejectDrugRequestPayload>({ url: `drug-management/hospital/drug-requests/${requestId}/reject/`, payload }),
+      await postRequest<RejectDrugRequestPayload>({
+        url: `drug-management/hospital/drug-requests/${requestId}/reject/`,
+        payload,
+      }),
   });
 };

@@ -21,7 +21,7 @@ import {
   useFamilyAppointments, 
   useAppointmentStats 
 } from "@/features/services/appointmentService";
-import { BookAppointmentDialog } from "./_components/BookAppointmentDialog";
+import { AvailabilityDialog } from "./_components/AvailabilityDialog";
 
 const DoctorAppointmentPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -85,10 +85,10 @@ const DoctorAppointmentPage = () => {
     <div className="container mx-auto bg-gray-50 min-h-screen">
       <Subheader title="Appointment" />
 
-      <div className="mb-4 sm:mb-6 p-3 sm:p-6 flex justify-end items-center">
-        <BookAppointmentDialog>
-          <Button className="w-full sm:w-auto touch-manipulation">Book Appointment</Button>
-        </BookAppointmentDialog>
+      <div className="mb-4 sm:mb-6 p-3 sm:p-6 flex justify-end items-center gap-2">
+        <AvailabilityDialog>
+          <Button  className="w-full sm:w-auto touch-manipulation">Set Availability</Button>
+        </AvailabilityDialog>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6 mb-4 sm:mb-6 p-3 sm:p-6">
