@@ -119,7 +119,7 @@ const ProfileSettingsPage = () => {
                     />
                     <InfoSection
                       label="Date Registered"
-                      value={profile?.date_registered ? new Date(profile.date_registered).toLocaleDateString() : "N/A"}
+                      value={profile?.hospital?.created_at ? new Date(profile.hospital.created_at).toLocaleDateString() : "N/A"}
                       className="w-full min-w-60 max-md:max-w-full"
                     />
                   </div>

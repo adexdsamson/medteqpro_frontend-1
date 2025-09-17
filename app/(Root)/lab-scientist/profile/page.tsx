@@ -20,7 +20,7 @@ export default function Profile() {
 
   const profile = profileData?.data.data;
 
-  const { control, reset, watch } = useForge({
+  const { control, reset } = useForge({
     defaultValues: {
       first_name: profile?.first_name || "",
       middle_name: profile?.middle_name || "",

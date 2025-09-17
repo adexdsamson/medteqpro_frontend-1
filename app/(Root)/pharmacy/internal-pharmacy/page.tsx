@@ -33,6 +33,8 @@ import {
 import RequestDrugDialog from "./_components/RequestDrugDialog";
 import AddSupplyDialog from "./_components/AddSupplyDialog";
 import RequestNewDrugDialog from "./_components/RequestNewDrugDialog";
+import DispenseDrugDialog from "./_components/DispenseDrugDialog";
+import StockDrugDialog from "./_components/StockDrugDialog";
 import AdvancedFilters from "./_components/AdvancedFilters";
 import { FilterOptions } from "@/features/services/drugManagementService";
 
@@ -408,14 +410,18 @@ const InternalPharmacyPage = () => {
         </div>
       ),
       "daily-administration": (
-        <Button className="bg-blue-600 hover:bg-blue-700 text-white">
-          Dispense Drug
-        </Button>
+        <DispenseDrugDialog>
+          <Button className="bg-blue-600 hover:bg-blue-700 text-white">
+            Dispense Drug
+          </Button>
+        </DispenseDrugDialog>
       ),
       "drug-reconciliation": (
-        <Button className="bg-blue-600 hover:bg-blue-700 text-white">
-          Stock Drug
-        </Button>
+        <StockDrugDialog>
+          <Button className="bg-blue-600 hover:bg-blue-700 text-white">
+            Stock Drug
+          </Button>
+        </StockDrugDialog>
       ),
       "drug-request": (
         <RequestDrugDialog>

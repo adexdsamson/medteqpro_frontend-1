@@ -1,11 +1,9 @@
-"use client";
-
 import React from "react";
 import Subheader from "../../../_components/Subheader";
 import { SEOWrapper } from "@/components/SEO";
 
-export default function BillDetailPage({ params }: { params: { transactionId: string } }) {
-  const { transactionId } = params;
+export default async function BillDetailPage({ params }: { params: Promise<{ transactionId: string }> }) {
+  const { transactionId } = await params;
 
   return (
     <>

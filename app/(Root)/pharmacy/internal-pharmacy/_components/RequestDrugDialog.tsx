@@ -42,7 +42,7 @@ export default function RequestDrugDialog({ children }: RequestDrugDialogProps) 
   
   // Fetch existing drugs to populate options
   const { data: drugsData } = useGetDrugs({ page_size: 1000 }); // Get all drugs for options
-  const drugs = drugsData?.data?.results || [];
+  const drugs = React.useMemo(() => drugsData?.data?.results || [], [drugsData?.data?.results]);
 
   const { control, reset } = useForge<RequestDrugFormData>({
     resolver: yupResolver(schema),

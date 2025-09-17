@@ -138,6 +138,16 @@ export type AddDrugPayload = {
   quantity_in_stock: number;
 };
 
+// Payload for dispensing drugs
+export type DispenseDrugPayload = {
+  drug_id: string;
+  patient_id: string;
+  dosage: string;
+  frequency: string;
+  quantity_administered: number;
+  notes?: string;
+};
+
 export type DrugOrderItem = {
   drug: {
     id: string;
@@ -377,6 +387,36 @@ export const useAddDrug = () => {
     mutationFn: async (payload) =>
       await postRequest<AddDrugPayload>({
         url: `drug-management/hospital/drugs/`,
+        payload,
+      }),
+  });
+};
+
+export const useDispenseDrug = () => {
+  return useMutation<
+    ApiResponse<DrugAdministration>,
+    ApiResponseError,
+    DispenseDrugPayload
+  >({
+    mutationKey: ["dispense-drug"],
+    mutationFn: async (payload) =>
+      await postRequest<DispenseDrugPayload>({
+        url: `drug-management/hospital/drug-administrations/`,
+        payload,
+      }),
+  });
+};
+
+export const useRequestDrugStock = () => {
+  return useMutation<
+    ApiResponse<DrugRequest>,
+    ApiResponseError,
+    RequestDrugPayload
+  >({
+    mutationKey: ["request-drug-stock"],
+    mutationFn: async (payload) =>
+      await postRequest<RequestDrugPayload>({
+        url: `drug-management/hospital/drug-requests/`,
         payload,
       }),
   });
