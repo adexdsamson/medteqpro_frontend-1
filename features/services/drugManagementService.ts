@@ -1,7 +1,7 @@
 "use client";
 
 import { useQuery, useMutation } from "@tanstack/react-query";
-import { getRequest, postRequest } from "@/lib/axiosInstance";
+import { getRequest, postRequest, deleteRequest } from "@/lib/axiosInstance";
 import { ApiResponse, ApiResponseError, ApiResponseList } from "@/types";
 
 // =====================
@@ -403,6 +403,35 @@ export const useDispenseDrug = () => {
       await postRequest<DispenseDrugPayload>({
         url: `drug-management/hospital/drug-administrations/`,
         payload,
+      }),
+  });
+};
+
+export const useCompleteDrugRequest = (requestId: string | null) => {
+  return useMutation<
+    ApiResponse<DrugRequest>,
+    ApiResponseError,
+    { quantity_approved: number }
+  >({
+    mutationKey: ["complete-drug-request", requestId],
+    mutationFn: async (payload) =>
+      await postRequest<{ quantity_approved: number }>({
+        url: `drug-management/hospital/drug-requests/${requestId}/approve/`,
+        payload,
+      }),
+  });
+};
+
+export const useDeleteDrugRequest = (requestId: string | null) => {
+  return useMutation<
+    ApiResponse<void>,
+    ApiResponseError,
+    void
+  >({
+    mutationKey: ["delete-drug-request", requestId],
+    mutationFn: async () =>
+      await deleteRequest({
+        url: `drug-management/hospital/drug-requests/${requestId}/`,
       }),
   });
 };

@@ -16,7 +16,6 @@ import { Button } from "@/components/ui/button";
 import { Forge, Forger, useForge, FormPropsRef } from "@/lib/forge";
 import { TextInput } from "@/components/FormInputs/TextInput";
 import { TextSelect } from "@/components/FormInputs/TextSelect";
-import { MultiSelect } from "@/components/FormInputs/MultiSelect";
 import { useToastHandler } from "@/hooks/useToaster";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -24,11 +23,23 @@ import { usePatientsForAppointment } from "@/features/services/patientService";
 import { useCreateBill } from "@/features/services/billingService";
 import { useGetDrugs, Drug } from "@/features/services/drugManagementService";
 import { ApiResponseError } from "@/types";
+import DrugQuantitySelector, { DrugQuantityItem } from "./DrugQuantitySelector";
 
 const schema = yup.object({
   patient_id: yup.string().required("Patient is required"),
   purpose: yup.string().required("Purpose is required"),
-  drugs: yup.array().of(yup.string()).optional(),
+  drugs: yup
+    .array()
+    .of(
+      yup.object({
+        drug_id: yup.string().required("Drug is required"),
+        quantity: yup
+          .number()
+          .min(1, "Quantity must be at least 1")
+          .required("Quantity is required"),
+      })
+    )
+    .optional(),
   total_payable: yup
     .number()
     .typeError("Total payable must be a number")
@@ -48,15 +59,22 @@ const schema = yup.object({
 });
 
 type FormValues = yup.InferType<typeof schema>;
+export type CreateBillFormValues = FormValues;
 
-export default function CreateBillDialog({ children }: { children: React.ReactNode }) {
+export default function CreateBillDialog({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const [open, setOpen] = useState(false);
   const formRef = useRef<FormPropsRef | null>(null);
 
   // API hooks
-  const { data: patientsData, isLoading: isPatientsLoading } = usePatientsForAppointment();
+  const { data: patientsData, isLoading: isPatientsLoading } =
+    usePatientsForAppointment();
   const { data: drugsData, isLoading: isDrugsLoading } = useGetDrugs();
-  const { mutateAsync: createBill, isPending: isCreatingBill } = useCreateBill();
+  const { mutateAsync: createBill, isPending: isCreatingBill } =
+    useCreateBill();
 
   // Options for dropdowns
   const purposeOptions = [
@@ -67,34 +85,30 @@ export default function CreateBillDialog({ children }: { children: React.ReactNo
 
   const patientOptions = patientsData || [];
 
-  const drugOptions = drugsData?.data?.results?.map((drug: Drug) => ({
-    value: drug.id,
-    label: drug.drug_name,
-  })) || [];
-
-  console.log({ drugOptions })
+  const drugOptions =
+    drugsData?.data?.results?.map((drug: Drug) => ({
+      value: drug.id,
+      label: drug.drug_name,
+      price: drug.drug_price,
+    })) || [];
 
   const paymentOptions = [
     { label: "Cash", value: "cash" },
-    { label: "Card", value: "card" },
-    { label: "POS", value: "pos" },
-    { label: "PAYSTACK", value: "paystack" },
     { label: "Transfer", value: "transfer" },
-    { label: "N/A", value: "na" },
   ];
 
   const toast = useToastHandler();
 
   const { control, reset } = useForge<FormValues>({
-    resolver: yupResolver(schema) as any,
+    // resolver: yupResolver(schema) as any,
     defaultValues: {
-      patient_id: "",
-      purpose: "",
-      drugs: [],
-      total_payable: 0,
-      min_deposit: 0,
-      amount_paid: 0,
-      mode_of_payment: "",
+      // patient_id: "",
+      // purpose: "",
+      drugs: [{ drug_id: "", quantity: 1 }] as DrugQuantityItem[],
+      // total_payable: 0,
+      // min_deposit: 0,
+      // amount_paid: 0,
+      // mode_of_payment: "",
     },
   });
 
@@ -107,9 +121,9 @@ export default function CreateBillDialog({ children }: { children: React.ReactNo
         total_amount: data.total_payable.toString(),
         min_deposit: data.min_deposit?.toString(),
         payment_method: data.mode_of_payment || undefined,
-        drugs: data.drugs?.filter(drugId => drugId).map(drugId => ({ 
-          drug: drugId as string, 
-          quantity: 1 
+        drugs: data.drugs?.map((drugItem) => ({
+          drug: drugItem.drug_id,
+          quantity: drugItem.quantity,
         })),
       };
 
@@ -128,94 +142,112 @@ export default function CreateBillDialog({ children }: { children: React.ReactNo
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         {children || (
-          <Button className="bg-blue-600 hover:bg-blue-700 text-white">Create New Bill</Button>
+          <Button className="bg-blue-600 hover:bg-blue-700 text-white">
+            Create New Bill
+          </Button>
         )}
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[600px]">
-        <DialogHeader>
+      <DialogContent className="sm:max-w-[600px] max-h-[90vh] flex flex-col">
+        <DialogHeader className="flex-shrink-0">
           <DialogTitle>Create New Bill</DialogTitle>
           <DialogDescription>
             Fill in the details to create a new bill for the selected patient.
           </DialogDescription>
         </DialogHeader>
 
-        <Forge control={control} onSubmit={onSubmit} ref={formRef} className="space-y-4 py-2">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <Forger
-              name="patient_id"
-              component={TextSelect}
-              label="Patient"
-              placeholder={isPatientsLoading ? "Loading patients..." : "Select patient"}
-              options={patientOptions}
-            />
-            <Forger
-              name="purpose"
-              component={TextSelect}
-              label="Purpose"
-              placeholder="Select purpose"
-              options={purposeOptions}
-            />
-          </div>
+        <div className="flex-1 overflow-y-auto pr-2">
+          <Forge
+            control={control}
+            onSubmit={onSubmit}
+            ref={formRef}
+            className="space-y-4 py-2"
+            debug
+          >
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <Forger
+                name="patient_id"
+                component={TextSelect}
+                label="Patient"
+                placeholder={
+                  isPatientsLoading ? "Loading patients..." : "Select patient"
+                }
+                options={patientOptions}
+              />
+              <Forger
+                name="purpose"
+                component={TextSelect}
+                label="Purpose"
+                placeholder="Select purpose"
+                options={purposeOptions}
+              />
+            </div>
 
-          <div className="space-y-4">
-            <Forger
-              name="drugs"
-              component={MultiSelect}
-              label="Drugs"
-              placeholder={isDrugsLoading ? "Loading drugs..." : "Select drugs"}
-              options={drugOptions}
-            />
-          </div>
+            <div className="space-y-4">
+              <DrugQuantitySelector
+                control={control}
+                label="Drugs"
+                placeholder={
+                  isDrugsLoading ? "Loading drugs..." : "Select drugs"
+                }
+                drugOptions={drugOptions}
+                isLoading={isDrugsLoading}
+              />
+            </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <Forger
-              name="total_payable"
-              component={TextInput}
-              type="number"
-              label="Total Payable"
-              placeholder="e.g. 500000"
-            />
-            <Forger
-              name="min_deposit"
-              component={TextInput}
-              type="number"
-              label="Min. Deposit"
-              placeholder="e.g. 200000"
-            />
-          </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <Forger
+                name="total_payable"
+                component={TextInput}
+                type="number"
+                label="Total Payable"
+                placeholder="e.g. 500000"
+              />
+              <Forger
+                name="min_deposit"
+                component={TextInput}
+                type="number"
+                label="Min. Deposit"
+                placeholder="e.g. 200000"
+              />
+            </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <Forger
-              name="amount_paid"
-              component={TextInput}
-              type="number"
-              label="Amount Paid (optional)"
-              placeholder="e.g. 0"
-            />
-            <Forger
-              name="mode_of_payment"
-              component={TextSelect}
-              label="Mode of Payment"
-              placeholder="Select payment mode"
-              options={paymentOptions}
-            />
-          </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <Forger
+                name="amount_paid"
+                component={TextInput}
+                type="number"
+                label="Amount Paid (optional)"
+                placeholder="e.g. 0"
+              />
+              <Forger
+                name="mode_of_payment"
+                component={TextSelect}
+                label="Mode of Payment"
+                placeholder="Select payment mode"
+                options={paymentOptions}
+              />
+            </div>
 
-          <DialogFooter className="flex gap-3 pt-4">
-            <DialogClose asChild>
-              <Button type="button" variant="outline" className="flex-1 bg-gray-600 text-white hover:bg-gray-700 border-gray-600">
-                Cancel
+            <DialogFooter className="flex gap-3 pt-4">
+              <DialogClose asChild>
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="flex-1 bg-gray-600 text-white hover:bg-gray-700 border-gray-600"
+                >
+                  Cancel
+                </Button>
+              </DialogClose>
+              <Button
+                onClick={() => formRef.current?.onSubmit()}
+                disabled={isCreatingBill}
+                className="flex-1 bg-blue-600 hover:bg-blue-700 text-white disabled:opacity-50"
+              >
+                {isCreatingBill ? "Creating..." : "Create Bill"}
               </Button>
-            </DialogClose>
-            <Button
-              onClick={() => formRef.current?.onSubmit()}
-              disabled={isCreatingBill}
-              className="flex-1 bg-blue-600 hover:bg-blue-700 text-white disabled:opacity-50"
-            >
-              {isCreatingBill ? "Creating..." : "Create Bill"}
-            </Button>
-          </DialogFooter>
-        </Forge>
+            </DialogFooter>
+          </Forge>
+        </div>
         <DialogClose className="hidden" />
       </DialogContent>
     </Dialog>

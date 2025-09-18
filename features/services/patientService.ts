@@ -1,24 +1,22 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-'use client';
+"use client";
 
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { getRequest, postRequest } from "@/lib/axiosInstance";
 import { ApiResponseError } from "@/types";
-import { format, parseISO } from 'date-fns';
-import { PatientStatus, PatientType } from "@/app/(Root)/admin/patients/_components/patient-data";
-import { PatientDetailResponse } from '@/app/(Root)/admin/patients/[patientId]/_components/types';
+import { PatientDetailResponse } from "@/app/(Root)/admin/patients/[patientId]/_components/types";
 
-// Define types based on the API response structure
-export interface PatientResponse {
-  id: string;
-  full_name: string;
-  gender: string;
-  date_of_birth: string;
-  age: number;
-  created_at: string;
-  patient_type: string;
-  // Add other fields as needed based on the API response
-}
+export type PatientListResponse = Pick<
+  PatientDetailResponse,
+  | "id"
+  | "full_name"
+  | "gender"
+  | "age"
+  | "created_at"
+  | "patient_type"
+  | "email"
+  | "user_id"
+>;
 
 // Parameters for filtering patient list
 export interface PatientListParams {
@@ -28,53 +26,31 @@ export interface PatientListParams {
   patient_type?: string;
 }
 
-// Transform API response to match the PatientType format used in the UI
-const transformPatient = (patient: PatientResponse): PatientType => {
-  // Determine patient status based on available data
-  // Default to Active status, but this could be adjusted based on actual API data
-  const status = PatientStatus.Active;
-
-  // Format the created_at date to match the expected format in the UI
-  const lastVisit = format(parseISO(patient.created_at), 'dd-MMM-yyyy');
-
-  return {
-    id: patient.id,
-    patientId: patient.id,
-    name: patient.full_name,
-    gender: patient.gender.charAt(0).toUpperCase() + patient.gender.slice(1) as "Male" | "Female" | "Other",
-    age: patient.age,
-    lastVisit,
-    status,
-    email: "", // These fields are not in the API response, but required by PatientType
-    phone: "", // Add default values or leave empty
-    address: "",
-  };
-};
-
-
 // Hook to fetch patient list
 export const usePatientList = (params?: PatientListParams) => {
-  return useQuery<PatientType[], ApiResponseError>({
-    queryKey: ['patients', params],
+  return useQuery<PatientListResponse[], ApiResponseError>({
+    queryKey: ["patients", params],
     queryFn: async () => {
-      let url = 'patient-management/patients/';
-      
+      let url = "patient-management/patients/";
+
       // Add query parameters if provided
       const queryParams: string[] = [];
       if (params?.search) queryParams.push(`search=${params.search}`);
-      if (params?.start_date) queryParams.push(`start_date=${params.start_date}`);
+      if (params?.start_date)
+        queryParams.push(`start_date=${params.start_date}`);
       if (params?.end_date) queryParams.push(`end_date=${params.end_date}`);
-      if (params?.patient_type) queryParams.push(`patient_type=${params.patient_type}`);
-      
+      if (params?.patient_type)
+        queryParams.push(`patient_type=${params.patient_type}`);
+
       if (queryParams.length > 0) {
-        url += `?${queryParams.join('&')}`;
+        url += `?${queryParams.join("&")}`;
       }
-      
+
       const response = await getRequest({ url });
-      
+
       // Transform the API response to match the PatientType format
-      const patients = response.data.results as PatientResponse[];
-      return patients.map(transformPatient);
+      const patients = response.data.results as PatientListResponse[];
+      return patients;
     },
   });
 };
@@ -82,15 +58,17 @@ export const usePatientList = (params?: PatientListParams) => {
 // Hook to fetch patients for appointment booking (simplified format)
 export const usePatientsForAppointment = () => {
   return useQuery<{ value: string; label: string }[], ApiResponseError>({
-    queryKey: ['patients-for-appointment'],
+    queryKey: ["patients-for-appointment"],
     queryFn: async () => {
-      const response = await getRequest({ url: 'patient-management/patients/' });
-      
+      const response = await getRequest({
+        url: "patient-management/patients/",
+      });
+
       // Transform the API response to select options format
-      const patients = response.data.results as PatientResponse[];
-      return patients.map(patient => ({
+      const patients = response.data.results as PatientListResponse[];
+      return patients.map((patient) => ({
         value: patient.id,
-        label: patient.full_name
+        label: patient.full_name,
       }));
     },
   });
@@ -98,14 +76,14 @@ export const usePatientsForAppointment = () => {
 
 // Hook to fetch a single patient by ID
 export const usePatientDetails = (patientId: string) => {
-  return useQuery<PatientType, ApiResponseError>({
-    queryKey: ['patient', patientId],
+  return useQuery<PatientDetailResponse, ApiResponseError>({
+    queryKey: ["patient", patientId],
     queryFn: async () => {
       const response = await getRequest({
-        url: `patient-management/patients/${patientId}/`
+        url: `patient-management/patients/${patientId}/`,
       });
-      
-      return transformPatient(response.data.data as unknown as PatientResponse);
+
+      return response.data.data as unknown as PatientDetailResponse;
     },
     enabled: !!patientId, // Only run the query if patientId is provided
   });
@@ -114,12 +92,12 @@ export const usePatientDetails = (patientId: string) => {
 // Hook to fetch detailed patient information
 export const usePatientDetailedInfo = (patientId: string) => {
   return useQuery<PatientDetailResponse, ApiResponseError>({
-    queryKey: ['patient-detailed', patientId],
+    queryKey: ["patient-detailed", patientId],
     queryFn: async () => {
       const response = await getRequest({
-        url: `patient-management/patients/${patientId}/`
+        url: `patient-management/patients/${patientId}/`,
       });
-      
+
       return response.data.data as PatientDetailResponse;
     },
     enabled: !!patientId,
@@ -141,16 +119,6 @@ export interface FamilyType {
   members: number;
   createdAt: string;
 }
-
-// Transform family response to UI format
-const transformFamily = (family: FamilyResponse): FamilyType => {
-  return {
-    id: family.id,
-    familyName: family.family_name,
-    members: family.no_of_members,
-    createdAt: format(parseISO(family.created_at), 'dd-MMM-yyyy'),
-  };
-};
 
 // Define the create patient payload type
 export interface CreatePatientPayload {
@@ -197,12 +165,14 @@ export interface CreatePatientPayload {
 
 // Hook to fetch families list
 export const useFamiliesList = () => {
-  return useQuery<FamilyType[], ApiResponseError>({
-    queryKey: ['families'],
+  return useQuery<FamilyResponse[], ApiResponseError>({
+    queryKey: ["families"],
     queryFn: async () => {
-      const response = await getRequest({ url: 'patient-management/families/' });
+      const response = await getRequest({
+        url: "patient-management/families/",
+      });
       const families = response.data.results as FamilyResponse[];
-      return families.map(transformFamily);
+      return families;
     },
   });
 };
@@ -210,18 +180,42 @@ export const useFamiliesList = () => {
 // Hook to create a new patient
 export const useCreatePatient = () => {
   const queryClient = useQueryClient();
-  
+
   return useMutation<any, ApiResponseError, CreatePatientPayload>({
     mutationFn: async (patientData: CreatePatientPayload) => {
       const response = await postRequest({
-        url: 'patient-management/patients/',
-        payload: patientData
+        url: "patient-management/patients/",
+        payload: patientData,
       });
       return response.data;
     },
     onSuccess: () => {
       // Invalidate and refetch patient list
-      queryClient.invalidateQueries({ queryKey: ['patients'] });
+      queryClient.invalidateQueries({ queryKey: ["patients"] });
+    },
+  });
+};
+
+// Define create family payload type (API accepts only family_name)
+export interface CreateFamilyPayload {
+  family_name: string;
+}
+
+// Hook to create a new family
+export const useCreateFamily = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation<any, ApiResponseError, CreateFamilyPayload>({
+    mutationFn: async (payload: CreateFamilyPayload) => {
+      const response = await postRequest({
+        url: "patient-management/families/",
+        payload,
+      });
+      return response.data;
+    },
+    onSuccess: () => {
+      // Refresh families list after create
+      queryClient.invalidateQueries({ queryKey: ["families"] });
     },
   });
 };

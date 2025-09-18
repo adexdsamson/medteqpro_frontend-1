@@ -18,7 +18,11 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { ConfirmAlert } from "@/components/ConfirmAlert";
 import { ColumnDef } from "@tanstack/react-table";
+import { useToastHandler } from "@/hooks/useToaster";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { ApiResponse, ApiResponseError } from "@/types";
 import {
   useGetDrugs,
   Drug,
@@ -29,6 +33,8 @@ import {
   useGetDrugOrdersOverview,
   useGetDrugReconciliations,
   DrugReconciliation,
+  useCompleteDrugRequest,
+  useDeleteDrugRequest,
 } from "@/features/services/drugManagementService";
 import RequestDrugDialog from "./_components/RequestDrugDialog";
 import AddSupplyDialog from "./_components/AddSupplyDialog";
@@ -42,6 +48,14 @@ const InternalPharmacyPage = () => {
   const [activeTab, setActiveTab] = useState("drug-overview");
   const [searchTerm, setSearchTerm] = useState("");
   const [filters, setFilters] = useState<FilterOptions>({});
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [requestToDelete, setRequestToDelete] = useState<string | null>(null);
+  const [showCompleteDialog, setShowCompleteDialog] = useState(false);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [requestToComplete, setRequestToComplete] = useState<string | null>(null);
+
+  const toast = useToastHandler();
+  const queryClient = useQueryClient();
 
   const handleClearFilters = () => {
     setFilters({
@@ -127,6 +141,7 @@ const InternalPharmacyPage = () => {
   // Fetch overview statistics
   const { data: overviewResp, isLoading: isLoadingOverview } =
     useGetDrugOrdersOverview();
+    
   const overviewStats = useMemo(() => {
     const overview = overviewResp?.data?.data;
     if (overview) {
@@ -149,13 +164,6 @@ const InternalPharmacyPage = () => {
 
   // Columns for Drug Overview mapping to API fields
   const drugOverviewColumns: ColumnDef<Drug>[] = [
-    // {
-    //   accessorKey: "id",
-    //   cell: ({ row }) => (
-    //     <span className="font-medium">{row.getValue("id") as string}</span>
-    //   ),
-    //   header: "DRUG ID",
-    // },
     {
       accessorKey: "drug_name",
       cell: ({ row }) => (
@@ -323,6 +331,50 @@ const InternalPharmacyPage = () => {
     },
   ];
 
+  // Mutations for complete and delete actions
+  const completeMutation = useCompleteDrugRequest(requestToComplete);
+  const deleteMutation = useDeleteDrugRequest(requestToDelete);
+
+  const handleMarkAsComplete = (requestId: string) => {
+    setRequestToComplete(requestId);
+    setShowCompleteDialog(true);
+  };
+
+  const handleDeleteRequest = (requestId: string) => {
+    setRequestToDelete(requestId);
+    setShowDeleteDialog(true);
+  };
+
+  const confirmComplete = async () => {
+    if (requestToComplete) {
+      try {
+        await completeMutation.mutateAsync({ quantity_approved: 1 }); // Default quantity
+        toast.success("Success", "Drug request marked as complete");
+        queryClient.invalidateQueries({ queryKey: ["getDrugRequests"] });
+        setShowCompleteDialog(false);
+        setRequestToComplete(null);
+      } catch (error) {
+        const err = error as ApiResponseError;
+        toast.error("Error", err.message || "Failed to complete request");
+      }
+    }
+  };
+
+  const confirmDelete = async () => {
+    if (requestToDelete) {
+      try {
+        await deleteMutation.mutateAsync();
+        toast.success("Success", "Drug request deleted successfully");
+        queryClient.invalidateQueries({ queryKey: ["getDrugRequests"] });
+        setShowDeleteDialog(false);
+        setRequestToDelete(null);
+      } catch (error) {
+        const err = error as ApiResponseError;
+        toast.error("Error", err.message || "Failed to delete request");
+      }
+    }
+  };
+
   const drugRequestColumns: ColumnDef<DrugRequest>[] = [
     {
       accessorKey: "drug_name_requested",
@@ -373,20 +425,33 @@ const InternalPharmacyPage = () => {
     {
       id: "action",
       header: "ACTION",
-      cell: () => (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <Edit className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem>Edit Request</DropdownMenuItem>
-            <DropdownMenuItem>View Details</DropdownMenuItem>
-            <DropdownMenuItem className="text-red-600">Delete</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      ),
+      cell: ({ row }) => {
+        const request = row.original;
+        return (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-8 w-8 p-0">
+                <Edit className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem 
+                onClick={() => handleMarkAsComplete(request.id)}
+                disabled={request.status === "completed" || completeMutation.isPending}
+              >
+                {completeMutation.isPending ? "Completing..." : "Mark as Complete"}
+              </DropdownMenuItem>
+              <DropdownMenuItem 
+                className="text-red-600"
+                onClick={() => handleDeleteRequest(request.id)}
+                disabled={deleteMutation.isPending}
+              >
+                Delete
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        );
+      },
     },
   ];
 
@@ -601,6 +666,38 @@ const InternalPharmacyPage = () => {
           </div>
         </Tabs>
       </div>
+
+      {/* Complete Confirmation Dialog */}
+      {showCompleteDialog && (
+        <ConfirmAlert
+          title="Complete Drug Request"
+          text="Are you sure you want to mark this drug request as complete? This action cannot be undone."
+          onClose={(open) => {
+            if (!open) {
+              setShowCompleteDialog(false);
+            }
+          }}
+          onConfirm={confirmComplete}
+          confirmText="Complete Request"
+          cancelText="Cancel"
+        />
+      )}
+
+      {/* Delete Confirmation Dialog */}
+      {showDeleteDialog && (
+        <ConfirmAlert
+          title="Delete Drug Request"
+          text="Are you sure you want to delete this drug request? This action cannot be undone."
+          onClose={(open) => {
+            if (!open) {
+              setShowDeleteDialog(false);
+            }
+          }}
+          onConfirm={confirmDelete}
+          confirmText="Delete Request"
+          cancelText="Cancel"
+        />
+      )}
     </>
   );
 };

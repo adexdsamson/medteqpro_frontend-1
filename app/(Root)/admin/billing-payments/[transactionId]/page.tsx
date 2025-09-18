@@ -2,7 +2,11 @@ import React from "react";
 import Subheader from "../../../_components/Subheader";
 import { SEOWrapper } from "@/components/SEO";
 
-export default async function BillDetailPage({ params }: { params: Promise<{ transactionId: string }> }) {
+export default async function BillDetailPage({
+  params,
+}: {
+  params: Promise<{ transactionId: string }>;
+}) {
   const { transactionId } = await params;
 
   return (
@@ -29,7 +33,9 @@ export default async function BillDetailPage({ params }: { params: Promise<{ tra
           <p className="text-lg font-semibold">{transactionId}</p>
         </div>
         <div className="bg-white rounded-lg shadow p-6">
-          <p className="text-gray-500">Placeholder for bill detail content and payment history.</p>
+          <p className="text-gray-500">
+            Placeholder for bill detail content and payment history.
+          </p>
         </div>
       </div>
     </>

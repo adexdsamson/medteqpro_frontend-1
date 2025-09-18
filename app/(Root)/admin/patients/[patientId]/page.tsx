@@ -168,7 +168,7 @@ export default function PatientDetailPage() {
       <div className="max-w-7xl mx-auto">
         {/* Last Seen Cards */}
         <div className="mb-8">
-          <LastSeenCardGroup />
+          <LastSeenCardGroup lastSeenData={patient?.last_seen} />
         </div>
 
         {/* Main Content Grid */}

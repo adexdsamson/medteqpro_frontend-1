@@ -26,6 +26,9 @@ type ConfirmAlertProps = {
   onClose?: (open: boolean) => void;
   logout?: boolean;
   icon?: any;
+  onConfirm?: () => void;
+  confirmText?: string;
+  cancelText?: string;
 };
 export const ConfirmAlert = ({
   icon = FiTrash,
@@ -35,6 +38,9 @@ export const ConfirmAlert = ({
   logout,
   onClose,
   trigger,
+  onConfirm,
+  confirmText = "Yes",
+  cancelText = "No",
   // url = "",
 }: ConfirmAlertProps) => {
   // const setReset = useSetReset();
@@ -102,15 +108,15 @@ export const ConfirmAlert = ({
         <div className="bg-[#F8FAFC] py-2 flex gap-3 items-center justify-end px-3">
           <DialogClose asChild>
             <Button className="bg-white hover:bg-white text-gray-400">
-              No
+              {cancelText}
             </Button>
           </DialogClose>
           <Button
-            onClick={logout ? handleLogout : handleSubmit}
+            onClick={onConfirm || (logout ? handleLogout : handleSubmit)}
             // isLoading={mutation.isPending}
             className=""
           >
-            Yes
+            {confirmText}
           </Button>
         </div>
       </DialogContent>

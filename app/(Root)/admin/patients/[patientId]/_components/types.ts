@@ -8,6 +8,7 @@ export interface Medication {
 
 export interface PatientDetailResponse {
   id: string;
+  user_id: string;
   hospital: string;
   family: string;
   first_name: string;
@@ -30,6 +31,7 @@ export interface PatientDetailResponse {
   blood_group: string;
   genotype: string;
   allergies: string;
+  last_seen: LastSeenInfo;
   chronic_conditions: string;
   current_medications: Medication[];
   family_history: string;
@@ -52,9 +54,10 @@ export interface PatientDetailResponse {
 }
 
 export interface LastSeenInfo {
-  role: string;
-  lastSeen: string;
-  color: string;
+  doctor: null | string;
+  nurse: null | string;
+  lab_scientist: null | string;
+  pharmacist: null | string;
 }
 
 export interface PatientContact {

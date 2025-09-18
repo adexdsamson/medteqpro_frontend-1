@@ -6,25 +6,25 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
 import { Edit } from "lucide-react"; // Using lucide-react for icons
 import Link from "next/link"; // Added Link import
-import { PatientListResponse } from "@/features/services/patientService";
+import { FamilyResponse } from "@/features/services/patientService";
 import { format } from "date-fns";
 
 interface PatientTableProps {
-  data: PatientListResponse[];
+  data: FamilyResponse[];
 }
 
-export const columns: ColumnDef<PatientListResponse>[] = [
+export const columns: ColumnDef<FamilyResponse>[] = [
   {
-    accessorKey: "user_id",
-    header: "PATIENT ID",
+    accessorKey: "id",
+    header: "FAMILY ID",
   },
   {
-    accessorKey: "full_name",
-    header: "PATIENT NAME",
+    accessorKey: "family_name",
+    header: "FAMILY NAME",
   },
   {
-    accessorKey: "gender",
-    header: "GENDER",
+    accessorKey: "no_of_members",
+    header: "NUMBER OF MEMBERS",
   },
   {
     accessorKey: "created_at",
@@ -51,7 +51,7 @@ export const columns: ColumnDef<PatientListResponse>[] = [
   },
 ];
 
-const PatientTable: React.FC<PatientTableProps> = ({ data }) => {
+const FamilyTable: React.FC<PatientTableProps> = ({ data }) => {
   const [pagination, setPagination] = React.useState({
     pageIndex: 0,
     pageSize: 10, // Default page size
@@ -75,4 +75,4 @@ const PatientTable: React.FC<PatientTableProps> = ({ data }) => {
   );
 };
 
-export default PatientTable;
+export default FamilyTable;

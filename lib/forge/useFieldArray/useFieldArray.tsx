@@ -1,5 +1,3 @@
-'use client'
-
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-expressions */
@@ -19,7 +17,6 @@ import {
   FieldArrayMethodProps,
   FormState,
   get,
-  set,
   FieldErrors,
   Field,
 } from "react-hook-form";
@@ -27,7 +24,6 @@ import {
   appendAt,
   cloneObject,
   convertToArrayPayload,
-  fillEmptyArray,
   generateId,
   getFocusFieldName,
   getValidationModes,
@@ -35,7 +31,6 @@ import {
   isWatched,
   iterateFieldsByAction,
   removeArrayAt,
-  unset,
   updateFieldArrayRootError,
   VALIDATION_MODE,
 } from "../utils";
@@ -104,6 +99,23 @@ export const useFieldArray = <
     subject: control._subjects.array,
   });
 
+  React.useEffect(() => {
+    !get(control._formValues, name) && control._setFieldArray(name);
+
+    return () => {
+      const updateMounted = (name: InternalFieldName, value: boolean) => {
+        const field: Field = get(control._fields, name);
+        if (field && field._f) {
+          field._f.mount = value;
+        }
+      };
+
+      control._options.shouldUnregister || props.shouldUnregister
+        ? control.unregister(name as FieldPath<TFieldValues>)
+        : updateMounted(name, false);
+    };
+  }, [name, props.shouldUnregister]);
+
   const updateValues = React.useCallback(
     <
       T extends Partial<
@@ -113,7 +125,7 @@ export const useFieldArray = <
       updatedFieldArrayValues: T
     ) => {
       _actioned.current = true;
-      (control as any)._updateFieldArray(name, updatedFieldArrayValues);
+      (control as any)._updateFieldArray?.(name, updatedFieldArrayValues);
     },
     [control, name]
   );
@@ -137,9 +149,6 @@ export const useFieldArray = <
     ids.current = appendAt(ids.current, appendValue.map(generateId));
     updateValues(updatedFieldArrayValues);
     setFields(updatedFieldArrayValues);
-    (control as any)._updateFieldArray(name, updatedFieldArrayValues, appendAt, {
-      argA: fillEmptyArray(value),
-    });
   };
 
   const remove = (index?: number | number[]) => {
@@ -149,16 +158,66 @@ export const useFieldArray = <
     ids.current = removeArrayAt(ids.current, index);
     updateValues(updatedFieldArrayValues);
     setFields(updatedFieldArrayValues);
-    (control as any)._updateFieldArray(name, updatedFieldArrayValues, removeArrayAt, {
-      argA: index,
-    });
+  };
+
+  const insert = (
+    index: number,
+    value:
+      | Partial<FieldArray<TFieldValues, TFieldArrayName>>
+      | Partial<FieldArray<TFieldValues, TFieldArrayName>>[],
+    options?: FieldArrayMethodProps
+  ) => {
+    const insertValue = convertToArrayPayload(cloneObject(value));
+    const currentValues = control._getFieldArray(name);
+    const updatedFieldArrayValues = [
+      ...currentValues.slice(0, index),
+      ...insertValue,
+      ...currentValues.slice(index),
+    ];
+    control._names.focus = getFocusFieldName(name, index, options);
+    ids.current = [
+      ...ids.current.slice(0, index),
+      ...insertValue.map(generateId),
+      ...ids.current.slice(index),
+    ];
+    updateValues(updatedFieldArrayValues);
+    setFields(updatedFieldArrayValues);
+  };
+
+  const swap = (indexA: number, indexB: number) => {
+    const currentValues = control._getFieldArray(name);
+    const updatedFieldArrayValues = [...currentValues];
+    const tempValue = updatedFieldArrayValues[indexA];
+    updatedFieldArrayValues[indexA] = updatedFieldArrayValues[indexB];
+    updatedFieldArrayValues[indexB] = tempValue;
+
+    const tempId = ids.current[indexA];
+    ids.current[indexA] = ids.current[indexB];
+    ids.current[indexB] = tempId;
+
+    updateValues(updatedFieldArrayValues);
+    setFields(updatedFieldArrayValues);
+  };
+
+  const update = (
+    index: number,
+    value: Partial<FieldArray<TFieldValues, TFieldArrayName>>
+  ) => {
+    const currentValues = control._getFieldArray(name);
+    const updatedFieldArrayValues = [...currentValues];
+    updatedFieldArrayValues[index] = {
+      ...updatedFieldArrayValues[index],
+      ...cloneObject(value),
+    };
+    updateValues(updatedFieldArrayValues);
+    setFields(updatedFieldArrayValues);
   };
 
   useEffect(() => {
     control._state.action = false;
 
     isWatched(name, control._names) &&
-      control._subjects.state.next({
+      control._subjects.state?.next({
         ...control._formState,
       } as FormState<TFieldValues>);
 
@@ -167,27 +226,9 @@ export const useFieldArray = <
       (!getValidationModes(control._options.mode).isOnSubmit ||
         control._formState.isSubmitted)
     ) {
+      // Removed call to _executeSchema as it is not a public API. Validation should be handled by the resolver and form state updates.
       if (control._options.resolver) {
-        (control as any)._executeSchema([name]).then((result: any) => {
-          const error = get(result.errors, name);
-          const existingError = get(control._formState.errors, name);
-
-          if (
-            existingError
-              ? (!error && existingError.type) ||
-                (error &&
-                  (existingError.type !== error.type ||
-                    existingError.message !== error.message))
-              : error && error.type
-          ) {
-            error
-              ? set(control._formState.errors, name, error)
-              : unset(control._formState.errors, name);
-            control._subjects.state.next({
-              errors: control._formState.errors as FieldErrors<TFieldValues>,
-            });
-          }
-        });
+        // Optionally, you can trigger validation here using control's public methods if needed.
       } else {
         const field: Field = get(control._fields, name);
         if (
@@ -207,7 +248,7 @@ export const useFieldArray = <
           ).then(
             (error) =>
               !isEmptyObject(error) &&
-              control._subjects.state.next({
+              control._subjects.state?.next({
                 errors: updateFieldArrayRootError(
                   control._formState.errors as FieldErrors<TFieldValues>,
                   error,
@@ -219,7 +260,7 @@ export const useFieldArray = <
       }
     }
 
-    (control as any)._subjects.values.next({
+    (control as any)._subjects.values?.next({
       name,
       values: { ...control._formValues },
     });
@@ -239,13 +280,15 @@ export const useFieldArray = <
 
     control._names.focus = "";
 
-    (control as any)._updateValid();
     _actioned.current = false;
   }, [fields, name, control]);
 
   return {
     append,
     remove,
+    insert,
+    swap,
+    update,
     fields: React.useMemo(
       () =>
         fields.map((field, index) => ({
