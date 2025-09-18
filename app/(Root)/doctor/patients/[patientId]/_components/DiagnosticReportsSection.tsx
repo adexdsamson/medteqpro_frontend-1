@@ -6,18 +6,25 @@ import { DataTable } from '@/components/DataTable';
 import { columns } from './diagnostic-report-columns';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
+import AddDiagnosticReportDialog from './AddDiagnosticReportDialog';
 
 export default function DiagnosticReportsSection() {
   const params = useParams();
   const patientId = params.patientId as string;
 
-  const { data: diagnosticReports, isLoading } = usePatientDiagnosticReports(patientId);
+  const { data: diagnosticReports, isLoading, refetch } = usePatientDiagnosticReports(patientId);
+
+  const handleReportCreated = () => {
+    refetch();
+  };
 
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <h3 className="text-lg font-semibold text-gray-700">Diagnostic Report</h3>
-        <Button>Add New Record</Button>
+        <AddDiagnosticReportDialog patientId={patientId} onReportCreated={handleReportCreated}>
+          <Button>Add New Record</Button>
+        </AddDiagnosticReportDialog>
       </div>
 
       {isLoading ? (

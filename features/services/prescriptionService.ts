@@ -93,8 +93,8 @@ export const useGetPatientPrescriptions = (patientId: string, params?: Prescript
       const response = await getRequest({ url });
       
       // Transform the API response
-      const prescriptions = response.data.data?.results || response.data.data || [];
-      return prescriptions.map(transformPrescription);
+      const prescriptions = response.data?.results || [];
+      return prescriptions;
     },
     enabled: !!patientId,
   });

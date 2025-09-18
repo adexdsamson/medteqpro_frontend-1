@@ -35,6 +35,7 @@ export default function DrugQuantitySelector({
     control,
     name: "drugs",
     inputProps: [],
+    shouldUnregister: true,
   });
 
   const handleAddItem = () => {
@@ -42,7 +43,7 @@ export default function DrugQuantitySelector({
   };
 
   const handleRemoveItem = (index: number) => {
-    console.log({ index });
+    // console.log({ index });
     
     remove(index);
   };

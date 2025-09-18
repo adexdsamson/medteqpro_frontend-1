@@ -51,7 +51,7 @@ export default function AddToQueueDialog({
 
   // Transform patients data for select options
   const patientOptions = patients.map((patient) => ({
-    label: `${patient.name} (${patient.patientId})`,
+    label: `${patient.full_name} `,
     value: patient.id,
   }));
 

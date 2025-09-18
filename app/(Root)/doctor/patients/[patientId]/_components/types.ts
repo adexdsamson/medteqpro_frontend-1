@@ -52,9 +52,10 @@ export interface PatientDetailResponse {
 }
 
 export interface LastSeenInfo {
-  role: string;
-  lastSeen: string;
-  color: string;
+  doctor: null | string;
+  nurse: null | string;
+  lab_scientist: null | string;
+  pharmacist: null | string;
 }
 
 export interface PatientContact {

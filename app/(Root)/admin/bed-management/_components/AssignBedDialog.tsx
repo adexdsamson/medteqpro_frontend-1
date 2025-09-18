@@ -60,7 +60,7 @@ const AssignBedDialog: React.FC<AssignBedDialogProps> = ({
 
   // Patient options for dropdown
   const patientOptions = patients.map((patient) => ({
-    label: `${patient.name} (${patient.id})`,
+    label: `${patient.full_name} (${patient.id})`,
     value: patient.id,
   }));
 

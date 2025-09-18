@@ -37,7 +37,7 @@ export const TextInput = ({
         containerClass ?? ""
       }`}
     >
-      <Label className="text-sm sm:text-base whitespace-nowrap text-stone-900 max-w-xs text-wrap break-words mb-1 sm:mb-2">
+      <Label className="text-xs sm:text-sm whitespace-nowrap text-stone-900 max-w-xs text-wrap break-words mb-1 sm:mb-2">
         {props.label}
       </Label>
       <div className="flex items-center bg-white rounded-lg border border-solid border-stone-300 gap-2 touch-manipulation min-h-[44px] sm:min-h-[48px]">

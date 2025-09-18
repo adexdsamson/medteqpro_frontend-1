@@ -1,7 +1,7 @@
 'use client';
 
-import { useQuery } from "@tanstack/react-query";
-import { getRequest } from "@/lib/axiosInstance";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { getRequest, postRequest } from "@/lib/axiosInstance";
 import { ApiResponse, ApiResponseError } from "@/types";
 import { format, parseISO } from "date-fns";
 
@@ -98,5 +98,35 @@ export const useGetLabTestDetail = (testId: string) => {
       return response;
     },
     enabled: !!testId,
+  });
+};
+
+// Create lab test payload type based on API documentation
+export interface CreateLabTestPayload {
+  lab_no: string;
+  ordered_by: string;
+  test_type: string;
+  entry_category: 'outpatient' | 'inpatient' | 'emergency';
+  date_collected: string;
+  specimen: string;
+  status?: 'draft';
+}
+
+// Hook to create a new lab test for a patient
+export const useCreateLabTest = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation<ApiResponse<LabTest>, ApiResponseError, { patientId: string; payload: CreateLabTestPayload }>({
+    mutationFn: async ({ patientId, payload }) => {
+      const response = await postRequest({
+        url: `patient-management/patients/${patientId}/tests/create/`,
+        payload,
+      });
+      return response;
+    },
+    onSuccess: (data, variables) => {
+      // Invalidate and refetch lab tests for the patient
+      queryClient.invalidateQueries({ queryKey: ['patient-lab-tests', variables.patientId] });
+    },
   });
 };

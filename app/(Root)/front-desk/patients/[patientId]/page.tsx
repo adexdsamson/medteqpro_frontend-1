@@ -33,49 +33,6 @@ export default function PatientDetailPage() {
   const patient = patientData
     ? {
         ...patientData,
-        hospital: "Mock Hospital",
-        family: "Mock Family",
-        first_name: patientData.name.split(" ")[0] || "",
-        last_name: patientData.name.split(" ").slice(1).join(" ") || "",
-        middle_name: "",
-        full_name: patientData.name,
-        patient_type: "Regular",
-        date_of_birth: "1980-03-22", // Mock date
-        phone_number: "08012345678", // Mock phone
-        email: "patient@example.com", // Mock email
-        address: "No 7 Adoga Street, Bodore",
-        city: "Lagos",
-        state: "Lagos",
-        employment_status: "Employed",
-        height: 175,
-        weight: 70,
-        bmi: 22.9,
-        blood_group: "O+",
-        genotype: "AA",
-        allergies: "None",
-        chronic_conditions: "None",
-        current_medications: [],
-        family_history: "None",
-        surgical_history: "None",
-        hereditary_conditions: "None",
-        other_conditions: "None",
-        emergency_contact: {
-          name: "Kola Fadipe James",
-          phone: "08000000000",
-          relationship: "Brother",
-        },
-        marital_status: "Married",
-        social_history: {
-          smoking: "No",
-          alcohol: "Occasionally",
-          drug_use: "No",
-          exercise: "Regular",
-          diet: "Balanced",
-          sexual_history: "N/A",
-          other_habits: "None",
-        },
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
       }
     : undefined;
 
@@ -175,7 +132,7 @@ export default function PatientDetailPage() {
           "@context": "https://schema.org",
           "@type": "MedicalPatient",
           name: patient?.full_name ?? "Patient",
-          identifier: patient?.patientId ?? patientId,
+          identifier: patient?.id ?? patientId,
         }}
       />
       {/* Header */}

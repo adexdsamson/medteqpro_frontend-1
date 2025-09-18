@@ -73,7 +73,7 @@ export const columns: ColumnDef<PatientType>[] = [
     cell: ({ row }) => { // Changed to access row
       const patient = row.original;
       return (
-        <Link href={`/doctor/patients/${patient.patientId}`}>
+        <Link href={`/doctor/patients/${patient.id}`}>
           <Button variant="ghost" size="icon" className="h-8 w-8 p-0">
             <Edit className="h-4 w-4" />
           </Button>
@@ -90,18 +90,20 @@ const PatientTable: React.FC<PatientTableProps> = ({ data }) => {
   });
 
   return (
-    <DataTable
-      columns={columns}
-      data={data || []}
-      options={{
-        disableSelection: true,
-        pagination: pagination,
-        setPagination: setPagination,
-        manualPagination: false, // Assuming client-side pagination for now
-        totalCounts: data?.length || 0,
-        isLoading: false // Loading state is handled at the page level
-      }}
-    />
+    <div className="w-full max-w-[76vw] bg-white p-2">
+      <DataTable
+        columns={columns}
+        data={data || []}
+        options={{
+          disableSelection: true,
+          pagination: pagination,
+          setPagination: setPagination,
+          manualPagination: false, // Assuming client-side pagination for now
+          totalCounts: data?.length || 0,
+          isLoading: false // Loading state is handled at the page level
+        }}
+      />
+    </div>
   );
 };
 

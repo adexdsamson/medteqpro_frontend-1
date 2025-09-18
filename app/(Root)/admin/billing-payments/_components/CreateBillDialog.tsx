@@ -100,7 +100,7 @@ export default function CreateBillDialog({
   const toast = useToastHandler();
 
   const { control, reset } = useForge<FormValues>({
-    // resolver: yupResolver(schema) as any,
+    resolver: yupResolver(schema) as any,
     defaultValues: {
       // patient_id: "",
       // purpose: "",
@@ -110,6 +110,7 @@ export default function CreateBillDialog({
       // amount_paid: 0,
       // mode_of_payment: "",
     },
+    
   });
 
   const onSubmit = async (data: FormValues) => {

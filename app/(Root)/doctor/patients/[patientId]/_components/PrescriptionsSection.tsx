@@ -1,26 +1,39 @@
-'use client';
+"use client";
 
 import { useParams } from "next/navigation";
 import { useGetPatientPrescriptions } from "@/features/services/prescriptionService";
+import { usePatientDetails } from "@/features/services/patientService";
 import { DataTable } from "@/components/DataTable";
-import { prescriptionColumns } from "./prescription-columns";
+import { createPrescriptionColumns } from "./prescription-columns";
 import PatientContactCard from "./PatientContactCard";
-import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
+import AddPrescriptionDialog from "./AddPrescriptionDialog";
 
 export default function PrescriptionsSection() {
   const params = useParams();
   const patientId = params.patientId as string;
 
-  const { data: prescriptions, isLoading, error } = useGetPatientPrescriptions(patientId);
+  const {
+    data: prescriptions,
+    isLoading,
+    error,
+    refetch,
+  } = useGetPatientPrescriptions(patientId);
 
-  const handleAddPrescription = () => {
-    // TODO: Implement add prescription modal/form
-    console.log('Add prescription for patient:', patientId);
+  const {
+    data: patientData,
+    isLoading: isLoadingPatient,
+  } = usePatientDetails(patientId);
+
+  /**
+   * Handles successful creation of a new prescription
+   * Refetches the prescriptions list to show the new record
+   */
+  const handlePrescriptionCreated = () => {
+    refetch();
   };
 
-  if (isLoading) {
+  if (isLoading || isLoadingPatient) {
     return (
       <div className="space-y-6">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -64,27 +77,28 @@ export default function PrescriptionsSection() {
         {/* Left column - Prescription table */}
         <div className="lg:col-span-2 space-y-4">
           <div className="flex justify-between items-center">
-            <h3 className="text-lg font-semibold text-blue-600">Prescription Report</h3>
-            <Button 
-              onClick={handleAddPrescription}
-              className="bg-blue-500 hover:bg-blue-600 text-white"
-            >
-              <Plus className="h-4 w-4 mr-2" />
-              Add Prescription
-            </Button>
+            <h3 className="text-lg font-semibold text-blue-600">
+              Prescription Report
+            </h3>
+            <AddPrescriptionDialog
+              patientId={patientId}
+              onPrescriptionCreated={handlePrescriptionCreated}
+            />
           </div>
           
           {prescriptions && prescriptions.length > 0 ? (
              <div className="bg-white rounded-lg border">
                <DataTable 
-                 columns={prescriptionColumns} 
+                 columns={createPrescriptionColumns(patientId)} 
                  data={prescriptions}
                />
              </div>
            ) : (
             <div className="bg-white rounded-lg border p-8 text-center text-gray-500">
               <p>No prescriptions available</p>
-              <p className="text-sm mt-2">Prescription reports will be displayed here when available</p>
+              <p className="text-sm mt-2">
+                Prescription reports will be displayed here when available
+              </p>
             </div>
           )}
         </div>
@@ -92,8 +106,8 @@ export default function PrescriptionsSection() {
         {/* Right column - Patient contact card */}
         <div className="lg:col-span-1 space-y-4">
           <PatientContactCard 
-            name="Oluwatosin Chidimma Aminah"
-            phone="09078376478"
+            name={patientData?.full_name || "N/A"}
+            phone={patientData?.phone_number || "N/A"}
           />
         </div>
       </div>

@@ -163,11 +163,7 @@ const AdminBedManagementPage = () => {
       <div className="mb-6 p-6 flex gap-3 justify-end items-center">
         <Dialog>
           <DialogTrigger asChild>
-            <Button
-              variant={'ghost'}
-            >
-              Create Bed
-            </Button>
+            <Button variant={"ghost"}>Create Bed</Button>
           </DialogTrigger>
           <CreateBedDialog />
         </Dialog>
@@ -245,11 +241,13 @@ const AdminBedManagementPage = () => {
                   />
                 </div>
 
-                <DataTable
-                  columns={bedColumns(handleAssignBed)}
-                  data={filteredBedData}
-                  options={{ isLoading: isLoading || wardsLoading }}
-                />
+                <div className="w-full max-w-[76vw] bg-white p-2">
+                  <DataTable
+                    columns={bedColumns(handleAssignBed)}
+                    data={filteredBedData}
+                    options={{ isLoading: isLoading || wardsLoading }}
+                  />
+                </div>
               </div>
             </TabsContent>
           ))}
