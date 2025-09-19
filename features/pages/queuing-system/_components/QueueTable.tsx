@@ -3,7 +3,10 @@ import { DataTable } from "@/components/DataTable";
 import { ColumnDef } from "@tanstack/react-table";
 import { cn } from "@/lib/utils";
 
-// Define the type for queue entries
+/**
+ * Queue Entry Interface
+ * Defines the structure of a queue entry with patient and staff information
+ */
 export interface QueueEntry {
   id: string;
   patient_id: string;
@@ -19,11 +22,25 @@ export interface QueueEntry {
   roomAssigned: string;
   serialNumber: number;
 }
+
+/**
+ * Queue Table Props Interface
+ */
 type QueueTableProps = {
   data: QueueEntry[];
+  onStartPatient?: (queueEntry: QueueEntry) => void;
 };
 
-export default function QueueTable({ data }: QueueTableProps) {
+/**
+ * Queue Table Component
+ * 
+ * Displays the queue entries in a structured table format with columns for
+ * serial number, patient ID, priority, room assignment, estimated time, and session status.
+ * 
+ * @param {QueueTableProps} props - The component props
+ * @returns {JSX.Element} The queue table component
+ */
+export default function QueueTable({ data, onStartPatient }: QueueTableProps) {
   // Define columns for the queue table
   const columns: ColumnDef<QueueEntry>[] = [
     {
@@ -68,6 +85,25 @@ export default function QueueTable({ data }: QueueTableProps) {
       },
     },
   ];
+
+  // Add action column if onStartPatient is provided
+  if (onStartPatient) {
+    columns.push({
+      id: "actions",
+      header: "ACTIONS",
+      cell: ({ row }) => {
+        const queueEntry = row.original;
+        return (
+          <button
+            onClick={() => onStartPatient(queueEntry)}
+            className="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm"
+          >
+            Start
+          </button>
+        );
+      },
+    });
+  }
 
   return (
     <div className="w-full max-w-[76vw] bg-white p-2">

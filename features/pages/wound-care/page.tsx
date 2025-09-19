@@ -2,18 +2,19 @@
 
 import React, { useState } from "react";
 import { DataTable } from "@/components/DataTable";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ColumnDef } from "@tanstack/react-table";
 import { SquarePen, Eye, Trash2 } from "lucide-react";
-import Link from "next/link";
-import Subheader from "../../../../layouts/Subheader";
+import Subheader from "../../../layouts/Subheader";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+
 import { Badge } from "@/components/ui/badge";
 import {
   useWoundRecords,
@@ -21,8 +22,9 @@ import {
   useDeleteWoundRecord,
 } from "@/features/services/woundCareService";
 import { useToastHandler } from "@/hooks/useToaster";
+import CreateWoundRecordDialog from "./_components/CreateWoundRecordDialog";
+import EditWoundRecordDialog from "./_components/EditWoundRecordDialog";
 import { getStatusBadgeClasses, formatStatusText } from "@/lib/statusColors";
-import { SEOWrapper } from "@/components/SEO";
 import { ConfirmAlert } from "@/components/ConfirmAlert";
 
 // Type for wound care patients in UI
@@ -34,17 +36,15 @@ interface WoundCarePatient {
 }
 
 /**
- * Admin Wound Care Management Page
- * Displays wound care records with administrative oversight capabilities
+ * Centralized Wound Care Page Component
+ * Manages wound care records with CRUD operations
  * @returns JSX.Element
  */
-const AdminWoundCarePage = () => {
+const WoundCarePage = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const { data: woundRecords, isLoading, error } = useWoundRecords();
   const toast = useToastHandler();
   const deleteWoundRecord = useDeleteWoundRecord();
-
-  // Fetch wound records from API
-  const { data: woundRecords, isLoading, error } = useWoundRecords();
 
   /**
    * Handle delete wound record
@@ -82,9 +82,13 @@ const AdminWoundCarePage = () => {
       header: "ORA STATUS",
       cell: ({ row }) => {
         const status = row.getValue("oraStatus") as string;
-        const badgeClasses = getStatusBadgeClasses(status);
+        // Map "Referred" to "pending" for consistent color scheme
+        const mappedStatus =
+          status === "Referred" ? "pending" : status.toLowerCase();
         return (
-          <Badge className={badgeClasses}>{formatStatusText(status)}</Badge>
+          <Badge className={getStatusBadgeClasses(mappedStatus)}>
+            {formatStatusText(status)}
+          </Badge>
         );
       },
     },
@@ -100,7 +104,6 @@ const AdminWoundCarePage = () => {
       header: "ACTION",
       cell: ({ row }) => {
         const patient = row.original;
-
         return (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -110,16 +113,21 @@ const AdminWoundCarePage = () => {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <Link href={`/admin/wound-care/${patient.id}`}>
-                <DropdownMenuItem>
-                  <Eye className="mr-2 h-4 w-4" />
+              <DropdownMenuItem asChild>
+                <Link
+                  href={`/wound-care/${patient.id}`}
+                  className="flex items-center gap-2"
+                >
+                  <Eye className="h-4 w-4" />
                   View Details
-                </DropdownMenuItem>
-              </Link>
-              <DropdownMenuItem>
-                <SquarePen className="mr-2 h-4 w-4" />
-                Edit Record
+                </Link>
               </DropdownMenuItem>
+              <EditWoundRecordDialog id={patient.id}>
+                <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                  <SquarePen className="mr-2 h-4 w-4" />
+                  Edit Record
+                </DropdownMenuItem>
+              </EditWoundRecordDialog>
               <ConfirmAlert
                 title="Delete Wound Record"
                 text="Are you sure you want to delete this wound record? This action cannot be undone."
@@ -141,80 +149,51 @@ const AdminWoundCarePage = () => {
   ];
 
   // Transform API data to UI format
-  const transformedData: WoundCarePatient[] = React.useMemo(() => {
-    if (!woundRecords) return [];
+  const transformedPatients: WoundCarePatient[] = Array.isArray(woundRecords)
+    ? woundRecords.map(transformWoundRecord)
+    : [];
 
-    return Array.isArray(woundRecords)
-      ? woundRecords.map((record) => {
-          const transformed = transformWoundRecord(record);
-          return {
-            id: transformed.id,
-            patientName: transformed.patientName,
-            oraStatus: transformed.oraStatus as "Referred" | "Admitted",
-            regDateTime: transformed.regDateTime,
-          };
-        })
-      : [];
-  }, [woundRecords]);
+  // Filter patients based on search query
+  const filteredPatients = transformedPatients.filter((patient) => {
+    const matchesSearch =
+      patient.patientName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      patient.id.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchesSearch;
+  });
 
-  // Filter data based on search query
-  const filteredData = React.useMemo(() => {
-    if (!searchQuery) return transformedData;
-
-    return transformedData.filter(
-      (patient) =>
-        patient.patientName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        patient.id.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-  }, [transformedData, searchQuery]);
-
-  if (error) {
-    toast.error("Error", "Failed to load wound care records");
-  }
+  // Handle API errors
+  React.useEffect(() => {
+    if (error) {
+      toast.error("Error", "Failed to load wound care records");
+    }
+  }, [error, toast]);
 
   return (
     <>
-      <SEOWrapper
-        title="Wound Care Management - SwiftPro eProcurement Portal"
-        description="Administrative oversight of wound care records, patient management, and treatment tracking in the healthcare system."
-        keywords="wound care, admin, patient management, healthcare administration"
-        canonical="/admin/wound-care"
-        robots="noindex, nofollow"
-        ogImage="/assets/medteq-og-image.jpg"
-        ogImageAlt="Medteq Healthcare System - Admin Wound Care Management"
-        structuredData={{
-          "@context": "https://schema.org",
-          "@type": "SoftwareApplication",
-          name: "Medteq Healthcare System",
-        }}
-      />
-
-      <Subheader title="Wound Care Management" />
-
-      <div className="p-6 space-y-6 bg-gray-50 min-h-screen">
-        {/* Search and Actions */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <div className="w-full sm:w-auto flex-1 sm:max-w-sm">
+      <Subheader title="Wound Care" />
+      <div className="p-6 min-h-screen bg-gray-50">
+        <div className="flex justify-between items-center mb-6">
+          <div className="flex items-center gap-4">
             <Input
               placeholder="Patient ID/Name"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full"
+              className="w-[300px]"
             />
           </div>
-
-          <Button className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white">
-            Generate Report
-          </Button>
+          <CreateWoundRecordDialog>
+            <Button className="bg-[#2563EB] hover:bg-[#1D4ED8]">
+              Add Record
+            </Button>
+          </CreateWoundRecordDialog>
         </div>
 
-        {/* Data Table */}
         <div className="bg-white rounded-lg p-6">
           <DataTable
             columns={columns}
-            data={filteredData}
+            data={filteredPatients}
             options={{
-              isLoading,
+              isLoading: isLoading,
               disablePagination: false,
               disableSelection: true,
             }}
@@ -225,4 +204,4 @@ const AdminWoundCarePage = () => {
   );
 };
 
-export default AdminWoundCarePage;
+export default WoundCarePage;

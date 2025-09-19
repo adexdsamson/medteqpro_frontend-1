@@ -1,1 +1,0 @@
-export { default } from "@/app/(Root)/admin/queuing-system/_components/AISuggestionCard";

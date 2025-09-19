@@ -4,7 +4,9 @@ import { DataTable } from '@/components/DataTable';
 import { ColumnDef } from '@tanstack/react-table';
 import { Button } from '@/components/ui/button';
 
-// Define the type for laboratory entries
+/**
+ * Type definition for laboratory entries
+ */
 export type LaboratoryEntry = {
   id: string;
   patientId: string;
@@ -15,10 +17,18 @@ export type LaboratoryEntry = {
   testType?: string;
 };
 
+/**
+ * Props for the LaboratoryTable component
+ */
 type LaboratoryTableProps = {
   data: LaboratoryEntry[];
 };
 
+/**
+ * Laboratory table component for displaying lab test entries
+ * @param data - Array of laboratory entries to display
+ * @returns JSX element containing the data table
+ */
 export default function LaboratoryTable({ data }: LaboratoryTableProps) {
   // Define columns for the laboratory table matching the image design
   const columns: ColumnDef<LaboratoryEntry>[] = [
