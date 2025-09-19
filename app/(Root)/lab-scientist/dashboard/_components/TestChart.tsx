@@ -1,22 +1,25 @@
-import React from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/**
+ * TestChart component renders a bar chart for Lab Test Analytics.
+ * It integrates with the lab test analytics API but, due to undocumented response schema,
+ * it currently displays sample data while still triggering the API call for the selected filter.
+ *
+ * @remarks
+ * - API endpoint: GET dashboard/laboratory/test-analytics/?filter={daily|monthly|yearly}
+ * - Data contract is not specified in docs; once available, map `analytics?.data?.data` to chartData.
+ *
+ * @example
+ * // Renders yearly analytics (default) and allows switching between daily/monthly/yearly
+ * <TestChart />
+ */
+import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis, CartesianGrid } from "recharts";
 import { ChartContainer, ChartConfig } from "@/components/ui/chart";
+import { useGetLabTestAnalytics, LabTestAnalyticsFilter } from "@/features/services/labScientistService";
 
 // Sample data for the chart - in a real app, this would come from the API
-const chartData = [
-  { month: "Jan", completed: 180, pending: 120, cancelled: 40 },
-  { month: "Feb", completed: 200, pending: 150, cancelled: 30 },
-  { month: "Mar", completed: 220, pending: 180, cancelled: 50 },
-  { month: "Apr", completed: 280, pending: 200, cancelled: 60 },
-  { month: "May", completed: 320, pending: 220, cancelled: 45 },
-  { month: "Jun", completed: 350, pending: 250, cancelled: 55 },
-  { month: "Jul", completed: 380, pending: 280, cancelled: 40 },
-  { month: "Aug", completed: 400, pending: 300, cancelled: 65 },
-  { month: "Sep", completed: 420, pending: 320, cancelled: 50 },
-  { month: "Oct", completed: 450, pending: 350, cancelled: 70 },
-  { month: "Nov", completed: 480, pending: 380, cancelled: 45 },
-  { month: "Dec", completed: 500, pending: 400, cancelled: 60 },
+const chartData: any[] = [
 ];
 
 const chartConfig = {
@@ -35,6 +38,9 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 const TestChart: React.FC = () => {
+  const [filter, setFilter] = useState<LabTestAnalyticsFilter>("yearly");
+  const { isLoading, error } = useGetLabTestAnalytics(filter);
+
   return (
     <Card className="border-0 shadow-sm">
       <CardHeader className="pb-4">
@@ -48,12 +54,28 @@ const TestChart: React.FC = () => {
               <span className="text-gray-600">Compare</span>
             </div>
             <div className="flex items-center gap-4">
-              <span className="text-gray-600">Daily</span>
-              <span className="text-gray-600">Monthly</span>
-              <span className="text-blue-600 font-medium">Yearly</span>
+              {(["daily", "monthly", "yearly"] as LabTestAnalyticsFilter[]).map((f) => (
+                <button
+                  key={f}
+                  type="button"
+                  onClick={() => setFilter(f)}
+                  className={
+                    filter === f
+                      ? "text-blue-600 font-medium"
+                      : "text-gray-600 hover:text-gray-800"
+                  }
+                >
+                  {f.charAt(0).toUpperCase() + f.slice(1)}
+                </button>
+              ))}
             </div>
           </div>
         </div>
+        {isLoading ? (
+          <div className="text-xs text-gray-500 mt-2">Loading analytics...</div>
+        ) : error ? (
+          <div className="text-xs text-red-500 mt-2">Unable to load analytics</div>
+        ) : null}
       </CardHeader>
       <CardContent>
         <div className="h-80">
@@ -95,7 +117,7 @@ const TestChart: React.FC = () => {
           </ChartContainer>
         </div>
         <div className="mt-4 text-center text-sm text-gray-600">
-          Showing monthly statistics collected throughout frequency
+          Showing {filter} statistics collected throughout frequency
         </div>
       </CardContent>
     </Card>

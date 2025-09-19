@@ -1,14 +1,25 @@
 "use client";
 
 import React, { useState } from "react";
-import { useGetScheduledLabTests } from "@/features/services/labScientistService";
-import { useToastHandler } from "@/hooks/useToaster";
-import LaboratoryTable from "./_components/LaboratoryTable";
+import { useGetScheduledLabTests, useGetCompletedLabTests, useGetLabTestTypes, type LabTest, type LabTestType } from "@/features/services/labScientistService";
+// import { useToastHandler } from "@/hooks/useToaster";
+// import LaboratoryTable from "./_components/LaboratoryTable"; // replaced by per-tab tables
+import ResultsTable from "./_components/ResultsTable";
+import OrdersTable from "./_components/OrdersTable";
+import TestTypesTable from "./_components/TestTypesTable";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Search } from "lucide-react";
+import { Search, ChevronDown } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import AddTestTypeDialog from "./_components/AddTestTypeDialog";
+import AddLabTestDialog from "./_components/AddLabTestDialog";
 import { format } from "date-fns";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import Subheader from "../../../layouts/Subheader";
 
 /**
@@ -19,24 +30,57 @@ import Subheader from "../../../layouts/Subheader";
 export default function LaboratoryPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedDate] = useState<Date>();
-  const toast = useToastHandler();
+  // const toast = useToastHandler();
+  const [addTestTypeDialogOpen, setAddTestTypeDialogOpen] = useState(false);
+  const [addLabTestDialogOpen, setAddLabTestDialogOpen] = useState(false);
   
-  const { data: labTestsData, isLoading } = useGetScheduledLabTests({
+  // Scheduled (Orders) query
+  const { data: scheduledData, isLoading: isOrdersLoading } = useGetScheduledLabTests({
     search: searchTerm,
     start_date: selectedDate ? format(selectedDate, "yyyy-MM-dd") : undefined,
   });
 
-  const labTests = labTestsData?.data.data || [];
+  // Completed (Results) query
+  const { data: resultsData, isLoading: isResultsLoading } = useGetCompletedLabTests({
+    search: searchTerm,
+    start_date: selectedDate ? format(selectedDate, "yyyy-MM-dd") : undefined,
+  });
 
-  // Transform lab test data to match the UI requirements
-  const transformedData = labTests.map((test) => ({
+  // Test Types query
+  const { data: testTypesData, isLoading: isTestTypesLoading } = useGetLabTestTypes({
+    search: searchTerm,
+  });
+
+  // Scheduled tests mapping -> Orders table rows
+  const scheduledTests: LabTest[] = scheduledData?.data?.data || [];
+  const ordersRows = scheduledTests.map((test) => ({
     id: test.id,
-    patientId: test.lab_no,
+    labNo: test.lab_no,
     patientName: test.patient_name,
-    gender: "Female", // This would need to come from patient data
-    testDateTime: `${format(new Date(test.test_date), "dd-MMM-yy HH:mm")}AM`,
-    status: test.status,
+    entryCategory: test.entry_category,
     testType: test.test_type_name,
+    scheduledDate: test.test_date ? format(new Date(test.test_date), "dd-MMM-yy") : "",
+    status: test.status,
+  }));
+
+  // Completed tests mapping -> Results table rows
+  const completedTests: LabTest[] = resultsData?.data?.data || [];
+  const resultsRows = completedTests.map((test) => ({
+    id: test.id,
+    labNo: test.lab_no,
+    patientName: test.patient_name,
+    testType: test.test_type_name,
+    status: test.status,
+    testDate: test.test_date ? format(new Date(test.test_date), "dd-MMM-yy") : "",
+  }));
+
+  // Test types mapping -> Test Types table rows
+  const apiTestTypes: LabTestType[] = testTypesData?.data?.results || [];
+  const testTypeRows = apiTestTypes.map((t) => ({
+    id: t.id,
+    name: t.test_name,
+    category: t.test_type,
+    isActive: !!t.is_active,
   }));
 
   /**
@@ -48,21 +92,18 @@ export default function LaboratoryPage() {
   };
 
   /**
-   * Handles adding a new laboratory record
-   * Currently shows a placeholder toast message
+   * Handles opening the Add Test Type dialog
    */
-  const handleAddNewRecord = () => {
-    // This would typically open a modal or navigate to a form
-    toast.success("Info", "Add new record functionality to be implemented");
+  const handleAddTestType = () => {
+    setAddTestTypeDialogOpen(true);
   };
 
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center h-64">
-        <div className="text-lg">Loading laboratory data...</div>
-      </div>
-    );
-  }
+  /**
+   * Handles opening the Add Lab Test dialog
+   */
+  const handleAddLabTest = () => {
+    setAddLabTestDialogOpen(true);
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -71,100 +112,96 @@ export default function LaboratoryPage() {
 
       {/* Main Content */}
       <div className="p-6">
-        {/* Search and Controls */}
-        <div className="mb-6">
-          <div className="flex items-center justify-between mb-4">
-            {/* Search */}
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
-              <Input
-                placeholder="Patient ID/Name"
-                value={searchTerm}
-                onChange={(e) => handleSearch(e.target.value)}
-                className="w-64 pl-10 h-10"
-              />
+        <Tabs defaultValue="Results" className="w-full">
+          {/* Search and Controls */}
+          <div className="mb-6">
+            <div className="flex items-center justify-between mb-4">
+              {/* Search */}
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+                <Input
+                  placeholder="Patient ID/Name"
+                  value={searchTerm}
+                  onChange={(e) => handleSearch(e.target.value)}
+                  className="w-64 pl-10 h-10"
+                />
+              </div>
+
+              {/* Add New Record Dropdown */}
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 h-10 rounded-md flex items-center gap-2">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                    </svg>
+                    Add New Record
+                    <ChevronDown className="w-4 h-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem onClick={handleAddTestType}>
+                    Add Test Type
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={handleAddLabTest}>
+                    Add Lab Test
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
 
-            {/* Add New Record Button */}
-            <Button 
-              onClick={handleAddNewRecord}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 h-10 rounded-md flex items-center gap-2"
-            >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-              </svg>
-              Add New Record
-            </Button>
-          </div>
-
-          {/* Filter Tabs */}
-          <div className="flex items-center justify-between">
-            <div className="text-sm text-gray-600">Search Keyword</div>
-            <div className="flex items-center gap-4">
-              <span className="text-sm text-gray-600">Select Option</span>
-              <Tabs defaultValue="Results" className="items-center">
+            {/* Filter Tabs */}
+            <div className="flex items-center justify-between">
+              <div className="text-sm text-gray-600">Search Keyword</div>
+              <div className="flex items-center gap-4">
+                <span className="text-sm text-gray-600">Select Option</span>
                 <TabsList>
                   <TabsTrigger value="Results">Results</TabsTrigger>
                   <TabsTrigger value="Orders">Orders</TabsTrigger>
                   <TabsTrigger value="Test Types">Test Types</TabsTrigger>
                 </TabsList>
-              </Tabs>
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Laboratory Table */}
-        <div className="bg-white rounded-lg border">
-          <LaboratoryTable 
-            data={transformedData}
-          />
-        </div>
+          {/* Results Tab */}
+          <TabsContent value="Results">
+            <div className="bg-white rounded-lg border">
+              <ResultsTable data={resultsRows} isLoading={isResultsLoading} />
+            </div>
+          </TabsContent>
 
-        {/* Pagination */}
-        <div className="flex items-center justify-between mt-4">
-          <div className="text-sm text-gray-500">
-            Showing 1-10 of 50 Items
-          </div>
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2">
-              <span className="text-sm text-gray-500">10</span>
-              <Button variant="outline" size="sm" className="h-8 px-2">
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              </Button>
-              <span className="text-sm text-gray-500">per page</span>
+          {/* Orders Tab */}
+          <TabsContent value="Orders">
+            <div className="bg-white rounded-lg border">
+              <OrdersTable data={ordersRows} isLoading={isOrdersLoading} />
             </div>
-            <div className="flex gap-1">
-              <Button variant="outline" size="sm" disabled className="h-8 w-8 p-0">
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                </svg>
-              </Button>
-              <Button size="sm" className="bg-blue-600 text-white h-8 w-8 p-0">
-                1
-              </Button>
-              <Button variant="outline" size="sm" className="h-8 w-8 p-0">
-                2
-              </Button>
-              <Button variant="outline" size="sm" className="h-8 w-8 p-0">
-                3
-              </Button>
-              <Button variant="outline" size="sm" className="h-8 w-8 p-0">
-                4
-              </Button>
-              <Button variant="outline" size="sm" className="h-8 w-8 p-0">
-                5
-              </Button>
-              <Button variant="outline" size="sm" className="h-8 w-8 p-0">
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </Button>
+          </TabsContent>
+
+          {/* Test Types Tab */}
+          <TabsContent value="Test Types">
+            <div className="bg-white rounded-lg border">
+              <TestTypesTable data={testTypeRows} isLoading={isTestTypesLoading} />
             </div>
-          </div>
-        </div>
+          </TabsContent>
+        </Tabs>
       </div>
+
+      {/* Dialog Components */}
+      <AddTestTypeDialog
+        open={addTestTypeDialogOpen}
+        onOpenChange={setAddTestTypeDialogOpen}
+        onSuccess={() => {
+          // Optionally refresh data or show success message
+        }}
+      />
+
+      <AddLabTestDialog
+        open={addLabTestDialogOpen}
+        onOpenChange={setAddLabTestDialogOpen}
+        onSuccess={() => {
+          // Optionally refresh data or show success message
+        }}
+      />
     </div>
   );
 }

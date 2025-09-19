@@ -1,8 +1,8 @@
 'use client';
 
-import { useQuery } from "@tanstack/react-query";
-import { getRequest } from "@/lib/axiosInstance";
-import { ApiResponse, ApiResponseError } from "@/types";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { getRequest, postRequest, patchRequest, deleteRequest } from "@/lib/axiosInstance";
+import { ApiResponse, ApiResponseError, ApiResponseList } from "@/types";
 
 // Lab Scientist Dashboard Analytics Types
 export interface LabDashboardAnalytics {
@@ -80,7 +80,7 @@ export const useGetLabTestTypes = (options?: {
   page_size?: number;
   search?: string;
 }) => {
-  return useQuery<ApiResponse<LabTestType[]>, ApiResponseError>({
+  return useQuery<ApiResponseList<LabTestType[]>, ApiResponseError>({
     queryKey: ['lab-test-types', options],
     queryFn: async () => {
       let url = 'laboratory-management/test-types/';
@@ -244,4 +244,264 @@ export const getStatusColor = (status: string) => {
     default:
       return 'text-gray-600 bg-gray-100';
   }
+};
+
+// Create Lab Test (Laboratory Management)
+/**
+ * Payload for creating a Laboratory Management Test.
+ * Maps directly to POST /laboratory-management/tests/ request body.
+ * @typedef CreateLabManagementTestPayload
+ * @property {string} lab_no - Laboratory number/identifier for the test order
+ * @property {string} patient - Patient UUID
+ * @property {string} ordered_by - UUID of the ordering doctor/user
+ * @property {string} test_type - Lab test type UUID
+ * @property {('outpatient'|'inpatient'|'emergency')} entry_category - Entry category of the test
+ * @property {string} date_collected - ISO date string for collection date
+ * @property {string} specimen - Specimen description
+ * @property {string} [specimen_id] - Optional specimen identifier/barcode
+ * @property {('blood'|'urine'|'stool'|'saliva'|'tissue'|'swab'|'other')} [specimen_type] - Optional specimen type
+ * @property {('draft'|'pending')} [status] - Initial status of the test
+ * @property {number} [percentage_completed] - Progress percentage (0-100)
+ * @property {string} test_date - ISO date string for scheduled test date
+ * @property {string} [notes] - Additional notes
+ * @property {string} [diagnosis_report] - Optional diagnosis report text
+ */
+export interface CreateLabManagementTestPayload {
+  lab_no: string;
+  patient: string; // patient UUID
+  ordered_by: string; // doctor/user UUID
+  test_type: string; // lab test type UUID
+  entry_category: 'outpatient' | 'inpatient' | 'emergency';
+  date_collected: string; // ISO string
+  specimen: string; // e.g., "Serum"
+  specimen_id?: string;
+  specimen_type?: 'blood' | 'urine' | 'stool' | 'saliva' | 'tissue' | 'swab' | 'other';
+  status?: 'draft' | 'pending';
+  percentage_completed?: number; // 0 - 100
+  test_date: string; // ISO string (can be future for scheduled)
+  notes?: string;
+  diagnosis_report?: string;
+}
+
+/**
+ * React Query mutation to create a Laboratory Management Test.
+ * Invalidates scheduled and draft lab tests on success to refresh the UI lists.
+ * @returns Mutation object with mutate/mutateAsync helpers
+ * @example
+ * const { mutateAsync } = useCreateLabManagementTest();
+ * await mutateAsync(payload);
+ */
+export const useCreateLabManagementTest = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation<ApiResponse<LabTest>, ApiResponseError, CreateLabManagementTestPayload>({
+    mutationFn: async (payload) => {
+      const response = await postRequest({
+        url: 'laboratory-management/tests/',
+        payload,
+      });
+      return response;
+    },
+    onSuccess: () => {
+      // Invalidate lists so UI refreshes
+      queryClient.invalidateQueries({ queryKey: ['scheduled-lab-tests'] });
+      queryClient.invalidateQueries({ queryKey: ['draft-lab-tests'] });
+    },
+  });
+};
+
+// -------------------------------------------
+// Lab Tests - Update, Complete, Delete
+// -------------------------------------------
+
+/**
+ * Payload for updating a Lab Test via PATCH /laboratory-management/tests/:test_id/update/
+ * Only include fields that need to be updated.
+ * @typedef UpdateLabManagementTestPayload
+ * @property {string} [lab_scientist]
+ * @property {('draft'|'pending'|'in_progress'|'completed'|'cancelled')} [status]
+ * @property {number} [percentage_completed]
+ * @property {string} [notes]
+ */
+export interface UpdateLabManagementTestPayload {
+  lab_scientist?: string;
+  status?: 'draft' | 'pending' | 'in_progress' | 'completed' | 'cancelled';
+  percentage_completed?: number;
+  notes?: string;
+}
+
+/**
+ * Hook to update a Lab Test.
+ * @param testId - Lab test UUID
+ * @returns React Query mutation for updating a lab test
+ * @example
+ * const { mutateAsync } = useUpdateLabManagementTest(testId);
+ * await mutateAsync({ status: 'in_progress', percentage_completed: 50 });
+ */
+export const useUpdateLabManagementTest = (testId: string) => {
+  const queryClient = useQueryClient();
+  return useMutation<ApiResponse<LabTest>, ApiResponseError, UpdateLabManagementTestPayload>({
+    mutationFn: async (payload) => {
+      const response = await patchRequest({
+        url: `laboratory-management/tests/${testId}/update/`,
+        payload,
+      });
+      return response;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['scheduled-lab-tests'] });
+      queryClient.invalidateQueries({ queryKey: ['draft-lab-tests'] });
+      queryClient.invalidateQueries({ queryKey: ['completed-lab-tests'] });
+      queryClient.invalidateQueries({ queryKey: ['lab-test-detail', testId] });
+    },
+  });
+};
+
+/**
+ * Payload for completing a Lab Test via PATCH /laboratory-management/tests/:test_id/complete/
+ * @typedef CompleteLabManagementTestPayload
+ * @property {string} result - Result text/summary
+ * @property {string} reporting_date - ISO date string
+ * @property {string} [lab_scientist]
+ * @property {string} [notes]
+ */
+export interface CompleteLabManagementTestPayload {
+  result: string;
+  reporting_date: string;
+  lab_scientist?: string;
+  notes?: string;
+}
+
+/**
+ * Hook to complete a Lab Test.
+ * @param testId - Lab test UUID
+ * @returns React Query mutation for completing a lab test
+ */
+export const useCompleteLabManagementTest = (testId: string) => {
+  const queryClient = useQueryClient();
+  return useMutation<ApiResponse<LabTest>, ApiResponseError, CompleteLabManagementTestPayload>({
+    mutationFn: async (payload) => {
+      const response = await patchRequest({
+        url: `laboratory-management/tests/${testId}/complete/`,
+        payload,
+      });
+      return response;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['scheduled-lab-tests'] });
+      queryClient.invalidateQueries({ queryKey: ['draft-lab-tests'] });
+      queryClient.invalidateQueries({ queryKey: ['completed-lab-tests'] });
+      queryClient.invalidateQueries({ queryKey: ['lab-test-detail', testId] });
+    },
+  });
+};
+
+/**
+ * Hook to delete a Lab Test via DELETE /laboratory-management/tests/:test_id/update/
+ * @param testId - Lab test UUID
+ * @returns React Query mutation for deleting a lab test
+ */
+export const useDeleteLabManagementTest = (testId: string) => {
+  const queryClient = useQueryClient();
+  return useMutation<ApiResponse<null>, ApiResponseError, void>({
+    mutationFn: async () => {
+      const response = await deleteRequest({
+        url: `laboratory-management/tests/${testId}/update/`,
+      });
+      return response;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['scheduled-lab-tests'] });
+      queryClient.invalidateQueries({ queryKey: ['draft-lab-tests'] });
+      queryClient.invalidateQueries({ queryKey: ['completed-lab-tests'] });
+    },
+  });
+};
+
+// -------------------------------------------
+// Lab Test Types - Update, Delete
+// -------------------------------------------
+
+/**
+ * Payload for updating a Lab Test Type via PATCH /laboratory-management/test-types/:type_id/
+ * Only include fields to update.
+ */
+export interface UpdateLabTestTypePayload {
+  test_name?: string;
+  test_type?: 'hematology' | 'biochemistry' | 'microbiology' | 'immunology' | 'pathology' | 'radiology' | 'other';
+  description?: string;
+  is_active?: boolean;
+}
+
+/**
+ * Hook to update a Lab Test Type.
+ * @param typeId - Lab test type UUID
+ */
+export const useUpdateLabTestType = (typeId: string) => {
+  const queryClient = useQueryClient();
+  return useMutation<ApiResponse<LabTestType>, ApiResponseError, UpdateLabTestTypePayload>({
+    mutationFn: async (payload) => {
+      const response = await patchRequest({
+        url: `laboratory-management/test-types/${typeId}/`,
+        payload,
+      });
+      return response;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['lab-test-types'] });
+    },
+  });
+};
+
+/**
+ * Hook to delete a Lab Test Type.
+ * @param typeId - Lab test type UUID
+ */
+export const useDeleteLabTestType = (typeId: string) => {
+  const queryClient = useQueryClient();
+  return useMutation<ApiResponse<null>, ApiResponseError, void>({
+    mutationFn: async () => {
+      const response = await deleteRequest({
+        url: `laboratory-management/test-types/${typeId}/`,
+      });
+      return response;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['lab-test-types'] });
+    },
+  });
+};
+
+
+/**
+ * Allowed filter values for Lab Test Analytics endpoint.
+ * @example
+ * const filter: LabTestAnalyticsFilter = 'monthly';
+ */
+export type LabTestAnalyticsFilter = 'daily' | 'monthly' | 'yearly';
+
+/**
+ * React Query hook to fetch Lab Test Analytics for the Lab Scientist dashboard.
+ * Uses GET dashboard/laboratory/test-analytics/ with optional filter query.
+ *
+ * Contract is not documented in detail; this hook returns the API response as-is.
+ * Consumers should access the payload via `response?.data?.data`.
+ *
+ * @param {LabTestAnalyticsFilter} [filter] - Frequency filter: daily, monthly, or yearly
+ * @returns {import("@tanstack/react-query").UseQueryResult<ApiResponse<any>, ApiResponseError>} React Query result containing the raw API response
+ * @example
+ * const { data } = useGetLabTestAnalytics('yearly');
+ */
+export const useGetLabTestAnalytics = (filter?: LabTestAnalyticsFilter) => {
+  return useQuery<ApiResponse<unknown>, ApiResponseError>({
+    queryKey: ['lab-test-analytics', filter],
+    queryFn: async () => {
+      let url = 'dashboard/laboratory/test-analytics/';
+      if (filter) {
+        url += `?filter=${filter}`;
+      }
+      const response = await getRequest({ url });
+      return response;
+    },
+  });
 };

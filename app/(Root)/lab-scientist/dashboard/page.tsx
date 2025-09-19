@@ -30,16 +30,6 @@ const LabScientistDashboard = () => {
     <>
       <Subheader title="Dashboard" />
       <div className="p-6 lg:max-w-7xl mx-auto h-full">
-        {/* Header with session info */}
-        <div className="flex justify-between items-center mb-6">
-          <div className="flex items-center gap-2">
-            <div className="w-2 h-2 bg-red-500 rounded-full"></div>
-            <span className="text-sm text-gray-600">00:00 End Session</span>
-          </div>
-          <div className="text-sm text-gray-600">
-            Select Date
-          </div>
-        </div>
 
         {/* Stats Cards */}
         {isLoading ? (

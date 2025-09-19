@@ -22,14 +22,19 @@ export type LaboratoryEntry = {
  */
 type LaboratoryTableProps = {
   data: LaboratoryEntry[];
+  /**
+   * Whether the table is currently loading data
+   */
+  isLoading?: boolean;
 };
 
 /**
  * Laboratory table component for displaying lab test entries
  * @param data - Array of laboratory entries to display
+ * @param isLoading - Loading state for the table
  * @returns JSX element containing the data table
  */
-export default function LaboratoryTable({ data }: LaboratoryTableProps) {
+export default function LaboratoryTable({ data, isLoading = false }: LaboratoryTableProps) {
   // Define columns for the laboratory table matching the image design
   const columns: ColumnDef<LaboratoryEntry>[] = [
     {
@@ -97,7 +102,7 @@ export default function LaboratoryTable({ data }: LaboratoryTableProps) {
       options={{
         disablePagination: true,
         disableSelection: true,
-        isLoading: false,
+        isLoading,
       }}
     />
   );

@@ -1913,6 +1913,80 @@
 							],
 							"cookie": [],
 							"body": "{\n    \"status\": true,\n    \"message\": \"Availability settings saved successfully.\",\n    \"data\": {\n        \"id\": 1,\n        \"day_of_week\": \"Monday\",\n        \"start_time\": \"09:00:00\",\n        \"end_time\": \"16:00:00\",\n        \"duration_minutes\": 30,\n        \"is_available\": true\n    }\n}"
+						},
+						{
+							"name": "List",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "// {\r\n//     \"day_of_week\": \"Monday\", \r\n//     \"start_time\": \"9:00\", \r\n//     \"end_time\": \"16:00\", \r\n//     \"duration_minutes\": 30\r\n// }\r\n\r\n[\r\n    {\r\n        \"day_of_week\": \"Wednesday\", \r\n        \"start_time\": \"9:00\", \r\n        \"end_time\": \"16:00\", \r\n        \"no_of_slots\": 4\r\n    },\r\n    {\r\n        \"day_of_week\": \"Thursday\", \r\n        \"start_time\": \"9:00\", \r\n        \"end_time\": \"16:00\", \r\n        \"no_of_slots\": 3\r\n    },\r\n    {\r\n        \"day_of_week\": \"Friday\", \r\n        \"start_time\": \"9:00\", \r\n        \"end_time\": \"16:00\", \r\n        \"no_of_slots\": 5\r\n    }\r\n]\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL}}auth/settings/availability/",
+									"host": [
+										"{{LOCAL}}auth"
+									],
+									"path": [
+										"settings",
+										"availability",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Fri, 19 Sep 2025 03:20:04 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.10.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, POST, PATCH, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Length",
+									"value": "427"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"message\": \"Successfully saved 3 availability settings.\",\n    \"data\": [\n        {\n            \"id\": 3,\n            \"day_of_week\": \"Wednesday\",\n            \"start_time\": \"09:00:00\",\n            \"end_time\": \"16:00:00\",\n            \"no_of_slots\": 4,\n            \"is_available\": true\n        },\n        {\n            \"id\": 4,\n            \"day_of_week\": \"Thursday\",\n            \"start_time\": \"09:00:00\",\n            \"end_time\": \"16:00:00\",\n            \"no_of_slots\": 3,\n            \"is_available\": true\n        },\n        {\n            \"id\": 5,\n            \"day_of_week\": \"Friday\",\n            \"start_time\": \"09:00:00\",\n            \"end_time\": \"16:00:00\",\n            \"no_of_slots\": 5,\n            \"is_available\": true\n        }\n    ]\n}"
 						}
 					]
 				},
@@ -1984,6 +2058,45 @@
 									"key": "day_of_week",
 									"value": "Monday"
 								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Toggle Availability",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{doctor}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"day_of_week\": \"Monday\",\r\n    \"is_available\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{LOCAL}}auth/settings/availability/toggle/",
+							"host": [
+								"{{LOCAL}}auth"
+							],
+							"path": [
+								"settings",
+								"availability",
+								"toggle",
+								""
 							]
 						}
 					},
