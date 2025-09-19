@@ -6,8 +6,12 @@ import { TextSelect } from "@/components/FormInputs/TextSelect";
 import { TextInput } from "@/components/FormInputs/TextInput";
 import { X, Plus } from "lucide-react";
 import { ForgeControl, Forger, useFieldArray } from "@/lib/forge";
-import { CreateBillFormValues } from "./CreateBillDialog";
+import type { CreateBillFormValues } from "./CreateBillDialog";
+import { useFormContext } from "react-hook-form";
 
+/**
+ * DrugQuantityItem represents a drug and its selected quantity in the bill creation form.
+ */
 export interface DrugQuantityItem {
   drug_id: string;
   quantity: number;
@@ -24,6 +28,15 @@ interface DrugQuantitySelectorProps {
   control: ForgeControl<CreateBillFormValues>;
 }
 
+/**
+ * DrugQuantitySelector renders a dynamic list of drug selectors with quantities.
+ * It leverages Forge's useFieldArray to manage the array of drug entries.
+ *
+ * @param {DrugQuantitySelectorProps} props
+ * @returns {JSX.Element}
+ * @example
+ * <DrugQuantitySelector control={control} drugOptions={options} />
+ */
 export default function DrugQuantitySelector({
   drugOptions,
   isLoading = false,
@@ -31,6 +44,7 @@ export default function DrugQuantitySelector({
   error,
   control,
 }: DrugQuantitySelectorProps) {
+  const { unregister } = useFormContext();
   const { fields, append, remove } = useFieldArray({
     control,
     name: "drugs",
@@ -43,8 +57,16 @@ export default function DrugQuantitySelector({
   };
 
   const handleRemoveItem = (index: number) => {
-    // console.log({ index });
+     // Manually unregister all nested fields for this event
+    const fieldNames = [
+      `drugs.${index}.drug_id`,
+      `drugs.${index}.quantity`
+    ];
     
+    fieldNames.forEach(fieldName => {
+      unregister(fieldName);
+    });
+
     remove(index);
   };
 

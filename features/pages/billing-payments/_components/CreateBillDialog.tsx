@@ -19,12 +19,16 @@ import { TextSelect } from "@/components/FormInputs/TextSelect";
 import { useToastHandler } from "@/hooks/useToaster";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { useWatch } from "react-hook-form";
 import { usePatientsForAppointment } from "@/features/services/patientService";
 import { useCreateBill } from "@/features/services/billingService";
 import { useGetDrugs, Drug } from "@/features/services/drugManagementService";
 import { ApiResponseError } from "@/types";
 import DrugQuantitySelector, { DrugQuantityItem } from "./DrugQuantitySelector";
 
+/**
+ * Yup schema defining validation for Create Bill form.
+ */
 const schema = yup.object({
   patient_id: yup.string().required("Patient is required"),
   purpose: yup.string().required("Purpose is required"),
@@ -58,9 +62,24 @@ const schema = yup.object({
   mode_of_payment: yup.string().nullable().optional(),
 });
 
-type FormValues = yup.InferType<typeof schema>;
-export type CreateBillFormValues = FormValues;
+/**
+ * Type for Create Bill form values
+ */
+export type CreateBillFormValues = yup.InferType<typeof schema>;
 
+/**
+ * CreateBillDialog renders a dialog with a Forge-powered form to create a new bill.
+ * It fetches patients and drugs, validates with Yup, and submits via a mutation hook.
+ *
+ * @param {object} props
+ * @param {React.ReactNode} props.children - Optional trigger element; defaults to a primary button
+ * @returns {JSX.Element}
+ * @throws {Error} When form submission fails due to API error
+ * @example
+ * <CreateBillDialog>
+ *   <Button>Create New Bill</Button>
+ * </CreateBillDialog>
+ */
 export default function CreateBillDialog({
   children,
 }: {
@@ -99,21 +118,21 @@ export default function CreateBillDialog({
 
   const toast = useToastHandler();
 
-  const { control, reset } = useForge<FormValues>({
+  const { control, reset } = useForge<CreateBillFormValues>({
     resolver: yupResolver(schema) as any,
     defaultValues: {
-      // patient_id: "",
-      // purpose: "",
       drugs: [{ drug_id: "", quantity: 1 }] as DrugQuantityItem[],
-      // total_payable: 0,
-      // min_deposit: 0,
-      // amount_paid: 0,
-      // mode_of_payment: "",
     },
-    
   });
 
-  const onSubmit = async (data: FormValues) => {
+  /**
+   * Watch the selected purpose to conditionally render drug-related inputs.
+   * @example
+   * // purpose === 'drug' when Drugs is selected in the Purpose dropdown
+   */
+  const purpose = useWatch({ control, name: "purpose" });
+
+  const onSubmit = async (data: CreateBillFormValues) => {
     try {
       // Transform form data to match API payload
       const payload = {
@@ -162,7 +181,6 @@ export default function CreateBillDialog({
             onSubmit={onSubmit}
             ref={formRef}
             className="space-y-4 py-2"
-            debug
           >
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <Forger
@@ -183,17 +201,20 @@ export default function CreateBillDialog({
               />
             </div>
 
-            <div className="space-y-4">
-              <DrugQuantitySelector
-                control={control}
-                label="Drugs"
-                placeholder={
-                  isDrugsLoading ? "Loading drugs..." : "Select drugs"
-                }
-                drugOptions={drugOptions}
-                isLoading={isDrugsLoading}
-              />
-            </div>
+            {/* Show drugs section only when purpose is 'drug' */}
+            {purpose === "drug" && (
+              <div className="space-y-4">
+                <DrugQuantitySelector
+                  control={control}
+                  label="Drugs"
+                  placeholder={
+                    isDrugsLoading ? "Loading drugs..." : "Select drugs"
+                  }
+                  drugOptions={drugOptions}
+                  isLoading={isDrugsLoading}
+                />
+              </div>
+            )}
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <Forger

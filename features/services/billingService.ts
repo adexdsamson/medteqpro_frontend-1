@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-'use client';
+"use client";
 
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { getRequest, postRequest } from "@/lib/axiosInstance";
-import { ApiResponse, ApiResponseError } from "@/types";
+import { ApiListResponse, ApiResponse, ApiResponseError } from "@/types";
 
 // Define types based on the API response structure
 export interface BillResponse {
@@ -69,15 +69,17 @@ export interface TransactionResponse {
 // Hook to get list of bills
 export const useBillsList = (params?: BillListParams) => {
   const queryParams = new URLSearchParams();
-  
-  if (params?.status) queryParams.append('status', params.status);
-  if (params?.search) queryParams.append('search', params.search);
-  if (params?.patient_id) queryParams.append('patient_id', params.patient_id);
-  
-  const queryString = queryParams.toString();
-  const url = queryString ? `/bill-management/bills/?${queryString}` : '/bill-management/bills/';
 
-  return useQuery<ApiResponse<BillResponse[]>, ApiResponseError>({
+  if (params?.status) queryParams.append("status", params.status);
+  if (params?.search) queryParams.append("search", params.search);
+  if (params?.patient_id) queryParams.append("patient_id", params.patient_id);
+
+  const queryString = queryParams.toString();
+  const url = queryString
+    ? `/bill-management/bills/?${queryString}`
+    : "/bill-management/bills/";
+
+  return useQuery<ApiListResponse<BillResponse[]>, ApiResponseError>({
     queryKey: ["billsList", params],
     queryFn: async () => await getRequest({ url }),
   });
@@ -85,9 +87,13 @@ export const useBillsList = (params?: BillListParams) => {
 
 // Hook to get bill details
 export const useBillDetails = (billId: string) => {
-  return useQuery<ApiResponse<{ bill: BillResponse; transactions: TransactionResponse[] }>, ApiResponseError>({
+  return useQuery<
+    ApiResponse<{ bill: BillResponse; transactions: TransactionResponse[] }>,
+    ApiResponseError
+  >({
     queryKey: ["billDetails", billId],
-    queryFn: async () => await getRequest({ url: `/bill-management/bills/${billId}/` }),
+    queryFn: async () =>
+      await getRequest({ url: `/bill-management/bills/${billId}/` }),
     enabled: !!billId,
   });
 };
@@ -96,9 +102,13 @@ export const useBillDetails = (billId: string) => {
 export const useCreateBill = () => {
   const queryClient = useQueryClient();
 
-  return useMutation<ApiResponse<BillResponse>, ApiResponseError, CreateBillPayload>({
+  return useMutation<
+    ApiResponse<BillResponse>,
+    ApiResponseError,
+    CreateBillPayload
+  >({
     mutationKey: ["createBill"],
-    mutationFn: async (payload) => 
+    mutationFn: async (payload) =>
       await postRequest({ url: "/bill-management/bills/", payload }),
     onSuccess: () => {
       // Invalidate and refetch bills list
@@ -111,13 +121,22 @@ export const useCreateBill = () => {
 export const usePayBill = () => {
   const queryClient = useQueryClient();
 
-  return useMutation<ApiResponse<any>, ApiResponseError, { billId: string; payload: PayBillPayload }>({
+  return useMutation<
+    ApiResponse<any>,
+    ApiResponseError,
+    { billId: string; payload: PayBillPayload }
+  >({
     mutationKey: ["payBill"],
-    mutationFn: async ({ billId, payload }) => 
-      await postRequest({ url: `/bill-management/bills/${billId}/pay/`, payload }),
+    mutationFn: async ({ billId, payload }) =>
+      await postRequest({
+        url: `/bill-management/bills/${billId}/pay/`,
+        payload,
+      }),
     onSuccess: (_, variables) => {
       // Invalidate and refetch bill details and bills list
-      queryClient.invalidateQueries({ queryKey: ["billDetails", variables.billId] });
+      queryClient.invalidateQueries({
+        queryKey: ["billDetails", variables.billId],
+      });
       queryClient.invalidateQueries({ queryKey: ["billsList"] });
       queryClient.invalidateQueries({ queryKey: ["billTransactions"] });
     },
@@ -130,8 +149,11 @@ export const useCancelBill = () => {
 
   return useMutation<ApiResponse<any>, ApiResponseError, string>({
     mutationKey: ["cancelBill"],
-    mutationFn: async (billId) => 
-      await postRequest({ url: `/bill-management/bills/${billId}/cancel/`, payload: {} }),
+    mutationFn: async (billId) =>
+      await postRequest({
+        url: `/bill-management/bills/${billId}/cancel/`,
+        payload: {},
+      }),
     onSuccess: (_, billId) => {
       // Invalidate and refetch bill details and bills list
       queryClient.invalidateQueries({ queryKey: ["billDetails", billId] });
@@ -141,14 +163,19 @@ export const useCancelBill = () => {
 };
 
 // Hook to get bill transactions
-export const useBillTransactions = (params?: { bill_id?: string; purpose?: string }) => {
+export const useBillTransactions = (params?: {
+  bill_id?: string;
+  purpose?: string;
+}) => {
   const queryParams = new URLSearchParams();
-  
-  if (params?.bill_id) queryParams.append('bill_id', params.bill_id);
-  if (params?.purpose) queryParams.append('purpose', params.purpose);
-  
+
+  if (params?.bill_id) queryParams.append("bill_id", params.bill_id);
+  if (params?.purpose) queryParams.append("purpose", params.purpose);
+
   const queryString = queryParams.toString();
-  const url = queryString ? `/bill-management/transactions/?${queryString}` : '/bill-management/transactions/';
+  const url = queryString
+    ? `/bill-management/transactions/?${queryString}`
+    : "/bill-management/transactions/";
 
   return useQuery<ApiResponse<TransactionResponse[]>, ApiResponseError>({
     queryKey: ["billTransactions", params],
