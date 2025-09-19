@@ -1,1 +1,0 @@
-export { BookAppointmentDialog } from "@/app/(Root)/admin/appointment/_components/BookAppointmentDialog";

@@ -2,11 +2,12 @@
 
 import React, { useState } from "react";
 import { DataTable } from "@/components/DataTable";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ColumnDef } from "@tanstack/react-table";
-import { SquarePen } from "lucide-react";
-import Subheader from "../../_components/Subheader";
+import { SquarePen, Eye, Trash2 } from "lucide-react";
+import Subheader from "../../../../layouts/Subheader";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,11 +16,16 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import { Badge } from "@/components/ui/badge";
-import { useWoundRecords, transformWoundRecord } from "@/features/services/woundCareService";
+import {
+  useWoundRecords,
+  transformWoundRecord,
+  useDeleteWoundRecord,
+} from "@/features/services/woundCareService";
 import { useToastHandler } from "@/hooks/useToaster";
 import CreateWoundRecordDialog from "./_components/CreateWoundRecordDialog";
 import EditWoundRecordDialog from "./_components/EditWoundRecordDialog";
 import { getStatusBadgeClasses, formatStatusText } from "@/lib/statusColors";
+import { ConfirmAlert } from "@/components/ConfirmAlert";
 
 // Type for wound care patients in UI
 interface WoundCarePatient {
@@ -29,77 +35,119 @@ interface WoundCarePatient {
   regDateTime: string;
 }
 
-const columns: ColumnDef<WoundCarePatient>[] = [
-  {
-    accessorKey: "id",
-    header: "PATIENT ID",
-    cell: ({ row }) => (
-      <span className="font-medium">{row.getValue("id")}</span>
-    ),
-  },
-  {
-    accessorKey: "patientName",
-    header: "PATIENT NAME",
-    cell: ({ row }) => (
-      <span className="font-medium">{row.getValue("patientName")}</span>
-    ),
-  },
-  {
-    accessorKey: "oraStatus",
-    header: "ORA STATUS",
-    cell: ({ row }) => {
-      const status = row.getValue("oraStatus") as string;
-      // Map "Referred" to "pending" for consistent color scheme
-      const mappedStatus = status === "Referred" ? "pending" : status.toLowerCase();
-      return (
-        <Badge className={getStatusBadgeClasses(mappedStatus)}>
-          {formatStatusText(status)}
-        </Badge>
-      );
-    },
-  },
-  {
-    accessorKey: "regDateTime",
-    header: "REG DATE & TIME",
-    cell: ({ row }) => (
-      <span className="font-medium">{row.getValue("regDateTime")}</span>
-    ),
-  },
-  {
-    id: "actions",
-    header: "ACTION",
-    cell: ({ row }) => {
-      const patient = row.original;
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <SquarePen className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <EditWoundRecordDialog id={patient.id}>
-               <DropdownMenuItem onSelect={(e) => e.preventDefault()}>Edit Record</DropdownMenuItem>
-             </EditWoundRecordDialog>
-            <DropdownMenuItem>Delete Record</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
-    },
-  },
-];
-
 const WoundCarePage = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const toast = useToastHandler();
-  
-  // Fetch wound records from API
   const { data: woundRecords, isLoading, error } = useWoundRecords();
-  
+  const toast = useToastHandler();
+  const deleteWoundRecord = useDeleteWoundRecord();
+
+  /**
+   * Handle delete wound record
+   * @param woundId - The wound record ID to delete
+   */
+  const handleDelete = async (woundId: string) => {
+    try {
+      await deleteWoundRecord.mutateAsync(woundId);
+      toast.success("Success", "Wound record deleted successfully");
+    } catch (err: unknown) {
+      const message =
+        err instanceof Error ? err.message : "Failed to delete wound record";
+      toast.error("Error", message);
+    }
+  };
+
+  // Define columns with access to component hooks
+  const columns: ColumnDef<WoundCarePatient>[] = [
+    {
+      accessorKey: "id",
+      header: "PATIENT ID",
+      cell: ({ row }) => (
+        <span className="font-medium">{row.getValue("id")}</span>
+      ),
+    },
+    {
+      accessorKey: "patientName",
+      header: "PATIENT NAME",
+      cell: ({ row }) => (
+        <span className="font-medium">{row.getValue("patientName")}</span>
+      ),
+    },
+    {
+      accessorKey: "oraStatus",
+      header: "ORA STATUS",
+      cell: ({ row }) => {
+        const status = row.getValue("oraStatus") as string;
+        // Map "Referred" to "pending" for consistent color scheme
+        const mappedStatus =
+          status === "Referred" ? "pending" : status.toLowerCase();
+        return (
+          <Badge className={getStatusBadgeClasses(mappedStatus)}>
+            {formatStatusText(status)}
+          </Badge>
+        );
+      },
+    },
+    {
+      accessorKey: "regDateTime",
+      header: "REG DATE & TIME",
+      cell: ({ row }) => (
+        <span className="font-medium">{row.getValue("regDateTime")}</span>
+      ),
+    },
+    {
+      id: "actions",
+      header: "ACTION",
+      cell: ({ row }) => {
+        const patient = row.original;
+        return (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-8 w-8 p-0">
+                <span className="sr-only">Open menu</span>
+                <SquarePen className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem asChild>
+                <Link
+                  href={`/doctor/wound-care/${patient.id}`}
+                  className="flex items-center gap-2"
+                >
+                  <Eye className="h-4 w-4" />
+                  View Details
+                </Link>
+              </DropdownMenuItem>
+              <EditWoundRecordDialog id={patient.id}>
+                <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                  <SquarePen className="mr-2 h-4 w-4" />
+                  Edit Record
+                </DropdownMenuItem>
+              </EditWoundRecordDialog>
+              <ConfirmAlert
+                title="Delete Wound Record"
+                text="Are you sure you want to delete this wound record? This action cannot be undone."
+                onConfirm={() => handleDelete(patient.id)}
+                confirmText="Delete"
+                cancelText="Cancel"
+                trigger={
+                  <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                    <Trash2 className="mr-2 h-4 w-4" />
+                    Delete Record
+                  </DropdownMenuItem>
+                }
+              ></ConfirmAlert>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        );
+      },
+    },
+  ];
+
   // Transform API data to UI format
-  const transformedPatients: WoundCarePatient[] = Array.isArray(woundRecords) ? woundRecords.map(transformWoundRecord) : [];
-  
+  const transformedPatients: WoundCarePatient[] = Array.isArray(woundRecords)
+    ? woundRecords.map(transformWoundRecord)
+    : [];
+
   // Filter patients based on search query
   const filteredPatients = transformedPatients.filter((patient) => {
     const matchesSearch =
@@ -107,7 +155,7 @@ const WoundCarePage = () => {
       patient.id.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesSearch;
   });
-  
+
   // Handle API errors
   React.useEffect(() => {
     if (error) {

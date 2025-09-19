@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import Subheader from "../../_components/Subheader";
+import Subheader from "../../../../layouts/Subheader";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import EmployeeSummary from "./_components/EmployeeSummary";

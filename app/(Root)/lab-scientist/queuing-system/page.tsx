@@ -9,7 +9,7 @@ import { useToastHandler } from "@/hooks/useToaster";
 import QueueTable from "./_components/QueueTable";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import Subheader from "../../_components/Subheader";
+import Subheader from "../../../../layouts/Subheader";
 
 export default function LabScientistQueueingSystem() {
   const [currentSession, setCurrentSession] = useState<string | null>(null);

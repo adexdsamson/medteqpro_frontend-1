@@ -1,10 +1,10 @@
 "use client";
 
 import React, { useMemo } from "react";
-import Subheader from "../../_components/Subheader";
+import Subheader from "../../../../layouts/Subheader";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { StatCard } from "../../_components/StatCard";
+import { StatCard } from "../../../../layouts/StatCard";
 import { H3, Large, P, Small } from "@/components/ui/Typography";
 import {
   Pill,

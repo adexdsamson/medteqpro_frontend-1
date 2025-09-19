@@ -141,36 +141,38 @@ const AddStaffDialog: React.FC = () => {
   };
 
   return (
-    <DialogContent className="sm:max-w-[525px]">
-      <DialogHeader>
+    <DialogContent className="sm:max-w-[525px] max-h-[90vh] flex flex-col">
+      <DialogHeader className="flex-shrink-0">
         <DialogTitle>Add New Staff</DialogTitle>
         <DialogDescription>
           Fill in the details below to add a new staff member to the system.
         </DialogDescription>
       </DialogHeader>
-      <Forge
-        ref={formRef}
-        control={control}
-        onSubmit={handleSubmit}
-        className="space-y-4 py-4"
-      >
-        {/* Form fields will be rendered by ForgeForm based on formFields config */}
-        <DialogFooter>
-          <DialogClose asChild>
-            <Button ref={dialogCloseRef} type="button" variant="outline">
-              Cancel
-            </Button>
-          </DialogClose>
-          <Button
-            // type="submit"
-            onClick={() => formRef.current?.onSubmit()}
-            className="bg-blue-600 hover:bg-blue-700 text-white"
-            disabled={createStaffMutation.isPending}
-          >
-            {createStaffMutation.isPending ? "Inviting..." : "Invite Staff"}
+      <div className="flex-1 overflow-y-auto">
+        <Forge
+          ref={formRef}
+          control={control}
+          onSubmit={handleSubmit}
+          className="space-y-4 py-4"
+        >
+          {/* Form fields will be rendered by ForgeForm based on formFields config */}
+        </Forge>
+      </div>
+      <DialogFooter className="flex-shrink-0 mt-4">
+        <DialogClose asChild>
+          <Button ref={dialogCloseRef} type="button" variant="outline">
+            Cancel
           </Button>
-        </DialogFooter>
-      </Forge>
+        </DialogClose>
+        <Button
+          // type="submit"
+          onClick={() => formRef.current?.onSubmit()}
+          className="bg-blue-600 hover:bg-blue-700 text-white"
+          disabled={createStaffMutation.isPending}
+        >
+          {createStaffMutation.isPending ? "Inviting..." : "Invite Staff"}
+        </Button>
+      </DialogFooter>
     </DialogContent>
   );
 };

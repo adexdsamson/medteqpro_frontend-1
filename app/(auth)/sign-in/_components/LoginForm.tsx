@@ -83,7 +83,6 @@ export function LoginForm() {
       const errorMessage =
         err.response?.data?.message || "An error occurred during login";
       toast.error("Login Failed", errorMessage as string);
-   
     }
   };
 
@@ -109,6 +108,9 @@ export function LoginForm() {
         break;
       case "lab_scientist":
         router.push("/lab-scientist/dashboard");
+        break;
+      case "front_desk":
+        router.push("/front-desk/patients");
         break;
       default:
         router.push("/");

@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { ConfirmAlert } from "@/components/ConfirmAlert";
 import { DialogTrigger } from "@/components/ui/dialog";
-import Subheader from "../../_components/Subheader";
+import Subheader from "../../../../layouts/Subheader";
 import { useStaffList, StaffMember } from "@/features/services/staffService";
 import AddUserDialog from "./_components/AddUserDialog";
 

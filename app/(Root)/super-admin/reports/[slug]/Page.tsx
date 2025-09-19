@@ -8,7 +8,7 @@ import { useParams } from "next/navigation";
 import { useGetHospitalDetailedReport } from "@/features/services/reportsService";
 import { format } from "date-fns";
 import { getFormatCurrency } from "@/lib/utils";
-import Subheader from "../../../_components/Subheader";
+import Subheader from "../../../../../layouts/Subheader";
 
 // Import the SubscriptionHistory type from reportsService
 import { SubscriptionHistory } from "@/features/services/reportsService";

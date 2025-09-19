@@ -6,7 +6,7 @@ import { TextInput, TextInputProps } from "@/components/FormInputs/TextInput";
 import { Button } from "@/components/ui/button";
 import { FieldProps, Forge, FormPropsRef, useForge } from "@/lib/forge";
 import { SearchIcon, Loader2 } from "lucide-react";
-import Subheader from "../../_components/Subheader";
+import Subheader from "../../../../layouts/Subheader";
 import AddStaffDialog from "./_components/AddStaffDialog";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { staffColumns } from "./_components/columns";

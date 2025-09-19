@@ -13,7 +13,7 @@ import { useCreateCustomSubscription } from "@/features/services/subscriptionSer
 import { useGetHospitalList, HospitalListType } from "@/features/services/hospitalService";
 import { useToastHandler } from "@/hooks/useToaster";
 import { ApiResponseError } from "@/types";
-import Subheader from "../../../_components/Subheader";
+import Subheader from "../../../../../layouts/Subheader";
 
 
 // Validation schema

@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { DataTable } from "@/components/DataTable";
 import { bedColumns, BedData } from "./_components/columns";
-import Subheader from "../../_components/Subheader";
+import Subheader from "../../../../layouts/Subheader";
 import { BedStats } from "./_components/BedStats";
 import { TextInput } from "@/components/FormInputs/TextInput";
 import { SearchIcon } from "lucide-react";

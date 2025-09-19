@@ -2,8 +2,8 @@
 
 import React from "react";
 import { Card } from "@/components/ui/card";
-import { StatCard } from "@/app/(Root)/_components/StatCard";
-import Subheader from "@/app/(Root)/_components/Subheader";
+import { StatCard } from "@/layouts/StatCard";
+import Subheader from "@/layouts/Subheader";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import {
   Bar,

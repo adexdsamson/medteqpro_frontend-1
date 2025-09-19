@@ -332,11 +332,6 @@ export const moduleConfigs: ModuleConfig[] = [
     pathPrefix: "/front-desk",
     menuItems: [
       {
-        label: "Dashboard",
-        icon: LayoutDashboard,
-        href: "/dashboard",
-      },
-      {
         label: "Patients",
         icon: Users,
         href: "/patients",

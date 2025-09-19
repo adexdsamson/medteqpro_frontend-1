@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useMemo, useRef, useState, useEffect } from "react";
-import Subheader from "../../_components/Subheader";
+import Subheader from "../../../../layouts/Subheader";
 import { Button } from "@/components/ui/button";
 import { SearchIcon } from "lucide-react";
 import { TextInput, TextInputProps } from "@/components/FormInputs/TextInput";

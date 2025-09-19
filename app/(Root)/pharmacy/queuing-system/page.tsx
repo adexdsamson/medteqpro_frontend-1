@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import Subheader from "../../_components/Subheader";
+import Subheader from "../../../../layouts/Subheader";
 import { Button } from "@/components/ui/button";
 import { useToastHandler } from "@/hooks/useToaster";
 

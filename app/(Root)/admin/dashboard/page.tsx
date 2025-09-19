@@ -1,6 +1,6 @@
 "use client";
 
-import Subheader from "../../_components/Subheader";
+import Subheader from "../../../../layouts/Subheader";
 import { H3, Large, Lead, P, Small } from "@/components/ui/Typography";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";

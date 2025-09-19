@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import { format } from "date-fns";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import Subheader from "../../_components/Subheader";
+import Subheader from "../../../../layouts/Subheader";
 
 export default function Laboratory() {
   const [searchTerm, setSearchTerm] = useState("");

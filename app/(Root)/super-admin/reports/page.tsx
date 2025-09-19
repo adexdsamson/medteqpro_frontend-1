@@ -3,7 +3,7 @@
 import { DataTable } from "@/components/DataTable";
 import { Button } from "@/components/ui/button";
 import React from "react";
-import Subheader from "../../_components/Subheader";
+import Subheader from "../../../../layouts/Subheader";
 import { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
 import { StatCard } from "../dashboard/_components";

@@ -1,7 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { getRequest, postRequest, putRequest } from '@/lib/axiosInstance';
-import { Appointment, AppointmentFamily } from '@/app/(Root)/admin/appointment/_components/columns';
+import { Appointment, AppointmentFamily } from '@/features/pages/appointment/_components/columns';
 import { format, parseISO } from 'date-fns';
 
 // Define types for API responses based on actual API documentation

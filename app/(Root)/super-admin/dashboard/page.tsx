@@ -9,7 +9,7 @@ import {
   SectionHeader,
   SubscriptionTable,
 } from "./_components";
-import Subheader from "../../_components/Subheader";
+import Subheader from "../../../../layouts/Subheader";
 import { useSuperAdminDashboard } from "@/features/services/dashboardService";
 
 function Dashboard() {

@@ -1,7 +1,7 @@
 import { Bed, Calendar, Hospital } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Large } from "@/components/ui/Typography";
-import { StatCard } from "@/app/(Root)/_components/StatCard";
+import { StatCard } from "@/layouts/StatCard";
 import { HospitalAdminDashboardAnalytics } from "@/features/services/dashboardService";
 import { Skeleton } from "@/components/ui/skeleton";
 

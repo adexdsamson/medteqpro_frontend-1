@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useMemo, useState } from "react";
-import Subheader from "../../_components/Subheader";
-import { StatCard } from "../../_components/StatCard";
+import Subheader from "../../../../layouts/Subheader";
+import { StatCard } from "../../../../layouts/StatCard";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";

@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import Subheader from "../../_components/Subheader";
+import Subheader from "../../../../layouts/Subheader";
 import { Button } from "@/components/ui/button";
-import { StatCard } from "../../_components/StatCard";
+import { StatCard } from "../../../../layouts/StatCard";
 import { Users } from "lucide-react";
 import { useToastHandler } from "@/hooks/useToaster";
 

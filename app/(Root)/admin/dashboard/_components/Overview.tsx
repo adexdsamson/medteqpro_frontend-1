@@ -1,6 +1,6 @@
 import { Building } from "lucide-react";
 import { Large, P } from "@/components/ui/Typography";
-import { StatCard } from "../../../_components/StatCard";
+import { StatCard } from "../../../../../layouts/StatCard";
 import { HospitalAdminDashboardAnalytics } from "@/features/services/dashboardService";
 import { Skeleton } from "@/components/ui/skeleton";
 

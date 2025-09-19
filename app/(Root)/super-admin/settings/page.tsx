@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import Subheader from "../../_components/Subheader";
+import Subheader from "../../../../layouts/Subheader";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Plan from "./layout/Plan";
 import Subscription from "./layout/Subscription";

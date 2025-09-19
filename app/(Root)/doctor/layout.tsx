@@ -1,8 +1,8 @@
 import React from "react";
 import { Metadata } from "next";
 import { SidebarProvider } from "@/components/ui/sidebar";
-import { AppSidebar } from "../_components/Sidebar";
-import { AppHeader } from "../_components/AppHeader";
+import { AppSidebar } from "../../../layouts/Sidebar";
+import { AppHeader } from "../../../layouts/AppHeader";
 
 export const metadata: Metadata = {
   title: "Doctor Portal | MedTeqPro",
