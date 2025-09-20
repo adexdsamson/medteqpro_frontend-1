@@ -10,7 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { H3, Large, P, Small } from "@/components/ui/Typography";
 import { Search, Filter, Edit } from "lucide-react";
 import { faker } from "@faker-js/faker";
-import SessionTimer from "../../admin/queuing-system/_components/SessionTimer";
+// Removed SessionTimer import as it is unused and path was invalid
 import { DataTable } from "@/components/DataTable";
 import {
   DropdownMenu,

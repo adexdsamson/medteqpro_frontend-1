@@ -27,7 +27,7 @@ import { useStaffForAppointment } from "@/features/services/staffService";
 import { Time } from "@internationalized/date";
 import { format } from "date-fns";
 import { useToastHandler } from "@/hooks/useToaster";
-import { Appointment } from "../../../../app/(Root)/doctor/appointment/_components/columns";
+import type { Appointment } from "./columns";
 
 // Define FormValues type explicitly to ensure consistency
 interface FormValues {

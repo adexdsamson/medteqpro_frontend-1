@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import Subheader from '../../../../_components/Subheader'; // Corrected import path
+import Subheader from '@/layouts/Subheader';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -11,6 +11,12 @@ import { usePatientDetails } from '@/features/services/patientService';
 import { useAddVitalSigns, VitalSignsPayload } from '@/features/services/vitalSignsService';
 import { useToastHandler } from '@/hooks/useToaster';
 
+/**
+ * AddVitalSignsPage
+ * Renders a form to add vital signs for a patient, showing a brief patient preview.
+ * @remarks Uses react-query services and toast handler; ensures fields align with PatientDetailResponse types.
+ * @example <AddVitalSignsPage />
+ */
 const AddVitalSignsPage = () => {
   const params = useParams();
   const patientId = params.patientId as string;
@@ -103,11 +109,11 @@ const AddVitalSignsPage = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4 text-sm">
             <div>
               <p className="text-gray-500">Search Patient ID</p>
-              <p className="text-gray-800 font-medium">{patient.patientId}</p>
+              <p className="text-gray-800 font-medium">{patient.id}</p>
             </div>
             <div>
               <p className="text-gray-500">Patient Name</p>
-              <p className="text-gray-800 font-medium">{patient.name}</p>
+              <p className="text-gray-800 font-medium">{patient.full_name}</p>
             </div>
             <div>
               <p className="text-gray-500">Gender</p>

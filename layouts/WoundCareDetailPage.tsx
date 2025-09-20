@@ -14,12 +14,19 @@ import {
 } from 'lucide-react';
 import { formatDate } from "@/features/services/labScientistService";
 import { useWoundRecord } from '@/features/services/woundCareService';
-import EditWoundRecordDialog from '@/app/(Root)/doctor/wound-care/_components/EditWoundRecordDialog';
+import EditWoundRecordDialog from '@/features/pages/wound-care/_components/EditWoundRecordDialog';
 
 interface WoundCareDetailPageProps {
   woundRecordId: string;
 }
 
+/**
+ * Wound care detail view used across roles to display and edit a specific wound record.
+ * @param {WoundCareDetailPageProps} props - Component props containing the wound record ID.
+ * @returns {JSX.Element} The wound care detail layout including patient info, assessment, and treatment plan.
+ * @example
+ * <WoundCareDetailPage woundRecordId="abc-123" />
+ */
 const WoundCareDetailPage: React.FC<WoundCareDetailPageProps> = ({
   woundRecordId
 }) => {

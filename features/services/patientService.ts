@@ -4,7 +4,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { getRequest, postRequest } from "@/lib/axiosInstance";
 import { ApiResponseError } from "@/types";
-import { PatientDetailResponse } from "@/app/(Root)/admin/patients/[patientId]/_components/types";
+import type { PatientDetailResponse } from "@/features/pages/patients/patient-details/_components/types";
 
 export type PatientListResponse = Pick<
   PatientDetailResponse,
