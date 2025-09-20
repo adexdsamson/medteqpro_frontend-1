@@ -33,15 +33,18 @@ const schema = yup.object().shape({
     .string()
     .required("Ward name is required")
     .min(2, "Ward name must be at least 2 characters"),
-  ward_type: yup
-    .string()
-    .required("Ward type is required"),
+  ward_type: yup.string().required("Ward type is required"),
 });
 
 interface AddWardDialogProps {
   onClose?: () => void;
 }
 
+/**
+ * Dialog for creating a new Ward using Forge and react-query mutation
+ * @param props - optional close handler invoked on success
+ * @returns React.ReactElement
+ */
 const AddWardDialog: React.FC<AddWardDialogProps> = ({ onClose }) => {
   const formFields: FieldProps<
     TextInputProps | TextSelectProps,
@@ -70,7 +73,6 @@ const AddWardDialog: React.FC<AddWardDialogProps> = ({ onClose }) => {
       ],
       rules: { required: "Ward type is required" },
     },
-
   ];
 
   const formRef = useRef<FormPropsRef>(null);
@@ -89,34 +91,30 @@ const AddWardDialog: React.FC<AddWardDialogProps> = ({ onClose }) => {
     resolver: yupResolver(schema),
   });
 
+  /**
+   * Submit handler to create a ward
+   * @param data - form values
+   * @throws shows toast on API error
+   */
   const handleSubmit = async (data: AddWardFormState) => {
     try {
-      // Map the form data to API payload
       const payload: WardCreationType = {
         name: data.name,
         ward_type: data.ward_type,
       };
 
       await createWardMutation.mutateAsync(payload);
-      
-      // Invalidate queries to refresh the data
+
       await queryClient.invalidateQueries({ queryKey: ["allWards"] });
-      
-      success(
-        "Success",
-        "Ward created successfully."
-      );
-      
-      // Close dialog after successful submission
+
+      success("Success", "Ward created successfully.");
+
       if (onClose) {
         onClose();
       }
       closeRef.current?.click();
     } catch (err: unknown) {
-      error(
-        "Failed to create ward",
-        err
-      );
+      error("Failed to create ward", err);
     }
   };
 
@@ -135,8 +133,8 @@ const AddWardDialog: React.FC<AddWardDialogProps> = ({ onClose }) => {
       >
         <DialogFooter className="flex gap-3 pt-6">
           <DialogClose asChild>
-            <Button 
-              type="button" 
+            <Button
+              type="button"
               variant="outline"
               className="flex-1 bg-gray-600 text-white hover:bg-gray-700 border-gray-600"
             >

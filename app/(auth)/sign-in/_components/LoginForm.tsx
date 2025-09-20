@@ -16,6 +16,7 @@ import { useLogin, LoginCredentials } from "@/features/auth/service";
 import { useToastHandler } from "@/hooks/useToaster";
 import { ApiResponseError } from "@/types";
 import { storeFunctions } from "@/store/authSlice";
+import { buildRolePath, getRoleBasePath } from "@/lib/utils";
 
 const schema = yup.object().shape({
   email: yup
@@ -87,34 +88,15 @@ export function LoginForm() {
   };
 
   const handleRoleSelect = (role: string) => {
-    switch (role) {
-      case "superadmin":
-        router.push("/super-admin/dashboard");
-        break;
-      case "hospital_admin":
-        router.push("/admin/dashboard");
-        break;
-      case "doctor":
-        router.push("/doctor/dashboard");
-        break;
-      case "nurse":
-        router.push("/nurse/dashboard");
-        break;
-      case "patient":
-        router.push("/patient/dashboard");
-        break;
-      case "pharmacist":
-        router.push("/pharmacy/dashboard");
-        break;
-      case "lab_scientist":
-        router.push("/lab-scientist/dashboard");
-        break;
-      case "front_desk":
-        router.push("/front-desk/patients");
-        break;
-      default:
-        router.push("/");
+    // Default to base dashboard if mapping exists, else fallback home
+    const base = getRoleBasePath(role);
+    if (base) {
+      // Prefer dashboard if available, else fallback to a common landing page for the role
+      const dashboard = buildRolePath(role, "dashboard");
+      router.push(dashboard ?? base);
+      return;
     }
+    router.push("/");
   };
 
   return (
@@ -130,7 +112,10 @@ export function LoginForm() {
         <CardContent className="p-0 space-y-2.5">
           <Forge control={control} onSubmit={handleSubmit} ref={formRef} />
           <div className="flex items-center justify-between">
-            <Link href="/forgot-password" className="mt- font-medium text-teal-600">
+            <Link
+              href="/forgot-password"
+              className="mt- font-medium text-teal-600"
+            >
               Forgot Password?
             </Link>
             <Link

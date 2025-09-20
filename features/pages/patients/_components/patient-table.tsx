@@ -8,11 +8,17 @@ import { Edit } from "lucide-react"; // Using lucide-react for icons
 import Link from "next/link"; // Added Link import
 import { PatientListResponse } from "@/features/services/patientService";
 import { format } from "date-fns";
+import { storeFunctions } from "@/store/authSlice"; // Auth store for role-based routing
+import { buildRolePath, hasPatientsRoute } from "@/lib/utils"; // Centralized routing utilities
 
 interface PatientTableProps {
   data: PatientListResponse[];
 }
 
+/**
+ * Column configuration for PatientTable with role-aware action links.
+ * @remarks The action column adapts the patient details route based on the authenticated user's role.
+ */
 export const columns: ColumnDef<PatientListResponse>[] = [
   {
     accessorKey: "user_id",
@@ -38,11 +44,34 @@ export const columns: ColumnDef<PatientListResponse>[] = [
     id: "actions",
     header: "ACTION",
     cell: ({ row }) => {
-      // Changed to access row
       const patient = row.original;
+      const role = storeFunctions.getState().user?.role;
+
+      if (!hasPatientsRoute(role)) {
+        return (
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-8 w-8 p-0"
+            disabled
+            title="Access restricted"
+            aria-disabled
+          >
+            <Edit className="h-4 w-4" />
+          </Button>
+        );
+      }
+
+      const href = buildRolePath(role, ["patients", String(patient.id)]) ?? "#";
+
       return (
-        <Link href={`/admin/patients/${patient.id}`}>
-          <Button variant="ghost" size="icon" className="h-8 w-8 p-0">
+        <Link href={href} prefetch={false}>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-8 w-8 p-0"
+            aria-label={`View patient ${patient.id}`}
+          >
             <Edit className="h-4 w-4" />
           </Button>
         </Link>

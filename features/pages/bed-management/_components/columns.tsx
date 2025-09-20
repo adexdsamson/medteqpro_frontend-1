@@ -10,6 +10,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal, Edit, Trash2 } from "lucide-react";
 
+/**
+ * UI representation for a bed item displayed in the DataTable
+ */
 export interface BedData {
   bedId: string;
   roomNo: string;
@@ -21,6 +24,13 @@ export interface BedData {
   patientName: string | null;
 }
 
+/**
+ * Column definitions for Bed DataTable with actions
+ * @param onAssignBed - callback when Assign is clicked
+ * @param onEditBed - callback for editing a bed
+ * @param onDeleteBed - callback for deleting a bed
+ * @returns ColumnDef<BedData>[]
+ */
 export const bedColumns = (
   onAssignBed?: (bedId: string) => void,
   onEditBed?: (bedId: string) => void,
@@ -46,9 +56,7 @@ export const bedColumns = (
     cell: ({ row }) => {
       const patientId = row.getValue("patientId") as string | null;
       return (
-        <div className="text-gray-700">
-          {patientId || "N/A"}
-        </div>
+        <div className="text-gray-700">{patientId || "N/A"}</div>
       );
     },
   },
@@ -59,11 +67,13 @@ export const bedColumns = (
       const status = row.getValue("status") as "occupied" | "available";
       const displayStatus = status === "available" ? "Available" : "Occupied";
       return (
-        <div className={`inline-flex px-2 py-1 rounded-full text-xs font-medium ${
-          status === "available" 
-            ? "bg-green-100 text-green-800" 
-            : "bg-red-100 text-red-800"
-        }`}>
+        <div
+          className={`inline-flex px-2 py-1 rounded-full text-xs font-medium ${
+            status === "available"
+              ? "bg-green-100 text-green-800"
+              : "bg-red-100 text-red-800"
+          }`}
+        >
           {displayStatus}
         </div>
       );
@@ -75,9 +85,7 @@ export const bedColumns = (
     cell: ({ row }) => {
       const allocationDateTime = row.getValue("allocationDateTime") as string | null;
       return (
-        <div className="text-gray-700">
-          {allocationDateTime || "N/A"}
-        </div>
+        <div className="text-gray-700">{allocationDateTime || "N/A"}</div>
       );
     },
   },
@@ -87,9 +95,7 @@ export const bedColumns = (
     cell: ({ row }) => {
       const duration = row.getValue("duration") as number | null;
       return (
-        <div className="text-gray-700">
-          {duration !== null ? duration : "N/A"}
-        </div>
+        <div className="text-gray-700">{duration !== null ? duration : "N/A"}</div>
       );
     },
   },
@@ -100,7 +106,7 @@ export const bedColumns = (
       const bedId = row.original?.id as string;
       const patientId = row.getValue("patientId") as string | null;
       const isAvailable = !patientId;
-      
+
       return (
         <div className="flex items-center gap-2">
           {isAvailable && onAssignBed && (
@@ -115,7 +121,7 @@ export const bedColumns = (
           {!isAvailable && (
             <span className="text-sm text-gray-500">Occupied</span>
           )}
-          
+
           {/* Dropdown menu for Edit and Delete actions */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>

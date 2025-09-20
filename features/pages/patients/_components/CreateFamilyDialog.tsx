@@ -50,13 +50,20 @@ const CreateFamilyDialog = ({ children }: { children: React.ReactNode }) => {
     resolver: yupResolver(schema),
     defaultValues: {
       family_name: "",
-      members: [{ patient_id: "" }],
+      members: [
+        {
+          patient_id: "",
+        },
+      ],
     },
   });
 
+  // Provide control explicitly to avoid relying on context before <Forge> is rendered
   const { append, remove, fields } = useFieldArray({
+    control,
     name: "members",
     inputProps: {},
+    shouldUnregister: true,
   });
 
   const memberOptions = useMemo(() => patientsOptions, [patientsOptions]);

@@ -33,6 +33,11 @@ interface AssignBedDialogProps {
   bedId: string;
 }
 
+/**
+ * Dialog to assign a bed to a patient with expected end date selection
+ * @param props - controlled open state, ward and bed identifiers
+ * @returns React.ReactElement
+ */
 const AssignBedDialog: React.FC<AssignBedDialogProps> = ({
   open,
   onOpenChange,
@@ -64,6 +69,10 @@ const AssignBedDialog: React.FC<AssignBedDialogProps> = ({
     value: patient.id,
   }));
 
+  /**
+   * Submits assignment to API and refreshes related queries
+   * @param data - selected patient and end date values
+   */
   const handleSubmit = async (data: FormValues) => {
     try {
       // Convert date to ISO string

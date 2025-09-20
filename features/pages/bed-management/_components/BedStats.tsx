@@ -6,6 +6,13 @@ interface BedStatsProps {
   occupiedBeds: number;
 }
 
+/**
+ * Displays aggregate bed statistics (total, available, occupied)
+ * @param props - Bed statistics
+ * @returns React.ReactElement
+ * @example
+ * <BedStats totalBeds={10} availableBeds={6} occupiedBeds={4} />
+ */
 export const BedStats: React.FC<BedStatsProps> = ({
   totalBeds,
   availableBeds,

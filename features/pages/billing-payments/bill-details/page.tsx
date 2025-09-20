@@ -12,6 +12,8 @@ import {
   type TransactionResponse,
 } from "@/features/services/billingService";
 import type { ApiResponseError } from "@/types";
+import { getFormatCurrency } from "@/lib/utils";
+import { format } from "date-fns";
 
 /**
  * Centralized Bill Detail feature page.
@@ -33,9 +35,10 @@ export default function BillDetailFeaturePage() {
   const apiError = error as ApiResponseError | undefined;
 
   // Extract payload based on ApiResponse<T> being AxiosResponse<T>
-  const details = data?.data as
+  const details = data?.data?.data as
     | { bill: BillResponse; transactions: TransactionResponse[] }
     | undefined;
+  
 
   const bill: BillResponse | undefined = details?.bill;
   const transactions: TransactionResponse[] = details?.transactions ?? [];
@@ -43,7 +46,11 @@ export default function BillDetailFeaturePage() {
   // Transactions table columns
   const txnColumns: ColumnDef<TransactionResponse>[] = [
     { accessorKey: "transaction_date", header: "Date" },
-    { accessorKey: "amount", header: "Amount" },
+    {
+      accessorKey: "amount",
+      header: "Amount",
+      cell: ({ getValue }) => getFormatCurrency(Number(getValue() ?? 0)),
+    },
     { accessorKey: "payment_method", header: "Method" },
     { accessorKey: "status", header: "Status" },
     { accessorKey: "reference_number", header: "Reference" },
@@ -100,15 +107,15 @@ export default function BillDetailFeaturePage() {
               </div>
               <div>
                 <p className="text-sm text-gray-600">Total Amount</p>
-                <p className="text-base font-medium">{bill.total_amount}</p>
+                <p className="text-base font-medium">{getFormatCurrency(Number(bill.total_amount ?? 0))}</p>
               </div>
               <div>
                 <p className="text-sm text-gray-600">Amount Paid</p>
-                <p className="text-base font-medium">{bill.amount_paid}</p>
+                <p className="text-base font-medium">{getFormatCurrency(Number(bill.amount_paid ?? 0))}</p>
               </div>
               <div>
                 <p className="text-sm text-gray-600">Remaining Balance</p>
-                <p className="text-base font-medium">{bill.remaining_amount}</p>
+                <p className="text-base font-medium">{getFormatCurrency(Number(bill.remaining_amount ?? 0))}</p>
               </div>
               <div>
                 <p className="text-sm text-gray-600">Status</p>
@@ -116,7 +123,7 @@ export default function BillDetailFeaturePage() {
               </div>
               <div>
                 <p className="text-sm text-gray-600">Created</p>
-                <p className="text-base font-medium">{bill.created_at}</p>
+                <p className="text-base font-medium">{bill.created_at ? format(new Date(bill.created_at), 'MMM d, yyyy h:mm a') : 'N/A'}</p>
               </div>
               <div>
                 <p className="text-sm text-gray-600">Payment Method</p>
@@ -148,8 +155,8 @@ export default function BillDetailFeaturePage() {
                         <tr key={idx} className="border-t">
                           <td className="py-2 pr-4">{d.drug_name}</td>
                           <td className="py-2 pr-4">{d.quantity}</td>
-                          <td className="py-2 pr-4">{d.unit_price}</td>
-                          <td className="py-2 pr-4">{d.total_price}</td>
+                          <td className="py-2 pr-4">{getFormatCurrency(Number(d.unit_price ?? 0))}</td>
+                          <td className="py-2 pr-4">{getFormatCurrency(Number(d.total_price ?? 0))}</td>
                         </tr>
                       ))}
                     </tbody>

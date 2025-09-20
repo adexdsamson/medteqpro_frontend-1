@@ -15,15 +15,29 @@ import {
   TextSelectProps,
 } from "@/components/FormInputs/TextSelect";
 import { useForge, FieldProps, Forge, FormPropsRef } from "@/lib/forge";
-import { 
-  useCreateBedInWard, 
+import {
+  useCreateBedInWard,
   BedCreationType,
-  useGetAllWards 
+  useGetAllWards,
 } from "@/features/services/bedManagementService";
 import { useToastHandler } from "@/hooks/useToaster";
 import { useQueryClient } from "@tanstack/react-query";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+
+/**
+ * CreateBedDialog - Dialog component to create a new bed in a selected ward.
+ * Mirrors the admin implementation to maintain consistent behavior.
+ *
+ * @returns React.ReactElement
+ * @example
+ * <Dialog>
+ *   <DialogTrigger asChild>
+ *     <Button>Create Bed</Button>
+ *   </DialogTrigger>
+ *   <CreateBedDialog />
+ * </Dialog>
+ */
 
 // Define the form state structure
 interface CreateBedFormState {
@@ -34,9 +48,7 @@ interface CreateBedFormState {
 
 // Validation schema
 const schema = yup.object().shape({
-  ward_id: yup
-    .string()
-    .required("Ward is required"),
+  ward_id: yup.string().required("Ward is required"),
   bed_number: yup
     .string()
     .required("Bed number is required")
@@ -56,17 +68,18 @@ const CreateBedDialog: React.FC<CreateBedDialogProps> = ({ onClose }) => {
   const closeRef = useRef<HTMLButtonElement>(null);
 
   const [selectedWardId, setSelectedWardId] = useState<string>("");
-  
+
   const { data: wardsResponse } = useGetAllWards();
   const createBedMutation = useCreateBedInWard();
   const { success, error } = useToastHandler();
   const queryClient = useQueryClient();
 
   // Prepare ward options for the select
-  const wardOptions = wardsResponse?.data?.data?.map(ward => ({
-    label: ward.name,
-    value: ward.id
-  })) || [];
+  const wardOptions =
+    wardsResponse?.data?.data?.map((ward) => ({
+      label: ward.name,
+      value: ward.id,
+    })) || [];
 
   const formFields: FieldProps<
     TextInputProps | TextSelectProps,
@@ -108,13 +121,18 @@ const CreateBedDialog: React.FC<CreateBedDialogProps> = ({ onClose }) => {
     resolver: yupResolver(schema),
   });
 
+  /**
+   * Submit handler for creating a new bed.
+   * @param data - form values
+   * @throws Error when API call fails
+   */
   const handleSubmit = async (data: CreateBedFormState) => {
     try {
       // Update the selected ward ID if it's different
       if (selectedWardId !== data.ward_id) {
         setSelectedWardId(data.ward_id);
       }
-      
+
       // Map the form data to API payload
       const payload: BedCreationType = {
         bed_number: data.bed_number,
@@ -123,26 +141,22 @@ const CreateBedDialog: React.FC<CreateBedDialogProps> = ({ onClose }) => {
       };
 
       await createBedMutation.mutateAsync(payload);
-      
+
       // Invalidate queries to refresh the data
       await queryClient.invalidateQueries({ queryKey: ["allWards"] });
-      await queryClient.invalidateQueries({ queryKey: ["bedsInWard", data.ward_id] });
-      
-      success(
-        "Success",
-        "Bed created successfully."
-      );
-      
+      await queryClient.invalidateQueries({
+        queryKey: ["bedsInWard", data.ward_id],
+      });
+
+      success("Success", "Bed created successfully.");
+
       // Close dialog after successful submission
       if (onClose) {
         onClose();
       }
       closeRef.current?.click();
     } catch (err: unknown) {
-      error(
-        "Failed to create bed",
-        err
-      );
+      error("Failed to create bed", err);
     }
   };
 
@@ -161,8 +175,8 @@ const CreateBedDialog: React.FC<CreateBedDialogProps> = ({ onClose }) => {
       >
         <DialogFooter className="flex gap-3 pt-6">
           <DialogClose asChild>
-            <Button 
-              type="button" 
+            <Button
+              type="button"
               variant="outline"
               className="flex-1 bg-gray-600 text-white hover:bg-gray-700 border-gray-600"
             >

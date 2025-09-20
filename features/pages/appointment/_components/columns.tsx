@@ -199,7 +199,6 @@ const RowActions: React.FC<{ appt: Appointment }> = ({ appt }) => {
             Reschedule
           </DropdownMenuItem>
         </RescheduleAppointmentDialog>
-        <DropdownMenuItem disabled>Update (coming soon)</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

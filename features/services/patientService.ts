@@ -5,6 +5,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { getRequest, postRequest } from "@/lib/axiosInstance";
 import { ApiResponseError } from "@/types";
 import type { PatientDetailResponse } from "@/features/pages/patients/patient-details/_components/types";
+import { useUser } from "@/store/authSlice";
 
 export type PatientListResponse = Pick<
   PatientDetailResponse,
@@ -28,8 +29,9 @@ export interface PatientListParams {
 
 // Hook to fetch patient list
 export const usePatientList = (params?: PatientListParams) => {
+  const user = useUser();
   return useQuery<PatientListResponse[], ApiResponseError>({
-    queryKey: ["patients", params],
+    queryKey: ["patients", user?.role, params],
     queryFn: async () => {
       let url = "patient-management/patients/";
 

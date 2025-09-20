@@ -10,6 +10,8 @@ import { useParams } from 'next/navigation';
 import { usePatientDetails } from '@/features/services/patientService';
 import { useAddVitalSigns, VitalSignsPayload } from '@/features/services/vitalSignsService';
 import { useToastHandler } from '@/hooks/useToaster';
+import { storeFunctions } from '@/store/authSlice';
+import { buildRolePath, hasPatientsRoute } from '@/lib/utils';
 
 /**
  * AddVitalSignsPage
@@ -24,6 +26,8 @@ const AddVitalSignsPage = () => {
   const { data: patient, isLoading, error } = usePatientDetails(patientId);
   const addVitalSigns = useAddVitalSigns();
   const toast = useToastHandler();
+  const role = storeFunctions.getState().user?.role;
+  const patientsHome = hasPatientsRoute(role) ? buildRolePath(role, "patients") : undefined;
 
   // Show loading state
   if (isLoading) {
@@ -47,9 +51,13 @@ const AddVitalSignsPage = () => {
         <div className="p-6 lg:max-w-4xl mx-auto bg-white rounded-md shadow-sm mt-6">
           <div className="text-center py-8">
             <p className="text-red-600">Error loading patient details. Please try again.</p>
-            <Link href="/admin/patients">
-              <Button variant="outline" className="mt-4">Back to Patients</Button>
-            </Link>
+            {patientsHome ? (
+              <Link href={patientsHome} prefetch={false}>
+                <Button variant="outline" className="mt-4">Back to Patients</Button>
+              </Link>
+            ) : (
+              <Button variant="outline" className="mt-4" disabled>Back to Patients</Button>
+            )}
           </div>
         </div>
       </>
@@ -161,9 +169,13 @@ const AddVitalSignsPage = () => {
           </div>
 
           <div className="flex justify-end space-x-3 mt-8">
-            <Link href={`/admin/patients`}>
-              <Button variant="outline" type="button" disabled={isSubmitting}>Back</Button>
-            </Link>
+            {patientsHome ? (
+              <Link href={patientsHome} prefetch={false}>
+                <Button variant="outline" type="button" disabled={isSubmitting}>Back</Button>
+              </Link>
+            ) : (
+              <Button variant="outline" type="button" disabled>Back</Button>
+            )}
             <Button 
               type="submit" 
               className="bg-blue-600 hover:bg-blue-700 text-white"
