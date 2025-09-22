@@ -117,8 +117,8 @@ export default function PatientDetailPage() {
   return (
     <div className="min-h-screen bg-gray-50 p-6">
       {/* Header */}
-      <div className="mb-6 bg-white">
-        <h1 className="text-2xl font-bold text-gray-900">
+      <div className="mb-6 bg-white p-3">
+        <h1 className="text-base font-bold text-gray-900">
           Patients / Patient Information
         </h1>
       </div>

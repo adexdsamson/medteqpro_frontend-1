@@ -1,5 +1,5 @@
 import { Building } from "lucide-react";
-import { Large, P } from "@/components/ui/Typography";
+import { Large, P, Small } from "@/components/ui/Typography";
 import { StatCard } from "../../../../../layouts/StatCard";
 import { HospitalAdminDashboardAnalytics } from "@/features/services/dashboardService";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -30,8 +30,8 @@ const Overview = ({ data, isLoading }: OverviewProps) => {
               icon={<Building className="h-5 w-5 text-blue-500" />}
               bottom={
                 <div className="text-sm text-muted-foreground flex items-center gap-2 justify-between">
-                  <P>Our Patients</P>
-                  <button className="px-2.5 py-1.5 rounded-md bg-gray-200 ">View All</button>
+                  <Small>Our Patients</Small>
+                  {/* <button className="px-0.5 py-1.5 rounded-md bg-gray-200 text-xs">View All</button>  */}
                 </div>
               }
             />
@@ -47,7 +47,7 @@ const Overview = ({ data, isLoading }: OverviewProps) => {
               bottom={
                 <div className="text-sm text-muted-foreground flex items-center gap-2 justify-between">
                   <P>Our Staff</P>
-                  <button className="px-2.5 py-1.5 rounded-md bg-gray-200 ">View All</button>
+                  {/* <button className="px-2.5 py-1.5 rounded-md bg-gray-200 ">View All</button> */}
                 </div>
               }
             />

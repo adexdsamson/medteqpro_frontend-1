@@ -75,7 +75,7 @@ const Dashboard = () => {
             ) : (
               <H3>{totalTransactions}</H3>
             )}
-            <Button className="mt-4">Payment Breakdown</Button>
+           
           </div>
         </div>
 

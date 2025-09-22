@@ -92,7 +92,7 @@ export function LoginForm() {
     const base = getRoleBasePath(role);
     if (base) {
       // Prefer dashboard if available, else fallback to a common landing page for the role
-      const dashboard = buildRolePath(role, "dashboard");
+      const dashboard = buildRolePath(role, role === "front_desk" ?  "patients" :"dashboard");
       router.push(dashboard ?? base);
       return;
     }

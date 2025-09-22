@@ -22,7 +22,7 @@ const HospitalManager = ({ data, isLoading }: HospitalManagerProps) => {
     <div className="">
       <Large className="text-lg">Hospital Manager</Large>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-6 mt-2">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-6 mt-2">
         {isLoading ? (
           <>
             <div className="bg-white p-4 rounded-lg shadow">

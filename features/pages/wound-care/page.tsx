@@ -26,6 +26,8 @@ import CreateWoundRecordDialog from "./_components/CreateWoundRecordDialog";
 import EditWoundRecordDialog from "./_components/EditWoundRecordDialog";
 import { getStatusBadgeClasses, formatStatusText } from "@/lib/statusColors";
 import { ConfirmAlert } from "@/components/ConfirmAlert";
+import { storeFunctions } from "@/store/authSlice";
+import { buildRolePath } from "@/lib/utils";
 
 // Type for wound care patients in UI
 interface WoundCarePatient {
@@ -45,6 +47,7 @@ const WoundCarePage = () => {
   const { data: woundRecords, isLoading, error } = useWoundRecords();
   const toast = useToastHandler();
   const deleteWoundRecord = useDeleteWoundRecord();
+  const role = storeFunctions.getState().user?.role;
 
   /**
    * Handle delete wound record
@@ -104,6 +107,10 @@ const WoundCarePage = () => {
       header: "ACTION",
       cell: ({ row }) => {
         const patient = row.original;
+        const detailHref =
+          role === "doctor" || role === "nurse"
+            ? buildRolePath(role, ["wound-care", patient.id]) || `/wound-care/${patient.id}`
+            : `/wound-care/${patient.id}`;
         return (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -115,7 +122,7 @@ const WoundCarePage = () => {
             <DropdownMenuContent align="end">
               <DropdownMenuItem asChild>
                 <Link
-                  href={`/wound-care/${patient.id}`}
+                  href={detailHref}
                   className="flex items-center gap-2"
                 >
                   <Eye className="h-4 w-4" />
