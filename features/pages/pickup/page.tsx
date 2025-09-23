@@ -6,15 +6,21 @@ import { SEOWrapper } from "@/components/SEO";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import OrdersTable, { type OrderRow, type PickupStatus } from "./_components/OrdersTable";
+import OrdersTable, {
+  type OrderRow,
+  type PickupStatus,
+} from "./_components/OrdersTable";
 import { StatBox } from "./_components/Stats";
-import { usePickupOverview, usePickupRecords } from "@/features/services/pickupService";
+import {
+  usePickupOverview,
+  usePickupRecords,
+} from "@/features/services/pickupService";
 import BookPickupDialog from "./_components/BookPickupDialog";
 import { useToastHandler } from "@/hooks/useToaster";
 
 /**
  * Pickup Page - mirrors the visual and interaction design from the provided reference.
- * 
+ *
  * Key sections:
  * - Overview stats (Picked, Pending, Cancelled)
  * - Search bar and Book Pickup button
@@ -33,7 +39,11 @@ export default function PickupPage() {
   const toast = useToastHandler();
 
   // Fetch pickups with server-side search support
-  const { data: pickups = [], isLoading: pickupsLoading, error: pickupsError } = usePickupRecords({ search });
+  const {
+    data: pickups = [],
+    isLoading: pickupsLoading,
+    error: pickupsError,
+  } = usePickupRecords({ search });
 
   // Fetch overview statistics
   const { data: overview, error: overviewError } = usePickupOverview();
@@ -132,7 +142,11 @@ export default function PickupPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <StatBox title="Picked" value={pickedCount} tone="success" />
           <StatBox title="Pending" value={pendingCount} tone="warning" />
-          <StatBox title="Cancelled Order" value={cancelledCount} tone="danger" />
+          <StatBox
+            title="Cancelled Order"
+            value={cancelledCount}
+            tone="danger"
+          />
         </div>
 
         {/* Search & Action */}
@@ -140,32 +154,60 @@ export default function PickupPage() {
           <div className="space-y-1">
             <label className="text-sm text-gray-600">Search Keyword</label>
             <div className="relative w-full sm:w-64">
-              <svg className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" aria-hidden>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 104.5 4.5a7.5 7.5 0 0012.15 12.15z" />
+              <svg
+                className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+                aria-hidden
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 104.5 4.5a7.5 7.5 0 0012.15 12.15z"
+                />
               </svg>
-              <Input placeholder="Order ID / Patient name" value={search} onChange={(e) => setSearch(e.target.value)} className="pl-9" />
+              <Input
+                placeholder="Order ID / Patient name"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="pl-9"
+              />
             </div>
           </div>
           <BookPickupDialog>
             <Button className="self-start sm:self-auto">Book Pickup</Button>
           </BookPickupDialog>
-         </div>
+        </div>
 
         {/* Tabs */}
         <Tabs defaultValue="individual" className="w-full">
           <TabsList className="bg-transparent gap-6">
-            <TabsTrigger value="individual" className="data-[state=active]:border-b-2 data-[state=active]:border-[#16C2D5] rounded-none">Individual</TabsTrigger>
-            <TabsTrigger value="family" className="data-[state=active]:border-b-2 data-[state=active]:border-[#16C2D5] rounded-none">Family</TabsTrigger>
+            <TabsTrigger
+              value="individual"
+              className="data-[state=active]:border-b-2 data-[state=active]:border-[#16C2D5] rounded-none"
+            >
+              Individual
+            </TabsTrigger>
+            <TabsTrigger
+              value="family"
+              className="data-[state=active]:border-b-2 data-[state=active]:border-[#16C2D5] rounded-none"
+            >
+              Family
+            </TabsTrigger>
           </TabsList>
 
           {/* Filters */}
           <div className="flex items-center gap-2 mt-3">
-            {([
-              { key: "all", label: "All" },
-              { key: "picked", label: "Picked" },
-              { key: "pending", label: "Pending" },
-              { key: "cancelled", label: "Cancelled" },
-            ] as const).map((f) => (
+            {(
+              [
+                { key: "all", label: "All" },
+                { key: "picked", label: "Picked" },
+                { key: "pending", label: "Pending" },
+                { key: "cancelled", label: "Cancelled" },
+              ] as const
+            ).map((f) => (
               <Button
                 key={f.key}
                 size="sm"
