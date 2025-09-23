@@ -87,8 +87,10 @@ function NotificationRow({
  */
 export function NotificationPanel({
   items,
+  onMarkAllAsRead,
 }: {
   items?: NotificationItemData[];
+  onMarkAllAsRead?: () => void;
 }) {
   const [activeTab, setActiveTab] = useState<"new" | "all">("new");
 
@@ -128,6 +130,10 @@ export function NotificationPanel({
   const visibleList = activeTab === "new" ? list.filter((n) => n.isNew) : list;
 
   const markAllAsRead = () => {
+    if (onMarkAllAsRead) {
+      onMarkAllAsRead();
+      return;
+    }
     setList((prev) => prev.map((n) => ({ ...n, isNew: false })));
   };
 

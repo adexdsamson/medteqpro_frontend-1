@@ -21,6 +21,13 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { NotificationPanel } from "@/layouts/_components/NotificationPanel";
+import { useNotificationStats, useMarkAllNotificationsRead, notificationsKeys } from "@/features/services/notificationsService";
+import { useQueryClient } from "@tanstack/react-query";
+import { useToastHandler } from "@/hooks/useToaster";
+import type { ApiResponseError } from "@/types";
+import type { NotificationItemData } from "@/layouts/_components/NotificationPanel";
+import { useNotificationsList } from "@/features/services/notificationsService";
+import type { Notification } from "@/features/services/notificationsService";
 
 export function AppHeader() {
   // Use our custom hook to access the current module configuration
@@ -37,6 +44,50 @@ export function AppHeader() {
       month: "long",
       year: "numeric",
     });
+  };
+
+  // Notifications API integration
+  const { data: statsRes } = useNotificationStats();
+  const unreadCount = statsRes?.data?.data?.unread ?? 0;
+
+  const { data: listRes } = useNotificationsList();
+  const panelItems = React.useMemo<NotificationItemData[]>(() => {
+    const results = listRes?.data?.results ?? [];
+    return results.map((n: Notification) => ({
+      id: String(n.id),
+      title: n.title,
+      message: n.message,
+      timestamp: new Date(n.created_at).toLocaleString("en-US", {
+        month: "short",
+        day: "numeric",
+        hour: "numeric",
+        minute: "2-digit",
+      }),
+      isNew: !n.is_read,
+    }));
+  }, [listRes]);
+  const queryClient = useQueryClient();
+  const toast = useToastHandler();
+  const { mutateAsync: markAllRead } = useMarkAllNotificationsRead();
+
+  /**
+   * Mark all notifications as read and refresh list/stats.
+   * @returns {Promise<void>} Resolves when invalidation completes
+   * @example
+   * await handleMarkAllAsRead();
+   */
+  const handleMarkAllAsRead = async (): Promise<void> => {
+    try {
+      await markAllRead();
+      toast.success("Success", "Marked all notifications as read");
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: notificationsKeys.list() }),
+        queryClient.invalidateQueries({ queryKey: notificationsKeys.stats() }),
+      ]);
+    } catch (error) {
+      const err = error as ApiResponseError;
+      toast.error("Error", err?.message ?? "Something went wrong");
+    }
   };
 
   return (
@@ -64,9 +115,11 @@ export function AppHeader() {
                 aria-label="Open notifications"
               >
                 <BellIcon className="h-4 w-4 sm:h-5 sm:w-5" />
-                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 sm:h-5 sm:w-5 flex items-center justify-center text-[10px] sm:text-xs">
-                  2
-                </span>
+                {unreadCount > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 sm:h-5 sm:w-5 flex items-center justify-center text-[10px] sm:text-xs">
+                    {unreadCount}
+                  </span>
+                )}
               </Button>
             </PopoverTrigger>
             <PopoverContent
@@ -74,7 +127,7 @@ export function AppHeader() {
               sideOffset={8}
               className="p-0 w-[420px] sm:w-[520px] mr-2 sm:mr-0"
             >
-              <NotificationPanel />
+              <NotificationPanel items={panelItems} onMarkAllAsRead={handleMarkAllAsRead} />
             </PopoverContent>
           </Popover>
         </div>

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import React from "react";
@@ -18,7 +19,10 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useToastHandler } from "@/hooks/useToaster";
 import { useCreatePickup } from "@/features/services/pickupService";
-import { useGetDrugOrders, DrugOrder } from "@/features/services/drugManagementService";
+import {
+  useGetDrugOrders,
+  DrugOrder,
+} from "@/features/services/drugManagementService";
 import { Time } from "@internationalized/date";
 // Removed date-fns dependency; we format time manually to avoid extra deps
 
@@ -55,34 +59,47 @@ export default function BookPickupDialog({ children }: BookPickupDialogProps) {
   const toast = useToastHandler();
 
   // Eligible orders: server may use either "ready_for_pickup" or "pending_pickup"
-  const { data: ordersResp, isLoading: ordersLoading, error: ordersError } = useGetDrugOrders({ status: "ready_for_pickup" });
+  const {
+    data: ordersResp,
+    isLoading: ordersLoading,
+    error: ordersError,
+  } = useGetDrugOrders({ status: "ready_for_pickup" });
   React.useEffect(() => {
     if (ordersError) {
-      toast.error("Failed to load eligible orders", ordersError as unknown as Error);
+      toast.error(
+        "Failed to load eligible orders",
+        ordersError as unknown as Error
+      );
     }
   }, [ordersError, toast]);
   const orders: DrugOrder[] = React.useMemo(() => {
     const raw = (ordersResp?.data?.results as DrugOrder[]) || [];
     // Guard for potential backend label differences
-    return raw.filter((o) => ["ready_for_pickup", "pending_pickup"].includes(String(o.status)));
+    return raw.filter((o) =>
+      ["ready_for_pickup", "pending_pickup"].includes(String(o.status))
+    );
   }, [ordersResp?.data?.results]);
 
   const orderOptions = React.useMemo(
     () =>
       orders.map((o) => {
         const itemsCount = o.items?.length ?? 0;
-        const when = o.pickup_date ? new Date(o.pickup_date).toLocaleString() : "No date";
+        const when = o.pickup_date
+          ? new Date(o.pickup_date).toLocaleString()
+          : "No date";
         const patient = o.patient ?? o.id;
         return {
           value: o.id,
-          label: `${patient} • ${when} • ${itemsCount} item${itemsCount === 1 ? "" : "s"}`,
+          label: `${patient} • ${when} • ${itemsCount} item${
+            itemsCount === 1 ? "" : "s"
+          }`,
         };
       }),
     [orders]
   );
 
   const { control, reset } = useForge<BookPickupFormData>({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(schema) as any,
     defaultValues: {
       drug_order_id: "",
       pickup_date_date: "",
@@ -124,7 +141,10 @@ export default function BookPickupDialog({ children }: BookPickupDialogProps) {
       reset();
     } catch (error) {
       console.error(error);
-      toast.error("Error", (error as { message?: string })?.message ?? "Failed to book pickup");
+      toast.error(
+        "Error",
+        (error as { message?: string })?.message ?? "Failed to book pickup"
+      );
     }
   };
 
@@ -132,14 +152,17 @@ export default function BookPickupDialog({ children }: BookPickupDialogProps) {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         {children || (
-          <Button className="bg-blue-600 hover:bg-blue-700 text-white">Book Pickup</Button>
+          <Button className="bg-blue-600 hover:bg-blue-700 text-white">
+            Book Pickup
+          </Button>
         )}
       </DialogTrigger>
       <DialogContent className="sm:max-w-[560px]">
         <DialogHeader>
           <DialogTitle>Book Pickup</DialogTitle>
           <DialogDescription>
-            Record a new drug pickup by selecting a ready order and optionally setting the pickup timestamp.
+            Record a new drug pickup by selecting a ready order and optionally
+            setting the pickup timestamp.
           </DialogDescription>
         </DialogHeader>
 
@@ -149,7 +172,9 @@ export default function BookPickupDialog({ children }: BookPickupDialogProps) {
               name="drug_order_id"
               component={TextSelect}
               label="Drug Order"
-              placeholder={ordersLoading ? "Loading orders..." : "Select drug order"}
+              placeholder={
+                ordersLoading ? "Loading orders..." : "Select drug order"
+              }
               options={orderOptions}
               disabled={ordersLoading}
             />
@@ -171,10 +196,18 @@ export default function BookPickupDialog({ children }: BookPickupDialogProps) {
           </div>
 
           <div className="flex justify-end gap-3">
-            <Button type="button" variant="outline" onClick={() => setOpen(false)}>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => setOpen(false)}
+            >
               Cancel
             </Button>
-            <Button type="submit" className="bg-blue-600 hover:bg-blue-700 text-white" disabled={isPending}>
+            <Button
+              type="submit"
+              className="bg-blue-600 hover:bg-blue-700 text-white"
+              disabled={isPending}
+            >
               {isPending ? "Booking..." : "Book Pickup"}
             </Button>
           </div>
