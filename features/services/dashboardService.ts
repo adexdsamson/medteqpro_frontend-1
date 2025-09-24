@@ -114,9 +114,9 @@ export const useNurseDashboard = () => {
 export interface DoctorDashboardAnalytics {
   my_patients: number;
   my_patient_visits: number;
-  patient_observed: number;
-  patient_admitted: number;
-  upcoming_appointment: number;
+  patients_observed: number;
+  patients_admitted: number;
+  no_of_upcoming_appointments: number;
 }
 
 // Define types for Doctor Diagnosis Analytics

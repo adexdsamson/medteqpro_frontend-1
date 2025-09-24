@@ -111,21 +111,29 @@ const PIE_COLORS = ["#16C2D5", "#23B5D3", "#55DDE0", "#A1E3F9", "#D4F1F4"]; // t
 
 const DoctorDashboard = () => {
   // Top-level analytics
-  const { data: doctorAnalytics, isLoading: isDashLoading } = useDoctorDashboard();
+  const { data: doctorAnalytics, isLoading: isDashLoading } =
+    useDoctorDashboard();
 
   // Diagnosis analytics for Pie + Top list
-  const { data: diagnosisAnalytics, isLoading: isDiagnosisLoading } = useDoctorDiagnosisAnalytics();
+  const { data: diagnosisAnalytics, isLoading: isDiagnosisLoading } =
+    useDoctorDiagnosisAnalytics();
 
   // Visitation frequency (bar chart)
-  const [visitFilter, setVisitFilter] = useState<"daily" | "monthly" | "yearly">("monthly");
-  const { data: visitationData, isLoading: isVisitLoading } = useVisitationFrequencyAnalytics(visitFilter);
+  const [visitFilter, setVisitFilter] = useState<
+    "daily" | "monthly" | "yearly"
+  >("monthly");
+  const { data: visitationData, isLoading: isVisitLoading } =
+    useVisitationFrequencyAnalytics(visitFilter);
 
   // Upcoming appointments (right column)
-  const { data: upcomingAppointmentsResp, isLoading: isUpcomingLoading } = useUpcomingAppointments();
+  const { data: upcomingAppointmentsResp, isLoading: isUpcomingLoading } =
+    useUpcomingAppointments();
 
   // Prepare chart data
   const barChartData = useMemo(() => {
-    const rawContainer = (visitationData?.data as { data?: unknown } | undefined)?.data ?? visitationData?.data;
+    const rawContainer =
+      (visitationData?.data as { data?: unknown } | undefined)?.data ??
+      visitationData?.data;
 
     if (Array.isArray(rawContainer)) {
       const arr = rawContainer as NameValue[];
@@ -137,19 +145,29 @@ const DoctorDashboard = () => {
 
     if (rawContainer && typeof rawContainer === "object") {
       const obj = rawContainer as Record<string, unknown>;
-      return Object.keys(obj).map((k) => ({ name: k, value: Number(obj[k] as number) }));
+      return Object.keys(obj).map((k) => ({
+        name: k,
+        value: Number(obj[k] as number),
+      }));
     }
 
     return [];
   }, [visitationData]);
 
   const diagnosisList = useMemo(() => {
-    const dataContainer = (diagnosisAnalytics?.data as { data?: unknown } | undefined)?.data ?? diagnosisAnalytics?.data;
+    const dataContainer =
+      (diagnosisAnalytics?.data as { data?: unknown } | undefined)?.data ??
+      diagnosisAnalytics?.data;
     let arr: DiagnosisItem[] = [];
 
     if (Array.isArray(dataContainer)) arr = dataContainer as DiagnosisItem[];
-    else if (dataContainer && typeof dataContainer === "object" && "diagnoses" in (dataContainer as Record<string, unknown>)) {
-      arr = ((dataContainer as { diagnoses?: DiagnosisItem[] }).diagnoses ?? []) as DiagnosisItem[];
+    else if (
+      dataContainer &&
+      typeof dataContainer === "object" &&
+      "diagnoses" in (dataContainer as Record<string, unknown>)
+    ) {
+      arr = ((dataContainer as { diagnoses?: DiagnosisItem[] }).diagnoses ??
+        []) as DiagnosisItem[];
     }
 
     return arr
@@ -172,12 +190,15 @@ const DoctorDashboard = () => {
   }, [diagnosisList]);
 
   const upcomingAppointments = useMemo<UpcomingAppointmentUI[]>(() => {
-    const results = getResults<UpcomingAppointmentAPI>(upcomingAppointmentsResp);
+    const results = getResults<UpcomingAppointmentAPI>(
+      upcomingAppointmentsResp
+    );
     return results.map((a) => ({
       id: String(a?.id ?? Math.random()),
       date: a?.appointment_date ?? a?.date ?? a?.scheduled_date ?? "",
       time: a?.appointment_time ?? a?.time ?? "",
-      patient: a?.patient_fullname ?? a?.patient_name ?? a?.patient ?? "Patient",
+      patient:
+        a?.patient_fullname ?? a?.patient_name ?? a?.patient ?? "Patient",
       status: a?.status ?? "scheduled",
     }));
   }, [upcomingAppointmentsResp]);
@@ -195,7 +216,11 @@ const DoctorDashboard = () => {
             icon={<Users className="h-5 w-5 text-[#16C2D5]" />}
             className="bg-white"
             bottom={
-              isDashLoading ? <Skeleton className="h-4 w-24" /> : <p className="text-sm text-muted-foreground">My Patients</p>
+              isDashLoading ? (
+                <Skeleton className="h-4 w-24" />
+              ) : (
+                <p className="text-sm text-muted-foreground">My Patients</p>
+              )
             }
           />
           <StatCard
@@ -203,28 +228,60 @@ const DoctorDashboard = () => {
             value={doctorAnalytics?.data?.data?.my_patient_visits ?? 0}
             icon={<CalendarDays className="h-5 w-5 text-[#16C2D5]" />}
             className="bg-white"
-            bottom={isDashLoading ? <Skeleton className="h-4 w-32" /> : <p className="text-sm text-muted-foreground">My Patient Visits</p>}
+            bottom={
+              isDashLoading ? (
+                <Skeleton className="h-4 w-32" />
+              ) : (
+                <p className="text-sm text-muted-foreground">
+                  My Patient Visits
+                </p>
+              )
+            }
           />
           <StatCard
             title="Patient Observed"
-            value={doctorAnalytics?.data?.data?.patient_observed ?? 0}
+            value={doctorAnalytics?.data?.data?.patients_observed ?? 0}
             icon={<Eye className="h-5 w-5 text-[#16C2D5]" />}
             className="bg-white"
-            bottom={isDashLoading ? <Skeleton className="h-4 w-28" /> : <p className="text-sm text-muted-foreground">Patient Observed</p>}
+            bottom={
+              isDashLoading ? (
+                <Skeleton className="h-4 w-28" />
+              ) : (
+                <p className="text-sm text-muted-foreground">
+                  Patient Observed
+                </p>
+              )
+            }
           />
           <StatCard
             title="Patient Admitted"
-            value={doctorAnalytics?.data?.data?.patient_admitted ?? 0}
+            value={doctorAnalytics?.data?.data?.patients_admitted ?? 0}
             icon={<Activity className="h-5 w-5 text-[#16C2D5]" />}
             className="bg-white"
-            bottom={isDashLoading ? <Skeleton className="h-4 w-28" /> : <p className="text-sm text-muted-foreground">Patient Admitted</p>}
+            bottom={
+              isDashLoading ? (
+                <Skeleton className="h-4 w-28" />
+              ) : (
+                <p className="text-sm text-muted-foreground">
+                  Patient Admitted
+                </p>
+              )
+            }
           />
           <StatCard
             title="Upcoming Appointment"
-            value={doctorAnalytics?.data?.data?.upcoming_appointment ?? 0}
+            value={doctorAnalytics?.data?.data?.no_of_upcoming_appointments ?? 0}
             icon={<ClipboardList className="h-5 w-5 text-[#16C2D5]" />}
             className="bg-white"
-            bottom={isDashLoading ? <Skeleton className="h-4 w-40" /> : <p className="text-sm text-muted-foreground">Upcoming Appointment</p>}
+            bottom={
+              isDashLoading ? (
+                <Skeleton className="h-4 w-40" />
+              ) : (
+                <p className="text-sm text-muted-foreground">
+                  Upcoming Appointment
+                </p>
+              )
+            }
           />
         </div>
 
@@ -247,7 +304,11 @@ const DoctorDashboard = () => {
                       key={k}
                       variant={visitFilter === k ? "default" : "outline"}
                       size="sm"
-                      className={`${visitFilter === k ? "bg-[#16C2D5] hover:bg-[#14a8b8] text-white" : ""} touch-manipulation flex-shrink-0 text-xs sm:text-sm`}
+                      className={`${
+                        visitFilter === k
+                          ? "bg-[#16C2D5] hover:bg-[#14a8b8] text-white"
+                          : ""
+                      } touch-manipulation flex-shrink-0 text-xs sm:text-sm`}
                       onClick={() => setVisitFilter(k)}
                     >
                       {k.charAt(0).toUpperCase() + k.slice(1)}
@@ -284,7 +345,9 @@ const DoctorDashboard = () => {
           <Card className="bg-white">
             <CardContent className="p-3 sm:p-6 space-y-3 sm:space-y-4">
               <div className="flex items-center justify-between">
-                <Large className="text-lg sm:text-xl">Upcoming Appointments</Large>
+                <Large className="text-lg sm:text-xl">
+                  Upcoming Appointments
+                </Large>
                 {/* Placeholder for date selection inside card if needed */}
               </div>
               {isUpcomingLoading ? (
@@ -294,13 +357,20 @@ const DoctorDashboard = () => {
                   ))}
                 </div>
               ) : upcomingAppointments.length === 0 ? (
-                <P className="text-sm text-muted-foreground">No upcoming appointments</P>
+                <P className="text-sm text-muted-foreground">
+                  No upcoming appointments
+                </P>
               ) : (
                 <div className="space-y-2 sm:space-y-3">
                   {upcomingAppointments.slice(0, 4).map((a) => (
-                    <div key={a.id} className="p-2 sm:p-3 border rounded-md touch-manipulation">
+                    <div
+                      key={a.id}
+                      className="p-2 sm:p-3 border rounded-md touch-manipulation"
+                    >
                       <div className="flex items-center justify-between gap-2">
-                        <P className="font-medium text-sm sm:text-base truncate">{a.patient}</P>
+                        <P className="font-medium text-sm sm:text-base truncate">
+                          {a.patient}
+                        </P>
                         <span className="text-xs px-2 py-0.5 rounded bg-blue-50 text-[#16C2D5] capitalize flex-shrink-0">
                           {a.status}
                         </span>
@@ -329,13 +399,19 @@ const DoctorDashboard = () => {
           {/* Pie Chart */}
           <Card className="bg-white">
             <CardContent className="p-3 sm:p-6">
-              <Large className="text-lg sm:text-xl">Diagnosis Distribution</Large>
+              <Large className="text-lg sm:text-xl">
+                Diagnosis Distribution
+              </Large>
               <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 items-center">
                 {isDiagnosisLoading ? (
                   <Skeleton className="h-44 w-44 rounded-full justify-self-center" />
                 ) : (
                   <div className="w-full flex items-center justify-center">
-                    <PieChart width={200} height={200} className="sm:w-[220px] sm:h-[220px]">
+                    <PieChart
+                      width={200}
+                      height={200}
+                      className="sm:w-[220px] sm:h-[220px]"
+                    >
                       <Pie
                         data={pieData}
                         dataKey="value"
@@ -348,7 +424,10 @@ const DoctorDashboard = () => {
                         className="sm:outerRadius-[90] sm:innerRadius-[50]"
                       >
                         {pieData.map((entry, index) => (
-                          <Cell key={`cell-${index}`} fill={entry.fill as string} />
+                          <Cell
+                            key={`cell-${index}`}
+                            fill={entry.fill as string}
+                          />
                         ))}
                       </Pie>
                     </PieChart>
@@ -385,8 +464,15 @@ const DoctorDashboard = () => {
           <Card className="bg-white">
             <CardContent className="p-3 sm:p-6">
               <div className="flex items-center justify-between mb-2 gap-2">
-                <Large className="text-lg sm:text-xl">Top 5 Diagnoses Done</Large>
-                <Button variant="link" className="text-[#16C2D5] p-0 h-auto text-sm sm:text-base touch-manipulation flex-shrink-0">See All</Button>
+                <Large className="text-lg sm:text-xl">
+                  Top 5 Diagnoses Done
+                </Large>
+                <Button
+                  variant="link"
+                  className="text-[#16C2D5] p-0 h-auto text-sm sm:text-base touch-manipulation flex-shrink-0"
+                >
+                  See All
+                </Button>
               </div>
               {isDiagnosisLoading ? (
                 <div className="space-y-3">
@@ -402,12 +488,25 @@ const DoctorDashboard = () => {
                   </div>
                   <div className="divide-y">
                     {diagnosisList.map((d, i) => (
-                      <div key={i} className="grid grid-cols-2 items-center px-2 py-2 sm:py-3 touch-manipulation hover:bg-gray-50 transition-colors">
+                      <div
+                        key={i}
+                        className="grid grid-cols-2 items-center px-2 py-2 sm:py-3 touch-manipulation hover:bg-gray-50 transition-colors"
+                      >
                         <div className="flex items-center space-x-2 min-w-0">
-                          <div className="w-3 h-3 rounded-full flex-shrink-0" style={{ backgroundColor: PIE_COLORS[i % PIE_COLORS.length] }}></div>
-                          <span className="text-sm truncate pr-2">{d.diagnosis}</span>
+                          <div
+                            className="w-3 h-3 rounded-full flex-shrink-0"
+                            style={{
+                              backgroundColor:
+                                PIE_COLORS[i % PIE_COLORS.length],
+                            }}
+                          ></div>
+                          <span className="text-sm truncate pr-2">
+                            {d.diagnosis}
+                          </span>
                         </div>
-                        <span className="text-sm text-right font-medium flex-shrink-0">{d.count}</span>
+                        <span className="text-sm text-right font-medium flex-shrink-0">
+                          {d.count}
+                        </span>
                       </div>
                     ))}
                   </div>
