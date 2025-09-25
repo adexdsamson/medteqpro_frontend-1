@@ -56,7 +56,7 @@ const schema = yup.object({
     .integer("Number of slots must be an integer")
     .min(1, "Minimum 1 slot")
     .required("Number of slots is required"),
-  is_available: yup.boolean().required(),
+  is_available: yup.boolean().default(true).notRequired(),
 });
 
 // Schema for multiple availability entries
@@ -110,7 +110,11 @@ export const AvailabilityDialog: React.FC<AvailabilityDialogProps> = ({
   });
 
   // Bulk entries form
-  const { control: bulkControl, reset: bulkReset } = useForge<MultiFormValues>({
+  const {
+    control: bulkControl,
+    reset: bulkReset,
+    // formState: { errors: bulkErrors },
+  } = useForge<MultiFormValues>({
     resolver: yupResolver(multiSchema) as any,
     defaultValues: {
       entries: [
@@ -582,7 +586,7 @@ export const AvailabilityDialog: React.FC<AvailabilityDialogProps> = ({
             </div>
           </Forge>
         ) : (
-          <Forge control={bulkControl} onSubmit={onSubmitBulk}>
+          <Forge control={bulkControl} onSubmit={onSubmitBulk} debug>
             <div className="space-y-4">
               {multiFields.map((field, idx) => (
                 <AvailabilityRow

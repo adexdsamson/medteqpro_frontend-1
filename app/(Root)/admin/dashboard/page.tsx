@@ -2,7 +2,6 @@
 
 import Subheader from "../../../../layouts/Subheader";
 import { H3, Large, Lead, P, Small } from "@/components/ui/Typography";
-// Removed unused Button import to satisfy ESLint
 import Image from "next/image";
 import Overview from "./_components/Overview";
 import HospitalManager from "./_components/HospitalManager";
