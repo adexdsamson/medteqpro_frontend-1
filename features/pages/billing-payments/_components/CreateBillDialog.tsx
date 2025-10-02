@@ -111,9 +111,12 @@ export default function CreateBillDialog({
       price: drug.drug_price,
     })) || [];
 
+  // transfer, POS, cash and online payment
   const paymentOptions = [
     { label: "Cash", value: "cash" },
     { label: "Transfer", value: "transfer" },
+    { label: "POS", value: "pos" },
+    { label: "Online Payment", value: "online" },
   ];
 
   const toast = useToastHandler();
