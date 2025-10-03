@@ -36,11 +36,10 @@ const schema = yup.object({
     .array()
     .of(
       yup.object({
-        drug_id: yup.string().required("Drug is required"),
+        drug_id: yup.string(),
         quantity: yup
           .number()
-          .min(1, "Quantity must be at least 1")
-          .required("Quantity is required"),
+          .min(1, "Quantity must be at least 1"),
       })
     )
     .optional(),

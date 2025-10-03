@@ -36,8 +36,8 @@ export interface CreateBillPayload {
   payment_method?: string;
   comments?: string;
   drugs?: Array<{
-    drug: string;
-    quantity: number;
+    drug?: string;
+    quantity?: number;
   }>;
 }
 

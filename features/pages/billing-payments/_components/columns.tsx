@@ -3,8 +3,9 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { Badge } from "@/components/ui/badge";
 import { getStatusBadgeClasses, formatStatusText } from "@/lib/statusColors";
-import { getFormatCurrency } from "@/lib/utils";
+import { buildRolePath, getFormatCurrency } from "@/lib/utils";
 import Link from "next/link";
+import { storeFunctions } from "@/store/authSlice";
 
 /**
  * Defines the table row shape for the Billing & Payments table.
@@ -64,7 +65,11 @@ export const billColumns: ColumnDef<BillRow>[] = [
     cell: ({ row }) => {
       const status = row.getValue("status") as string;
       return (
-        <Badge className={`${getStatusBadgeClasses(status)} px-3 py-2 text-xs font-medium rounded-md`}>
+        <Badge
+          className={`${getStatusBadgeClasses(
+            status
+          )} px-3 py-2 text-xs font-medium rounded-md`}
+        >
           {formatStatusText(status)}
         </Badge>
       );
@@ -73,13 +78,18 @@ export const billColumns: ColumnDef<BillRow>[] = [
   {
     id: "action",
     header: "ACTION",
-    cell: ({ row }) => (
-      <Link
-        href={`/admin/billing-payments/${row.original.transactionId}`}
-        className="text-blue-600 hover:underline"
-      >
-        View Detail
-      </Link>
-    ),
+    cell: ({ row }) => {
+      const role = storeFunctions.getState().user?.role;
+
+      const href =
+        buildRolePath(role, ["billing-payments", row.original.transactionId]) ??
+        "#";
+
+      return (
+        <Link href={href} className="text-blue-600 hover:underline">
+          View Detail
+        </Link>
+      );
+    },
   },
 ];
