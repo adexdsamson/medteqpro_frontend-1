@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import Subheader from "../../../../layouts/Subheader";
@@ -8,33 +9,57 @@ import HospitalManager from "./_components/HospitalManager";
 import DoctorsMonitor from "./_components/DoctorsMonitor";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Bar, BarChart } from "recharts";
-import { ChartConfig, ChartContainer } from "@/components/ui/chart";
-import { useHospitalAdminDashboard } from "@/features/services/dashboardService";
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
+import {
+  ChartConfig,
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@/components/ui/chart";
+import {
+  useHospitalAdminDashboard,
+  useVisitationFrequencyAnalytics,
+} from "@/features/services/dashboardService";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useMemo, useState } from "react";
 
-const chartData = [
-  { month: "January", desktop: 186, mobile: 80 },
-  { month: "February", desktop: 305, mobile: 200 },
-  { month: "March", desktop: 237, mobile: 120 },
-  { month: "April", desktop: 73, mobile: 190 },
-  { month: "May", desktop: 209, mobile: 130 },
-  { month: "June", desktop: 214, mobile: 140 },
-];
-
+// Bar chart config (single series)
 const chartConfig = {
-  desktop: {
-    label: "Desktop",
-    color: "#2563eb",
-  },
-  mobile: {
-    label: "Mobile",
-    color: "#60a5fa",
+  value: {
+    label: "Visits",
+    color: "#16C2D5",
   },
 } satisfies ChartConfig;
 
 const Dashboard = () => {
   const { data: dashboardData, isLoading, error } = useHospitalAdminDashboard();
+  const [visitFilter, setVisitFilter] = useState<
+    "daily" | "monthly" | "yearly"
+  >("monthly");
+  const { data: visitationData } = useVisitationFrequencyAnalytics(visitFilter);
+
+  const barChartData = useMemo(() => {
+    const rawContainer =
+      (visitationData?.data as { data?: unknown } | undefined)?.data ??
+      visitationData?.data;
+
+    if (Array.isArray(rawContainer)) {
+      return (rawContainer as any[]).map((item, idx) => ({
+        name: item.label || item.month || item.name || `${idx + 1}`,
+        value: Number(item.value ?? item.count ?? item.visits ?? 0),
+      }));
+    }
+
+    if (rawContainer && typeof rawContainer === "object") {
+      const obj = rawContainer as Record<string, unknown>;
+      return Object.keys(obj).map((k) => ({
+        name: k,
+        value: Number(obj[k] as number),
+      }));
+    }
+
+    return [];
+  }, [visitationData]);
 
   if (error) {
     return (
@@ -42,21 +67,28 @@ const Dashboard = () => {
         <Subheader title="Dashboard" />
         <div className="px-6 mt-6">
           <div className="text-center py-10">
-            <P className="text-red-500">Failed to load dashboard data. Please try again.</P>
+            <P className="text-red-500">
+              Failed to load dashboard data. Please try again.
+            </P>
           </div>
         </div>
       </>
     );
   }
 
-  const totalTransactions = dashboardData?.data?.data?.analytics?.total_no_of_transactions || 0;
-  const cashPercentage = dashboardData?.data?.data?.analytics?.payment_medium_percentages?.cash || 0;
-  const cardPercentage = dashboardData?.data?.data?.analytics?.payment_medium_percentages?.card || 0;
-  const bankTransferPercentage = dashboardData?.data?.data?.analytics?.payment_medium_percentages?.bank_transfer || 0;
+  const totalTransactions =
+    dashboardData?.data?.data?.analytics?.total_no_of_transactions || 0;
+  const cashPercentage =
+    dashboardData?.data?.data?.analytics?.payment_medium_percentages?.cash || 0;
+  const cardPercentage =
+    dashboardData?.data?.data?.analytics?.payment_medium_percentages?.card || 0;
+  const bankTransferPercentage =
+    dashboardData?.data?.data?.analytics?.payment_medium_percentages
+      ?.bank_transfer || 0;
 
   return (
     <>
-      <Subheader title="Dashboard"  />
+      <Subheader title="Dashboard" />
       <div className="px-6 mt-6 space-y-5">
         <div className="bg-[#F9F9F9] flex justify-between p-5">
           <div>
@@ -74,16 +106,15 @@ const Dashboard = () => {
             ) : (
               <H3>{totalTransactions}</H3>
             )}
-           
           </div>
         </div>
 
         <Overview data={dashboardData?.data?.data} isLoading={isLoading} />
 
-        <HospitalManager 
-            data={dashboardData?.data?.data} 
-            isLoading={isLoading} 
-          />
+        <HospitalManager
+          data={dashboardData?.data?.data}
+          isLoading={isLoading}
+        />
 
         {/* Hospital Facilities Overview */}
         <div className="mb-5">
@@ -100,7 +131,9 @@ const Dashboard = () => {
                     </>
                   ) : (
                     <>
-                      <Lead>{dashboardData?.data?.data?.overview?.no_of_wards || 0}</Lead>
+                      <Lead>
+                        {dashboardData?.data?.data?.overview?.no_of_wards || 0}
+                      </Lead>
                       <P>Total Wards</P>
                     </>
                   )}
@@ -119,7 +152,9 @@ const Dashboard = () => {
                     </>
                   ) : (
                     <>
-                      <Lead>{dashboardData?.data?.data?.overview?.no_of_rooms || 0}</Lead>
+                      <Lead>
+                        {dashboardData?.data?.data?.overview?.no_of_rooms || 0}
+                      </Lead>
                       <P>Total Rooms</P>
                     </>
                   )}
@@ -138,7 +173,9 @@ const Dashboard = () => {
                     </>
                   ) : (
                     <>
-                      <Lead>{dashboardData?.data?.data?.overview?.no_of_icus || 0}</Lead>
+                      <Lead>
+                        {dashboardData?.data?.data?.overview?.no_of_icus || 0}
+                      </Lead>
                       <P>ICU Units</P>
                     </>
                   )}
@@ -157,7 +194,10 @@ const Dashboard = () => {
                     </>
                   ) : (
                     <>
-                      <Lead>{dashboardData?.data?.data?.overview?.no_of_lab_tests || 0}</Lead>
+                      <Lead>
+                        {dashboardData?.data?.data?.overview?.no_of_lab_tests ||
+                          0}
+                      </Lead>
                       <P>Available Tests</P>
                     </>
                   )}
@@ -182,7 +222,10 @@ const Dashboard = () => {
                     </>
                   ) : (
                     <>
-                      <Lead>{dashboardData?.data?.data?.overview?.no_of_beds?.total || 0}</Lead>
+                      <Lead>
+                        {dashboardData?.data?.data?.overview?.no_of_beds
+                          ?.total || 0}
+                      </Lead>
                       <P>Total Beds</P>
                     </>
                   )}
@@ -201,7 +244,10 @@ const Dashboard = () => {
                     </>
                   ) : (
                     <>
-                      <Lead className="text-red-500">{dashboardData?.data?.data?.overview?.no_of_beds?.no_occupied || 0}</Lead>
+                      <Lead className="text-red-500">
+                        {dashboardData?.data?.data?.overview?.no_of_beds
+                          ?.no_occupied || 0}
+                      </Lead>
                       <P>Occupied</P>
                     </>
                   )}
@@ -220,7 +266,10 @@ const Dashboard = () => {
                     </>
                   ) : (
                     <>
-                      <Lead className="text-green-500">{dashboardData?.data?.data?.overview?.no_of_beds?.no_available || 0}</Lead>
+                      <Lead className="text-green-500">
+                        {dashboardData?.data?.data?.overview?.no_of_beds
+                          ?.no_available || 0}
+                      </Lead>
                       <P>Available</P>
                     </>
                   )}
@@ -233,7 +282,10 @@ const Dashboard = () => {
         <div className="flex gap-6 mb-6">
           <Card className="w-full">
             <CardContent>
-              <Tabs defaultValue="tab-1">
+              <Tabs
+                value={visitFilter}
+                onValueChange={(v) => setVisitFilter(v as typeof visitFilter)}
+              >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <div className="p-2.5 bg-gray-200 rounded-md">
@@ -245,29 +297,28 @@ const Dashboard = () => {
                   </div>
 
                   <TabsList className="">
-                    <TabsTrigger value="tab-1">Daily</TabsTrigger>
-                    <TabsTrigger value="tab-2" className="group">
-                      Weekly
+                    <TabsTrigger value="daily">Daily</TabsTrigger>
+                    <TabsTrigger value="monthly" className="group">
+                      Monthly
                     </TabsTrigger>
-                    <TabsTrigger value="tab-3">Monthly</TabsTrigger>
+                    <TabsTrigger value="yearly">Yearly</TabsTrigger>
                   </TabsList>
                 </div>
-                <TabsContent value="tab-1">
+                <TabsContent value={visitFilter}>
                   <ChartContainer
                     config={chartConfig}
                     className="min-h-[200px] w-full"
                   >
-                    <BarChart accessibilityLayer data={chartData}>
+                    <BarChart accessibilityLayer data={barChartData}>
+                      <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                      <XAxis dataKey="name" tickLine={false} axisLine={false} />
+                      <YAxis tickLine={false} axisLine={false} />
                       <Bar
-                        dataKey="desktop"
-                        fill="var(--color-desktop)"
-                        radius={4}
+                        dataKey="value"
+                        fill="var(--color-value)"
+                        radius={[4, 4, 0, 0]}
                       />
-                      <Bar
-                        dataKey="mobile"
-                        fill="var(--color-mobile)"
-                        radius={4}
-                      />
+                      <ChartTooltip content={<ChartTooltipContent />} />
                     </BarChart>
                   </ChartContainer>
                 </TabsContent>

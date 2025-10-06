@@ -1,7 +1,7 @@
 'use client'
 
 import { Card, CardContent } from "@/components/ui/card";
-import { Large, Lead, Small } from "@/components/ui/Typography";
+import { Large, Muted, Small } from "@/components/ui/Typography";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getRequest } from "@/lib/axiosInstance";
@@ -173,8 +173,8 @@ const DoctorsMonitor = ({
                 className="flex items-center justify-between pt-3 border-b pb-2 border-gray-200"
               >
                 <div>
-                  <Lead>{doctor.name}</Lead>
-                  <Small className="text-gray-500">{doctor.schedule}</Small>
+                  <Muted>{doctor.name}</Muted>
+                  <Small className="text-gray-500 text-xs">{doctor.schedule}</Small>
                 </div>
                 <Small>{doctor.patientCount} patient{doctor.patientCount !== 1 ? 's' : ''}</Small>
                 <StatusIndicator status={doctor.status} />
@@ -192,42 +192,6 @@ const DoctorsMonitor = ({
 };
 
 // Default data to use when not provided
-const defaultDoctors: Doctor[] = [
-  {
-    id: "1",
-    name: "Dr. Adeyemi Ade",
-    schedule: "08:00 - 17:00",
-    patientCount: 4,
-    status: "at-work"
-  },
-  {
-    id: "2",
-    name: "Dr. Adisa kola",
-    schedule: "08:00 - 17:00",
-    patientCount: 4,
-    status: "at-break"
-  },
-  {
-    id: "3",
-    name: "Dr. Adeyemi Ade",
-    schedule: "08:00 - 17:00",
-    patientCount: 4,
-    status: "at-work"
-  },
-  {
-    id: "4",
-    name: "Dr. Sarah Johnson",
-    schedule: "09:00 - 18:00",
-    patientCount: 6,
-    status: "at-work"
-  },
-  {
-    id: "5",
-    name: "Dr. Michael Smith",
-    schedule: "07:00 - 16:00",
-    patientCount: 2,
-    status: "off-duty"
-  }
-];
+const defaultDoctors: Doctor[] = [];
 
 export default DoctorsMonitor;
