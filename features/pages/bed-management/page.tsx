@@ -186,7 +186,7 @@ const BedManagementPage = (): React.ReactElement => {
         <div className="mb-6 p-6 flex gap-3 justify-end items-center">
           <Dialog>
             <DialogTrigger asChild>
-              <Button variant={"ghost"}>Create Bed</Button>
+              <Button variant={"secondary"}>Create Bed</Button>
             </DialogTrigger>
             <CreateBedDialog />
           </Dialog>
