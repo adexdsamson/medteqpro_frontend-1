@@ -136,7 +136,7 @@ export default function Profile() {
         <Tabs defaultValue="personal">
           <TabsList className="bg-transparent p-0">
             <TabsTrigger
-              value="all"
+              value="personal"
               className="text-gray-600 data-[state=active]:border-2 data-[state=active]:border-cyan-600 px-6 data-[state=active]:bg-cyan-200 rounded-none"
             >
               Personal Details
