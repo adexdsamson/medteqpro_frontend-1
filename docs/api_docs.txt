@@ -14848,6 +14848,110 @@
 									"body": "{\n    \"status\": true,\n    \"message\": \"User retrieved successfully\",\n    \"data\": {\n        \"id\": \"911031a3-f586-46f8-adb1-7f7a8bb400b3\",\n        \"patient_id\": \"1SM77\",\n        \"role\": \"patient\",\n        \"first_name\": \"Diogo\",\n        \"middle_name\": \"\",\n        \"last_name\": \"Jota\",\n        \"email\": \"aaron@autogon.ai\",\n        \"phone_number\": \"08011111111\",\n        \"dob\": \"2000-01-29\",\n        \"gender\": \"male\",\n        \"avatar\": null,\n        \"two_factor_auth\": false,\n        \"is_active\": true,\n        \"date_registered\": \"2025-08-14 09:33:21\",\n        \"last_login\": \"2025-08-14 09:48:51\"\n    }\n}"
 								}
 							]
+						},
+						{
+							"name": "Update Patient User",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{patient}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"first_name\": \"\", \r\n    \"middle_name\": \"\", \r\n    \"last_name\": \"\",\r\n    \"dob\": \"\",\r\n    \"phone_number\": \"\",\r\n    \"gender\": \"\",\r\n    \"address_latitude\": \"\",\r\n    \"address_longitude\": \"\",\r\n    \"avatar\": \"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL}}patient-management/auth/user/",
+									"host": [
+										"{{LOCAL}}patient-management"
+									],
+									"path": [
+										"auth",
+										"user",
+										""
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Patient User",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{LOCAL}}patient-management/auth/user/",
+											"host": [
+												"{{LOCAL}}patient-management"
+											],
+											"path": [
+												"auth",
+												"user",
+												""
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "Date",
+											"value": "Thu, 14 Aug 2025 09:50:35 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "WSGIServer/0.2 CPython/3.10.0"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Allow",
+											"value": "GET, PATCH, HEAD, OPTIONS"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "DENY"
+										},
+										{
+											"key": "Vary",
+											"value": "origin"
+										},
+										{
+											"key": "Content-Length",
+											"value": "424"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": true,\n    \"message\": \"User retrieved successfully\",\n    \"data\": {\n        \"id\": \"911031a3-f586-46f8-adb1-7f7a8bb400b3\",\n        \"patient_id\": \"1SM77\",\n        \"role\": \"patient\",\n        \"first_name\": \"Diogo\",\n        \"middle_name\": \"\",\n        \"last_name\": \"Jota\",\n        \"email\": \"aaron@autogon.ai\",\n        \"phone_number\": \"08011111111\",\n        \"dob\": \"2000-01-29\",\n        \"gender\": \"male\",\n        \"avatar\": null,\n        \"two_factor_auth\": false,\n        \"is_active\": true,\n        \"date_registered\": \"2025-08-14 09:33:21\",\n        \"last_login\": \"2025-08-14 09:48:51\"\n    }\n}"
+								}
+							]
 						}
 					]
 				},

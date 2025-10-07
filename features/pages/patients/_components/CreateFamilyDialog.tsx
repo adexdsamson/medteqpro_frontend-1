@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -13,26 +13,12 @@ import { useForge, Forge, Forger, FormPropsRef } from "@/lib/forge";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { TextInput } from "@/components/FormInputs/TextInput";
-import { TextSelect } from "@/components/FormInputs/TextSelect";
-import {
-  usePatientsForAppointment,
-  useCreateFamily,
-} from "@/features/services/patientService";
+import { useCreateFamily } from "@/features/services/patientService";
 import { useToastHandler } from "@/hooks/useToaster";
-import { useFieldArray } from "@/lib/forge/useFieldArray";
-import { Trash2, Plus } from "lucide-react";
 import { ApiResponseError } from "@/types";
 
 const schema = yup.object({
   family_name: yup.string().trim().required("Family name is required"),
-  members: yup
-    .array(
-      yup.object({
-        patient_id: yup.string().required("Select a patient"),
-      })
-    )
-    .min(1, "Add at least one patient")
-    .required(),
 });
 
 export type CreateFamilyForm = yup.InferType<typeof schema>;
@@ -42,31 +28,15 @@ const CreateFamilyDialog = ({ children }: { children: React.ReactNode }) => {
   const toast = useToastHandler();
   const formRef = useRef<FormPropsRef | null>(null);
 
-  const { data: patientsOptions = [], isLoading: loadingPatients } =
-    usePatientsForAppointment();
   const { mutateAsync: createFamily, isPending } = useCreateFamily();
 
   const { control } = useForge<CreateFamilyForm>({
     resolver: yupResolver(schema),
     defaultValues: {
       family_name: "",
-      members: [
-        {
-          patient_id: "",
-        },
-      ],
     },
   });
 
-  // Provide control explicitly to avoid relying on context before <Forge> is rendered
-  const { append, remove, fields } = useFieldArray({
-    control,
-    name: "members",
-    inputProps: {},
-    shouldUnregister: true,
-  });
-
-  const memberOptions = useMemo(() => patientsOptions, [patientsOptions]);
 
   const onSubmit = async (values: CreateFamilyForm) => {
     try {
@@ -105,48 +75,6 @@ const CreateFamilyDialog = ({ children }: { children: React.ReactNode }) => {
                 label="Family Name"
                 placeholder="Enter family name"
               />
-            </div>
-
-            <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <h3 className="font-medium text-stone-900">Members</h3>
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  onClick={() => append({ patient_id: "" })}
-                >
-                  <Plus className="h-4 w-4 mr-1" /> Add member
-                </Button>
-              </div>
-
-              <div className="space-y-2">
-                {fields.map((field, index) => (
-                  <div key={field.id ?? index} className="flex items-end gap-2">
-                    <div className="flex-1">
-                      <Forger
-                        name={`members.${index}.patient_id` as const}
-                        component={TextSelect}
-                        label={`Patient ${index + 1}`}
-                        placeholder={
-                          loadingPatients ? "Loading..." : "Select patient"
-                        }
-                        options={memberOptions}
-                      />
-                    </div>
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      className="text-red-600"
-                      onClick={() => remove(index)}
-                      disabled={fields.length === 1}
-                      title="Remove member"
-                    >
-                      <Trash2 className="h-5 w-5" />
-                    </Button>
-                  </div>
-                ))}
-              </div>
             </div>
 
             <div className="flex items-center justify-end gap-2 pt-4">

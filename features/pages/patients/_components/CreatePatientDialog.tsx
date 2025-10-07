@@ -16,7 +16,7 @@ import { TextSelect } from "@/components/FormInputs/TextSelect";
 import { TextArea } from "@/components/FormInputs/TextArea";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { useCreatePatient } from "@/features/services/patientService";
+import { useCreatePatient, useFamiliesList } from "@/features/services/patientService";
 import { useToastHandler } from "@/hooks/useToaster";
 import { useWatch } from "react-hook-form";
 import { TextDateInput } from "@/components/FormInputs/TextDateInput";
@@ -38,6 +38,8 @@ const fullSchema = yup.object().shape({
   height: yup.number().positive("Height must be positive").required("Height is required"),
   weight: yup.number().positive("Weight must be positive").required("Weight is required"),
   employment_status: yup.string().required("Employment status is required"),
+  family_id: yup.string().optional(),
+  user_id: yup.string().required("User ID is required"),
   emergency_contact: yup.object().shape({
     name: yup.string().required("Emergency contact name is required"),
     phone: yup.string().required("Emergency contact phone is required"),
@@ -72,44 +74,8 @@ const fullSchema = yup.object().shape({
     .required(),
 });
 
-// Define the form data type to match the API contract
-type FullFormData = {
-  first_name: string;
-  last_name: string;
-  email: string;
-  address: string;
-  city: string;
-  state: string;
-  phone_number: string;
-  marital_status: string;
-  date_of_birth: string;
-  gender: string;
-  height: number;
-  weight: number;
-  employment_status: string;
-  emergency_contact: {
-    name: string;
-    phone: string;
-    address: string;
-  };
-  current_medications: Array<{
-    medication: string;
-    dosage: string;
-    frequency: string;
-  }>;
-  allergies: string;
-  family_history: string;
-  hereditary_conditions: string;
-  surgical_history: string;
-  blood_group: string;
-  social_history: {
-    smoking: string;
-    alcohol: string;
-    drug_use: string;
-    exercise: string;
-    diet: string;
-  };
-};
+// Derive form data type directly from the Yup schema to keep resolver types aligned
+type FullFormData = yup.InferType<typeof fullSchema>;
 
 interface CreatePatientDialogProps {
   children: React.ReactNode;
@@ -140,8 +106,10 @@ const CreatePatientDialog: React.FC<CreatePatientDialogProps> = ({
     loadStatesData();
   }, []);
 
+  const { data: families = [], isLoading: isFamiliesLoading } = useFamiliesList();
+
   const { control, reset, trigger } = useForge<FullFormData>({
-    resolver: yupResolver(fullSchema),
+    resolver: yupResolver(fullSchema) as any,
     defaultValues: {
       first_name: "",
       last_name: "",
@@ -151,12 +119,14 @@ const CreatePatientDialog: React.FC<CreatePatientDialogProps> = ({
       state: "",
       phone_number: "",
       marital_status: "",
-      date_of_birth: "",
-      gender: "",
-      blood_group: "",
-      height: 0,
-      weight: 0,
-      employment_status: "",
+    date_of_birth: "",
+    gender: "",
+    family_id: "",
+    user_id: "",
+    blood_group: "",
+    height: 0,
+    weight: 0,
+    employment_status: "",
       emergency_contact: {
         name: "",
         phone: "",
@@ -187,6 +157,8 @@ const CreatePatientDialog: React.FC<CreatePatientDialogProps> = ({
       "phone_number",
       "state",
       "city",
+      "family_id",
+      "user_id",
       "marital_status",
       "date_of_birth",
       "gender",
@@ -244,8 +216,11 @@ const CreatePatientDialog: React.FC<CreatePatientDialogProps> = ({
   const onSubmit = async (data: FullFormData) => {
     try {
       // Transform data to match API format
+      const { family_id, user_id, ...rest } = data as any;
       const payload = {
-        ...data,
+        ...rest,
+        ...(family_id ? { family_id } : {}),
+        user_id,
         date_of_birth: data.date_of_birth ? format(data.date_of_birth, "yyyy-MM-dd") : "",
         current_medications: data.current_medications.map(med => ({
           medication: med.medication,
@@ -289,6 +264,11 @@ const CreatePatientDialog: React.FC<CreatePatientDialogProps> = ({
         label: lga,
         value: lga,
       })) || [];
+
+  const familyOptions = families.map((f) => ({
+    label: f.family_name,
+    value: f.id,
+  }));
 
   const genderOptions = [
     { label: "Male", value: "male" },
@@ -426,6 +406,22 @@ const CreatePatientDialog: React.FC<CreatePatientDialogProps> = ({
                   disabled={!watchedState}
                 />
               </div>
+
+              <Forger
+                name="family_id"
+                component={TextSelect}
+                label="Family"
+                placeholder="Select Family"
+              options={familyOptions}
+              disabled={isFamiliesLoading}
+            />
+
+              <Forger
+                name="user_id"
+                component={TextInput}
+                label="User ID"
+                placeholder="Enter User ID"
+              />
 
               <div className="grid grid-cols-2 gap-4">
                 <Forger

@@ -12,6 +12,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import Link from "next/link";
+import Image from "next/image";
 import { useModule } from "@/hooks/useModule";
 
 interface AppSidebarProps {
@@ -26,10 +27,14 @@ export function AppSidebar({ moduleKey }: AppSidebarProps) {
     <Sidebar variant="sidebar" className="!bg-white">
       <SidebarHeader className="p-4">
         <div className="flex items-center">
-          <span className="text-xl font-bold text-primary mx-auto">
-            <span className="text-[#16232E]">Medteq</span>
-            <span className="text-[#16C2D5]">Pro</span>
-          </span>
+          <Image
+            src="/Medteqpro.svg"
+            alt="MedteqPro"
+            width={140}
+            height={32}
+            priority
+            className="mx-auto h-8 w-auto"
+          />
         </div>
       </SidebarHeader>
 

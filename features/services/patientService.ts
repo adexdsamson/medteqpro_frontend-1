@@ -3,7 +3,7 @@
 
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { getRequest, postRequest } from "@/lib/axiosInstance";
-import { ApiResponseError } from "@/types";
+import { ApiResponse, ApiResponseError } from "@/types";
 import type { PatientDetailResponse } from "@/features/pages/patients/patient-details/_components/types";
 import { useUser } from "@/store/authSlice";
 
@@ -26,6 +26,11 @@ export interface PatientListParams {
   end_date?: string;
   patient_type?: string;
 }
+
+export interface PatientQrcode {
+  qr_code_image: string;
+}
+
 
 // Hook to fetch patient list
 export const usePatientList = (params?: PatientListParams) => {
@@ -106,6 +111,17 @@ export const usePatientDetailedInfo = (patientId: string) => {
   });
 };
 
+// Hook to fetch patient QR image/string. Returns a data URL suitable for <img src>.
+export const usePatientQrCode = (patientId: string) => {
+  return useQuery<ApiResponse<PatientQrcode>, ApiResponseError>({
+    queryKey: ["patient-qr", patientId],
+    queryFn: async () => await getRequest({
+        url: `patient-management/patients/${patientId}/qr-code/`,
+      }),
+    enabled: !!patientId,
+  });
+};
+
 // Define family types
 export interface FamilyResponse {
   id: string;
@@ -135,6 +151,8 @@ export interface CreatePatientPayload {
   marital_status: string;
   date_of_birth: string;
   gender: string;
+  family_id?: string;
+  user_id: string;
   height?: number;
   weight?: number;
   blood_group?: string;

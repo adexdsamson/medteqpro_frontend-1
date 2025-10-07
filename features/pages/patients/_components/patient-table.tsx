@@ -8,6 +8,7 @@ import { Edit } from "lucide-react"; // Using lucide-react for icons
 import Link from "next/link"; // Added Link import
 import { PatientListResponse } from "@/features/services/patientService";
 import { format } from "date-fns";
+import PatientShareDialog from "./PatientShareDialog";
 import { storeFunctions } from "@/store/authSlice"; // Auth store for role-based routing
 import { buildRolePath, hasPatientsRoute } from "@/lib/utils"; // Centralized routing utilities
 
@@ -63,18 +64,25 @@ export const columns: ColumnDef<PatientListResponse>[] = [
       }
 
       const href = buildRolePath(role, ["patients", String(patient.id)]) ?? "#";
-
+      
       return (
-        <Link href={href} prefetch={false}>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="h-8 w-8 p-0"
-            aria-label={`View patient ${patient.id}`}
-          >
-            <Edit className="h-4 w-4" />
-          </Button>
-        </Link>
+        <div className="flex items-center gap-1">
+          <Link href={href} prefetch={false}>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-8 w-8 p-0"
+              aria-label={`View patient ${patient.id}`}
+            >
+              <Edit className="h-4 w-4" />
+            </Button>
+          </Link>
+          <PatientShareDialog
+            patientId={patient.id}
+            patientUserId={patient.user_id}
+            fullName={patient.full_name}
+          />
+        </div>
       );
     },
   },
