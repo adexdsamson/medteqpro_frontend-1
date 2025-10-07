@@ -3,7 +3,6 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
 import { Forge, Forger, useForge } from "@/lib/forge";
 import { TextInput } from "@/components/FormInputs/TextInput";
 import { TextSelect } from "@/components/FormInputs/TextSelect";
@@ -14,6 +13,9 @@ import { useGetHospitalList, HospitalListType } from "@/features/services/hospit
 import { useToastHandler } from "@/hooks/useToaster";
 import { ApiResponseError } from "@/types";
 import Subheader from "../../../../../layouts/Subheader";
+import { useRouter } from "next/navigation";
+import { ArrowLeft } from "lucide-react";
+import { TextDateInput } from "@/components/FormInputs/TextDateInput";
 
 
 // Validation schema
@@ -30,10 +32,11 @@ type FormValues = yup.InferType<typeof schema>;
 
 export default function CustomSubscription() {
   const toast = useToastHandler();
+  const router = useRouter();
   const { data: hospitalsData } = useGetHospitalList();
   const { mutateAsync: createCustomSubscription, isPending: isCreatingSubscription } = useCreateCustomSubscription();
   
-  const { control } = useForge<FormValues>({
+  const { control, reset } = useForge<FormValues>({
     resolver: yupResolver(schema),
     defaultValues: {
       hospital_id: "",
@@ -65,7 +68,8 @@ export default function CustomSubscription() {
       
       if (response.status) {
         toast.success("Success", "Custom subscription created successfully!");
-        // Reset form or redirect as needed
+        // Redirect to subscription table after successful creation
+        router.push("/super-admin/clients?tab=subscription");
       }
     } catch (error) {
       const apiError = error as ApiResponseError;
@@ -76,8 +80,29 @@ export default function CustomSubscription() {
     }
   };
 
+  const handleBack = () => {
+    router.push("/super-admin/clients?tab=subscription");
+  };
+
+  const handleCancel = () => {
+    reset();
+    router.push("/super-admin/clients?tab=subscription");
+  };
+
   return (
     <div className="space-y-6 pb-10">
+      <div className="flex items-center gap-4 px-5">
+        <Button 
+          variant="ghost" 
+          size="sm" 
+          onClick={handleBack}
+          className="flex items-center gap-2"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          Back to Subscriptions
+        </Button>
+      </div>
+      
       <Subheader title="Custom Subscription" />
       
       <Card className="mx-5">
@@ -89,10 +114,10 @@ export default function CustomSubscription() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Hospital Selection */}
               <div className="space-y-2">
-                <Label htmlFor="hospital_id">Select Hospital *</Label>
                 <Forger
                   name="hospital_id"
                   component={TextSelect}
+                  label="Select Hospital *"
                   placeholder="Choose a hospital"
                   options={hospitalOptions}
                   dependencies={[hospitalOptions]}
@@ -101,11 +126,11 @@ export default function CustomSubscription() {
 
               {/* Amount */}
               <div className="space-y-2">
-                <Label htmlFor="amount">Amount *</Label>
                 <Forger
                   name="amount"
                   component={TextInput}
                   type="number"
+                  label="Amount *"
                   placeholder="Enter subscription amount"
                   min="1"
                   step="0.01"
@@ -114,17 +139,25 @@ export default function CustomSubscription() {
 
               {/* Expiry Date */}
               <div className="space-y-2">
-                <Label htmlFor="expires_at">Expiry Date *</Label>
                 <Forger
                   name="expires_at"
-                  component={TextInput}
+                  component={TextDateInput}
+                  label="Expiry Date *"
                   type="datetime-local"
                   placeholder="Select expiry date"
                 />
               </div>
             </div>
 
-            <div className="flex justify-end mt-6">
+            <div className="flex justify-end gap-3 mt-6">
+              <Button 
+                type="button" 
+                variant="outline"
+                onClick={handleCancel}
+                className="min-w-[120px]"
+              >
+                Cancel
+              </Button>
               <Button 
                 type="submit" 
                 disabled={isCreatingSubscription}
