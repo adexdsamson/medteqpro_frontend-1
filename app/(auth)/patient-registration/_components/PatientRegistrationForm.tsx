@@ -73,6 +73,7 @@ export default function PatientRegistrationForm() {
   const schemaOne = useMemo(
     () =>
       yup.object({
+        user_id: yup.string().required("User ID is required"),
         first_name: yup.string().required("First name is required"),
         last_name: yup.string().required("Last name is required"),
         address: yup.string().required("Address is required"),
@@ -134,6 +135,7 @@ export default function PatientRegistrationForm() {
   const { control: controlStep1 } = useForge<StepOne>({
     resolver: yupResolver(schemaOne) as unknown as Resolver<StepOne>,
     defaultValues: {
+      user_id: "",
       first_name: "",
       last_name: "",
       address: "",
@@ -179,6 +181,7 @@ export default function PatientRegistrationForm() {
       const stepData = data as StepOne;
       const nextPayload: Partial<CreatePatientPayload> = {
         ...payload,
+        user_id: stepData.user_id,
         first_name: stepData.first_name,
         last_name: stepData.last_name,
         address: stepData.address,
@@ -224,6 +227,7 @@ export default function PatientRegistrationForm() {
       // Final submit
       const stepData = data as StepThree;
       const finalPayload: CreatePatientPayload = {
+        user_id: payload.user_id ?? "",
         first_name: payload.first_name ?? "",
         last_name: payload.last_name ?? "",
         address: payload.address ?? "",
@@ -290,6 +294,13 @@ export default function PatientRegistrationForm() {
           {step === 1 && (
             <Forge ref={formRef} control={controlStep1} onSubmit={onNext}>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <Forger
+                  name="user_id"
+                  component={TextInput}
+                  label="User ID"
+                  placeholder="Enter your User ID"
+                  containerClass="md:col-span-2"
+                />
                 <Forger
                   name="first_name"
                   component={TextInput}
