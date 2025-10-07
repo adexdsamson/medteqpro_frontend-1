@@ -44,7 +44,7 @@ export const TextSelect = ({ label, ...rest }: TextSelectProps) => {
         }}
         disabled={rest.disabled}
       >
-        <SelectTrigger className="w-full bg-white text-xs sm:text-sm !text-stone-600 !h-11 sm:!h-12 touch-manipulation min-h-[44px] sm:min-h-[48px] px-3 sm:px-4">
+        <SelectTrigger className="w-full bg-white text-xs sm:text-sm !text-stone-600 sm:!h-10 touch-manipulation px-3 sm:px-4">
           <SelectValue
             className="!text-xs sm:!text-sm !text-gray-300"
             placeholder={rest?.placeholder}
@@ -63,9 +63,9 @@ export const TextSelect = ({ label, ...rest }: TextSelectProps) => {
         </SelectContent>
       </Select>
       {rest.error ? (
-        <span className="text-xs sm:text-sm text-red-500 mt-1 sm:mt-2">{rest.error}</span>
+        <span className="text-xs text-red-500 mt-1 sm:mt-2">{rest.error}</span>
       ) : rest.helperText ? (
-        <span className="text-xs sm:text-sm text-gray-500 mt-1 sm:mt-2">{rest.helperText}</span>
+        <span className="text-xs text-gray-500 mt-1 sm:mt-2">{rest.helperText}</span>
       ) : null}
     </div>
   );

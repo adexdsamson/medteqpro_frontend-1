@@ -25,7 +25,7 @@ export const TextArea = (props: TextAreaProps) => {
       <Label className="text-sm sm:text-base whitespace-nowrap text-stone-900 mb-1 sm:mb-2">
         {props.label}
       </Label>
-      <div className="flex items-start bg-white rounded-lg border border-solid border-stone-300 py-2 sm:py-3 mt-1 sm:mt-2 px-3 sm:px-4 gap-2 touch-manipulation min-h-[88px] sm:min-h-[96px]">
+      <div className="flex items-start bg-white rounded-lg border border-solid border-stone-300 py-2 sm:py- mt-1 sm:mt-2 px-3 sm:px-4 gap-2 touch-manipulation min-h-[88px] sm:min-h-[96px]">
         <span>{props.startAdornment}</span>
         <Textarea
           {...props}
@@ -34,9 +34,9 @@ export const TextArea = (props: TextAreaProps) => {
         <span>{props.endAdornment}</span>
       </div>
       {props.error ? (
-        <span className="text-xs sm:text-sm text-red-500 mt-1 sm:mt-2">{props.error}</span>
+        <span className="text-xs text-red-500 mt-1 sm:mt-2">{props.error}</span>
       ) : props.helperText ? (
-        <span className="text-xs sm:text-sm text-gray-500 mt-1 sm:mt-2">{props.helperText}</span>
+        <span className="text-xs text-gray-500 mt-1 sm:mt-2">{props.helperText}</span>
       ) : null}
     </div>
   );

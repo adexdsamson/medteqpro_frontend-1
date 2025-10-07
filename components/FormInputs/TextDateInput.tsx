@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import React, { ReactNode } from "react";
+import React, { ReactNode, useRef } from "react";
 import { Calendar } from "@/components/ui/calendar-rac";
 import { DateInput } from "@/components/ui/datefield-rac";
 import { Label } from "@/components/ui/label";
@@ -15,9 +15,13 @@ import {
   Group,
   Popover,
 } from "react-aria-components";
+import { UNSAFE_PortalProvider } from "react-aria";
 import { parseDate } from "@internationalized/date";
 
-export type TextDateInputProps<T extends DateValue> = Omit<DatePickerProps<T>, 'value' | 'onChange'> & {
+export type TextDateInputProps<T extends DateValue> = Omit<
+  DatePickerProps<T>,
+  "value" | "onChange"
+> & {
   label?: any;
   containerClass?: string;
   error?: string;
@@ -25,76 +29,74 @@ export type TextDateInputProps<T extends DateValue> = Omit<DatePickerProps<T>, '
   startAdornment?: ReactNode;
   value?: string;
   onChange?: (date: string | null) => void;
+  disabled?: boolean;
 };
 
 export const TextDateInput = <T extends DateValue>({
   containerClass,
   value,
   onChange,
+  disabled,
   ...props
 }: TextDateInputProps<T>) => {
-  // Convert string value to DateValue with error handling
-  const dateValue = React.useMemo(() => {
-    if (!value) return null;
-    try {
-      // Handle different date formats
-      if (value.includes('T')) {
-        // ISO format: 2025-07-17T00:00:00.000Z -> 2025-07-17
-        return parseDate(value.split('T')[0]);
-      }
-      // Already in YYYY-MM-DD format
-      return parseDate(value);
-    } catch (error) {
-      console.warn('Invalid date format:', value, error);
-      return null;
-    }
-  }, [value]);
-  
-  // Handle onChange to convert DateValue back to string
-  const handleChange = (date: DateValue | null) => {
-    if (onChange) {
-      // Convert DateValue to string format (YYYY-MM-DD) for form handling
-      const stringValue = date ? date.toString() : null;
-      onChange(stringValue);
-    }
+  const portalRef = useRef<HTMLDivElement>(null);
+
+  if (typeof (props as any).control !== "undefined") {
+    delete (props as any).control;
+  }
+
+  const handleDateChange = (date: any) => {
+    const dateString = date ? date.toString() : "";
+    (onChange as any)?.(dateString);
   };
-  
+
+  const dateValue = value ? parseDate(value as string) : null;
+
   return (
     <div
+      ref={portalRef}
       className={`flex flex-col font-medium w-full relative ${
         containerClass ?? ""
       }`}
     >
-      <Label className="text-sm sm:text-base whitespace-nowrap text-stone-900 max-w-xs text-wrap break-words mb-1 sm:mb-2">
+      <Label className="mb-1 sm:mb-2 block text-xs text-stone-900">
         {props.label}
       </Label>
-      <DatePicker 
-        className="" 
-        value={dateValue as T}
-        onChange={handleChange as any}
-        {...props}
+      <UNSAFE_PortalProvider
+        getContainer={() => portalRef.current ?? document.body}
       >
-        <div className="flex">
-          <Group className="w-full">
-            <DateInput className="pe-9 py-2 sm:py-3 px-3 sm:px-4 text-sm sm:text-base border border-stone-300 rounded-lg bg-white text-stone-600 placeholder:text-xs sm:placeholder:text-sm placeholder:text-gray-300 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 touch-manipulation min-h-[44px] sm:min-h-[48px]" />
-          </Group>
-          <Button className="text-muted-foreground/80 hover:text-foreground data-focus-visible:border-ring data-focus-visible:ring-ring/50 z-10 -ms-9 -me-px flex w-9 sm:w-10 items-center justify-center rounded-e-md transition-[color,box-shadow] outline-none data-focus-visible:ring-[3px] touch-manipulation">
-            <CalendarIcon size={16} className="sm:w-5 sm:h-5" />
-          </Button>
-        </div>
-        <Popover
-          className="bg-background text-popover-foreground data-entering:animate-in data-exiting:animate-out data-[entering]:fade-in-0 data-[exiting]:fade-out-0 data-[entering]:zoom-in-95 data-[exiting]:zoom-out-95 data-[placement=bottom]:slide-in-from-top-2 data-[placement=left]:slide-in-from-right-2 data-[placement=right]:slide-in-from-left-2 data-[placement=top]:slide-in-from-bottom-2 z-50 rounded-lg border shadow-lg outline-hidden w-auto max-w-[90vw] sm:max-w-none"
-          offset={4}
+        <DatePicker
+          {...(props as any)}
+          isDisabled={disabled}
+          value={dateValue}
+          onChange={handleDateChange}
         >
-          <Dialog className="max-h-[inherit] overflow-auto p-2 sm:p-4">
-            <Calendar className="touch-manipulation" />
-          </Dialog>
-        </Popover>
-      </DatePicker>
+          <div className="flex">
+            <Group className="w-full">
+              <DateInput className="pe-9 h-10" />
+            </Group>
+            <Button className="text-muted-foreground/80 hover:text-foreground data-focus-visible:border-ring data-focus-visible:ring-ring/50 z-10 -ms-9 -me-px flex w-9 items-center justify-center rounded-e-md transition-[color,box-shadow] outline-none data-focus-visible:ring-[3px]">
+              <CalendarIcon size={16} />
+            </Button>
+          </div>
+          <Popover
+            className="bg-background text-popover-foreground data-entering:animate-in data-exiting:animate-out data-[entering]:fade-in-0 data-[exiting]:fade-out-0 data-[entering]:zoom-in-95 data-[exiting]:zoom-out-95 data-[placement=bottom]:slide-in-from-top-2 data-[placement=left]:slide-in-from-right-2 data-[placement=right]:slide-in-from-left-2 data-[placement=top]:slide-in-from-bottom-2 z-50 rounded-lg border shadow-lg outline-hidden"
+            offset={4}
+          >
+            <Dialog className="max-h-[inherit] overflow-auto p-1">
+              <Calendar />
+            </Dialog>
+          </Popover>
+        </DatePicker>
+      </UNSAFE_PortalProvider>
       {props.error ? (
-        <span className="text-xs sm:text-sm text-red-500 mt-1 sm:mt-2">{props.error}</span>
+        <span className="text-xs sm:text-sm text-red-500 mt-1 sm:mt-2">
+          {props.error}
+        </span>
       ) : props.helperText ? (
-        <span className="text-xs sm:text-sm text-gray-500 mt-1 sm:mt-2">{props.helperText}</span>
+        <span className="text-xs sm:text-sm text-gray-500 mt-1 sm:mt-2">
+          {props.helperText}
+        </span>
       ) : null}
     </div>
   );

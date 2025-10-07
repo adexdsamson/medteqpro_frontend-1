@@ -37,11 +37,11 @@ export const TextInput = ({
         containerClass ?? ""
       }`}
     >
-      <Label className="text-xs sm:text-sm whitespace-nowrap text-stone-900 max-w-xs text-wrap break-words mb-1 sm:mb-2">
+      <Label className="mb-1 sm:mb-2 block text-xs text-stone-900">
         {props.label}
       </Label>
-      <div className="flex items-center bg-white rounded-lg border border-solid border-stone-300 gap-2 touch-manipulation min-h-[44px] sm:min-h-[48px]">
-       {startAdornment &&  <span className="px-2">{startAdornment}</span>}
+      <div className="flex items-center bg-white rounded-lg border border-solid border-stone-300 gap-2 touch-manipulation">
+        {startAdornment && <span className="px-2">{startAdornment}</span>}
         <Input
           {...props}
           className="w-full text-sm sm:text-base leading-5 border-0 text-stone-600 !focus-visible:ring-0 !ring-0 !focus:border-0 !focus:outline-none placeholder:text-xs sm:placeholder:text-sm placeholder:text-gray-300 flex-1 focus-visible:ring-offset-0 placeholder:ml-3 px-3"
@@ -49,9 +49,13 @@ export const TextInput = ({
         <span>{endAdornment}</span>
       </div>
       {props.error ? (
-        <span className="text-xs sm:text-sm text-red-500 mt-1 sm:mt-2">{props.error}</span>
+        <span className="text-xs text-red-500 mt-1 sm:mt-2">
+          {props.error}
+        </span>
       ) : props.helperText ? (
-        <span className="text-xs sm:text-sm text-gray-500 mt-1 sm:mt-2">{props.helperText}</span>
+        <span className="text-xs text-gray-500 mt-1 sm:mt-2">
+          {props.helperText}
+        </span>
       ) : null}
     </div>
   );
@@ -76,9 +80,13 @@ export const TextArea = ({ containerClass, ...props }: TextAreaProps) => {
         <span>{props.endAdornment}</span>
       </div>
       {props.error ? (
-        <span className="text-xs sm:text-sm text-red-500 mt-1 sm:mt-2">{props.error}</span>
+        <span className="text-xs sm:text-sm text-red-500 mt-1 sm:mt-2">
+          {props.error}
+        </span>
       ) : props.helperText ? (
-        <span className="text-xs sm:text-sm text-gray-500 mt-1 sm:mt-2">{props.helperText}</span>
+        <span className="text-xs sm:text-sm text-gray-500 mt-1 sm:mt-2">
+          {props.helperText}
+        </span>
       ) : null}
     </div>
   );

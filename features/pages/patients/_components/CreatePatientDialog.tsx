@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -32,7 +33,7 @@ const fullSchema = yup.object().shape({
   state: yup.string().required("State is required"),
   phone_number: yup.string().required("Phone number is required"),
   marital_status: yup.string().required("Marital status is required"),
-  date_of_birth: yup.date().required("Date of birth is required"),
+  date_of_birth: yup.string().required("Date of birth is required"),
   gender: yup.string().required("Gender is required"),
   height: yup.number().positive("Height must be positive").required("Height is required"),
   weight: yup.number().positive("Weight must be positive").required("Weight is required"),
@@ -81,7 +82,7 @@ type FullFormData = {
   state: string;
   phone_number: string;
   marital_status: string;
-  date_of_birth: Date;
+  date_of_birth: string;
   gender: string;
   height: number;
   weight: number;
@@ -139,7 +140,7 @@ const CreatePatientDialog: React.FC<CreatePatientDialogProps> = ({
     loadStatesData();
   }, []);
 
-  const { control, reset } = useForge<FullFormData>({
+  const { control, reset, trigger } = useForge<FullFormData>({
     resolver: yupResolver(fullSchema),
     defaultValues: {
       first_name: "",
@@ -150,7 +151,7 @@ const CreatePatientDialog: React.FC<CreatePatientDialogProps> = ({
       state: "",
       phone_number: "",
       marital_status: "",
-      date_of_birth: new Date(),
+      date_of_birth: "",
       gender: "",
       blood_group: "",
       height: 0,
@@ -174,11 +175,63 @@ const CreatePatientDialog: React.FC<CreatePatientDialogProps> = ({
         diet: "",
       },
     },
+    mode: "onChange"
   });
 
-  const handleNext = () => {
+  const stepFieldMap: Record<number, (keyof FullFormData | string)[]> = {
+    1: [
+      "first_name",
+      "last_name",
+      "email",
+      "address",
+      "phone_number",
+      "state",
+      "city",
+      "marital_status",
+      "date_of_birth",
+      "gender",
+      "height",
+      "weight",
+      "employment_status",
+    ],
+    2: [
+      "current_medications.0.medication",
+      "current_medications.0.dosage",
+      "current_medications.0.frequency",
+      "blood_group",
+      "allergies",
+      "family_history",
+      "hereditary_conditions",
+      "surgical_history",
+    ],
+    3: [
+      "social_history.smoking",
+      "social_history.alcohol",
+      "social_history.drug_use",
+      "social_history.exercise",
+      "social_history.diet",
+    ],
+    4: [
+      "emergency_contact.name",
+      "emergency_contact.phone",
+      "emergency_contact.address",
+    ],
+  };
+
+  const handleNext = async () => {
     if (step < 4) {
-      setStep(step + 1);
+      const fieldsToValidate = stepFieldMap[step] ?? [];
+      const isValid = await trigger(fieldsToValidate as any, {
+        shouldFocus: true,
+      });
+      if (isValid) {
+        setStep(step + 1);
+      } else {
+        toast.error(
+          "Validation error",
+          "Please complete all required fields in this step."
+        );
+      }
     }
   };
 
