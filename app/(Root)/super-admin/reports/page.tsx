@@ -20,7 +20,7 @@ export default function Reports() {
   const { data: hospitalListData, isLoading: listLoading } = useGetHospitalReportsList();
   
   const overview = overviewData?.data?.data;
-  const hospitalList = hospitalListData?.data?.data || [];
+  const hospitalList = hospitalListData?.results?.data || [];
 
   const columns: ColumnDef<HospitalListItem>[] = [
     {
@@ -50,8 +50,8 @@ export default function Reports() {
       },
     },
     {
-      accessorKey: "date_of_report",
-      header: "Date of Report",
+      accessorKey: "date_registered",
+      header: "Date Registered",
       cell({ getValue }) {
         return format(new Date(getValue<string>()), "dd-MMM-yyyy");
       },
@@ -63,7 +63,7 @@ export default function Reports() {
         return (
           <Button
             onClick={() =>
-              router.push(`/super-admin/reports/${row.original.hospital_id}`)
+              router.push(`/super-admin/reports/${row.original.id}`)
             }
             variant={"link"}
           >

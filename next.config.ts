@@ -19,6 +19,12 @@ const nextConfig: NextConfig = {
         hostname: "avatar.iran.liara.run",
         port: "",
       },
+      {
+        protocol: "https",
+        hostname: "autogon-omniguard.s3.amazonaws.com",
+        port: "",
+        pathname: "/**",
+      },
     ]
   }
 };

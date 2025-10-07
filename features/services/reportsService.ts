@@ -14,12 +14,24 @@ export interface HospitalReportOverview {
 }
 
 export interface HospitalListItem {
-  hospital_id: string;
+  id: string;
   hospital_name: string;
   no_of_doctors: number;
   no_of_patients: number;
-  total_amount_paid: number;
-  date_of_report: string;
+  date_registered: string;
+  no_of_months_subscribed: number;
+  total_amount_paid: number | null;
+}
+
+export interface PaginatedHospitalReportsResponse {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: {
+    status: boolean;
+    message: string;
+    data: HospitalListItem[];
+  };
 }
 
 export interface SubscriptionHistory {
@@ -54,13 +66,13 @@ export const useGetHospitalReportsOverview = () => {
 
 // Hook to get hospital list for reports
 export const useGetHospitalReportsList = () => {
-  return useQuery<ApiResponse<HospitalListItem[]>, ApiResponseError>({
+  return useQuery<PaginatedHospitalReportsResponse, ApiResponseError>({
     queryKey: ['hospital-reports-list'],
     queryFn: async () => {
       const response = await getRequest({
         url: '/superadmin/reports/hospitals/'
       });
-      return response;
+      return response.data;
     }
   });
 };

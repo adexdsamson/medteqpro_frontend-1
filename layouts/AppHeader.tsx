@@ -28,10 +28,15 @@ import type { ApiResponseError } from "@/types";
 import type { NotificationItemData } from "@/layouts/_components/NotificationPanel";
 import { useNotificationsList } from "@/features/services/notificationsService";
 import type { Notification } from "@/features/services/notificationsService";
+import { useGetProfile } from "@/features/services/profileService";
 
 export function AppHeader() {
   // Use our custom hook to access the current module configuration
   const { userProfile } = useModule();
+  
+  // Get actual profile data with avatar
+  const { data: profileData } = useGetProfile();
+  const profile = profileData?.data?.data;
 
   const router = useRouter();
 
@@ -140,8 +145,12 @@ export function AppHeader() {
               <div className="flex items-center gap-2 sm:gap-3 cursor-pointer touch-manipulation p-1 rounded-lg hover:bg-gray-50 transition-colors">
                 <Avatar className="h-8 w-8 sm:h-10 sm:w-10">
                   <AvatarImage
-                    src={"https://avatar.iran.liara.run/public/35"}
+                    src={profile?.avatar || "https://avatar.iran.liara.run/public/35"}
                     alt={userProfile?.first_name}
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.src = "https://avatar.iran.liara.run/public/35";
+                    }}
                   />
                   <AvatarFallback className="text-xs sm:text-sm">
                     {userProfile?.first_name

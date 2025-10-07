@@ -6,19 +6,88 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { InfoSection } from "./_components/InfoSection";
+import { ChangePasswordForm } from "./_components/ChangePasswordForm";
 import { Forge, useForge } from "@/lib/forge";
 import { TextInput } from "@/components/FormInputs/TextInput";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useGetProfile, useUpdateProfile, UpdateProfilePayload } from "@/features/services/profileService";
+import {
+  useGetProfile,
+  useUpdateProfile,
+  UpdateProfilePayload,
+  useUpdateProfilePicture,
+} from "@/features/services/profileService";
 import { useToastHandler } from "@/hooks/useToaster";
-import { Skeleton } from "@/components/ui/skeleton";
 
 export default function Profile() {
   const toast = useToastHandler();
   const { data: profileData, isLoading } = useGetProfile();
   const { mutateAsync: updateProfile, isPending } = useUpdateProfile();
+  const { mutateAsync: updateProfilePicture, isPending: isUploadingPicture } =
+    useUpdateProfilePicture();
 
   const profile = profileData?.data.data;
+
+  /**
+   * Handle profile form submission
+   * @param values - Profile update payload
+   */
+  const handleSubmit = async (values: UpdateProfilePayload) => {
+    try {
+      await updateProfile(values);
+      toast.success("Success", "Profile updated successfully");
+    } catch (error) {
+      console.log(error);
+      const err = error as any;
+      toast.error("Error", err?.message || "Failed to update profile");
+    }
+  };
+
+  /**
+   * Handle profile picture change
+   * @param event - File input change event
+   */
+  const handlePictureChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    // Validate file type
+    const allowedTypes = ["image/jpeg", "image/jpg", "image/png", "image/gif"];
+    if (!allowedTypes.includes(file.type)) {
+      toast.error(
+        "Error",
+        "Please select a valid image file (JPEG, PNG, or GIF)"
+      );
+      return;
+    }
+
+    // Validate file size (max 5MB)
+    const maxSize = 5 * 1024 * 1024; // 5MB in bytes
+    if (file.size > maxSize) {
+      toast.error("Error", "File size must be less than 5MB");
+      return;
+    }
+
+    try {
+      await updateProfilePicture(file);
+      toast.success("Success", "Profile picture updated successfully");
+    } catch (error) {
+      console.log(error);
+      const err = error as any;
+      toast.error("Error", err?.message || "Failed to update profile picture");
+    }
+  };
+
+  /**
+   * Trigger file input click
+   */
+  const triggerFileInput = () => {
+    const fileInput = document.getElementById(
+      "profile-picture-input"
+    ) as HTMLInputElement;
+    fileInput?.click();
+  };
 
   const { control } = useForge({
     fields: [
@@ -63,17 +132,6 @@ export default function Profile() {
     ],
   });
 
-  const handleSubmit = async (values: UpdateProfilePayload) => {
-    try {
-      await updateProfile(values);
-      toast.success("Success", "Profile updated successfully");
-    } catch (error) {
-      console.log(error);
-      const err = error as any;
-      toast.error("Error", err?.message || "Failed to update profile");
-    }
-  };
-
   return (
     <>
       <Subheader title="Profile Settings" />
@@ -85,50 +143,68 @@ export default function Profile() {
               <Image
                 width={160}
                 height={160}
-                src="https://avatar.iran.liara.run/public/27"
-                className="h-full w-full object-cover"
+                src={profile?.avatar || "https://avatar.iran.liara.run/public/27"}
+                className="h-full w-full object-cover rounded-lg"
                 alt="profile"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.src = "https://avatar.iran.liara.run/public/27";
+                }}
               />
             </div>
             <div className="flex-1">
-              {isLoading ? (
-              <div className="space-y-4">
-                <Skeleton className="h-16 w-full" />
-                <Skeleton className="h-16 w-full" />
-              </div>
-            ) : (
-              <>
-                <div className="flex flex-wrap gap-4 items-start py-4 w-full border-b border-solid border-b-[color:var(--Neutral\_black\_color-Blue-B50,#E7E8E9)] max-md:max-w-full">
-                  <InfoSection
-                    label="Full Name"
-                    value={`${profile?.first_name || ""} ${profile?.middle_name || ""} ${profile?.last_name || ""}`.trim()}
-                    className="border-r border-solid border-r-[color:var(--Neutral\_black\_color-Blue-B50,#E7E8E9)]"
-                  />
-                  <InfoSection
-                    label="Email"
-                    value={profile?.email || ""}
-                    className="whitespace-nowrap border-r border-solid border-r-[color:var(--Neutral\_black\_color-Blue-B50,#E7E8E9)]"
-                  />
-                  <InfoSection label="Phone Number" value={profile?.phone_number || "N/A"} />
+              {isLoading || !profile ? (
+                <div className="space-y-4">
+                  <div className="h-16 w-full bg-gray-200 animate-pulse rounded-md" />
+                  <div className="h-16 w-full bg-gray-200 animate-pulse rounded-md" />
                 </div>
+              ) : (
+                <>
+                  <div className="flex flex-wrap gap-4 items-start py-4 w-full border-b border-solid border-b-[color:var(--Neutral\_black\_color-Blue-B50,#E7E8E9)] max-md:max-w-full">
+                    <InfoSection
+                      label="Full Name"
+                      value={`${profile?.first_name || ""} ${
+                        profile?.middle_name || ""
+                      } ${profile?.last_name || ""}`.trim()}
+                      className="border-r border-solid border-r-[color:var(--Neutral\_black\_color-Blue-B50,#E7E8E9)]"
+                    />
+                    <InfoSection
+                      label="Email"
+                      value={profile?.email || ""}
+                      className="whitespace-nowrap border-r border-solid border-r-[color:var(--Neutral\_black\_color-Blue-B50,#E7E8E9)]"
+                    />
+                    <InfoSection
+                      label="Phone Number"
+                      value={profile?.phone_number || "N/A"}
+                    />
+                  </div>
 
-                <div className="flex gap-4 items-start py-4 mt-2 w-full border-b border-solid border-b-[color:var(--Neutral\_black\_color-Blue-B50,#E7E8E9)] max-md:max-w-full">
-                  <InfoSection
-                    label="Role"
-                    value={profile?.role || "N/A"}
-                    className="border-r border-solid border-r-[color:var(--Neutral\_black\_color-Blue-B50,#E7E8E9)]"
-                  />
-                  <InfoSection
-                    label="Specialization"
-                    value={profile?.specialization || "N/A"}
-                    className="w-full min-w-60 max-md:max-w-full"
-                  />
-                </div>
-              </>
-            )}
+                  <div className="flex gap-4 items-start py-4 mt-2 w-full border-b border-solid border-b-[color:var(--Neutral\_black\_color-Blue-B50,#E7E8E9)] max-md:max-w-full">
+                    <InfoSection
+                      label="Role"
+                      value={profile?.role || "N/A"}
+                      className="border-r border-solid border-r-[color:var(--Neutral\_black\_color-Blue-B50,#E7E8E9)]"
+                    />
+                    <InfoSection
+                      label="Specialization"
+                      value={profile?.specialization || "N/A"}
+                      className="w-full min-w-60 max-md:max-w-full"
+                    />
+                  </div>
+                </>
+              )}
             </div>
             <div>
-              <Button>Change Picture</Button>
+              <input
+                id="profile-picture-input"
+                type="file"
+                accept="image/*"
+                onChange={handlePictureChange}
+                style={{ display: "none" }}
+              />
+              <Button onClick={triggerFileInput} disabled={isUploadingPicture}>
+                {isUploadingPicture ? "Uploading..." : "Change Picture"}
+              </Button>
             </div>
           </CardContent>
         </Card>
@@ -151,7 +227,11 @@ export default function Profile() {
           <TabsContent value="personal">
             <Card>
               <CardContent>
-                <Forge control={control} className="grid grid-cols-1 md:grid-cols-2 gap-3" onSubmit={handleSubmit} />
+                <Forge
+                  control={control}
+                  className="grid grid-cols-1 md:grid-cols-2 gap-3"
+                  onSubmit={handleSubmit}
+                />
                 <div className="flex justify-end mt-5">
                   <Button type="submit" disabled={isPending}>
                     {isPending ? "Saving..." : "Save"}
@@ -162,13 +242,8 @@ export default function Profile() {
           </TabsContent>
           <TabsContent value="security">
             <Card>
-              <CardContent className="grid grid-cols-1 md:grid-cols-2">
-                <Forge control={control} onSubmit={handleSubmit} />
-                <div className="flex justify-end">
-                  <Button type="submit" disabled={isPending}>
-                    {isPending ? "Saving..." : "Save"}
-                  </Button>
-                </div>
+              <CardContent className="p-6">
+                <ChangePasswordForm />
               </CardContent>
             </Card>
           </TabsContent>
