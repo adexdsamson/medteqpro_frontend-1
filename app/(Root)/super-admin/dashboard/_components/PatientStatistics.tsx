@@ -145,23 +145,23 @@ export function PatientStatistics({
   }, [topHospitals, otherHospitals, patientsByHospital]);
 
   // Calculate total patients from the data if totalPatients is not provided
-  const displayTotalPatients = React.useMemo(() => {
-    if (totalPatients > 0) return totalPatients;
+  // const displayTotalPatients = React.useMemo(() => {
+  //   if (totalPatients > 0) return totalPatients;
 
-    // If we have topHospitals data, we can calculate the total
-    if (topHospitals) {
-      const total = topHospitals.reduce(
-        (sum, hospital) => sum + hospital.percentage_of_total_patients,
-        0
-      );
-      if (otherHospitals) {
-        return total + otherHospitals.percentage_of_total_patients;
-      }
-      return total;
-    }
+  //   // If we have topHospitals data, we can calculate the total
+  //   if (topHospitals) {
+  //     const total = topHospitals.reduce(
+  //       (sum, hospital) => sum + hospital.percentage_of_total_patients,
+  //       0
+  //     );
+  //     if (otherHospitals) {
+  //       return total + otherHospitals.percentage_of_total_patients;
+  //     }
+  //     return total;
+  //   }
 
-    return data.reduce((sum, item) => sum + item.value, 0);
-  }, [totalPatients, topHospitals, otherHospitals, data]);
+  //   return data.reduce((sum, item) => sum + item.value, 0);
+  // }, [totalPatients, topHospitals, otherHospitals, data]);
 
   return (
     <Card className="bg-white">
@@ -178,7 +178,7 @@ export function PatientStatistics({
               <Skeleton className="h-8 w-24" />
             ) : (
               <div className="text-2xl font-bold text-[#118795]">
-                {displayTotalPatients.toLocaleString()}
+                {totalPatients}
               </div>
             )}
             <div className="text-sm text-muted-foreground">Total Patient</div>

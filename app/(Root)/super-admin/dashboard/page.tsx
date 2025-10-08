@@ -43,6 +43,9 @@ function Dashboard() {
           <div className="lg:col-span-1">
             <SectionHeader title="Top 3 Performing Hospitals" />
             <PatientStatistics
+              totalPatients={
+                dashboardData?.data.data?.hospital_analytics?.total_patients
+              }
               topHospitals={
                 dashboardData?.data.data?.hospital_analytics?.top_hospitals
               }

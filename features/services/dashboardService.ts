@@ -25,6 +25,7 @@ export interface DashboardAnalytics {
     total_hospitals: number;
     active_hospitals: number;
     inactive_hospitals: number;
+    total_patients: number;
     top_hospitals: Array<{
       name: string;
       percentage_of_total_patients: number;
