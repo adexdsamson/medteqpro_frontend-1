@@ -86,7 +86,7 @@ export default function Reports() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <StatCard
             title="No of Hospitals"
-            value={overview?.total_hospitals || 0}
+            value={overview?.total_no_of_hospitals || 0}
             icon={<Building className="h-5 w-5 text-blue-500" />}
           />
           <StatCard
@@ -96,12 +96,12 @@ export default function Reports() {
           />
           <StatCard
             title="No of Doctors"
-            value={overview?.total_doctors || 0}
+            value={overview?.total_no_of_doctors || 0}
             icon={<Building className="h-5 w-5 text-red-500" />}
           />
           <StatCard
             title="Patients"
-            value={overview?.total_patients || 0}
+            value={overview?.total_no_of_patients || 0}
             icon={<Users className="h-5 w-5 text-purple-500" />}
           />
         </div>
@@ -110,7 +110,7 @@ export default function Reports() {
           <Button>Download</Button>
         </div>
 
-        <div className="bg-white p-1.5 rounded-lg">
+        <div className="bg-white p-1.5 rounded-lg overflow-auto max-w-[76vw]">
           <DataTable
             {...{
               columns,

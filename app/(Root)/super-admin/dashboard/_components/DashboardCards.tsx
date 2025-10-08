@@ -8,7 +8,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 type StatCardProps = {
   title: string;
   value: string | number;
-  icon: React.ReactNode;
+  icon?: React.ReactNode;
   className?: string;
   isLoading?: boolean;
 };
@@ -24,9 +24,9 @@ export function StatCard({ title, value, icon, className, isLoading }: StatCardP
           {isLoading ? (
             <Skeleton className="h-8 w-16" />
           ) : (
-            <h3 className="text-2xl font-bold">{value}</h3>
+            <h3 className="text-base font-bold">{value}</h3>
           )}
-          <p className="text-sm text-muted-foreground">{title}</p>
+          <p className="text-xs text-muted-foreground">{title}</p>
         </div>
       </CardContent>
     </Card>

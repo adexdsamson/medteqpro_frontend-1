@@ -6,9 +6,9 @@ import { ApiResponse, ApiResponseError } from "@/types";
 
 // Define types based on the API response structure from documentation
 export interface HospitalReportOverview {
-  total_hospitals: number;
-  total_doctors: number;
-  total_patients: number;
+  total_no_of_hospitals: number;
+  total_no_of_doctors: number;
+  total_no_of_patients: number;
   total_revenue: number;
   date_of_report: string;
 }
