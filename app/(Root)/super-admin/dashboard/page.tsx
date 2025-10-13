@@ -79,7 +79,7 @@ function Dashboard() {
         <div className="mb-3 sm:mb-5">
           <SectionHeader
             title="Recently Registered"
-            seeAllLink="/super-admin/hospitals"
+            seeAllLink="/super-admin/clients"
           />
           <RecentlyRegisteredTable
             hospitals={dashboardData?.data?.data?.recent_hospitals?.map(
