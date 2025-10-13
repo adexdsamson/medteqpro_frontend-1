@@ -3,18 +3,9 @@
 import React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { BellIcon, Calendar, LogOut, Settings, User } from "lucide-react";
+import { BellIcon, Calendar } from "lucide-react";
 import { useModule } from "@/hooks/useModule";
-import { storeFunctions } from "@/store/authSlice";
-import { useRouter } from "next/navigation";
+// removed dropdown and logout from header
 import {
   Popover,
   PopoverContent,
@@ -38,7 +29,7 @@ export function AppHeader() {
   const { data: profileData } = useGetProfile();
   const profile = profileData?.data?.data;
 
-  const router = useRouter();
+  // No router usage in header after removing dropdown
 
   // Get current date in the format: Monday, 2 April 2024
   const getCurrentDate = () => {
@@ -137,75 +128,29 @@ export function AppHeader() {
           </Popover>
         </div>
 
-        {/* User Profile */}
-        <div className="flex items-center">
-          {/* User Profile Dropdown */}
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <div className="flex items-center gap-2 sm:gap-3 cursor-pointer touch-manipulation p-1 rounded-lg hover:bg-gray-50 transition-colors">
-                <Avatar className="h-8 w-8 sm:h-10 sm:w-10">
-                  <AvatarImage
-                    src={profile?.avatar || "https://avatar.iran.liara.run/public/35"}
-                    alt={userProfile?.first_name}
-                    onError={(e) => {
-                      const target = e.target as HTMLImageElement;
-                      target.src = "https://avatar.iran.liara.run/public/35";
-                    }}
-                  />
-                  <AvatarFallback className="text-xs sm:text-sm">
-                    {userProfile?.first_name
-                      ?.substring?.(0, 2)
-                      ?.toUpperCase?.()}
-                  </AvatarFallback>
-                </Avatar>
-                <div className="text-right hidden md:block">
-                  <p className="text-sm font-medium truncate max-w-[120px] lg:max-w-none">
-                    Hi, {userProfile?.first_name + " " + userProfile?.last_name}
-                  </p>
-                  <p className="text-xs text-muted-foreground truncate max-w-[120px] lg:max-w-none">
-                    {userProfile?.role}
-                  </p>
-                </div>
-              </div>
-            </DropdownMenuTrigger>
-
-            <DropdownMenuContent
-              align="end"
-              className="w-48 sm:w-56 mr-2 sm:mr-0"
-            >
-              <DropdownMenuLabel className="text-sm">
-                <div className="md:hidden">
-                  <p className="font-medium truncate">
-                    {userProfile?.first_name + " " + userProfile?.last_name}
-                  </p>
-                  <p className="text-xs text-muted-foreground font-normal truncate">
-                    {userProfile?.role}
-                  </p>
-                </div>
-                <div className="hidden md:block">My Account</div>
-              </DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem className="touch-manipulation py-3 sm:py-2">
-                <User className="mr-2 h-4 w-4" />
-                <span>Profile</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem className="touch-manipulation py-3 sm:py-2">
-                <Settings className="mr-2 h-4 w-4" />
-                <span>Settings</span>
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem
-                className="touch-manipulation py-3 sm:py-2 text-red-600 focus:text-red-600"
-                onClick={() => {
-                  storeFunctions.getState().setReset();
-                  router.push("/sign-in");
-                }}
-              >
-                <LogOut className="mr-2 h-4 w-4" />
-                <span>Log out</span>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+        {/* Static User Profile (no dropdown) */}
+        <div className="flex items-center gap-2 sm:gap-3 p-1 rounded-lg">
+          <Avatar className="h-8 w-8 sm:h-10 sm:w-10">
+            <AvatarImage
+              src={profile?.avatar || "https://avatar.iran.liara.run/public/35"}
+              alt={userProfile?.first_name}
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.src = "https://avatar.iran.liara.run/public/35";
+              }}
+            />
+            <AvatarFallback className="text-xs sm:text-sm">
+              {userProfile?.first_name?.substring?.(0, 2)?.toUpperCase?.()}
+            </AvatarFallback>
+          </Avatar>
+          <div className="text-right hidden md:block">
+            <p className="text-sm font-medium truncate max-w-[120px] lg:max-w-none">
+              Hi, {userProfile?.first_name + " " + userProfile?.last_name}
+            </p>
+            <p className="text-xs text-muted-foreground truncate max-w-[120px] lg:max-w-none">
+              {userProfile?.role}
+            </p>
+          </div>
         </div>
       </div>
     </header>

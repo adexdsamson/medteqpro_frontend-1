@@ -8,7 +8,7 @@ import {
   FileText,
   HelpCircle,
   UserCog,
-  // LogOut,
+  LogOut,
   FlaskConical,
   ScrollText,
   Pill,
@@ -30,6 +30,8 @@ export type MenuItem = {
   icon: LucideIcon | ComponentType<{ className?: string }>;
   // icon: LucideIcon;
   href: string;
+  /** Optional action key for items that trigger behaviors instead of navigation */
+  action?: "logout";
 };
 
 // Define user profile type
@@ -52,11 +54,12 @@ export const commonSettingsItems: MenuItem[] = [
     icon: UserCog,
     href: "/profile",
   },
-  // {
-  //   label: "Logout",
-  //   icon: LogOut,
-  //   href: "/sign-in",
-  // },
+  {
+    label: "Logout",
+    icon: LogOut,
+    href: "/sign-in",
+    action: "logout",
+  },
 ];
 
 const defaultUser = {

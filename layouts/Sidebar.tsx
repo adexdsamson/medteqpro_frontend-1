@@ -14,6 +14,8 @@ import {
 import Link from "next/link";
 import Image from "next/image";
 import { useModule } from "@/hooks/useModule";
+import { storeFunctions } from "@/store/authSlice";
+import { useRouter } from "next/navigation";
 
 interface AppSidebarProps {
   moduleKey?: string;
@@ -22,6 +24,15 @@ interface AppSidebarProps {
 export function AppSidebar({ moduleKey }: AppSidebarProps) {
   // Use our custom hook to get module configuration and utility functions
   const { moduleConfig, isActivePath, getModulePath } = useModule(moduleKey);
+  const router = useRouter();
+
+  const handleLogout = () => {
+    try {
+      storeFunctions.getState().setReset();
+    } finally {
+      router.push("/sign-in");
+    }
+  };
 
   return (
     <Sidebar variant="sidebar" className="!bg-white">
@@ -68,16 +79,27 @@ export function AppSidebar({ moduleKey }: AppSidebarProps) {
               <SidebarMenu>
                 {moduleConfig.settingsItems.map((item) => (
                   <SidebarMenuItem key={item.label}>
-                    <SidebarMenuButton
-                      className="h-10 text-sm font-semibold"
-                      isActive={isActivePath(item.href)}
-                      asChild
-                    >
-                      <Link href={getModulePath(item.href)}>
-                        <item.icon className="h-5 w-5" />
-                        <span>{item.label}</span>
-                      </Link>
-                    </SidebarMenuButton>
+                    {item.action === "logout" ? (
+                      <SidebarMenuButton
+                        className="h-10 text-sm font-semibold"
+                        isActive={false}
+                        onClick={handleLogout}
+                      >
+                        <item.icon className="h-5 w-5 text-red-600" />
+                        <span className="text-red-600">{item.label}</span>
+                      </SidebarMenuButton>
+                    ) : (
+                      <SidebarMenuButton
+                        className="h-10 text-sm font-semibold"
+                        isActive={isActivePath(item.href)}
+                        asChild
+                      >
+                        <Link href={getModulePath(item.href)}>
+                          <item.icon className="h-5 w-5" />
+                          <span>{item.label}</span>
+                        </Link>
+                      </SidebarMenuButton>
+                    )}
                   </SidebarMenuItem>
                 ))}
               </SidebarMenu>
