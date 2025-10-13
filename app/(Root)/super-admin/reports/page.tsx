@@ -22,6 +22,51 @@ export default function Reports() {
   const overview = overviewData?.data?.data;
   const hospitalList = hospitalListData?.results?.data || [];
 
+  // Utility to escape CSV fields
+  const escapeCSV = (value: unknown) => {
+    if (value === null || value === undefined) return "";
+    const str = String(value);
+    if (/[,"\n]/.test(str)) {
+      return '"' + str.replace(/"/g, '""') + '"';
+    }
+    return str;
+  };
+
+  // Download visible report content as CSV
+  const handleDownloadCSV = () => {
+    const headers = [
+      "ID",
+      "Hospital Name",
+      "Number of Doctors",
+      "Number of Patients",
+      "Amount",
+      "Date Registered",
+    ];
+
+    const rows = hospitalList.map((item, index) => [
+      index + 1, // Match table's ID column (index-based)
+      item.hospital_name,
+      item.no_of_doctors,
+      item.no_of_patients,
+      item.total_amount_paid ?? "",
+      item.date_registered,
+    ]);
+
+    const csv = [headers, ...rows]
+      .map((row) => row.map(escapeCSV).join(","))
+      .join("\n");
+
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "hospital_reports.csv";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
   const columns: ColumnDef<HospitalListItem>[] = [
     {
       accessorKey: "id",
@@ -107,7 +152,7 @@ export default function Reports() {
         </div>
 
         <div className="flex justify-end w-full py-2">
-          <Button>Download</Button>
+          <Button onClick={handleDownloadCSV}>Download</Button>
         </div>
 
         <div className="bg-white p-1.5 rounded-lg overflow-auto max-w-[76vw]">
