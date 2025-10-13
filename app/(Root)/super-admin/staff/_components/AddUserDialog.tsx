@@ -138,9 +138,9 @@ export default function AddUserDialog({ children }: AddUserDialogProps) {
             <Forger
               name="password"
               component={TextInput}
-              label="Status"
-              placeholder="DD/MM/YYYY"
-              type="date"
+              label="Password"
+              placeholder="Password"
+              type="password"
             />
           </div>
           
