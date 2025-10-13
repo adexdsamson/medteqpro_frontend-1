@@ -18,6 +18,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal } from "lucide-react";
+import { useSearchParams } from "next/navigation";
 
 enum Status {
   Active = "active",
@@ -40,6 +41,10 @@ export type SubscriptionType = {
 export type ClientType = HospitalListType;
 
 export default function ClientManagement() {
+  const searchParams = useSearchParams();
+  const tabParam = searchParams.get("tab");
+  const defaultTab =
+    tabParam === "tab-2" || tabParam === "subscriptions" ? "tab-2" : "tab-1";
   const { data: hospitalList, isLoading: isLoadingHospitals } =
     useGetHospitalList();
   const { data: subscriptionList, isLoading: isLoadingSubscriptions } =
@@ -238,7 +243,7 @@ export default function ClientManagement() {
           </RegisterHospitalDialog>
         </div>
 
-        <Tabs defaultValue="tab-1">
+        <Tabs defaultValue={defaultTab}>
           <ScrollArea>
             <TabsList className="mb-3 gap-1 bg-transparent">
               <TabsTrigger

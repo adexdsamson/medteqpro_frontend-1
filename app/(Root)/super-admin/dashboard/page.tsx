@@ -59,7 +59,7 @@ function Dashboard() {
           <div className="lg:col-span-2">
             <SectionHeader
               title="Recent Subscription"
-              seeAllLink="/super-admin/subscriptions"
+              seeAllLink="/super-admin/clients?tab=subscriptions"
             />
             <SubscriptionTable
               subscriptions={dashboardData?.data.data?.recent_subscriptions?.map(
