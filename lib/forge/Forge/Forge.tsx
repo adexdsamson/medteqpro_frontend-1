@@ -6,6 +6,7 @@ import {
   cloneElement,
   createElement,
   useImperativeHandle,
+  useMemo,
 } from "react";
 import { FieldValues, FormProvider } from "react-hook-form";
 import { ForgeProps } from "../types";
@@ -77,11 +78,13 @@ export const Forge = <TFieldValues extends FieldValues = FieldValues>({
     [onSubmit, control]
   );
 
-  const renderFieldProps = control.hasFields
-    ? control?.fields?.map((inputs, index) => (
-        <Forger key={index} {...inputs} />
-      ))
-    : null;
+  const renderFieldProps = useMemo(() => {
+    return control.hasFields
+      ? control?.fields?.map((inputs, index) => (
+          <Forger key={index} {...inputs} />
+        ))
+      : null;
+  }, [control]);
 
   return (
     <FormProvider

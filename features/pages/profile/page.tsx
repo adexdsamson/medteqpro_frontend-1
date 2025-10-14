@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import Subheader from "@/layouts/Subheader";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { InfoSection } from "./_components/InfoSection";
 import { ChangePasswordForm } from "./_components/ChangePasswordForm";
-import { Forge, useForge } from "@/lib/forge";
+import { Forge, useForge, FormPropsRef } from "@/lib/forge";
 import { TextInput } from "@/components/FormInputs/TextInput";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
@@ -20,7 +20,9 @@ import { useToastHandler } from "@/hooks/useToaster";
 
 export default function Profile() {
   const toast = useToastHandler();
-  const { data: profileData, isLoading } = useGetProfile();
+  const formRef = React.useRef<FormPropsRef>(null);
+
+  const { data: profileData, isLoading, isSuccess } = useGetProfile();
   const { mutateAsync: updateProfile, isPending } = useUpdateProfile();
   const { mutateAsync: updateProfilePicture, isPending: isUploadingPicture } =
     useUpdateProfilePicture();
@@ -33,10 +35,11 @@ export default function Profile() {
    */
   const handleSubmit = async (values: UpdateProfilePayload) => {
     try {
+      // console.log(values);
       await updateProfile(values);
       toast.success("Success", "Profile updated successfully");
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       const err = error as any;
       toast.error("Error", err?.message || "Failed to update profile");
     }
@@ -89,7 +92,14 @@ export default function Profile() {
     fileInput?.click();
   };
 
-  const { control } = useForge({
+  const { control, reset } = useForge({
+    // defaultValues: {
+    //   first_name: profile?.first_name || "",
+    //   middle_name: profile?.middle_name || "",
+    //   last_name: profile?.last_name || "",
+    //   phone_number: profile?.phone_number || "",
+    //   specialization: profile?.specialization || "",
+    // },
     fields: [
       {
         name: "first_name",
@@ -97,7 +107,6 @@ export default function Profile() {
         type: "text",
         placeholder: "John",
         component: TextInput,
-        defaultValue: profile?.first_name || "",
       },
       {
         name: "middle_name",
@@ -105,7 +114,6 @@ export default function Profile() {
         type: "text",
         placeholder: "Middle",
         component: TextInput,
-        defaultValue: profile?.middle_name || "",
       },
       {
         name: "last_name",
@@ -113,24 +121,37 @@ export default function Profile() {
         type: "text",
         placeholder: "Doe",
         component: TextInput,
-        defaultValue: profile?.last_name || "",
       },
       {
         name: "phone_number",
         label: "Phone Number",
         type: "text",
         component: TextInput,
-        defaultValue: profile?.phone_number || "",
       },
       {
         name: "specialization",
         label: "Specialization",
         type: "text",
         component: TextInput,
-        defaultValue: profile?.specialization || "",
       },
     ],
   });
+
+  // Ensure the form is initialized only once when profile data becomes available
+  const hasInitialized = React.useRef(false);
+  useEffect(() => {
+    if (hasInitialized.current) return;
+    if (isSuccess && typeof profile === "object" && profile !== null) {
+      reset({
+        first_name: profile?.first_name || "",
+        middle_name: profile?.middle_name || "",
+        last_name: profile?.last_name || "",
+        phone_number: profile?.phone_number || "",
+        specialization: profile?.specialization || "",
+      });
+      hasInitialized.current = true;
+    }
+  }, [isSuccess, profile, reset]);
 
   return (
     <>
@@ -229,17 +250,20 @@ export default function Profile() {
               <CardContent>
                 <Forge
                   control={control}
+                  ref={formRef}
                   className="grid grid-cols-1 md:grid-cols-2 gap-3"
                   onSubmit={handleSubmit}
+                  debug
                 />
                 <div className="flex justify-end mt-5">
-                  <Button type="submit" disabled={isPending}>
+                  <Button onClick={() => formRef.current?.onSubmit()} disabled={isPending}>
                     {isPending ? "Saving..." : "Save"}
                   </Button>
                 </div>
               </CardContent>
             </Card>
           </TabsContent>
+
           <TabsContent value="security">
             <Card>
               <CardContent className="p-6">
