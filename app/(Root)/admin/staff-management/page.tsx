@@ -93,7 +93,7 @@ export default function StaffManagementPage() {
           </DialogTrigger>
         </div>
 
-        <div className="bg-white p-1.5 rounded-lg shadow">
+        <div className="bg-white p-1.5 rounded-lg shadow max-w-[76vw]">
           <DataTable
             columns={staffColumns}
             data={filteredStaffData}

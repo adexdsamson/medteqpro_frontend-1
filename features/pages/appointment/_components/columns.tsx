@@ -20,6 +20,7 @@ import {
 import { storeFunctions } from "@/store/authSlice";
 import { Button } from "@/components/ui/button";
 import { MoreHorizontal } from "lucide-react";
+import { ConfirmAlert } from "@/components/ConfirmAlert";
 
 export type Appointment = {
   id: string;
@@ -156,12 +157,7 @@ const RowActions: React.FC<{ appt: Appointment }> = ({ appt }) => {
     }
   };
 
-  const onComplete = async () => {
-    const ok =
-      typeof window !== "undefined"
-        ? window.confirm("Mark this appointment as completed?")
-        : true;
-    if (!ok) return;
+  const onCompleteConfirmed = async () => {
     try {
       await completeAppt(appt.id);
       toast.success("Completed", "Appointment marked as completed");
@@ -184,9 +180,16 @@ const RowActions: React.FC<{ appt: Appointment }> = ({ appt }) => {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>Actions</DropdownMenuLabel>
-        <DropdownMenuItem onClick={onComplete}>
-          Mark as Completed
-        </DropdownMenuItem>
+        <ConfirmAlert
+          title="Confirm Completion"
+          text="Mark this appointment as completed?"
+          onConfirm={onCompleteConfirmed}
+          trigger={
+            <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+              Mark as Completed
+            </DropdownMenuItem>
+          }
+        />
         <DropdownMenuItem
           onClick={onCancel}
           className="text-red-600 focus:text-red-700"

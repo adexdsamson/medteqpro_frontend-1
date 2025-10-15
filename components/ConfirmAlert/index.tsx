@@ -41,8 +41,8 @@ export const ConfirmAlert = ({
   onConfirm,
   confirmText = "Yes",
   cancelText = "No",
-  // url = "",
-}: ConfirmAlertProps) => {
+}: // url = "",
+ConfirmAlertProps) => {
   // const setReset = useSetReset();
   // const toastHandlers = useToastHandlers();
 
@@ -51,26 +51,24 @@ export const ConfirmAlert = ({
   // });
 
   const handleSubmit = async () => {
-  //   const TOAST_TITLE = "Deletion";
-  //   try {
-  //     const result = await mutation.mutateAsync(undefined);
-
-  //     if (result.status !== 200) {
-  //       toastHandlers.error(TOAST_TITLE, "Failed to delete");
-  //       return;
-  //     }
-
-  //     if(typeof result?.data?.message === "string") {
-  //       toastHandlers.success(
-  //         TOAST_TITLE,
-  //         result.data.message ?? "Successfully deleted"
-  //       );
-  //       return;
-  //     }
-  //   } catch (error) {
-  //     const err = error as ApiResponseError;
-  //     toastHandlers.error(TOAST_TITLE, err);
-  //   }
+    //   const TOAST_TITLE = "Deletion";
+    //   try {
+    //     const result = await mutation.mutateAsync(undefined);
+    //     if (result.status !== 200) {
+    //       toastHandlers.error(TOAST_TITLE, "Failed to delete");
+    //       return;
+    //     }
+    //     if(typeof result?.data?.message === "string") {
+    //       toastHandlers.success(
+    //         TOAST_TITLE,
+    //         result.data.message ?? "Successfully deleted"
+    //       );
+    //       return;
+    //     }
+    //   } catch (error) {
+    //     const err = error as ApiResponseError;
+    //     toastHandlers.error(TOAST_TITLE, err);
+    //   }
   };
 
   const handleLogout = async () => {
@@ -92,7 +90,7 @@ export const ConfirmAlert = ({
       }}
     >
       {children}
-      {trigger ? <DialogTrigger>{trigger}</DialogTrigger> : null}
+      {trigger ? <DialogTrigger asChild>{trigger}</DialogTrigger> : null}
       <DialogContent className="px-0 pb-0">
         <div className="flex gap-3 items-start px-0">
           <div className="rounded-full flex items-center bg-[#FFDFDF] justify-center h-12 w-12 ml-3">
