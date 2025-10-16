@@ -93,7 +93,7 @@ ConfirmAlertProps) => {
       {trigger ? <DialogTrigger asChild>{trigger}</DialogTrigger> : null}
       <DialogContent className="px-0 pb-0">
         <div className="flex gap-3 items-start px-0">
-          <div className="rounded-full flex items-center bg-[#FFDFDF] justify-center h-12 w-12 ml-3">
+          <div className="rounded-full flex items-center bg-primary/30 justify-center h-12 w-12 ml-3">
             <Icon className="text-primary h-5 w-5" />
           </div>
           <DialogHeader>

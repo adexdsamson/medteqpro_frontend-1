@@ -70,6 +70,14 @@ export interface UpdateStaffWorkStatusPayload {
   end_date?: string;
 }
 
+// Current work status response shape
+export interface StaffWorkStatus {
+  status: "active" | "inactive" | "on_leave" | "suspended";
+  reason?: string | null;
+  start_date?: string | null;
+  end_date?: string | null;
+}
+
 // Hook for fetching staff list
 export const useStaffList = (params?: StaffListParams) => {
   const queryParams = new URLSearchParams();
@@ -268,6 +276,17 @@ export const useUpdateStaffWorkStatus = () => {
       // Invalidate and refetch hospital staff list
       queryClient.invalidateQueries({ queryKey: ["hospital-staff-list"] });
     },
+  });
+};
+
+// Hook to fetch current staff work status
+export const useGetStaffWorkStatus = (staffId: string) => {
+  return useQuery<ApiResponse<StaffWorkStatus>, ApiResponseError>({
+    queryKey: ["staff-work-status", staffId],
+    queryFn: async () =>
+      await getRequest({ url: `/hospital-admin/staff/${staffId}/work-status/` }),
+    enabled: !!staffId,
+    refetchOnWindowFocus: false,
   });
 };
 

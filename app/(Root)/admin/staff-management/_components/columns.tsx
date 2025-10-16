@@ -136,6 +136,11 @@ export const staffColumns: ColumnDef<StaffType>[] = [
               >
                 Permission
               </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => push(`/admin/staff-management/${staff.id}/work-status`)}
+              >
+                Work Status
+              </DropdownMenuItem>
               <DropdownMenuSeparator />
               {/* Placeholder items for future actions, e.g. Edit, Suspend */}
               {/* <DropdownMenuItem onClick={() => ...}>Edit Staff</DropdownMenuItem> */}
