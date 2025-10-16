@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { useGetHospitalList } from "@/features/services/hospitalService";
 import { useGetSubscriptionList } from "@/features/services/subscriptionService";
 import { ColumnDef } from "@tanstack/react-table";
-import React from "react";
+import React, { Suspense } from "react";
 import { format, parseISO } from "date-fns";
 import Subheader from "../../../../layouts/Subheader";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
@@ -40,7 +40,7 @@ export type SubscriptionType = {
 
 export type ClientType = HospitalListType;
 
-export default function ClientManagement() {
+function ClientManagementContent() {
   const searchParams = useSearchParams();
   const tabParam = searchParams.get("tab");
   const defaultTab =
@@ -304,5 +304,13 @@ export default function ClientManagement() {
         </Tabs>
       </div>
     </>
+  );
+}
+
+export default function ClientManagement() {
+  return (
+    <Suspense fallback={<div className="px-6 mt-6">Loading clients...</div>}>
+      <ClientManagementContent />
+    </Suspense>
   );
 }
