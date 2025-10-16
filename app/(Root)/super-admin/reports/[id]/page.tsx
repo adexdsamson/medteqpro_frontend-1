@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 import Subheader from "@/layouts/Subheader";
 import { Button } from "@/components/ui/button";
 import { StatCard } from "../../dashboard/_components";
@@ -12,13 +12,10 @@ import { getFormatCurrency } from "@/lib/utils";
 import { useGetHospitalDetailedReport } from "@/features/services/reportsService";
 import { subscriptionColumns } from "./_components/subscriptionColumns";
 
-interface PageProps {
-  params: { id: string };
-}
-
-export default function HospitalReportDetail({ params }: PageProps) {
+export default function HospitalReportDetail() {
   const router = useRouter();
-  const { data, isLoading, isError } = useGetHospitalDetailedReport(params.id);
+  const { id } = useParams() as { id: string };
+  const { data, isLoading, isError } = useGetHospitalDetailedReport(id);
 
   const details = data?.data?.data;
 
