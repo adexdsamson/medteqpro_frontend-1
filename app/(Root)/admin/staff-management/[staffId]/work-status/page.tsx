@@ -75,7 +75,7 @@ export default function StaffWorkStatusPage() {
         end_date: sickTo || undefined,
       };
     }
-    return { status: "suspended" as const };
+    return { status: "suspended" as const, reason: "suspended" };
   }, [choice, leaveFrom, leaveTo, sickFrom, sickTo]);
 
   const exclusiveToggle = (c: StatusChoice) => setChoice(c);
@@ -115,7 +115,7 @@ export default function StaffWorkStatusPage() {
           text="Confirm to apply the selected work status for this staff."
           onConfirm={handleSave}
           trigger={
-            <Button disabled={isPending || isLoading} className="min-w-[80px]">
+            <Button disabled={isPending || isLoading} loading={isPending || isLoading} className="min-w-[80px]">
               Done
             </Button>
           }
