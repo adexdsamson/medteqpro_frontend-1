@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ApiResponse, ApiResponseError } from "@/types";
-import { postRequest, getRequest } from "@/lib/axiosInstance";
+import { postRequest, getRequest, patchRequest } from "@/lib/axiosInstance";
 
 export type HospitalType = {
   email: string;
@@ -50,5 +50,21 @@ export const useGetHospitalDetail = (hospitalId: string) => {
     queryFn: async () =>
       await getRequest({ url: `/superadmin/hospitals/${hospitalId}/` }),
     enabled: !!hospitalId,
+  });
+};
+
+export type UpdateHospitalStatusParams = {
+  hospitalId: string;
+  status: "active" | "inactive" | "suspended";
+};
+
+export const useUpdateHospitalStatus = () => {
+  const queryClient = useQueryClient();
+  return useMutation<ApiResponse<any>, ApiResponseError, UpdateHospitalStatusParams>({
+    mutationFn: async ({ hospitalId, status }) =>
+      await patchRequest({ url: `/superadmin/hospitals/${hospitalId}/`, payload: { status } }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["hospitalList"] });
+    },
   });
 };

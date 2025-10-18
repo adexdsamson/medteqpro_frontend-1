@@ -13,7 +13,7 @@ import {
   DialogClose,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Forge, Forger, useForge, FormPropsRef } from "@/lib/forge";
+import { Forge, Forger, useForge, FormPropsRef, usePersist } from "@/lib/forge";
 import { TextInput } from "@/components/FormInputs/TextInput";
 import { TextSelect } from "@/components/FormInputs/TextSelect";
 import { useToastHandler } from "@/hooks/useToaster";
@@ -40,7 +40,7 @@ const schema = yup.object({
         quantity: yup
           .number()
           .min(1, "Quantity must be at least 1"),
-      })
+      }).optional()
     )
     .optional(),
   total_payable: yup
@@ -122,9 +122,7 @@ export default function CreateBillDialog({
 
   const { control, reset } = useForge<CreateBillFormValues>({
     resolver: yupResolver(schema) as any,
-    defaultValues: {
-      drugs: [{ drug_id: "", quantity: 1 }] as DrugQuantityItem[],
-    },
+    
   });
 
   /**
@@ -133,6 +131,17 @@ export default function CreateBillDialog({
    * // purpose === 'drug' when Drugs is selected in the Purpose dropdown
    */
   const purpose = useWatch({ control, name: "purpose" });
+
+  usePersist({
+    control,
+    handler: (payload, formState) => {
+      if (formState.type === 'change' && formState.name === 'purpose') {
+        if (formState.values.purpose === 'drug') {
+          payload.drugs = [{ drug_id: "", quantity: 1 }] as DrugQuantityItem[];
+        }
+      }
+    }
+  })
 
   const onSubmit = async (data: CreateBillFormValues) => {
     try {
@@ -144,8 +153,8 @@ export default function CreateBillDialog({
         min_deposit: data.min_deposit?.toString(),
         payment_method: data.mode_of_payment || undefined,
         drugs: data.drugs?.map((drugItem) => ({
-          drug: drugItem.drug_id,
-          quantity: drugItem.quantity,
+          drug: drugItem?.drug_id,
+          quantity: drugItem?.quantity ?? 0,
         })),
       };
 
@@ -156,7 +165,7 @@ export default function CreateBillDialog({
     } catch (error) {
       console.log(error);
       const err = error as ApiResponseError;
-      toast.error("Error", err?.message ?? "Something went wrong");
+      toast.error("Error", err ?? "Something went wrong");
     }
   };
 

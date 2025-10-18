@@ -2,7 +2,10 @@
 
 import { DataTable } from "@/components/DataTable";
 import { Button } from "@/components/ui/button";
-import { useGetHospitalList } from "@/features/services/hospitalService";
+import {
+  useGetHospitalList,
+  useUpdateHospitalStatus,
+} from "@/features/services/hospitalService";
 import { useGetSubscriptionList } from "@/features/services/subscriptionService";
 import { ColumnDef } from "@tanstack/react-table";
 import React, { Suspense } from "react";
@@ -19,6 +22,16 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal } from "lucide-react";
 import { useSearchParams } from "next/navigation";
+import { ConfirmAlert } from "@/components/ConfirmAlert";
+import { useToastHandler } from "@/hooks/useToaster";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 enum Status {
   Active = "active",
@@ -49,6 +62,44 @@ function ClientManagementContent() {
     useGetHospitalList();
   const { data: subscriptionList, isLoading: isLoadingSubscriptions } =
     useGetSubscriptionList();
+
+  const toast = useToastHandler();
+  const updateHospitalStatus = useUpdateHospitalStatus();
+
+  const handleActivate = async (client: HospitalListType) => {
+    try {
+      const res = await updateHospitalStatus.mutateAsync({
+        hospitalId: String(client.id),
+        status: "active",
+      });
+      if (res?.status === 200) {
+        toast.success("Hospital Activation", `${client.name} is now active`);
+      } else {
+        toast.error("Hospital Activation", "Failed to activate hospital");
+      }
+    } catch (error) {
+      toast.error("Hospital Activation", String(error));
+    }
+  };
+
+  const handleSuspend = async (client: HospitalListType) => {
+    try {
+      const res = await updateHospitalStatus.mutateAsync({
+        hospitalId: String(client.id),
+        status: "suspended",
+      });
+      if (res?.status === 200) {
+        toast.success(
+          "Hospital Suspension",
+          `${client.name} has been suspended`
+        );
+      } else {
+        toast.error("Hospital Suspension", "Failed to suspend hospital");
+      }
+    } catch (error) {
+      toast.error("Hospital Suspension", String(error));
+    }
+  };
 
   const columns: ColumnDef<ClientType>[] = [
     {
@@ -105,24 +156,103 @@ function ClientManagementContent() {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem
-                className="text-xs text-center"
-                onClick={() => console.log("Activate", client)}
-              >
-                Activate
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                className="text-xs text-center"
-                onClick={() => console.log("Suspend", client)}
-              >
-                Suspend
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                className="text-xs text-center"
-                onClick={() => console.log("View License", client)}
-              >
-                View License
-              </DropdownMenuItem>
+              <ConfirmAlert
+                title="Activate Hospital"
+                text={`Are you sure you want to activate ${client.name}?`}
+                confirmText="Activate"
+                cancelText="Cancel"
+                trigger={
+                  // <DropdownMenuItem className="">
+                    <span className="p-2 text-xs block cursor-pointer">Activate</span>
+                  // </DropdownMenuItem>
+                }
+                onConfirm={() => handleActivate(client)}
+              />
+              <ConfirmAlert
+                title="Suspend Hospital"
+                text={`Are you sure you want to suspend ${client.name}?`}
+                confirmText="Suspend"
+                cancelText="Cancel"
+                trigger={
+                  // <DropdownMenuItem  className="text-xs text-center" asChild>
+                    <span className="p-2 text-xs block cursor-pointer">Suspend</span>
+                  // </DropdownMenuItem>
+                }
+                onConfirm={() => handleSuspend(client)}
+              />
+              <Dialog>
+                <DialogTrigger asChild>
+                  <DropdownMenuItem className="text-xs text-center">
+                    View License
+                  </DropdownMenuItem>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>License Details</DialogTitle>
+                    <DialogDescription>
+                      {(() => {
+                        const s = subscriptionList?.data?.data?.find(
+                          (sub: {
+                            hospital_name: string;
+                            plan_name?: string;
+                            amount?: string;
+                            last_subscription_date?: string;
+                            expiry_date?: string | null;
+                            status?: string;
+                          }) => sub.hospital_name === client.name
+                        );
+                        if (!s) {
+                          return (
+                            <span>
+                              No subscription information found for this
+                              hospital.
+                            </span>
+                          );
+                        }
+                        return (
+                          <div className="space-y-1 text-sm">
+                            <p>
+                              <span className="font-medium">Hospital:</span>{" "}
+                              {s.hospital_name}
+                            </p>
+                            <p>
+                              <span className="font-medium">Plan:</span>{" "}
+                              {s.plan_name ?? "N/A"}
+                            </p>
+                            <p>
+                              <span className="font-medium">Amount:</span>{" "}
+                              {s.amount
+                                ? `₦${parseFloat(s.amount).toLocaleString()}`
+                                : "N/A"}
+                            </p>
+                            <p>
+                              <span className="font-medium">
+                                Last Subscription:
+                              </span>{" "}
+                              {s.last_subscription_date
+                                ? format(
+                                    parseISO(s.last_subscription_date),
+                                    "dd-MMM-yyyy"
+                                  )
+                                : "No date"}
+                            </p>
+                            <p>
+                              <span className="font-medium">Expiry Date:</span>{" "}
+                              {s.expiry_date
+                                ? format(parseISO(s.expiry_date), "dd-MMM-yyyy")
+                                : "No expiry date"}
+                            </p>
+                            <p>
+                              <span className="font-medium">Status:</span>{" "}
+                              {s.status}
+                            </p>
+                          </div>
+                        );
+                      })()}
+                    </DialogDescription>
+                  </DialogHeader>
+                </DialogContent>
+              </Dialog>
             </DropdownMenuContent>
           </DropdownMenu>
         );
@@ -209,16 +339,62 @@ function ClientManagementContent() {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem
-                onClick={() => console.log("Activate", subscription)}
-              >
-                Activate
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={() => console.log("Suspend", subscription)}
-              >
-                Suspend
-              </DropdownMenuItem>
+              <ConfirmAlert
+                title="Activate Hospital"
+                text={`Are you sure you want to activate ${subscription.hospitalName}?`}
+                confirmText="Activate"
+                cancelText="Cancel"
+                trigger={<DropdownMenuItem>Activate</DropdownMenuItem>}
+                onConfirm={async () => {
+                  try {
+                    const res = await updateHospitalStatus.mutateAsync({
+                      hospitalId: String(subscription.id),
+                      status: "active",
+                    });
+                    if (res?.status === 200) {
+                      toast.success(
+                        "Hospital Activation",
+                        `${subscription.hospitalName} is now active`
+                      );
+                    } else {
+                      toast.error(
+                        "Hospital Activation",
+                        "Failed to activate hospital"
+                      );
+                    }
+                  } catch (error) {
+                    toast.error("Hospital Activation", String(error));
+                  }
+                }}
+              />
+              <ConfirmAlert
+                title="Suspend Hospital"
+                text={`Are you sure you want to suspend ${subscription.hospitalName}?`}
+                confirmText="Suspend"
+                cancelText="Cancel"
+                trigger={<DropdownMenuItem>Suspend</DropdownMenuItem>}
+                onConfirm={async () => {
+                  try {
+                    const res = await updateHospitalStatus.mutateAsync({
+                      hospitalId: String(subscription.id),
+                      status: "suspended",
+                    });
+                    if (res?.status === 200) {
+                      toast.success(
+                        "Hospital Suspension",
+                        `${subscription.hospitalName} has been suspended`
+                      );
+                    } else {
+                      toast.error(
+                        "Hospital Suspension",
+                        "Failed to suspend hospital"
+                      );
+                    }
+                  } catch (error) {
+                    toast.error("Hospital Suspension", String(error));
+                  }
+                }}
+              />
               <DropdownMenuItem
                 onClick={() => console.log("View License", subscription)}
               >
