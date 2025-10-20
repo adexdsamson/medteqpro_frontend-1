@@ -268,7 +268,7 @@ export const getStatusColor = (status: string) => {
  */
 export interface CreateLabManagementTestPayload {
   lab_no: string;
-  patient: string; // patient UUID
+  patient_id: string; // patient UUID
   ordered_by: string; // doctor/user UUID
   test_type: string; // lab test type UUID
   entry_category: 'outpatient' | 'inpatient' | 'emergency';

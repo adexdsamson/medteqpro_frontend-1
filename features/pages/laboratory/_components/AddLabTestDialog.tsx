@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useMemo } from "react";
+import React, { useRef, useMemo, useEffect } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import {
@@ -65,6 +65,7 @@ interface AddLabTestDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onSuccess?: () => void;
+  patientId?: string
 }
 
 /**
@@ -80,6 +81,7 @@ export const AddLabTestDialog: React.FC<AddLabTestDialogProps> = ({
   open,
   onOpenChange,
   onSuccess,
+  patientId
 }) => {
   const toast = useToastHandler();
   const formRef = useRef<FormPropsRef | null>(null);
@@ -109,6 +111,7 @@ export const AddLabTestDialog: React.FC<AddLabTestDialogProps> = ({
     }
     return [] as { value: string; label: string }[];
   }, [doctorsQuery.data]);
+
   const entryCategoryOptions = [
     { value: "outpatient", label: "Outpatient" },
     { value: "inpatient", label: "Inpatient" },
@@ -125,7 +128,7 @@ export const AddLabTestDialog: React.FC<AddLabTestDialogProps> = ({
     { value: "other", label: "Other" },
   ];
 
-  const { control } = useForge<LabTestFormValues>({
+  const { control, setValue } = useForge<LabTestFormValues>({
     resolver: yupResolver(labTestSchema) as Resolver<LabTestFormValues>,
     defaultValues: {
       patient: "",
@@ -143,6 +146,12 @@ export const AddLabTestDialog: React.FC<AddLabTestDialogProps> = ({
     },
   });
 
+  useEffect(() => {
+    if (patientId) {
+      setValue("patient", patientId);
+    }
+  }, [patientId, setValue]);
+
   // Mutation
   const createLabManagementTest = useCreateLabManagementTest();
 
@@ -155,7 +164,7 @@ export const AddLabTestDialog: React.FC<AddLabTestDialogProps> = ({
     try {
       await createLabManagementTest.mutateAsync({
         lab_no: data.lab_no,
-        patient: data.patient,
+        patient_id: data.patient,
         ordered_by: data.ordered_by,
         test_type: data.test_type,
         entry_category: data.entry_category,
@@ -194,7 +203,7 @@ export const AddLabTestDialog: React.FC<AddLabTestDialogProps> = ({
         </DialogHeader>
 
         <div className="space-y-4">
-          <Forge {...{ control, onSubmit: handleSubmit, ref: formRef }}>
+          <Forge {...{ control, onSubmit: handleSubmit, ref: formRef, debug: true }}>
             <div className="grid grid-cols-2 gap-4">
               <Forger
                 name="patient"

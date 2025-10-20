@@ -5,11 +5,11 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { getRequest, postRequest } from "@/lib/axiosInstance";
 import { ApiResponse, ApiResponseError } from "@/types";
 
-export interface DiagnosticReport {
+export interface DiagnosisRecord {
   id: string;
-  dateTime: string;
-  submittedBy: string;
-  medicalDiagnosis: string;
+  created_at: string;
+  recorded_by: string;
+  diagnosis: string;
   note?: string;
   hasNote: boolean;
 }
@@ -29,7 +29,7 @@ export interface CreateDiagnosticReportPayload {
  * @param patientId - The patient ID to fetch reports for
  */
 export const usePatientDiagnosticReports = (patientId: string) => {
-  return useQuery<DiagnosticReport[], ApiResponseError>({
+  return useQuery<DiagnosisRecord[], ApiResponseError>({
     queryKey: ['diagnostic-reports', patientId],
     queryFn: async () => {
       const response = await getRequest({

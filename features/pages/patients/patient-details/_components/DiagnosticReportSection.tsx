@@ -12,10 +12,12 @@ export default function DiagnosticReportSection() {
   const patientId = params.patientId as string;
 
   const {
-    data: diagnosticReports,
+    data,
     isLoading,
     refetch,
   } = usePatientDiagnosticReports(patientId);
+
+  const diagnosticReports = data || [];
 
   /**
    * Handles successful creation of a new diagnostic report

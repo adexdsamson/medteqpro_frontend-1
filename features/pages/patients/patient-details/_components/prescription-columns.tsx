@@ -9,7 +9,10 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { PrescriptionType, useDeletePrescription } from "@/features/services/prescriptionService";
+import {
+  PrescriptionType,
+  useDeletePrescription,
+} from "@/features/services/prescriptionService";
 import EditPrescriptionDialog from "./EditPrescriptionDialog";
 import { ConfirmAlert } from "@/components/ConfirmAlert";
 import { useToastHandler } from "@/hooks/useToaster";
@@ -18,7 +21,13 @@ import { ApiResponseError } from "@/types";
 /**
  * Actions cell component for prescription table
  */
-const PrescriptionActionsCell = ({ prescription, patientId }: { prescription: PrescriptionType; patientId: string }) => {
+const PrescriptionActionsCell = ({
+  prescription,
+  patientId,
+}: {
+  prescription: PrescriptionType;
+  patientId: string;
+}) => {
   const toast = useToastHandler();
   const deletePrescriptionMutation = useDeletePrescription();
 
@@ -73,7 +82,7 @@ const PrescriptionActionsCell = ({ prescription, patientId }: { prescription: Pr
           confirmText="Delete"
           cancelText="Cancel"
           trigger={
-            <DropdownMenuItem 
+            <DropdownMenuItem
               onSelect={(e) => e.preventDefault()}
               className="text-red-600"
             >
@@ -90,28 +99,28 @@ const PrescriptionActionsCell = ({ prescription, patientId }: { prescription: Pr
 /**
  * Creates prescription table columns with actions
  */
-export const createPrescriptionColumns = (patientId: string): ColumnDef<PrescriptionType>[] => [
+export const createPrescriptionColumns = (
+  patientId: string
+): ColumnDef<PrescriptionType>[] => [
   {
-    accessorKey: "formattedCreatedAt",
+    accessorKey: "created_at",
     header: "DATE & TIME",
     cell: ({ row }) => {
-      const dateTime = row.getValue("formattedCreatedAt") as string;
+      const dateTime = row.getValue("created_at") as string;
       return (
         <div className="text-sm text-gray-900">
-          {dateTime}
+          {new Date(dateTime).toLocaleString()}
         </div>
       );
     },
   },
   {
-    accessorKey: "medicineName",
+    accessorKey: "medicine_name",
     header: "MEDICINE",
     cell: ({ row }) => {
-      const medicine = row.getValue("medicineName") as string;
+      const medicine = row.getValue("medicine_name") as string;
       return (
-        <div className="text-sm font-medium text-gray-900">
-          {medicine}
-        </div>
+        <div className="text-sm font-medium text-gray-900">{medicine}</div>
       );
     },
   },
@@ -120,11 +129,7 @@ export const createPrescriptionColumns = (patientId: string): ColumnDef<Prescrip
     header: "DOSAGE",
     cell: ({ row }) => {
       const dosage = row.getValue("dosage") as string;
-      return (
-        <div className="text-sm text-gray-900">
-          {dosage}
-        </div>
-      );
+      return <div className="text-sm text-gray-900">{dosage}</div>;
     },
   },
   {
@@ -134,7 +139,7 @@ export const createPrescriptionColumns = (patientId: string): ColumnDef<Prescrip
       const duration = row.getValue("duration") as number;
       return (
         <div className="text-sm text-gray-900">
-          {duration} {duration === 1 ? 'day' : 'days'}
+          {duration} {duration === 1 ? "day" : "days"}
         </div>
       );
     },
@@ -144,11 +149,7 @@ export const createPrescriptionColumns = (patientId: string): ColumnDef<Prescrip
     header: "FREQUENCY",
     cell: ({ row }) => {
       const frequency = row.getValue("frequency") as string;
-      return (
-        <div className="text-sm text-gray-900">
-          {frequency}
-        </div>
-      );
+      return <div className="text-sm text-gray-900">{frequency}</div>;
     },
   },
   {
@@ -158,9 +159,9 @@ export const createPrescriptionColumns = (patientId: string): ColumnDef<Prescrip
       const prescription = row.original;
 
       return (
-        <PrescriptionActionsCell 
-          prescription={prescription} 
-          patientId={patientId} 
+        <PrescriptionActionsCell
+          prescription={prescription}
+          patientId={patientId}
         />
       );
     },

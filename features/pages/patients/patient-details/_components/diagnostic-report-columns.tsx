@@ -11,27 +11,27 @@ import {
   DropdownMenuLabel, 
   DropdownMenuTrigger 
 } from "@/components/ui/dropdown-menu";
+import { DiagnosisRecord } from "@/features/services/diagnosticReportService";
 
-export interface DiagnosisRecord {
-  id: string;
-  dateTime: string;
-  submittedBy: string;
-  medicalDiagnosis: string;
-  note?: string;
-  hasNote: boolean;
-}
 
 export const columns: ColumnDef<DiagnosisRecord>[] = [
   {
-    accessorKey: "dateTime",
+    accessorKey: "created_at",
     header: "DATE & TIME",
+    cell: ({ row }) => {
+      const record = row.original;
+      if (!record.created_at) {
+        return <span>N/A</span>;
+      }
+      return <span>{new Date(record.created_at).toLocaleString() || "N/A"}</span>;
+    },
   },
   {
-    accessorKey: "submittedBy",
+    accessorKey: "recorded_by",
     header: "SUBMITTED BY",
   },
   {
-    accessorKey: "medicalDiagnosis",
+    accessorKey: "diagnosis",
     header: "MEDICAL DIAGNOSIS",
   },
   {

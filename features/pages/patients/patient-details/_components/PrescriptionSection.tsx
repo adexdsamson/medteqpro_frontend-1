@@ -20,10 +20,8 @@ export default function PrescriptionSection() {
     refetch,
   } = useGetPatientPrescriptions(patientId);
 
-  const {
-    data: patientData,
-    isLoading: isLoadingPatient,
-  } = usePatientDetails(patientId);
+  const { data: patientData, isLoading: isLoadingPatient } =
+    usePatientDetails(patientId);
 
   /**
    * Handles successful creation of a new prescription
@@ -88,7 +86,10 @@ export default function PrescriptionSection() {
 
           {prescriptions && prescriptions.length > 0 ? (
             <div className="bg-white rounded-lg border">
-              <DataTable columns={createPrescriptionColumns(patientId)} data={prescriptions} />
+              <DataTable
+                columns={createPrescriptionColumns(patientId)}
+                data={prescriptions}
+              />
             </div>
           ) : (
             <div className="bg-white rounded-lg border p-8 text-center text-gray-500">

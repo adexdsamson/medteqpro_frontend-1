@@ -2,7 +2,7 @@
 
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { getRequest, postRequest } from "@/lib/axiosInstance";
-import { ApiResponse, ApiResponseError } from "@/types";
+import { ApiResponse, ApiResponseError, ApiResponseList } from "@/types";
 import { format, parseISO } from "date-fns";
 
 // Define types based on the API response structure
@@ -67,7 +67,7 @@ export const useGetPatientLabTests = (
     search?: string;
   }
 ) => {
-  return useQuery<ApiResponse<LabTest[]>, ApiResponseError>({
+  return useQuery<ApiResponseList<LabTest[]>, ApiResponseError>({
     queryKey: ["patient-lab-tests", patientId, options],
     queryFn: async () => {
       let url = `laboratory-management/patients/${patientId}/tests/`;
