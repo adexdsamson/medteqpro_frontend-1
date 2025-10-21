@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import React, { useMemo, useRef, useState, useEffect } from "react";
@@ -36,7 +37,7 @@ export default function BillingPaymentsPage() {
       const minDeposit = parseFloat(b.min_deposit ?? "0") || 0;
       const amountPaid = parseFloat(b.amount_paid ?? "0") || 0;
       const remaining = parseFloat(b.remaining_amount ?? "0") || 0;
-      let paymentStatus: BillRow["status"] = "not_paid";
+      let paymentStatus: BillRow["status"] = b.status as any;
 
       if (remaining <= 0 && total > 0) paymentStatus = "full_payment";
       else if (amountPaid > 0 && remaining > 0) paymentStatus = "part_payment";

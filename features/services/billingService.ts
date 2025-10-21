@@ -2,7 +2,7 @@
 "use client";
 
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { getRequest, postRequest } from "@/lib/axiosInstance";
+import { getRequest, postRequest, patchRequest } from "@/lib/axiosInstance";
 import { ApiListResponse, ApiResponse, ApiResponseError } from "@/types";
 
 // Define types based on the API response structure
@@ -180,5 +180,27 @@ export const useBillTransactions = (params?: {
   return useQuery<ApiResponse<TransactionResponse[]>, ApiResponseError>({
     queryKey: ["billTransactions", params],
     queryFn: async () => await getRequest({ url }),
+  });
+};
+
+// Hook to update bill status (PATCH /bill-management/bills/:bill_id/)
+export const useUpdateBillStatus = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation<
+    ApiResponse<BillResponse>,
+    ApiResponseError,
+    { billId: string; status: string }
+  >({
+    mutationKey: ["updateBillStatus"],
+    mutationFn: async ({ billId, status }) =>
+      await patchRequest({
+        url: `/bill-management/bills/${billId}/`,
+        payload: { status },
+      }),
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries({ queryKey: ["billDetails", variables.billId] });
+      queryClient.invalidateQueries({ queryKey: ["billsList"] });
+    },
   });
 };

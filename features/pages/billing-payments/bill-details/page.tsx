@@ -10,10 +10,20 @@ import {
   useBillDetails,
   type BillResponse,
   type TransactionResponse,
+  useUpdateBillStatus,
 } from "@/features/services/billingService";
 import type { ApiResponseError } from "@/types";
 import { getFormatCurrency } from "@/lib/utils";
 import { format } from "date-fns";
+import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { useToastHandler } from "@/hooks/useToaster";
 
 /**
  * Centralized Bill Detail feature page.
@@ -38,10 +48,47 @@ export default function BillDetailFeaturePage() {
   const details = data?.data?.data as
     | { bill: BillResponse; transactions: TransactionResponse[] }
     | undefined;
-  
 
   const bill: BillResponse | undefined = details?.bill;
   const transactions: TransactionResponse[] = details?.transactions ?? [];
+
+  // Toast & status update mutation
+  const toast = useToastHandler();
+  const { mutateAsync: updateStatus, isPending: isUpdating } =
+    useUpdateBillStatus();
+
+  // Local state for selected next status
+  const [nextStatus, setNextStatus] = React.useState<string>("");
+  React.useEffect(() => {
+    if (bill?.status) setNextStatus(bill.status);
+  }, [bill?.status]);
+
+  const formatStatusLabel = (s: string) => {
+    const map: Record<string, string> = {
+      paid: "Paid",
+      pending: "Pending",
+      cancelled: "Cancelled",
+      partially_paid: "Partially Paid",
+    };
+    return map[s] ?? s;
+  };
+
+  const handleUpdateStatus = async () => {
+    if (!bill?.id) {
+      toast.error("Error", "Bill ID not found");
+      return;
+    }
+    try {
+      await updateStatus({ billId: bill.id, status: nextStatus });
+      toast.success(
+        "Status Updated",
+        `Status changed to ${formatStatusLabel(nextStatus)}`
+      );
+    } catch (error) {
+      const err = error as ApiResponseError;
+      toast.error("Error", err?.message ?? "Failed to update status");
+    }
+  };
 
   // Transactions table columns
   const txnColumns: ColumnDef<TransactionResponse>[] = [
@@ -89,8 +136,12 @@ export default function BillDetailFeaturePage() {
 
         {isError && (
           <div className="bg-white rounded-lg shadow p-6">
-            <p className="text-red-600 font-medium">Failed to load bill details</p>
-            <p className="text-sm text-gray-500 mt-1">{apiError?.message ?? "Unexpected error"}</p>
+            <p className="text-red-600 font-medium">
+              Failed to load bill details
+            </p>
+            <p className="text-sm text-gray-500 mt-1">
+              {apiError?.message ?? "Unexpected error"}
+            </p>
           </div>
         )}
 
@@ -103,31 +154,47 @@ export default function BillDetailFeaturePage() {
               </div>
               <div>
                 <p className="text-sm text-gray-600">Purpose</p>
-                <p className="text-base font-medium capitalize">{bill.purpose}</p>
+                <p className="text-base font-medium capitalize">
+                  {bill.purpose}
+                </p>
               </div>
               <div>
                 <p className="text-sm text-gray-600">Total Amount</p>
-                <p className="text-base font-medium">{getFormatCurrency(Number(bill.total_amount ?? 0))}</p>
+                <p className="text-base font-medium">
+                  {getFormatCurrency(Number(bill.total_amount ?? 0))}
+                </p>
               </div>
               <div>
                 <p className="text-sm text-gray-600">Amount Paid</p>
-                <p className="text-base font-medium">{getFormatCurrency(Number(bill.amount_paid ?? 0))}</p>
+                <p className="text-base font-medium">
+                  {getFormatCurrency(Number(bill.amount_paid ?? 0))}
+                </p>
               </div>
               <div>
                 <p className="text-sm text-gray-600">Remaining Balance</p>
-                <p className="text-base font-medium">{getFormatCurrency(Number(bill.remaining_amount ?? 0))}</p>
+                <p className="text-base font-medium">
+                  {getFormatCurrency(Number(bill.remaining_amount ?? 0))}
+                </p>
               </div>
               <div>
                 <p className="text-sm text-gray-600">Status</p>
-                <p className="text-base font-medium capitalize">{bill.status}</p>
+                <p className="text-base font-medium capitalize">
+                  {bill.status}
+                </p>
               </div>
               <div>
                 <p className="text-sm text-gray-600">Created</p>
-                <p className="text-base font-medium">{bill.created_at ? format(new Date(bill.created_at), 'MMM d, yyyy h:mm a') : 'N/A'}</p>
+                <p className="text-base font-medium">
+                  {bill.created_at
+                    ? format(new Date(bill.created_at), "MMM d, yyyy h:mm a")
+                    : "N/A"}
+                </p>
               </div>
               <div>
                 <p className="text-sm text-gray-600">Payment Method</p>
-                <p className="text-base font-medium capitalize">{bill.payment_method}</p>
+                <p className="text-base font-medium capitalize">
+                  {bill.payment_method}
+                </p>
               </div>
               {bill.comments && (
                 <div className="md:col-span-2">
@@ -137,9 +204,40 @@ export default function BillDetailFeaturePage() {
               )}
             </div>
 
+            {/* Status Update Controls */}
+            <div className="bg-white rounded-lg shadow p-6">
+              <div className="flex flex-wrap items-end gap-4">
+                <div className="min-w-[240px]">
+                  <p className="text-sm text-gray-600">Update Payment Status</p>
+                  <div className="mt-2 w-64">
+                    <Select value={nextStatus} onValueChange={setNextStatus}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select status" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="pending">Pending</SelectItem>
+                        <SelectItem value="partially_paid">
+                          Partially Paid
+                        </SelectItem>
+                        <SelectItem value="paid">Paid</SelectItem>
+                        <SelectItem value="cancelled">Cancelled</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+                <div>
+                  <Button onClick={handleUpdateStatus} disabled={isUpdating || !nextStatus || bill?.status === 'paid'} className="min-w-[140px]">
+                    {isUpdating ? "Updating..." : "Update Status"}
+                  </Button>
+                </div>
+              </div>
+            </div>
+
             {Array.isArray(bill.drugs) && bill.drugs.length > 0 && (
               <div className="bg-white rounded-lg shadow p-6">
-                <p className="text-sm font-semibold text-gray-700 mb-4">Drugs</p>
+                <p className="text-sm font-semibold text-gray-700 mb-4">
+                  Drugs
+                </p>
                 <div className="overflow-x-auto">
                   <table className="min-w-full text-sm">
                     <thead>
@@ -155,8 +253,12 @@ export default function BillDetailFeaturePage() {
                         <tr key={idx} className="border-t">
                           <td className="py-2 pr-4">{d.drug_name}</td>
                           <td className="py-2 pr-4">{d.quantity}</td>
-                          <td className="py-2 pr-4">{getFormatCurrency(Number(d.unit_price ?? 0))}</td>
-                          <td className="py-2 pr-4">{getFormatCurrency(Number(d.total_price ?? 0))}</td>
+                          <td className="py-2 pr-4">
+                            {getFormatCurrency(Number(d.unit_price ?? 0))}
+                          </td>
+                          <td className="py-2 pr-4">
+                            {getFormatCurrency(Number(d.total_price ?? 0))}
+                          </td>
                         </tr>
                       ))}
                     </tbody>
@@ -166,13 +268,21 @@ export default function BillDetailFeaturePage() {
             )}
 
             <div className="bg-white rounded-lg shadow p-6">
-              <p className="text-sm font-semibold text-gray-700 mb-4">Transactions</p>
+              <p className="text-sm font-semibold text-gray-700 mb-4">
+                Transactions
+              </p>
               {transactions.length > 0 ? (
                 <div className="overflow-x-auto">
-                  <DataTable columns={txnColumns} data={transactions} options={{ disableSelection: true }} />
+                  <DataTable
+                    columns={txnColumns}
+                    data={transactions}
+                    options={{ disableSelection: true }}
+                  />
                 </div>
               ) : (
-                <p className="text-gray-500">No transactions recorded for this bill yet.</p>
+                <p className="text-gray-500">
+                  No transactions recorded for this bill yet.
+                </p>
               )}
             </div>
           </>
