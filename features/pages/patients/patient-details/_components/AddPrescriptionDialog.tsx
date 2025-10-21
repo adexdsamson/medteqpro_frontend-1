@@ -23,6 +23,8 @@ import {
 import { TextInput } from "@/components/FormInputs/TextInput";
 import { TextArea } from "@/components/FormInputs/TextArea";
 import { Plus } from "lucide-react";
+import { TextSelect } from "@/components/FormInputs/TextSelect";
+import { useGetDrugs, type Drug } from "@/features/services/drugManagementService";
 
 const schema = yup.object().shape({
   medicine_name: yup.string().required("Medicine name is required"),
@@ -79,6 +81,11 @@ export default function AddPrescriptionDialog({
   const { mutateAsync: createPrescription, isPending } =
     useCreatePrescription();
 
+  // Fetch drugs for select options
+  const { data: drugsResp, isLoading: loadingDrugs, isError: drugsError } = useGetDrugs({ page_size: 100 });
+  const drugList: Drug[] = (drugsResp?.data?.results as Drug[]) || [];
+  const drugOptions = drugList.map((d) => ({ label: d.drug_name, value: d.drug_name }));
+
   /**
    * Handles form submission for creating a new prescription
    * @param data - Form data containing prescription details
@@ -126,11 +133,14 @@ export default function AddPrescriptionDialog({
         <div className="flex-1 overflow-y-auto">
           <Forge control={control} onSubmit={handleSubmit}>
             <div className="grid gap-4 py-4">
+              {/* Medicine Name as Select fed by Drugs API */}
               <Forger
                 name="medicine_name"
-                component={TextInput}
+                component={TextSelect}
                 label="Medicine Name"
-                placeholder="Enter medicine name"
+                placeholder={drugsError ? "Failed to load drugs" : "Select a medicine"}
+                options={drugOptions}
+                disabled={loadingDrugs}
                 required
               />
 
