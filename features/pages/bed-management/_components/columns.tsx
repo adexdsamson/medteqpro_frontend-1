@@ -9,6 +9,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal, Edit, Trash2 } from "lucide-react";
+import { ConfirmAlert } from "@/components/ConfirmAlert";
 
 /**
  * UI representation for a bed item displayed in the DataTable
@@ -22,6 +23,7 @@ export interface BedData {
   id: string;
   status: "occupied" | "available";
   patientName: string | null;
+  wardId: string;
 }
 
 /**
@@ -33,8 +35,8 @@ export interface BedData {
  */
 export const bedColumns = (
   onAssignBed?: (bedId: string) => void,
-  onEditBed?: (bedId: string) => void,
-  onDeleteBed?: (bedId: string) => void
+  onEditBed?: (wardId: string, bedId: string) => void,
+  onDeleteBed?: (wardId: string, bedId: string) => void
 ): ColumnDef<BedData>[] => [
   {
     accessorKey: "bedId",
@@ -55,9 +57,7 @@ export const bedColumns = (
     header: "PATIENT ID",
     cell: ({ row }) => {
       const patientId = row.getValue("patientId") as string | null;
-      return (
-        <div className="text-gray-700">{patientId || "N/A"}</div>
-      );
+      return <div className="text-gray-700">{patientId || "N/A"}</div>;
     },
   },
   {
@@ -83,10 +83,10 @@ export const bedColumns = (
     accessorKey: "allocationDateTime",
     header: "ALLOCATION DATE & TIME",
     cell: ({ row }) => {
-      const allocationDateTime = row.getValue("allocationDateTime") as string | null;
-      return (
-        <div className="text-gray-700">{allocationDateTime || "N/A"}</div>
-      );
+      const allocationDateTime = row.getValue("allocationDateTime") as
+        | string
+        | null;
+      return <div className="text-gray-700">{allocationDateTime || "N/A"}</div>;
     },
   },
   {
@@ -95,7 +95,9 @@ export const bedColumns = (
     cell: ({ row }) => {
       const duration = row.getValue("duration") as number | null;
       return (
-        <div className="text-gray-700">{duration !== null ? duration : "N/A"}</div>
+        <div className="text-gray-700">
+          {duration !== null ? duration : "N/A"}
+        </div>
       );
     },
   },
@@ -104,6 +106,7 @@ export const bedColumns = (
     header: "ACTIONS",
     cell: ({ row }) => {
       const bedId = row.original?.id as string;
+      const wardId = row.original?.wardId as string;
       const patientId = row.getValue("patientId") as string | null;
       const isAvailable = !patientId;
 
@@ -132,19 +135,27 @@ export const bedColumns = (
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuItem
-                onClick={() => onEditBed?.(bedId)}
+                onClick={() => onEditBed?.(wardId, bedId)}
                 className="cursor-pointer"
               >
                 <Edit className="mr-2 h-4 w-4" />
                 Edit
               </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={() => onDeleteBed?.(bedId)}
-                className="cursor-pointer text-red-600 hover:text-red-700"
-              >
-                <Trash2 className="mr-2 h-4 w-4" />
-                Delete
-              </DropdownMenuItem>
+              {/* <DropdownMenuItem > */}
+
+              <ConfirmAlert
+                title="Delete Bed"
+                text="This action cannot be undone. Delete this bed?"
+                trigger={
+                  <span className="cursor-pointer text-red-600 hover:text-red-700 flex items-center px-2 py-1.5 text-sm hover:bg-gray-100">
+                    <Trash2 className="mr-2 h-4 w-4" />
+                    Delete
+                  </span>
+                }
+                onConfirm={() => onDeleteBed?.(wardId, bedId)}
+                confirmText="Delete"
+              />
+              {/* </DropdownMenuItem> */}
             </DropdownMenuContent>
           </DropdownMenu>
         </div>

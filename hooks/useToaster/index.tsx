@@ -6,21 +6,21 @@ export const useToastHandler = () => {
   // const { toast } = useToast();
 
   const onErrorHandler = (title: string, error?: any | string) => {
-    console.log({ title, error });
     if (!error) {
       toast.error(title);
       return;
     }
-
+    
     if (typeof error === "string") {
       toast.error(title);
       return;
     }
-
+    
     if (
       error?.response?.data &&
       typeof error.response?.data.message === "string"
     ) {
+      // console.log({ title, error });
       toast.error(title, {
         description: error.response?.data?.message,
       });

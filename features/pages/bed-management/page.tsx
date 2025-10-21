@@ -23,7 +23,10 @@ import {
   mapBedResponseToUIModel,
   BedResponseType,
   WardResponseType,
+  useDeleteBed,
 } from "@/features/services/bedManagementService";
+import { useQueryClient } from "@tanstack/react-query";
+import EditBedDialog from "./_components/EditBedDialog";
 import { format, parseISO } from "date-fns";
 import { useToastHandler } from "@/hooks/useToaster";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
@@ -48,8 +51,11 @@ const BedManagementPage = (): React.ReactElement => {
   const [assignBedDialogOpen, setAssignBedDialogOpen] = useState(false);
   const [wards, setWards] = useState<WardResponseType[]>([]);
   const [selectedBedId, setSelectedBedId] = useState<string>("");
+  const [editBedDialogOpen, setEditBedDialogOpen] = useState(false);
+  const [editingBed, setEditingBed] = useState<BedData | null>(null);
 
   const toast = useToastHandler();
+  const queryClient = useQueryClient();
 
   // Fetch wards data
   const {
@@ -151,6 +157,26 @@ const BedManagementPage = (): React.ReactElement => {
   const handleAssignBed = (bedId: string) => {
     setSelectedBedId(bedId);
     setAssignBedDialogOpen(true);
+  };
+
+  const deleteBedMutation = useDeleteBed();
+
+
+  const handleDeleteBed = async (wardId: string, bedId: string) => {
+    try {
+      await deleteBedMutation.mutateAsync({ wardId, bedId });
+      await queryClient.invalidateQueries({ queryKey: ["bedsInWard", wardId] });
+      await queryClient.invalidateQueries({ queryKey: ["allWards"] });
+      toast.success("Success", "Bed deleted successfully");
+    } catch (err) {
+      toast.error("Error", err);
+    }
+  };
+
+  const handleEditBed = (wardId: string, bedId: string) => {
+    const bed = bedData.find((b) => b.id === bedId) || null;
+    setEditingBed(bed);
+    setEditBedDialogOpen(true);
   };
 
   const totalBeds = filteredBedData.length;
@@ -266,7 +292,7 @@ const BedManagementPage = (): React.ReactElement => {
 
                   <div className="w-full max-w-[76vw] bg-white p-2">
                     <DataTable
-                      columns={bedColumns(handleAssignBed)}
+                      columns={bedColumns(handleAssignBed, handleEditBed, handleDeleteBed)}
                       data={filteredBedData}
                       options={{ isLoading: isLoading || wardsLoading }}
                     />
@@ -332,6 +358,16 @@ const BedManagementPage = (): React.ReactElement => {
           onOpenChange={setAssignBedDialogOpen}
           wardId={activeTab}
           bedId={selectedBedId}
+        />
+        <EditBedDialog
+          open={editBedDialogOpen}
+          onOpenChange={setEditBedDialogOpen}
+          wardId={activeTab}
+          bed={editingBed}
+          onUpdated={async () => {
+            await queryClient.invalidateQueries({ queryKey: ["bedsInWard", activeTab] });
+            await queryClient.invalidateQueries({ queryKey: ["allWards"] });
+          }}
         />
       </div>
       </>

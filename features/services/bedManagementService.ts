@@ -177,7 +177,8 @@ export const mapBedResponseToUIModel = (bed: BedResponseType) => {
     duration: bed.duration,
     id: bed.id,
     status: bed.status,
-    patientName: bed.patient_fullname_if_occupied
+    patientName: bed.patient_fullname_if_occupied,
+    wardId: bed.ward,
   };
 };
 
@@ -235,5 +236,33 @@ export const useGetAllBeds = () => {
     },
     enabled: !!wardsResponse?.data?.data && !wardsLoading && !wardsError,
     staleTime: 5 * 60 * 1000, // 5 minutes
+  });
+};
+
+export type BedUpdateType = {
+  bed_number?: string;
+  room_number?: string;
+};
+
+export const useUpdateBed = () => {
+  return useMutation<
+    ApiResponse<BedResponseType>,
+    ApiResponseError,
+    { wardId: string; bedId: string; payload: BedUpdateType }
+  >({
+    mutationFn: async ({ wardId, bedId, payload }) =>
+      await patchRequest({
+        url: `/bed-management/wards/${wardId}/beds/${bedId}/`,
+        payload,
+      }),
+  });
+};
+
+export const useDeleteBed = () => {
+  return useMutation<ApiResponse<any>, ApiResponseError, { wardId: string; bedId: string }>({
+    mutationFn: async ({ wardId, bedId }) =>
+      await deleteRequest({
+        url: `/bed-management/wards/${wardId}/beds/${bedId}/`,
+      }),
   });
 };
