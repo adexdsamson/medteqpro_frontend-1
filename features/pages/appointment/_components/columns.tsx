@@ -69,6 +69,10 @@ export const appointmentColumns: ColumnDef<Appointment>[] = [
     header: "Actions",
     cell: ({ row }) => {
       const appt = row.original as Appointment;
+      // Hide actions for completed appointments
+      if (appt.status.toLowerCase() === 'completed') {
+        return null;
+      }
       return <RowActions appt={appt} />;
     },
     enableSorting: false,
@@ -138,12 +142,16 @@ const RowActions: React.FC<{ appt: Appointment }> = ({ appt }) => {
     return "Something went wrong";
   };
 
-  const onCancel = async () => {
-    const ok =
-      typeof window !== "undefined"
-        ? window.confirm("Cancel this appointment?")
-        : true;
-    if (!ok) return;
+  const onCompleteConfirmed = async () => {
+    try {
+      await completeAppt(appt.id);
+      toast.success("Completed", "Appointment marked as completed");
+    } catch (err: unknown) {
+      toast.error("Error", getErrorMessage(err));
+    }
+  };
+
+  const onCancelConfirmed = async () => {
     const userId = storeFunctions.getState().user?.id;
     if (!userId) {
       toast.error("Error", "Unable to determine current user");
@@ -152,15 +160,6 @@ const RowActions: React.FC<{ appt: Appointment }> = ({ appt }) => {
     try {
       await cancelAppt({ id: appt.id, data: { user_id: userId } });
       toast.success("Cancelled", "Appointment cancelled successfully");
-    } catch (err: unknown) {
-      toast.error("Error", getErrorMessage(err));
-    }
-  };
-
-  const onCompleteConfirmed = async () => {
-    try {
-      await completeAppt(appt.id);
-      toast.success("Completed", "Appointment marked as completed");
     } catch (err: unknown) {
       toast.error("Error", getErrorMessage(err));
     }
@@ -190,12 +189,19 @@ const RowActions: React.FC<{ appt: Appointment }> = ({ appt }) => {
             </DropdownMenuItem>
           }
         />
-        <DropdownMenuItem
-          onClick={onCancel}
-          className="text-red-600 focus:text-red-700"
-        >
-          Cancel Appointment
-        </DropdownMenuItem>
+        <ConfirmAlert
+          title="Confirm Cancellation"
+          text="Cancel this appointment?"
+          onConfirm={onCancelConfirmed}
+          trigger={
+            <DropdownMenuItem
+              onSelect={(e) => e.preventDefault()}
+              className="text-red-600 focus:text-red-700"
+            >
+              Cancel Appointment
+            </DropdownMenuItem>
+          }
+        />
         <DropdownMenuSeparator />
         <RescheduleAppointmentDialog appointment={appt}>
           <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
