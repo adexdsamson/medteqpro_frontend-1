@@ -46,7 +46,7 @@ export const TextSelect = ({ label, ...rest }: TextSelectProps) => {
       >
         <SelectTrigger className="w-full bg-white text-xs sm:text-sm !text-stone-600 sm:!h-10 touch-manipulation px-3 sm:px-4">
           <SelectValue
-            className="!text-xs sm:!text-sm !text-gray-300"
+            className="!text-xs sm:!text-sm !text-gray-300 !truncate"
             placeholder={rest?.placeholder}
           />
         </SelectTrigger>

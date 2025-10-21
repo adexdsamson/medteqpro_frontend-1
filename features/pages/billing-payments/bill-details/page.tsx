@@ -226,7 +226,13 @@ export default function BillDetailFeaturePage() {
                   </div>
                 </div>
                 <div>
-                  <Button onClick={handleUpdateStatus} disabled={isUpdating || !nextStatus || bill?.status === 'paid'} className="min-w-[140px]">
+                  <Button
+                    onClick={handleUpdateStatus}
+                    disabled={
+                      isUpdating || !nextStatus || bill?.status === "paid"
+                    }
+                    className="min-w-[140px]"
+                  >
                     {isUpdating ? "Updating..." : "Update Status"}
                   </Button>
                 </div>

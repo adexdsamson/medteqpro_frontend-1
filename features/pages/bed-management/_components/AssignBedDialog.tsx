@@ -17,6 +17,8 @@ import { useForge, Forge, Forger, FormPropsRef } from "@/lib/forge";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useQueryClient } from "@tanstack/react-query";
 import * as yup from "yup";
+import { ApiResponseError } from "@/types";
+import { parseDate } from "@internationalized/date";
 
 // Form validation schema
 const schema = yup.object().shape({
@@ -48,6 +50,11 @@ const AssignBedDialog: React.FC<AssignBedDialogProps> = ({
   const queryClient = useQueryClient();
   const formRef = useRef<FormPropsRef | null>(null);
 
+  // Compute today as a CalendarDate for minValue
+  const now = new Date();
+  const todayStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+  const todayValue = parseDate(todayStr);
+
   // Form state management with Forge
   const { control } = useForge<FormValues>({
     resolver: yupResolver(schema),
@@ -64,8 +71,11 @@ const AssignBedDialog: React.FC<AssignBedDialogProps> = ({
   const assignBedMutation = useAssignBed(wardId, bedId);
 
   // Patient options for dropdown
+  const truncate = (s: string, max = 40) =>
+    s && s.length > max ? `${s.slice(0, max - 1)}…` : s;
+
   const patientOptions = patients.map((patient) => ({
-    label: `${patient.full_name} (${patient.id})`,
+    label: truncate(`${patient.full_name} (${patient.user_id})`, 40),
     value: patient.id,
   }));
 
@@ -95,8 +105,9 @@ const AssignBedDialog: React.FC<AssignBedDialogProps> = ({
 
       toast.success("Success", "Bed assigned successfully");
       onOpenChange(false);
-    } catch {
-      toast.error("Error", "Failed to assign bed. Please try again.");
+    } catch (error) {
+      const err = error as ApiResponseError
+      toast.error("Error", err || "Failed to assign bed. Please try again.");
     }
   };
 
@@ -128,6 +139,7 @@ const AssignBedDialog: React.FC<AssignBedDialogProps> = ({
                 component={TextDateInput}
                 label="Expected End Date"
                 placeholder="MM/DD/YYYY"
+                minValue={todayValue}
               />
             </div>
           </div>
