@@ -1387,7 +1387,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "// Super Admin\r\n// {\r\n//     \"email\": \"admin@medteqpro.com\",\r\n//     \"password\": \"adminadmin\"\r\n// }\r\n\r\n// Staff Admin\r\n// {\r\n//     \"email\": \"naarons700@gmail.com\",\r\n//     \"password\": \"userpass112\"\r\n// }\r\n\r\n// Hospital Admin\r\n// {\r\n//     \"email\": \"naarons800@gmail.com\",\r\n//     \"password\": \"AdamsCharles@20250514\"\r\n// }\r\n\r\n// Doctor\r\n{\r\n    \"email\": \"aaronnwokoro@gmail.com\",\r\n    \"password\": \"userpass112\"\r\n}\r\n\r\n// Nurse\r\n// {\r\n//     \"email\": \"yitah65290@ahvin.com\",\r\n//     \"password\": \"password\"\r\n// }",
+							"raw": "// Super Admin\r\n// {\r\n//     \"email\": \"admin@medteqpro.com\",\r\n//     \"password\": \"adminadmin\"\r\n// }\r\n\r\n// Staff Admin\r\n// {\r\n//     \"email\": \"naarons700@gmail.com\",\r\n//     \"password\": \"userpass112\"\r\n// }\r\n\r\n// Hospital Admin\r\n{\r\n    \"email\": \"naarons800@gmail.com\",\r\n    \"password\": \"AdamsCharles@20250514\"\r\n}\r\n\r\n// Doctor\r\n// {\r\n//     \"email\": \"aaronnwokoro@gmail.com\",\r\n//     \"password\": \"userpass112\"\r\n// }\r\n\r\n// Nurse\r\n// {\r\n//     \"email\": \"yitah65290@ahvin.com\",\r\n//     \"password\": \"password\"\r\n// }",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1406,79 +1406,6 @@
 						}
 					},
 					"response": [
-						{
-							"name": "Login",
-							"originalRequest": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"email\": \"admin@medteq.com\",\r\n    \"password\": \"adminadmin\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{LOCAL}}auth/login/",
-									"host": [
-										"{{LOCAL}}auth"
-									],
-									"path": [
-										"login",
-										""
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Date",
-									"value": "Sun, 13 Apr 2025 17:39:46 GMT"
-								},
-								{
-									"key": "Server",
-									"value": "WSGIServer/0.2 CPython/3.10.0"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "Allow",
-									"value": "POST, OPTIONS"
-								},
-								{
-									"key": "X-Frame-Options",
-									"value": "DENY"
-								},
-								{
-									"key": "Vary",
-									"value": "origin"
-								},
-								{
-									"key": "Content-Length",
-									"value": "840"
-								},
-								{
-									"key": "X-Content-Type-Options",
-									"value": "nosniff"
-								},
-								{
-									"key": "Referrer-Policy",
-									"value": "same-origin"
-								},
-								{
-									"key": "Cross-Origin-Opener-Policy",
-									"value": "same-origin"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"status\": true,\n    \"message\": \"Login successful\",\n    \"data\": {\n        \"access_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ3MTU3OTg1LCJpYXQiOjE3NDQ1NjU5ODUsImp0aSI6ImM4YTEzNTk5N2M0YzRmYmRiZTAxMmFkOWJlNzYzY2E5IiwidXNlcl9pZCI6IjIxMWQwMTE3LTdiMTktNDE2OC1hM2UzLWExODU3ZTY0ODliMCJ9.5EkxZLxcTG8HiyGYzsYXGsTA_Gs-J7MQ6V39Ym5iMdY\",\n        \"refresh_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc0OTc0OTk4NSwiaWF0IjoxNzQ0NTY1OTg1LCJqdGkiOiJhNjNkNGM2NTVmZTQ0NTc3YWVkMjdiOThkYWJhZTYzNiIsInVzZXJfaWQiOiIyMTFkMDExNy03YjE5LTQxNjgtYTNlMy1hMTg1N2U2NDg5YjAifQ.Y3cKIjKpa_WQHrIH3kcP8Ttua8iu9zTgfS51tw1lgSA\",\n        \"user\": {\n            \"id\": \"211d0117-7b19-4168-a3e3-a1857e6489b0\",\n            \"email\": \"admin@medteq.com\",\n            \"first_name\": \"Super\",\n            \"last_name\": \"Admin\",\n            \"phone_number\": null,\n            \"role\": \"superadmin\",\n            \"is_active\": true,\n            \"is_staff\": true\n        }\n    }\n}"
-						},
 						{
 							"name": "Suspended Login",
 							"originalRequest": {
@@ -1551,6 +1478,79 @@
 							],
 							"cookie": [],
 							"body": "{\n    \"status\": false,\n    \"message\": \"Account suspended. Please contact support.\"\n}"
+						},
+						{
+							"name": "Login",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "// Super Admin\r\n// {\r\n//     \"email\": \"admin@medteqpro.com\",\r\n//     \"password\": \"adminadmin\"\r\n// }\r\n\r\n// Staff Admin\r\n// {\r\n//     \"email\": \"naarons700@gmail.com\",\r\n//     \"password\": \"userpass112\"\r\n// }\r\n\r\n// Hospital Admin\r\n{\r\n    \"email\": \"naarons800@gmail.com\",\r\n    \"password\": \"AdamsCharles@20250514\"\r\n}\r\n\r\n// Doctor\r\n// {\r\n//     \"email\": \"aaronnwokoro@gmail.com\",\r\n//     \"password\": \"userpass112\"\r\n// }\r\n\r\n// Nurse\r\n// {\r\n//     \"email\": \"yitah65290@ahvin.com\",\r\n//     \"password\": \"password\"\r\n// }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL}}auth/login/",
+									"host": [
+										"{{LOCAL}}auth"
+									],
+									"path": [
+										"login",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Fri, 17 Oct 2025 11:29:30 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.10.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Allow",
+									"value": "POST, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1279"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"message\": \"Login successful\",\n    \"data\": {\n        \"access_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzYzMjkyNTY5LCJpYXQiOjE3NjA3MDA1NjksImp0aSI6IjFjZDgwYWNiMDczNTRmZDBhYTk4M2E5NGNmNzYyNTFkIiwidXNlcl9pZCI6IjBkOTE0MmRjLWZhZTMtNDUyZi1hYWU5LTMwNzhkYzY5N2UwNCJ9.Odn2yZBsqo4fQWrqN3Kz29pmuoMwPmWoOGlQeporQ5E\",\n        \"refresh_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc2NTg4NDU2OSwiaWF0IjoxNzYwNzAwNTY5LCJqdGkiOiIyZTM5Yzc2MjkxNTk0ZTA4ODcyZTk4OGE5NzQ1YjExNiIsInVzZXJfaWQiOiIwZDkxNDJkYy1mYWUzLTQ1MmYtYWFlOS0zMDc4ZGM2OTdlMDQifQ.IU_WSaOQXJHnfp3tB6V4KKQ717GLyVKQQAsTuPaktMg\",\n        \"user\": {\n            \"id\": \"0d9142dc-fae3-452f-aae9-3078dc697e04\",\n            \"email\": \"naarons800@gmail.com\",\n            \"first_name\": \"Adams\",\n            \"middle_name\": \"\",\n            \"last_name\": \"Charles\",\n            \"phone_number\": null,\n            \"role\": \"hospital_admin\",\n            \"is_active\": true,\n            \"is_staff\": false,\n            \"specialization\": null,\n            \"avatar\": null\n        },\n        \"permissions\": {\n            \"lab_draft\": true,\n            \"bed_management\": true,\n            \"lab_management\": true,\n            \"ora_management\": true,\n            \"queue_management\": true,\n            \"staff_management\": true,\n            \"pickup_management\": true,\n            \"create_new_patient\": true,\n            \"patient_management\": true,\n            \"payroll_management\": true,\n            \"wound_care_management\": true,\n            \"appointment_management\": true,\n            \"lab_results_management\": true,\n            \"internal_pharmacy_management\": true\n        }\n    }\n}"
 						}
 					]
 				},
@@ -2110,6 +2110,247 @@
 				{
 					"name": "Staff Mgt",
 					"item": [
+						{
+							"name": "Permissions",
+							"item": [
+								{
+									"name": "Get Staff Permission",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{hospital_admin}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{LOCAL}}hospital-admin/staff/:staff_id/permissions/",
+											"host": [
+												"{{LOCAL}}hospital-admin"
+											],
+											"path": [
+												"staff",
+												":staff_id",
+												"permissions",
+												""
+											],
+											"variable": [
+												{
+													"key": "staff_id",
+													"value": "f1841d87-ed48-44e0-a755-093e5f0cc721"
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Ok",
+											"originalRequest": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{LOCAL}}hospital-admin/staff/:staff_id/permissions/",
+													"host": [
+														"{{LOCAL}}hospital-admin"
+													],
+													"path": [
+														"staff",
+														":staff_id",
+														"permissions",
+														""
+													],
+													"variable": [
+														{
+															"key": "staff_id",
+															"value": "f1841d87-ed48-44e0-a755-093e5f0cc721"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": null,
+											"header": [
+												{
+													"key": "Date",
+													"value": "Fri, 17 Oct 2025 10:50:31 GMT"
+												},
+												{
+													"key": "Server",
+													"value": "WSGIServer/0.2 CPython/3.10.0"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												},
+												{
+													"key": "Allow",
+													"value": "GET, PUT, PATCH, HEAD, OPTIONS"
+												},
+												{
+													"key": "X-Frame-Options",
+													"value": "DENY"
+												},
+												{
+													"key": "Vary",
+													"value": "origin"
+												},
+												{
+													"key": "Content-Length",
+													"value": "412"
+												},
+												{
+													"key": "X-Content-Type-Options",
+													"value": "nosniff"
+												},
+												{
+													"key": "Referrer-Policy",
+													"value": "same-origin"
+												},
+												{
+													"key": "Cross-Origin-Opener-Policy",
+													"value": "same-origin"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"status\": true,\n    \"message\": \"Staff permissions retrieved successfully.\",\n    \"data\": {\n        \"permissions\": {\n            \"ora_management\": true,\n            \"dashboard_access\": true,\n            \"queue_management\": true,\n            \"pickup_management\": true,\n            \"patient_management\": true,\n            \"wound_care_management\": true,\n            \"appointment_management\": true,\n            \"lab_results_management\": true\n        },\n        \"user_id\": \"f1841d87-ed48-44e0-a755-093e5f0cc721\",\n        \"user_email\": \"aaronnwokoro@gmail.com\",\n        \"user_role\": \"doctor\"\n    }\n}"
+										}
+									]
+								},
+								{
+									"name": "Update Staff Permission",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{hospital_admin}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"ora_management\": false\r\n    // \"dashboard_access\": true,\r\n    // \"queue_management\": true,\r\n    // \"pickup_management\": true,\r\n    // \"patient_management\": true,\r\n    // \"wound_care_management\": true,\r\n    // \"appointment_management\": true,\r\n    // \"lab_results_management\": true\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{LOCAL}}hospital-admin/staff/:staff_id/permissions/",
+											"host": [
+												"{{LOCAL}}hospital-admin"
+											],
+											"path": [
+												"staff",
+												":staff_id",
+												"permissions",
+												""
+											],
+											"variable": [
+												{
+													"key": "staff_id",
+													"value": "f1841d87-ed48-44e0-a755-093e5f0cc721"
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Update Staff Permission",
+											"originalRequest": {
+												"method": "PATCH",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"ora_management\": false\r\n    // \"dashboard_access\": true,\r\n    // \"queue_management\": true,\r\n    // \"pickup_management\": true,\r\n    // \"patient_management\": true,\r\n    // \"wound_care_management\": true,\r\n    // \"appointment_management\": true,\r\n    // \"lab_results_management\": true\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{LOCAL}}hospital-admin/staff/:staff_id/permissions/",
+													"host": [
+														"{{LOCAL}}hospital-admin"
+													],
+													"path": [
+														"staff",
+														":staff_id",
+														"permissions",
+														""
+													],
+													"variable": [
+														{
+															"key": "staff_id",
+															"value": "f1841d87-ed48-44e0-a755-093e5f0cc721"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": null,
+											"header": [
+												{
+													"key": "Date",
+													"value": "Fri, 17 Oct 2025 11:25:02 GMT"
+												},
+												{
+													"key": "Server",
+													"value": "WSGIServer/0.2 CPython/3.10.0"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												},
+												{
+													"key": "Allow",
+													"value": "GET, PUT, PATCH, HEAD, OPTIONS"
+												},
+												{
+													"key": "X-Frame-Options",
+													"value": "DENY"
+												},
+												{
+													"key": "Vary",
+													"value": "origin"
+												},
+												{
+													"key": "Content-Length",
+													"value": "431"
+												},
+												{
+													"key": "X-Content-Type-Options",
+													"value": "nosniff"
+												},
+												{
+													"key": "Referrer-Policy",
+													"value": "same-origin"
+												},
+												{
+													"key": "Cross-Origin-Opener-Policy",
+													"value": "same-origin"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"status\": true,\n    \"message\": \"Permission 'ora_management' has been disabled successfully.\",\n    \"data\": {\n        \"permissions\": {\n            \"ora_management\": false,\n            \"dashboard_access\": true,\n            \"queue_management\": true,\n            \"pickup_management\": true,\n            \"patient_management\": true,\n            \"wound_care_management\": true,\n            \"appointment_management\": true,\n            \"lab_results_management\": true\n        },\n        \"user_id\": \"f1841d87-ed48-44e0-a755-093e5f0cc721\",\n        \"user_email\": \"aaronnwokoro@gmail.com\",\n        \"user_role\": \"doctor\"\n    }\n}"
+										}
+									]
+								}
+							]
+						},
 						{
 							"name": "Invite Staff",
 							"request": {
@@ -3258,7 +3499,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"\", \r\n    \"email\": \"\", \r\n    \"phone_number\": \"\", \r\n    \"state\": \"\", \r\n    \"city\": \"\", \r\n    \"address\": \"\", \r\n    \"avatar\": \"\"\r\n}",
+							"raw": "{\r\n    \"name\": \"\", \r\n    \"email\": \"\", \r\n    \"phone_number\": \"\", \r\n    \"state\": \"\", \r\n    \"city\": \"\", \r\n    \"address\": \"\", \r\n    \"avatar\": \"\",\r\n    \"status\": \"active\" // inactive, suspended\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -6644,6 +6885,51 @@
 							"body": "{\n    \"status\": true,\n    \"data\": {\n        \"id\": \"a937ab0f-eb3d-4e07-9a09-3a3e4d29a54f\",\n        \"hospital\": \"8bcb6a27-c7a6-4ece-a9fc-409e693ef03d\",\n        \"family\": {\n            \"id\": \"9380f74e-f5ed-4281-ba73-5ebeb3e0d4cc\",\n            \"family_name\": \"Trump\",\n            \"no_of_members\": 1,\n            \"created_at\": \"2025-05-17T17:25:41.076072Z\",\n            \"updated_at\": \"2025-05-17T17:25:41.076072Z\"\n        },\n        \"first_name\": \"John\",\n        \"last_name\": \"Trump\",\n        \"middle_name\": \"Mark\",\n        \"full_name\": \"John Mark Trump\",\n        \"patient_type\": \"family\",\n        \"date_of_birth\": \"1992-03-20\",\n        \"age\": 33,\n        \"gender\": \"male\",\n        \"phone_number\": \"1264567890\",\n        \"email\": \"john.trump@example.com\",\n        \"address\": \"123 Main St\",\n        \"city\": \"Anytown\",\n        \"state\": \"Anystate\",\n        \"employment_status\": \"Employed\",\n        \"height\": 165,\n        \"weight\": 60,\n        \"bmi\": 22.04,\n        \"blood_group\": \"O+\",\n        \"genotype\": \"AA\",\n        \"allergies\": \"Pollen, Dust\",\n        \"chronic_conditions\": \"None\",\n        \"current_medications\": [\n            {\n                \"medication\": \"Aspirin\",\n                \"dosage\": \"500mg\",\n                \"frequency\": \"twice daily\"\n            }\n        ],\n        \"family_history\": \"Diabetes (Mother)\",\n        \"surgical_history\": \"Appendectomy (2010)\",\n        \"hereditary_conditions\": \"None\",\n        \"other_conditions\": \"None\",\n        \"emergency_contact\": {\n            \"name\": \"John Smith\",\n            \"phone\": \"0987654321\",\n            \"relationship\": \"Spouse\",\n            \"address\": \"123 Main St, Anytown\"\n        },\n        \"marital_status\": \"married\",\n        \"social_history\": {\n            \"smoking\": \"Non-smoker\",\n            \"alcohol\": \"Occasional\",\n            \"drug_use\": \"n/a\",\n            \"sexual_history\": null,\n            \"exercise\": \"Regular\",\n            \"diet\": \"Balanced\",\n            \"other_habits\": null,\n            \"created_at\": \"2025-05-17T17:52:38.602017Z\",\n            \"updated_at\": \"2025-05-17T17:52:38.602017Z\"\n        },\n        \"created_at\": \"2025-05-17T17:52:38.593613Z\",\n        \"updated_at\": \"2025-05-17T17:52:38.593613Z\",\n        \"registered_by\": \"f1841d87-ed48-44e0-a755-093e5f0cc721\"\n    }\n}"
 						}
 					]
+				},
+				{
+					"name": "Add Patient To Family",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{doctor}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"patient_ids\": []\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{LOCAL}}patient-management/patients/:family_id/add-to-family/",
+							"host": [
+								"{{LOCAL}}patient-management"
+							],
+							"path": [
+								"patients",
+								":family_id",
+								"add-to-family",
+								""
+							],
+							"variable": [
+								{
+									"key": "family_id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
 				},
 				{
 					"name": "Create Patient (App)",
@@ -13921,6 +14207,131 @@
 					]
 				},
 				{
+					"name": "Update Bill",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{hospital_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"status\": \"partially_paid\" // paid, pending, cancelled\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{LOCAL}}bill-management/bills/:bill_id/",
+							"host": [
+								"{{LOCAL}}bill-management"
+							],
+							"path": [
+								"bills",
+								":bill_id",
+								""
+							],
+							"variable": [
+								{
+									"key": "bill_id",
+									"value": "9e06f008-2159-4106-8b20-1e4c3b27bc1d"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Update Bill",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"status\": \"partially_paid\" // paid, pending, cancelled\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL}}bill-management/bills/:bill_id/",
+									"host": [
+										"{{LOCAL}}bill-management"
+									],
+									"path": [
+										"bills",
+										":bill_id",
+										""
+									],
+									"variable": [
+										{
+											"key": "bill_id",
+											"value": "9e06f008-2159-4106-8b20-1e4c3b27bc1d"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Wed, 15 Oct 2025 18:49:10 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.10.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, PATCH, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Length",
+									"value": "637"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"message\": \"Bill updated successfully\",\n    \"data\": {\n        \"id\": \"9e06f008-2159-4106-8b20-1e4c3b27bc1d\",\n        \"patient_id\": \"0814409b-706d-4dae-9b4c-1fb36d906633\",\n        \"patient_fullname\": \"Diogo Jota\",\n        \"purpose\": \"drug\",\n        \"total_amount\": \"1000.00\",\n        \"min_deposit\": \"75.00\",\n        \"payment_method\": \"cash\",\n        \"status\": \"partially_paid\",\n        \"amount_paid\": \"500.00\",\n        \"remaining_amount\": \"500.00\",\n        \"created_at\": \"2025-09-15T17:05:53.408603Z\",\n        \"updated_at\": \"2025-10-15T18:49:10.403689Z\",\n        \"comments\": \"Pay up please\",\n        \"drugs\": [\n            {\n                \"drug_name\": \"Panadol\",\n                \"quantity\": 1,\n                \"unit_price\": 5000,\n                \"total_price\": 5000\n            },\n            {\n                \"drug_name\": \"Paracetamol\",\n                \"quantity\": 2,\n                \"unit_price\": 500,\n                \"total_price\": 1000\n            }\n        ]\n    }\n}"
+						}
+					]
+				},
+				{
 					"name": "Pay Bill (cash, pos)",
 					"request": {
 						"auth": {
@@ -13937,7 +14348,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"amount\": \"75.00\",\r\n    \"payment_method\": \"cash\"\r\n}",
+							"raw": "{\r\n    \"amount\": \"500.00\",\r\n    \"payment_method\": \"cash\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -13958,7 +14369,7 @@
 							"variable": [
 								{
 									"key": "bill_id",
-									"value": "d03387ea-91d1-4fff-a092-5de466820b94"
+									"value": "9e06f008-2159-4106-8b20-1e4c3b27bc1d"
 								}
 							]
 						}
