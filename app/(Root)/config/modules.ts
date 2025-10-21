@@ -345,6 +345,11 @@ export const moduleConfigs: ModuleConfig[] = [
         href: "/queuing-system",
       },
       {
+        label: "Billing & Payments",
+        icon: FileText,
+        href: "/billing-payments",
+      },
+      {
         label: "Appointment",
         icon: Calendar,
         href: "/appointment",

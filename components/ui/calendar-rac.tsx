@@ -91,7 +91,7 @@ function Calendar({ className, ...props }: CalendarProps) {
         cn("w-fit", className)
       )}
     >
-      <CalendarHeader />
+      {/* <CalendarHeader /> */}
       <CalendarGridComponent />
     </CalendarRac>
   )
