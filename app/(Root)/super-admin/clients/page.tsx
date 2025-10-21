@@ -156,30 +156,38 @@ function ClientManagementContent() {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <ConfirmAlert
-                title="Activate Hospital"
-                text={`Are you sure you want to activate ${client.name}?`}
-                confirmText="Activate"
-                cancelText="Cancel"
-                trigger={
-                  // <DropdownMenuItem className="">
-                    <span className="p-2 text-xs block cursor-pointer">Activate</span>
-                  // </DropdownMenuItem>
-                }
-                onConfirm={() => handleActivate(client)}
-              />
-              <ConfirmAlert
-                title="Suspend Hospital"
-                text={`Are you sure you want to suspend ${client.name}?`}
-                confirmText="Suspend"
-                cancelText="Cancel"
-                trigger={
-                  // <DropdownMenuItem  className="text-xs text-center" asChild>
-                    <span className="p-2 text-xs block cursor-pointer">Suspend</span>
-                  // </DropdownMenuItem>
-                }
-                onConfirm={() => handleSuspend(client)}
-              />
+              {row.original.status === "suspended" && (
+                <ConfirmAlert
+                  title="Activate Hospital"
+                  text={`Are you sure you want to activate ${client.name}?`}
+                  confirmText="Activate"
+                  cancelText="Cancel"
+                  trigger={
+                    // <DropdownMenuItem className="">
+                    <span className="p-2 text-xs block cursor-pointer">
+                      Activate
+                    </span>
+                    // </DropdownMenuItem>
+                  }
+                  onConfirm={() => handleActivate(client)}
+                />
+              )}
+              {row.original.status === "active" && (
+                <ConfirmAlert
+                  title="Suspend Hospital"
+                  text={`Are you sure you want to suspend ${client.name}?`}
+                  confirmText="Suspend"
+                  cancelText="Cancel"
+                  trigger={
+                    // <DropdownMenuItem  className="text-xs text-center" asChild>
+                    <span className="p-2 text-xs block cursor-pointer">
+                      Suspend
+                    </span>
+                    // </DropdownMenuItem>
+                  }
+                  onConfirm={() => handleSuspend(client)}
+                />
+              )}
               <Dialog>
                 <DialogTrigger asChild>
                   <DropdownMenuItem className="text-xs text-center">
