@@ -2239,7 +2239,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n    \"ora_management\": false\r\n    // \"dashboard_access\": true,\r\n    // \"queue_management\": true,\r\n    // \"pickup_management\": true,\r\n    // \"patient_management\": true,\r\n    // \"wound_care_management\": true,\r\n    // \"appointment_management\": true,\r\n    // \"lab_results_management\": true\r\n}",
+											"raw": "{\r\n    \"ora_management\": true\r\n    // \"dashboard_access\": true,\r\n    // \"queue_management\": true,\r\n    // \"pickup_management\": true,\r\n    // \"patient_management\": true,\r\n    // \"wound_care_management\": true,\r\n    // \"appointment_management\": true,\r\n    // \"lab_results_management\": true\r\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -11257,7 +11257,489 @@
 		},
 		{
 			"name": "ORA Mgt",
-			"item": []
+			"item": [
+				{
+					"name": "List ORA Records",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{doctor}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{LOCAL}}ora-management/records/",
+							"host": [
+								"{{LOCAL}}ora-management"
+							],
+							"path": [
+								"records",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Ok",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}ora-management/records/",
+									"host": [
+										"{{LOCAL}}ora-management"
+									],
+									"path": [
+										"records",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Wed, 22 Oct 2025 01:21:24 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.10.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, POST, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Length",
+									"value": "203"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"count\": 1,\n    \"next\": null,\n    \"previous\": null,\n    \"results\": [\n        {\n            \"id\": \"91499445-444b-4dd0-9e7b-6bd129c4e53c\",\n            \"patient_id\": \"1SM77\",\n            \"patient_fullname\": \"Diogo Jota\",\n            \"ora_type\": \"observed\",\n            \"date_registered\": \"2025-10-22\"\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Create ORA Record",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{doctor}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"patient\": \"0814409b-706d-4dae-9b4c-1fb36d906633\", \r\n    \"ora_type\": \"observed\",\r\n    \"reason\": \"Just observing a nigga\", \r\n    \"hours_observed\": 4\r\n    // \"referrer_hospital\": \"\", \r\n    // \"referrer_department\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{LOCAL}}ora-management/records/",
+							"host": [
+								"{{LOCAL}}ora-management"
+							],
+							"path": [
+								"records",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Ok",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"patient\": \"0814409b-706d-4dae-9b4c-1fb36d906633\", \r\n    \"ora_type\": \"observed\",\r\n    \"reason\": \"Just observing a nigga\", \r\n    \"hours_observed\": 4\r\n    // \"referrer_hospital\": \"\", \r\n    // \"referrer_department\": \"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL}}ora-management/records/",
+									"host": [
+										"{{LOCAL}}ora-management"
+									],
+									"path": [
+										"records",
+										""
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Wed, 22 Oct 2025 01:17:48 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.10.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, POST, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Length",
+									"value": "244"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"data\": {\n        \"id\": \"91499445-444b-4dd0-9e7b-6bd129c4e53c\",\n        \"patient\": \"0814409b-706d-4dae-9b4c-1fb36d906633\",\n        \"ora_type\": \"observed\",\n        \"reason\": \"Just observing a nigga\",\n        \"hours_observed\": 4,\n        \"referrer_hospital\": null,\n        \"referrer_department\": null\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Get Record",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{doctor}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"patient\": \"0814409b-706d-4dae-9b4c-1fb36d906633\", \r\n    \"ora_type\": \"observed\",\r\n    \"reason\": \"Just observing a nigga\", \r\n    \"hours_observed\": 4\r\n    // \"referrer_hospital\": \"\", \r\n    // \"referrer_department\": \"\"\r\n}"
+						},
+						"url": {
+							"raw": "{{LOCAL}}ora-management/records/:id/",
+							"host": [
+								"{{LOCAL}}ora-management"
+							],
+							"path": [
+								"records",
+								":id",
+								""
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "91499445-444b-4dd0-9e7b-6bd129c4e53c"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Ok",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"patient\": \"0814409b-706d-4dae-9b4c-1fb36d906633\", \r\n    \"ora_type\": \"observed\",\r\n    \"reason\": \"Just observing a nigga\", \r\n    \"hours_observed\": 4\r\n    // \"referrer_hospital\": \"\", \r\n    // \"referrer_department\": \"\"\r\n}"
+								},
+								"url": {
+									"raw": "{{LOCAL}}ora-management/records/:id/",
+									"host": [
+										"{{LOCAL}}ora-management"
+									],
+									"path": [
+										"records",
+										":id",
+										""
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "91499445-444b-4dd0-9e7b-6bd129c4e53c"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Wed, 22 Oct 2025 01:23:30 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.10.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, PATCH, DELETE, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Length",
+									"value": "416"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"data\": {\n        \"id\": \"91499445-444b-4dd0-9e7b-6bd129c4e53c\",\n        \"ora_type\": \"observed\",\n        \"hospital_name\": \"Divine Mercy\",\n        \"reason\": \"Just observing a nigga\",\n        \"hours_observed\": 4,\n        \"referrer_hospital\": null,\n        \"referrer_department\": null,\n        \"date_created\": \"2025-10-22T01:17:48.956620Z\",\n        \"doctor_name\": \"Mike Tyson\",\n        \"patient_details\": {\n            \"id\": \"0814409b-706d-4dae-9b4c-1fb36d906633\",\n            \"full_name\": \"Diogo Jota\",\n            \"phone_number\": \"08011111111\"\n        }\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Remove Record",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{doctor}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"patient\": \"0814409b-706d-4dae-9b4c-1fb36d906633\", \r\n    \"ora_type\": \"observed\",\r\n    \"reason\": \"Just observing a nigga\", \r\n    \"hours_observed\": 4\r\n    // \"referrer_hospital\": \"\", \r\n    // \"referrer_department\": \"\"\r\n}"
+						},
+						"url": {
+							"raw": "{{LOCAL}}ora-management/records/:id/",
+							"host": [
+								"{{LOCAL}}ora-management"
+							],
+							"path": [
+								"records",
+								":id",
+								""
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "91499445-444b-4dd0-9e7b-6bd129c4e53c"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Patient Records",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{doctor}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"patient\": \"0814409b-706d-4dae-9b4c-1fb36d906633\", \r\n    \"ora_type\": \"observed\",\r\n    \"reason\": \"Just observing a nigga\", \r\n    \"hours_observed\": 4\r\n    // \"referrer_hospital\": \"\", \r\n    // \"referrer_department\": \"\"\r\n}"
+						},
+						"url": {
+							"raw": "{{LOCAL}}ora-management/records/patient/:patient_id/",
+							"host": [
+								"{{LOCAL}}ora-management"
+							],
+							"path": [
+								"records",
+								"patient",
+								":patient_id",
+								""
+							],
+							"variable": [
+								{
+									"key": "patient_id",
+									"value": "0814409b-706d-4dae-9b4c-1fb36d906633"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get Patient Records",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"patient\": \"0814409b-706d-4dae-9b4c-1fb36d906633\", \r\n    \"ora_type\": \"observed\",\r\n    \"reason\": \"Just observing a nigga\", \r\n    \"hours_observed\": 4\r\n    // \"referrer_hospital\": \"\", \r\n    // \"referrer_department\": \"\"\r\n}"
+								},
+								"url": {
+									"raw": "{{LOCAL}}ora-management/records/patient/:patient_id/",
+									"host": [
+										"{{LOCAL}}ora-management"
+									],
+									"path": [
+										"records",
+										"patient",
+										":patient_id",
+										""
+									],
+									"variable": [
+										{
+											"key": "patient_id",
+											"value": "0814409b-706d-4dae-9b4c-1fb36d906633"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Wed, 22 Oct 2025 01:35:59 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.10.0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Vary",
+									"value": "origin"
+								},
+								{
+									"key": "Content-Length",
+									"value": "812"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"data\": [\n        {\n            \"id\": \"ae68465e-d137-47c1-8236-d18b9401c2b4\",\n            \"ora_type\": \"observed\",\n            \"hospital_name\": \"Divine Mercy\",\n            \"reason\": \"Just observing a nigga\",\n            \"hours_observed\": 4,\n            \"referrer_hospital\": null,\n            \"referrer_department\": null,\n            \"date_created\": \"2025-10-22T01:34:31.278863Z\",\n            \"doctor_name\": \"Mike Tyson\",\n            \"patient_details\": {\n                \"id\": \"0814409b-706d-4dae-9b4c-1fb36d906633\",\n                \"full_name\": \"Diogo Jota\",\n                \"phone_number\": \"08011111111\"\n            }\n        },\n        {\n            \"id\": \"91499445-444b-4dd0-9e7b-6bd129c4e53c\",\n            \"ora_type\": \"observed\",\n            \"hospital_name\": \"Divine Mercy\",\n            \"reason\": \"Just observing a nigga\",\n            \"hours_observed\": 4,\n            \"referrer_hospital\": null,\n            \"referrer_department\": null,\n            \"date_created\": \"2025-10-22T01:17:48.956620Z\",\n            \"doctor_name\": \"Mike Tyson\",\n            \"patient_details\": {\n                \"id\": \"0814409b-706d-4dae-9b4c-1fb36d906633\",\n                \"full_name\": \"Diogo Jota\",\n                \"phone_number\": \"08011111111\"\n            }\n        }\n    ]\n}"
+						}
+					]
+				}
+			]
 		},
 		{
 			"name": "Queue Mgt",

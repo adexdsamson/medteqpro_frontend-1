@@ -79,11 +79,8 @@ export function LoginForm() {
         toast.error("Login Failed", response.data.message as string);
       }
     } catch (error) {
-      console.error("Login error:", error);
       const err = error as ApiResponseError;
-      const errorMessage =
-        err.response?.data?.message || "An error occurred during login";
-      toast.error("Login Failed", errorMessage as string);
+      toast.error("Login Failed", err);
     }
   };
 

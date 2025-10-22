@@ -179,6 +179,11 @@ export const moduleConfigs: ModuleConfig[] = [
         icon: WoundCareIcon,
         href: "/wound-care",
       },
+      {
+        label: "ORA Records",
+        icon: ScrollText,
+        href: "/ora",
+      },
     ],
     settingsItems: commonSettingsItems,
     defaultUserProfile: defaultUser,
