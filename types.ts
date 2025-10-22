@@ -20,12 +20,15 @@ export interface User {
   id: string;
   email: string;
   first_name: string;
+  middle_name?: string;
   last_name: string;
   hospital?: Hospital_Onboarding;
   phone_number: null | string;
   role: string;
   is_active: boolean;
   is_staff: boolean;
+  specialization?: string;
+  avatar?: string;
 }
 
 export type Api<T> = {

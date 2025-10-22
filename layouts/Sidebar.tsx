@@ -14,8 +14,9 @@ import {
 import Link from "next/link";
 import Image from "next/image";
 import { useModule } from "@/hooks/useModule";
-import { storeFunctions } from "@/store/authSlice";
+import { storeFunctions, useAuthorities } from "@/store/authSlice";
 import { useRouter } from "next/navigation";
+import { hasMenuPermission } from "@/lib/permissions";
 
 interface AppSidebarProps {
   moduleKey?: string;
@@ -25,6 +26,7 @@ export function AppSidebar({ moduleKey }: AppSidebarProps) {
   // Use our custom hook to get module configuration and utility functions
   const { moduleConfig, isActivePath, getModulePath } = useModule(moduleKey);
   const router = useRouter();
+  const authorities = useAuthorities();
 
   const handleLogout = () => {
     try {
@@ -33,6 +35,10 @@ export function AppSidebar({ moduleKey }: AppSidebarProps) {
       router.push("/sign-in");
     }
   };
+
+  const filteredMenuItems = moduleConfig.menuItems.filter((item) =>
+    hasMenuPermission(authorities, moduleConfig.key, item.href)
+  );
 
   return (
     <Sidebar variant="sidebar" className="!bg-white">
@@ -48,13 +54,12 @@ export function AppSidebar({ moduleKey }: AppSidebarProps) {
           />
         </div>
       </SidebarHeader>
-
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>MENU</SidebarGroupLabel>
+          <SidebarGroupLabel>Main Menu</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {moduleConfig.menuItems.map((item) => (
+              {filteredMenuItems.map((item) => (
                 <SidebarMenuItem key={item.label}>
                   <SidebarMenuButton
                     className="h-10 text-sm font-semibold"
@@ -73,8 +78,8 @@ export function AppSidebar({ moduleKey }: AppSidebarProps) {
         </SidebarGroup>
 
         {moduleConfig.settingsItems && (
-          <SidebarGroup className="mt-6">
-            <SidebarGroupLabel>SETTINGS</SidebarGroupLabel>
+          <SidebarGroup>
+            <SidebarGroupLabel>Settings</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
                 {moduleConfig.settingsItems.map((item) => (

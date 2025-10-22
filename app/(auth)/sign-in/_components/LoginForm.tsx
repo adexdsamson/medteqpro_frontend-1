@@ -73,6 +73,15 @@ export function LoginForm() {
         setToken(response.data.data.access_token);
         setUser(response.data.data.user);
 
+        // Convert permissions object to authorities string[] of granted keys
+        const perms = response.data.data.permissions;
+        if (perms && typeof perms === "object") {
+          const granted = Object.keys(perms).filter(
+            (key) => perms[key as keyof typeof perms] === true
+          );
+          storeFunctions.getState().setAuthorities(granted);
+        }
+
         toast.success("Login Successful", "Welcome back!");
         handleRoleSelect(response.data.data.user.role);
       } else {
@@ -89,7 +98,10 @@ export function LoginForm() {
     const base = getRoleBasePath(role);
     if (base) {
       // Prefer dashboard if available, else fallback to a common landing page for the role
-      const dashboard = buildRolePath(role, role === "front_desk" ?  "patients" :"dashboard");
+      const dashboard = buildRolePath(
+        role,
+        role === "front_desk" ? "patients" : "dashboard"
+      );
       router.push(dashboard ?? base);
       return;
     }

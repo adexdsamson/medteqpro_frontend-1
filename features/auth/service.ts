@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { postRequest, getRequest, patchRequest } from "@/lib/axiosInstance";
 import { ApiResponse, ApiResponseError, User } from "@/types";
 import { storeFunctions } from "@/store/authSlice";
+import { PermissionCategory } from "@/lib/permissions";
 
 export type LoginCredentials = {
   email: string;
@@ -12,6 +13,7 @@ export type LoginResponse = {
   user: User;
   access_token: string;
   refresh_token: string;
+  permissions: Record<PermissionCategory | string, boolean>;
 };
 
 export type ForgotPasswordCredentials = {

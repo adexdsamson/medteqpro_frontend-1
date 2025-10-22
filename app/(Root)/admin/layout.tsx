@@ -1,6 +1,7 @@
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "../../../layouts/Sidebar";
 import { AppHeader } from "../../../layouts/AppHeader";
+import RoutePermissionGate from "@/components/RoutePermissionGate";
 
 export default function DashboardLayout({
   children,
@@ -12,7 +13,9 @@ export default function DashboardLayout({
       <AppSidebar />
       <main className="w-full bg-gray-50">
         <AppHeader />
-        {children}
+        <RoutePermissionGate>
+          {children}
+        </RoutePermissionGate>
       </main>
     </SidebarProvider>
   );
