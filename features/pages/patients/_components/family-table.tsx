@@ -56,7 +56,7 @@ export const columns: ColumnDef<FamilyResponse>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <Link href={`/admin/patients/${family.id}`} legacyBehavior>
+            <Link href={`/admin/patients/families/${family.id}`} legacyBehavior>
               <DropdownMenuItem asChild>
                 <a>Open</a>
               </DropdownMenuItem>

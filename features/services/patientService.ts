@@ -25,6 +25,7 @@ export interface PatientListParams {
   start_date?: string;
   end_date?: string;
   patient_type?: string;
+  family_id?: string; // Added to support filtering by family
 }
 
 export interface PatientQrcode {
@@ -48,6 +49,7 @@ export const usePatientList = (params?: PatientListParams) => {
       if (params?.end_date) queryParams.push(`end_date=${params.end_date}`);
       if (params?.patient_type)
         queryParams.push(`patient_type=${params.patient_type}`);
+      if (params?.family_id) queryParams.push(`family_id=${params.family_id}`);
 
       if (queryParams.length > 0) {
         url += `?${queryParams.join("&")}`;
