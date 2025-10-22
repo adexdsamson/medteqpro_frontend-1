@@ -9,7 +9,7 @@ import HospitalManager from "./_components/HospitalManager";
 import DoctorsMonitor from "./_components/DoctorsMonitor";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis, Pie, PieChart, Cell } from "recharts";
 import {
   ChartConfig,
   ChartContainer,
@@ -30,6 +30,9 @@ const chartConfig = {
     color: "#16C2D5",
   },
 } satisfies ChartConfig;
+
+// Colors for payment medium pie chart
+const PIE_COLORS = ["#16C2D5", "#23B5D3", "#55DDE0"]; // teal/cyan palette
 
 const Dashboard = () => {
   const { data: dashboardData, isLoading, error } = useHospitalAdminDashboard();
@@ -61,6 +64,33 @@ const Dashboard = () => {
     return [];
   }, [visitationData]);
 
+  // Payment analytics prepared before any early return to satisfy hooks rule
+  const totalTransactions =
+    dashboardData?.data?.data?.analytics?.total_no_of_transactions || 0;
+  const cashPercentage =
+    dashboardData?.data?.data?.analytics?.payment_medium_percentages?.cash || 0;
+  const cardPercentage =
+    dashboardData?.data?.data?.analytics?.payment_medium_percentages?.card || 0;
+  const bankTransferPercentage =
+    dashboardData?.data?.data?.analytics?.payment_medium_percentages
+      ?.bank_transfer || 0;
+
+  const mediumPieData = useMemo(
+    () => [
+      { name: "Transfer", value: bankTransferPercentage, percentage: bankTransferPercentage, fill: PIE_COLORS[0] },
+      { name: "Card", value: cardPercentage, percentage: cardPercentage, fill: PIE_COLORS[1] },
+      { name: "Cash", value: cashPercentage, percentage: cashPercentage, fill: PIE_COLORS[2] },
+    ],
+    [bankTransferPercentage, cardPercentage, cashPercentage]
+  );
+
+  const pieRenderData = useMemo(() => {
+    const total = mediumPieData.reduce((sum, d) => sum + Number(d.value || 0), 0);
+    if (total > 0) return mediumPieData;
+    // Use placeholder slices to render a visible ring when all percentages are 0
+    return mediumPieData.map((d) => ({ ...d, value: 1 }));
+  }, [mediumPieData]);
+
   if (error) {
     return (
       <>
@@ -75,16 +105,6 @@ const Dashboard = () => {
       </>
     );
   }
-
-  const totalTransactions =
-    dashboardData?.data?.data?.analytics?.total_no_of_transactions || 0;
-  const cashPercentage =
-    dashboardData?.data?.data?.analytics?.payment_medium_percentages?.cash || 0;
-  const cardPercentage =
-    dashboardData?.data?.data?.analytics?.payment_medium_percentages?.card || 0;
-  const bankTransferPercentage =
-    dashboardData?.data?.data?.analytics?.payment_medium_percentages
-      ?.bank_transfer || 0;
 
   return (
     <>
@@ -332,83 +352,72 @@ const Dashboard = () => {
         <div className="mb-5">
           <Large className="text-lg">All Payment Breakdown</Large>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-5">
-            <Card className="w-full">
-              <CardContent>
-                <Large>Breakdown By Medium</Large>
-                <div className="border-t border-gray-200 py-4 space-y-3">
-                  {isLoading ? (
-                    <>
-                      <Skeleton className="h-6 w-20" />
-                      <Skeleton className="h-4 w-16" />
-                    </>
-                  ) : (
-                    <>
-                      <Lead>{totalTransactions}</Lead>
-                      <P>Transaction Volume</P>
-                    </>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
+          {/* Refactored: single card with pie chart and legend */}
+          <Card className="w-full max-w-2xl mt-5">
+            <CardContent className="p-4 sm:p-6">
+              <Large>Breakdown By Medium</Large>
+              <div className="border-t border-gray-200 py-4 space-y-1">
+                {isLoading ? (
+                  <>
+                    <Skeleton className="h-6 w-20" />
+                    <Skeleton className="h-4 w-32" />
+                  </>
+                ) : (
+                  <>
+                    <Lead>{totalTransactions}</Lead>
+                    <P>Transaction Volume</P>
+                  </>
+                )}
+              </div>
 
-            <Card className="w-full">
-              <CardContent>
-                <Large>Cash Payments</Large>
-                <div className="border-t border-gray-200 py-4 space-y-3">
-                  {isLoading ? (
-                    <>
-                      <Skeleton className="h-6 w-20" />
-                      <Skeleton className="h-4 w-16" />
-                    </>
-                  ) : (
-                    <>
-                      <Lead>{cashPercentage}%</Lead>
-                      <P>Cash Percentage</P>
-                    </>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 items-center">
+                {isLoading ? (
+                  <div className="flex items-center justify-center">
+                    <Skeleton className="h-44 w-44 rounded-full" />
+                  </div>
+                ) : (
+                  <div className="w-full flex items-center justify-center">
+                    <PieChart width={220} height={220} className="sm:w-[240px] sm:h-[240px]">
+                      <Pie
+                        data={pieRenderData}
+                        dataKey="value"
+                        nameKey="name"
+                        cx="50%"
+                        cy="50%"
+                        outerRadius={90}
+                        label={(p) => `${Math.round(p?.payload?.percentage ?? 0)}%`}
+                      >
+                        {pieRenderData.map((entry, index) => (
+                          <Cell key={`cell-${index}`} fill={entry.fill as string} />
+                        ))}
+                      </Pie>
+                    </PieChart>
+                  </div>
+                )}
 
-            <Card className="w-full">
-              <CardContent>
-                <Large>Card Payments</Large>
-                <div className="border-t border-gray-200 py-4 space-y-3">
-                  {isLoading ? (
-                    <>
-                      <Skeleton className="h-6 w-20" />
-                      <Skeleton className="h-4 w-16" />
-                    </>
-                  ) : (
-                    <>
-                      <Lead>{cardPercentage}%</Lead>
-                      <P>Card Percentage</P>
-                    </>
-                  )}
+                <div className="space-y-2">
+                  {isLoading
+                    ? Array.from({ length: 3 }).map((_, i) => (
+                        <div key={i} className="flex items-center gap-2">
+                          <Skeleton className="h-3 w-3 rounded-full" />
+                          <Skeleton className="h-4 w-28" />
+                        </div>
+                      ))
+                    : mediumPieData.map((d, i) => (
+                        <div key={i} className="flex items-center gap-2">
+                          <span
+                            className="inline-block w-3 h-3 rounded-full"
+                            style={{ backgroundColor: d.fill as string }}
+                          />
+                          <Small>
+                            {d.name} - {Math.round(d.percentage ?? 0)}%
+                           </Small>
+                        </div>
+                      ))}
                 </div>
-              </CardContent>
-            </Card>
-
-            <Card className="w-full">
-              <CardContent>
-                <Large>Bank Transfer</Large>
-                <div className="border-t border-gray-200 py-4 space-y-3">
-                  {isLoading ? (
-                    <>
-                      <Skeleton className="h-6 w-20" />
-                      <Skeleton className="h-4 w-16" />
-                    </>
-                  ) : (
-                    <>
-                      <Lead>{bankTransferPercentage}%</Lead>
-                      <P>Bank Transfer Percentage</P>
-                    </>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
-          </div>
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </div>
     </>
