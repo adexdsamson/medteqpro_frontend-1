@@ -66,7 +66,7 @@ function Dashboard() {
                 (sub) => ({
                   id: sub.id,
                   hospitalName: sub.hospital_name,
-                  subscriptionDate: sub.subscription_date,
+                  subscriptionDate: sub.start_date,
                   expiryDate: sub.expiry_date,
                   status: sub.status,
                 })

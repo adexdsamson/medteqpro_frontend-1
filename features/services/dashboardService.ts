@@ -39,7 +39,7 @@ export interface DashboardAnalytics {
   recent_subscriptions: Array<{
     id: string;
     hospital_name: string;
-    subscription_date: string;
+    start_date: string;
     expiry_date: string;
     status: string;
   }>;
