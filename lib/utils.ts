@@ -32,6 +32,7 @@ export function getRoleBasePath(role?: string): string | undefined {
   const normalized = String(role).toLowerCase();
   const map: Record<string, string> = {
     superadmin: "/super-admin",
+    admin: "/super-admin",
     hospital_admin: "/admin",
     doctor: "/doctor",
     nurse: "/nurse",
@@ -76,7 +77,7 @@ export function buildRolePath(
 export function hasPatientsRoute(role?: string): boolean {
   if (!role) return false;
   const normalized = String(role).toLowerCase();
-  const allowed = new Set(["hospital_admin", "doctor", "nurse", "front_desk"]);
+  const allowed = new Set(["hospital_admin", "doctor", "nurse", "front_desk", "admin"]);
   return allowed.has(normalized);
 }
 
@@ -99,6 +100,7 @@ export function hasDashboardRoute(role?: string): boolean {
     "nurse",
     "pharmacist",
     "lab_scientist",
+    "admin"
     // patient dashboard folder not found in current codebase snapshot
   ]);
   return rolesWithDashboard.has(normalized);
