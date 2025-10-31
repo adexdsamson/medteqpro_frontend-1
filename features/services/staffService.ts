@@ -202,7 +202,7 @@ export const useUpdateStaffPermissions = () => {
   return useMutation<
     ApiResponse<StaffPermissions>,
     ApiResponseError,
-    { staffId: string; payload: { permissions: Record<PermissionCategory, boolean> } }
+    { staffId: string; payload: Record<PermissionCategory, boolean>  }
   >({
     mutationKey: ["update-staff-permissions"],
     mutationFn: async ({ staffId, payload }) =>

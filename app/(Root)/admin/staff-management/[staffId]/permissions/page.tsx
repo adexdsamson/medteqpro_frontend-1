@@ -89,7 +89,7 @@ export default function StaffPermissionPage() {
 
   const handleSave = async () => {
     try {
-      await mutateAsync({ staffId, payload: { permissions } });
+      await mutateAsync({ staffId, payload: { ...permissions } });
       toast.success("Permissions Updated", "Staff permissions have been saved");
       router.back();
     } catch (error) {
