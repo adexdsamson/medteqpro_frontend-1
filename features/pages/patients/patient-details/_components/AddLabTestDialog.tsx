@@ -19,13 +19,12 @@ import {
 } from '@/components/ui/dialog';
 import { TextDateInput } from '@/components/FormInputs/TextDateInput';
 import { TextSelect } from '@/components/FormInputs/TextSelect';
-import { TextInput } from '@/components/FormInputs/TextInput';
 import { TextArea } from '@/components/FormInputs/TextArea';
 import { Plus } from 'lucide-react';
 import { useUser } from '@/store/authSlice';
+import { generateId } from '@/lib/forge/utils';
 
 const schema = yup.object().shape({
-  lab_no: yup.string().required('Lab number is required'),
   test_type: yup.string().required('Test type is required'),
   specimen: yup.string().required('Specimen is required'),
   entry_category: yup.string().required('Entry category is required'),
@@ -34,7 +33,6 @@ const schema = yup.object().shape({
 });
 
 type FormValues = {
-  lab_no: string;
   test_type: string;
   specimen: string;
   entry_category: string;
@@ -64,7 +62,6 @@ export default function AddLabTestDialog({
   const { control, reset } = useForge<FormValues>({
     resolver: yupResolver(schema) as any,
     defaultValues: {
-      lab_no: '',
       test_type: '',
       specimen: '',
       entry_category: '',
@@ -80,7 +77,7 @@ export default function AddLabTestDialog({
   const handleSubmit = async (data: FormValues) => {
     try {
       const payload: CreateLabTestPayload = {
-        lab_no: data.lab_no,
+        lab_no: generateId(),
         ordered_by: user?.first_name + " " + user?.last_name || 'Unknown',
         test_type: data.test_type,
         entry_category: data.entry_category as 'outpatient' | 'inpatient' | 'emergency',
@@ -148,13 +145,7 @@ export default function AddLabTestDialog({
         
         <Forge control={control} onSubmit={handleSubmit}>
           <div className="grid gap-4 py-4">
-            <Forger
-              name="lab_no"
-              component={TextInput}
-              label="Lab Number"
-              placeholder="Enter lab number"
-              required
-            />
+            {/** Lab number is auto-generated and passed to API; field removed */}
             
             <Forger
               name="test_type"

@@ -22,13 +22,13 @@ import { usePatientsForAppointment } from "@/features/services/patientService";
 import { useGetLabTestTypes, useCreateLabManagementTest } from "@/features/services/labScientistService";
 import { useHospitalStaffList } from "@/features/services/staffService";
 import type { Resolver } from "react-hook-form";
+import { generateId } from "@/lib/forge/utils";
 
 /**
  * Validation schema for Laboratory Management lab test creation form
  */
 const labTestSchema = yup.object().shape({
   patient: yup.string().uuid("Invalid patient identifier").required("Patient is required"),
-  lab_no: yup.string().required("Lab number is required"),
   test_type: yup.string().required("Test type is required"),
   ordered_by: yup
     .string()
@@ -132,7 +132,6 @@ export const AddLabTestDialog: React.FC<AddLabTestDialogProps> = ({
     resolver: yupResolver(labTestSchema) as Resolver<LabTestFormValues>,
     defaultValues: {
       patient: "",
-      lab_no: "",
       test_type: "",
       ordered_by: "",
       specimen: "",
@@ -163,7 +162,7 @@ export const AddLabTestDialog: React.FC<AddLabTestDialogProps> = ({
   const handleSubmit = async (data: LabTestFormValues) => {
     try {
       await createLabManagementTest.mutateAsync({
-        lab_no: data.lab_no,
+        lab_no: generateId(),
         patient_id: data.patient,
         ordered_by: data.ordered_by,
         test_type: data.test_type,
@@ -218,13 +217,7 @@ export const AddLabTestDialog: React.FC<AddLabTestDialogProps> = ({
                 required
               />
 
-              <Forger
-                name="lab_no"
-                component={TextInput}
-                label="Lab Number"
-                placeholder="Enter lab number"
-                required
-              />
+              {/** Lab number is auto-generated and sent to API; field removed */}
 
               <Forger
                 name="test_type"

@@ -23,6 +23,16 @@ import {
   CalendarDate,
 } from "@internationalized/date";
 
+// Safely parse a date string to CalendarDate, returning null on invalid input
+function toCalendarDateSafe(value?: string): CalendarDate | null {
+  if (!value || typeof value !== "string") return null;
+  try {
+    return parseDate(value as string) as CalendarDate;
+  } catch {
+    return null;
+  }
+}
+
 export type TextDateInputProps<T extends DateValue> = Omit<
   DatePickerProps<T>,
   "value" | "onChange"
@@ -50,9 +60,7 @@ export const TextDateInput = <T extends DateValue>({
   const [viewMode, setViewMode] = useState<"day" | "month" | "year">("day");
 
   // Focused calendar value controls the visible month/year without committing selection
-  const initialFocused = (
-    value ? parseDate(value as string) : today(getLocalTimeZone())
-  ) as CalendarDate;
+  const initialFocused = (toCalendarDateSafe(value) ?? (today(getLocalTimeZone()) as CalendarDate)) as CalendarDate;
   const [focusedValue, setFocusedValue] =
     useState<CalendarDate>(initialFocused);
 
@@ -62,9 +70,7 @@ export const TextDateInput = <T extends DateValue>({
   );
 
   useEffect(() => {
-    const nextFocused = (
-      value ? parseDate(value as string) : today(getLocalTimeZone())
-    ) as CalendarDate;
+    const nextFocused = (toCalendarDateSafe(value) ?? (today(getLocalTimeZone()) as CalendarDate)) as CalendarDate;
     setFocusedValue(nextFocused);
     // Keep the year grid window centered around current year
     setYearGridStart(nextFocused.year - 6);
@@ -79,7 +85,7 @@ export const TextDateInput = <T extends DateValue>({
     (onChange as any)?.(dateString);
   };
 
-  const dateValue = value ? parseDate(value as string) : null;
+  const dateValue = toCalendarDateSafe(value);
 
   const monthNames = [
     "Jan",
