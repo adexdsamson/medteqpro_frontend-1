@@ -10,9 +10,11 @@ import {
 import { Plus } from "lucide-react";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useForge, Forge, FormPropsRef } from "@/lib/forge";
+import { useForge, Forge, Forger, FormPropsRef } from "@/lib/forge";
 import { TextInput } from "@/components/FormInputs/TextInput";
 import { TextSelect } from "@/components/FormInputs/TextSelect";
+import { usePatientsForAppointment } from "@/features/services/patientService";
+import { useStaffForAppointment } from "@/features/services/staffService";
 
 /**
  * Queue Form Data Interface
@@ -61,6 +63,8 @@ type FormValues = yup.InferType<typeof queueFormSchema>;
 export default function AddToQueueDialog({ onAddToQueue }: AddToQueueDialogProps) {
   const [open, setOpen] = React.useState(false);
   const formRef = useRef<FormPropsRef | null>(null);
+  const { data: patientOptions, isLoading: isPatientsLoading } = usePatientsForAppointment();
+  const { data: staffOptions, isLoading: isStaffLoading } = useStaffForAppointment();
 
   // Priority options
   const priorityOptions = [
@@ -92,46 +96,6 @@ export default function AddToQueueDialog({ onAddToQueue }: AddToQueueDialogProps
       priority: "",
       estimated_waiting_time: 15,
     },
-    fields: [
-      {
-        name: "patient",
-        component: TextInput,
-        label: "Patient",
-        placeholder: "Enter patient ID or name",
-        required: true,
-      },
-      {
-        name: "hospital_staff",
-        component: TextInput,
-        label: "Staff Member",
-        placeholder: "Enter staff ID or name",
-        required: true,
-      },
-      {
-        name: "purpose",
-        component: TextSelect,
-        label: "Purpose",
-        placeholder: "Select purpose of visit",
-        options: purposeOptions,
-        required: true,
-      },
-      {
-        name: "priority",
-        component: TextSelect,
-        label: "Priority",
-        placeholder: "Select priority level",
-        options: priorityOptions,
-        required: true,
-      },
-      {
-        name: "estimated_waiting_time",
-        component: TextInput,
-        label: "Estimated Waiting Time (minutes)",
-        placeholder: "Enter estimated waiting time",
-        type: "number",
-        required: true,
-      },
-    ],
   });
 
   /**
@@ -162,9 +126,47 @@ export default function AddToQueueDialog({ onAddToQueue }: AddToQueueDialogProps
           <DialogTitle>Add Patient to Queue</DialogTitle>
         </DialogHeader>
         <div className="space-y-4 py-4">
-          <Forge
-            {...{ control, onSubmit: handleSubmit, ref: formRef }}
-          />
+          <Forge {...{ control, onSubmit: handleSubmit, ref: formRef }} className={"space-y-3"}>
+            <Forger
+              name="patient"
+              component={TextSelect}
+              label="Patient"
+              placeholder="Select patient"
+              options={patientOptions ?? []}
+              disabled={isPatientsLoading}
+              dependencies={[patientOptions, isPatientsLoading]}
+            />
+            <Forger
+              name="hospital_staff"
+              component={TextSelect}
+              label="Staff Member"
+              placeholder="Select staff member"
+              options={staffOptions ?? []}
+              disabled={isStaffLoading}
+              dependencies={[staffOptions, isStaffLoading]}
+            />
+            <Forger
+              name="purpose"
+              component={TextSelect}
+              label="Purpose"
+              placeholder="Select purpose of visit"
+              options={purposeOptions}
+            />
+            <Forger
+              name="priority"
+              component={TextSelect}
+              label="Priority"
+              placeholder="Select priority level"
+              options={priorityOptions}
+            />
+            <Forger
+              name="estimated_waiting_time"
+              component={TextInput}
+              label="Estimated Waiting Time (minutes)"
+              placeholder="Enter estimated waiting time"
+              type="number"
+            />
+          </Forge>
           <div className="flex justify-end gap-3 pt-4">
             <Button
               type="button"
