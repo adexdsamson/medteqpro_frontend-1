@@ -31,7 +31,10 @@ const fullSchema = yup.object().shape({
   address: yup.string().required("Address is required"),
   city: yup.string().required("City is required"),
   state: yup.string().required("State is required"),
-  phone_number: yup.string().required("Phone number is required"),
+  phone_number: yup
+    .string()
+    .matches(/^\d{11}$/u, "Phone number must be exactly 11 digits")
+    .required("Phone number is required"),
   marital_status: yup.string().required("Marital status is required"),
   date_of_birth: yup.string().required("Date of birth is required"),
   gender: yup.string().required("Gender is required"),
@@ -385,6 +388,10 @@ const CreatePatientDialog: React.FC<CreatePatientDialogProps> = ({
                   component={TextInput}
                   label="Phone Number"
                   placeholder="Phone Number"
+                  type="tel"
+                  inputMode="numeric"
+                  maxLength={11}
+                  pattern="^[0-9]{11}$"
                 />
               </div>
 
