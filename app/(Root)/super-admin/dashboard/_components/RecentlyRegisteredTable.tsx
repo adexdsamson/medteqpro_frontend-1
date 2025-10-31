@@ -12,6 +12,10 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { MoreHorizontal } from "lucide-react";
+import { ConfirmAlert } from "@/components/ConfirmAlert";
+import { useToastHandler } from "@/hooks/useToaster";
+import { useUpdateHospitalStatus } from "@/features/services/hospitalService";
+import { useQueryClient } from "@tanstack/react-query";
 
 type Hospital = {
   id: string;
@@ -33,6 +37,44 @@ export function RecentlyRegisteredTable({
   hospitals = [],
   isLoading = false,
 }: RecentlyRegisteredTableProps) {
+
+  const toast = useToastHandler();
+  const updateHospitalStatus = useUpdateHospitalStatus();
+  const queryClient = useQueryClient();
+
+  const handleActivate = async (hospital: Hospital) => {
+    try {
+      const res = await updateHospitalStatus.mutateAsync({
+        hospitalId: String(hospital.id),
+        status: "active",
+      });
+      if (res?.status === 200) {
+        toast.success("Hospital Activation", `${hospital.hospitalName || hospital.name} is now active`);
+        queryClient.invalidateQueries({ queryKey: ["superadmin-dashboard"] });
+      } else {
+        toast.error("Hospital Activation", "Failed to activate hospital");
+      }
+    } catch (error) {
+      toast.error("Hospital Activation", String(error));
+    }
+  };
+
+  const handleSuspend = async (hospital: Hospital) => {
+    try {
+      const res = await updateHospitalStatus.mutateAsync({
+        hospitalId: String(hospital.id),
+        status: "suspended",
+      });
+      if (res?.status === 200) {
+        toast.success("Hospital Suspension", `${hospital.hospitalName || hospital.name} has been suspended`);
+        queryClient.invalidateQueries({ queryKey: ["superadmin-dashboard"] });
+      } else {
+        toast.error("Hospital Suspension", "Failed to suspend hospital");
+      }
+    } catch (error) {
+      toast.error("Hospital Suspension", String(error));
+    }
+  };
 
   const columns: ColumnDef<Hospital>[] = [
     {
@@ -104,24 +146,34 @@ export function RecentlyRegisteredTable({
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem
-                className="text-xs text-center"
-                onClick={() => {
-                  // Handle activate action
-                  console.log('Activate hospital:', hospital.id);
-                }}
-              >
-                Activate
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                className="text-xs text-center"
-                onClick={() => {
-                  // Handle suspend action
-                  console.log('Suspend hospital:', hospital.id);
-                }}
-              >
-                Suspend
-              </DropdownMenuItem>
+              {(hospital.status === "inactive" || hospital.status === "suspended") && (
+                <ConfirmAlert
+                  title="Activate Hospital"
+                  text={`Are you sure you want to activate ${hospital.hospitalName || hospital.name}?`}
+                  confirmText="Activate"
+                  cancelText="Cancel"
+                  trigger={
+                    <span className={`p-2 text-xs block cursor-pointer ${updateHospitalStatus.isPending ? 'opacity-50 pointer-events-none' : ''}`}>
+                      Activate
+                    </span>
+                  }
+                  onConfirm={() => handleActivate(hospital)}
+                />
+              )}
+              {hospital.status === "active" && (
+                <ConfirmAlert
+                  title="Suspend Hospital"
+                  text={`Are you sure you want to suspend ${hospital.hospitalName || hospital.name}?`}
+                  confirmText="Suspend"
+                  cancelText="Cancel"
+                  trigger={
+                    <span className={`p-2 text-xs block cursor-pointer ${updateHospitalStatus.isPending ? 'opacity-50 pointer-events-none' : ''}`}>
+                      Suspend
+                    </span>
+                  }
+                  onConfirm={() => handleSuspend(hospital)}
+                />
+              )}
               <DropdownMenuItem
                 className="text-xs text-center"
                 onClick={() => {
