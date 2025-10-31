@@ -116,23 +116,35 @@ export function PatientStatistics({
   const data = React.useMemo(() => {
     if (topHospitals) {
       // Define colors for the top hospitals
-      const colors = ["#008080", "#006666", "#004C4C"];
+      const colors = [
+        "#16C2D5",
+        "#23B5D3",
+        "#55DDE0",
+        "#A1E3F9",
+        "#D4F1F4",
+      ];
 
       // Map topHospitals to the format needed by PieChart
-      const topHospitalsData = topHospitals.map((hospital, index) => ({
-        name: hospital.name,
+      const maxTop = 5;
+      const sortedTop = [...topHospitals].sort(
+        (a, b) => b.percentage_of_total_patients - a.percentage_of_total_patients
+      );
+      const topHospitalsData = sortedTop.slice(0, maxTop).map((hospital, index) => ({
+        name: (hospital.name ?? '').trim() || 'Unknown',
         value: hospital.percentage_of_total_patients,
         color: colors[index % colors.length],
       }));
 
       // Add otherHospitals if it exists
-      if (otherHospitals) {
+      // Only include Others when the backend has already aggregated
+      // the remainder outside the provided top list (<= maxTop)
+      if (otherHospitals && topHospitals.length <= maxTop) {
         return [
           ...topHospitalsData,
           {
             name: "Others",
             value: otherHospitals.percentage_of_total_patients,
-            color: "#4ECDC4",
+            color: "#0E9BA4",
           },
         ];
       }
@@ -143,6 +155,33 @@ export function PatientStatistics({
     // Fall back to patientsByHospital or default data
     return patientsByHospital || [];
   }, [topHospitals, otherHospitals, patientsByHospital]);
+
+  // Derive top hospital name from the computed data
+  const topHospitalName = React.useMemo(() => {
+    // Prefer computing from topHospitals to exclude the aggregated "Others"
+    if (topHospitals && topHospitals.length > 0) {
+      const maxItem = [...topHospitals].reduce((prev, curr) =>
+        (curr.percentage_of_total_patients > prev.percentage_of_total_patients ? curr : prev)
+      );
+      const name = (maxItem.name ?? '').trim();
+      return name.length ? name : 'Unknown';
+    }
+
+    if (!data || data.length === 0) return undefined;
+    const filtered = data.filter((d) => d.name !== 'Others');
+    const source = filtered.length ? filtered : data;
+    const sorted = [...source].sort((a, b) => b.value - a.value);
+    const name = (sorted[0]?.name ?? '').trim();
+    return name.length ? name : 'Unknown';
+  }, [data, topHospitals]);
+
+  // Legend: top 5 hospitals by share (exclude aggregated "Others")
+  const legendItems = React.useMemo(() => {
+    if (!data || data.length === 0) return [];
+    const filtered = data.filter((d) => d.name !== 'Others');
+    const sorted = [...filtered].sort((a, b) => b.value - a.value);
+    return sorted.slice(0, 5);
+  }, [data]);
 
   // Calculate total patients from the data if totalPatients is not provided
   // const displayTotalPatients = React.useMemo(() => {
@@ -195,8 +234,15 @@ export function PatientStatistics({
               </div>
             )}
             <div className="flex flex-col gap-2">
+              {isLoading ? (
+                <Skeleton className="h-4 w-40" />
+              ) : (
+                <div className="text-xs text-gray-600">
+                  Top Hospital: <span className="font-medium">{topHospitalName ?? '-'}</span>
+                </div>
+              )}
               {isLoading
-                ? Array(4)
+                ? Array(5)
                     .fill(0)
                     .map((_, index) => (
                       <div key={index} className="flex items-center gap-2">
@@ -204,7 +250,7 @@ export function PatientStatistics({
                         <Skeleton className="h-4 w-20" />
                       </div>
                     ))
-                : data.map((item, index) => (
+                : legendItems.map((item, index) => (
                     <LegendItem
                       key={index}
                       color={item.color}

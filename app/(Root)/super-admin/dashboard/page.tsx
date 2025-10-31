@@ -39,9 +39,9 @@ function Dashboard() {
           />
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 sm:gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 sm:gap-6">
           <div className="lg:col-span-1">
-            <SectionHeader title="Top 3 Performing Hospitals" />
+            <SectionHeader title="Top 5 Performing Hospitals" />
             <PatientStatistics
               totalPatients={
                 dashboardData?.data.data?.hospital_analytics?.total_patients
