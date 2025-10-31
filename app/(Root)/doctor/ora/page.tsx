@@ -159,8 +159,8 @@ function CreateORADialog({ children }: { children?: React.ReactNode }) {
           data.hours_observed === null || data.hours_observed === undefined
             ? undefined
             : Number(data.hours_observed),
-        referrer_hospital: data.referrer_hospital || null,
-        referrer_department: data.referrer_department || null,
+        referrer_hospital: data.referrer_hospital || undefined,
+        referrer_department: data.referrer_department || undefined,
       };
 
       await createRecord(payload);
