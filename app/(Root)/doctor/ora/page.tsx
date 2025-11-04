@@ -169,7 +169,7 @@ function CreateORADialog({ children }: { children?: React.ReactNode }) {
       setOpen(false);
     } catch (error) {
       const err = error as { message?: string };
-      toast.error("Error", err?.message || "Failed to create ORA record");
+      toast.error("Error", err);
     }
   };
 

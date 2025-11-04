@@ -88,7 +88,7 @@ export default function QueuingSystemPage() {
         throw new Error(response.message);
       }
     } catch (error) {
-      handler.error("Failed to add patient to queue");
+      handler.error("Failed to add patient to queue", error);
       console.error(error);
     }
   };
