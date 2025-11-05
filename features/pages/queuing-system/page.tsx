@@ -16,10 +16,11 @@ import AddToQueueDialog, { QueueFormData } from "./_components/AddToQueueDialog"
 import { 
   useGetQueueEntries, 
   useAddQueueEntry,
-  // useUpdateQueueStatus,
+  useUpdateQueueStatus,
   formatQueueDate,
   AddQueueEntryRequest
 } from "@/features/services/queueService";
+import { storeFunctions } from "@/store/authSlice";
 
 /**
  * Queuing System Page Component
@@ -37,11 +38,13 @@ export default function QueuingSystemPage() {
   
   // Hooks
   const handler = useToastHandler();
+  const role = storeFunctions.getState().user?.role;
+  const isDoctor = String(role || "").toLowerCase() === "doctor";
   
   // API Queries
   const { data: queueEntriesData, isLoading, isError, refetch } = useGetQueueEntries();
   const { mutateAsync: addQueueEntry } = useAddQueueEntry();
-  // const { mutateAsync: updateQueueStatus } = useUpdateQueueStatus();
+  const { mutateAsync: updateQueueStatus } = useUpdateQueueStatus();
   
   // Load data from API when available
   useEffect(() => {
@@ -100,21 +103,37 @@ export default function QueuingSystemPage() {
   // };
   
   // Handle updating a queue entry status
-  // const handleUpdateStatus = async (queueId: string, status: string = 'in_progress') => {
-  //   try {
-  //     const response = await updateQueueStatus({ queue_id: queueId, status });
-  //     if (response.status) {
-  //       handler.success("Status Updated", "Queue status has been updated successfully");
-  //       // Refresh the queue data
-  //       refetch();
-  //     } else {
-  //       throw new Error(response.message);
-  //     }
-  //   } catch (error) {
-  //     handler.error("Failed to update queue status");
-  //     console.error(error);
-  //   }
-  // };
+  /**
+   * Advance queue: set the next waiting entry to in_progress
+   * Picks the first entry with status containing 'waiting'.
+   * @returns {Promise<void>} Resolves when update completes and table refetches
+   */
+  /**
+   * Error shape accepted by toast handler without using explicit any.
+   * @typedef {object} ApiErrorResponse
+   * @property {{ data?: { message?: string } }} [response]
+   */
+  type ToastError = { response?: { data?: { message?: string } } } | string | Error;
+  const handleNext = async () => {
+    try {
+      const next = queueData.find((q) => String(q.status || '').toLowerCase().includes('waiting'));
+      if (!next) {
+        handler.error("No waiting patient found");
+        return;
+      }
+
+      const resp = await updateQueueStatus({ queue_id: next.id, status: 'completed' });
+      if (resp?.status) {
+        handler.success("Next Patient", "Queue advanced to the next patient");
+        await refetch();
+      } else {
+        throw new Error(resp?.message || 'Failed to update');
+      }
+    } catch (error) {
+      handler.error("Failed to advance queue", error as unknown as ToastError);
+      console.error(error);
+    }
+  };
 
   return (
     <>
@@ -162,8 +181,17 @@ export default function QueuingSystemPage() {
           </Button>
         </div> */}
         
+        {/* Toolbar above table - only visible to doctor role */}
+        {isDoctor && (
+          <div className="mt-4 flex items-center justify-end gap-2">
+            <Button className="bg-blue-700 hover:bg-blue-800" onClick={handleNext}>
+              Next
+            </Button>
+          </div>
+        )}
+
         {/* Queue Table */}
-        <div className="mt-4">
+        <div className="mt-2">
           {isLoading ? (
             <div className="text-center py-8">Loading queue data...</div>
           ) : isError ? (

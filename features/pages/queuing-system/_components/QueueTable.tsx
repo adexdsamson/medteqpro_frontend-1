@@ -2,6 +2,9 @@ import React from "react";
 import { DataTable } from "@/components/DataTable";
 import { ColumnDef } from "@tanstack/react-table";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
+import { buildRolePath, hasPatientsRoute } from "@/lib/utils";
+import { storeFunctions } from "@/store/authSlice";
 
 /**
  * Queue Entry Interface
@@ -39,6 +42,16 @@ type QueueTableProps = {
  * 
  * @param {QueueTableProps} props - The component props
  * @returns {JSX.Element} The queue table component
+ */
+/**
+ * QueueTable Component
+ * Renders the queue entries table with optional Start action.
+ * When `onStartPatient` is not provided, Start navigates to patient detail page.
+ *
+ * @param {QueueTableProps} props - Table data and optional start handler
+ * @returns {JSX.Element} Configured DataTable for queue entries
+ * @example
+ * <QueueTable data={rows} />
  */
 export default function QueueTable({ data, onStartPatient }: QueueTableProps) {
   // Define columns for the queue table
@@ -86,13 +99,25 @@ export default function QueueTable({ data, onStartPatient }: QueueTableProps) {
     },
   ];
 
-  // Add action column if onStartPatient is provided
-  if (onStartPatient) {
-    columns.push({
-      id: "actions",
-      header: "ACTIONS",
-      cell: ({ row }) => {
-        const queueEntry = row.original;
+  // Always include Actions column: if onStartPatient provided, use it; otherwise navigate to patient details.
+  columns.push({
+    id: "actions",
+    header: "ACTIONS",
+    cell: ({ row }) => {
+      const queueEntry = row.original;
+      const role = storeFunctions.getState().user?.role;
+      const isDoctor = String(role || "").toLowerCase() === "doctor";
+      const isCompleted = String(queueEntry.status || "").toLowerCase() === "completed";
+      const canGoToPatients = hasPatientsRoute(role);
+      const href = buildRolePath(role, ["patients", queueEntry.patient_id]);
+
+      // Only doctors should see the Start action; hide if status is completed
+      if (!isDoctor || isCompleted) {
+        return null;
+      }
+
+      // If consumer provided a handler, prefer it
+      if (onStartPatient) {
         return (
           <button
             onClick={() => onStartPatient(queueEntry)}
@@ -101,9 +126,31 @@ export default function QueueTable({ data, onStartPatient }: QueueTableProps) {
             Start
           </button>
         );
-      },
-    });
-  }
+      }
+
+      // Otherwise, render navigation Start action if permitted; else a disabled button
+      if (canGoToPatients && href) {
+        return (
+          <Link
+            href={href}
+            className="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm"
+          >
+            Start
+          </Link>
+        );
+      }
+
+      return (
+        <button
+          disabled
+          className="px-3 py-1 bg-gray-300 text-gray-600 rounded cursor-not-allowed text-sm"
+          title="Access restricted"
+        >
+          Start
+        </button>
+      );
+    },
+  });
 
   return (
     <div className="w-full max-w-[76vw] bg-white p-2">

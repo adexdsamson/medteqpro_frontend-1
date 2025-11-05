@@ -16,7 +16,10 @@ import { MultiSelect } from "@/components/FormInputs/MultiSelect";
 import { TextArea } from "@/components/FormInputs/TextArea";
 import { TextDateInput } from "@/components/FormInputs/TextDateInput";
 import { useForge, Forge, Forger, FormPropsRef } from "@/lib/forge";
-import { useCreateWoundRecord, CreateWoundRecordPayload } from "@/features/services/woundCareService";
+import {
+  useCreateWoundRecord,
+  CreateWoundRecordPayload,
+} from "@/features/services/woundCareService";
 import { usePatientsForAppointment } from "@/features/services/patientService";
 import { useToastHandler } from "@/hooks/useToaster";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -28,46 +31,99 @@ import { format } from "date-fns";
 const schema = yup.object().shape({
   patient_id: yup.string().required("Patient is required"),
   date_recorded: yup.date().required("Date recorded is required"),
-  description_tags: yup.array().of(yup.string().required()).min(1, "At least one description tag is required").required(),
-  affecting_factors_tags: yup.array().of(yup.string().required()).min(1, "At least one affecting factor is required").required(),
+  description_tags: yup
+    .array()
+    .of(yup.string().required())
+    .min(1, "At least one description tag is required")
+    .required(),
+  affecting_factors_tags: yup
+    .array()
+    .of(yup.string().required())
+    .min(1, "At least one affecting factor is required")
+    .required(),
   previous_treatment: yup.string().required("Previous treatment is required"),
   size_in_mm: yup.string().required("Size in mm is required"),
   width: yup.string().required("Width is required"),
   depth: yup.string().required("Depth is required"),
-  wound_bed_assessment: yup.string().required("Wound bed assessment is required"),
-  exudate_amount: yup.string().oneOf(["none", "scant", "small", "moderate", "large", "copious"]).required("Exudate amount is required"),
-  consistency: yup.string().oneOf(["serous", "sanguineous", "serosanguineous", "purulent", "haemopurulent", "other"]).required("Consistency is required"),
-  odour: yup.string().oneOf(["none", "mild", "moderate", "strong", "foul"]).required("Odour is required"),
-  infection_signs_tags: yup.array().of(yup.string().required()).min(1, "At least one infection sign is required").required(),
-  edges_description_tags: yup.array().of(yup.string().required()).min(1, "At least one edge description is required").required(),
-  wound_condition_overall: yup.string().required("Overall wound condition is required"),
-  edge_condition_overall: yup.string().required("Overall edge condition is required"),
+  wound_bed_assessment: yup
+    .string()
+    .required("Wound bed assessment is required"),
+  exudate_amount: yup
+    .string()
+    .oneOf(["none", "scant", "small", "moderate", "large", "copious"])
+    .required("Exudate amount is required"),
+  consistency: yup
+    .string()
+    .oneOf([
+      "serous",
+      "sanguineous",
+      "serosanguineous",
+      "purulent",
+      "haemopurulent",
+      "other",
+    ])
+    .required("Consistency is required"),
+  odour: yup
+    .string()
+    .oneOf(["none", "mild", "moderate", "strong", "foul"])
+    .required("Odour is required"),
+  infection_signs_tags: yup
+    .array()
+    .of(yup.string().required())
+    .min(1, "At least one infection sign is required")
+    .required(),
+  edges_description_tags: yup
+    .array()
+    .of(yup.string().required())
+    .min(1, "At least one edge description is required")
+    .required(),
+  wound_condition_overall: yup
+    .string()
+    .required("Overall wound condition is required"),
+  edge_condition_overall: yup
+    .string()
+    .required("Overall edge condition is required"),
   treatment_plan: yup.string().required("Treatment plan is required"),
   dressing_type: yup.string().required("Dressing type is required"),
-  dressing_change_reason: yup.string().required("Dressing change reason is required"),
+  dressing_change_reason: yup
+    .string()
+    .required("Dressing change reason is required"),
   dressing_frequency: yup.string().required("Dressing frequency is required"),
-  follow_up_needed: yup.string().oneOf(["Yes", "No"]).required("Follow up needed is required"),
-  follow_up_date: yup.string().optional().when("follow_up_needed", {
-    is: "Yes",
-    then: (schema) => schema.required("Follow up date is required when follow up is needed"),
-    otherwise: (schema) => schema.optional(),
-  }),
-  follow_up_notes: yup.string().optional().when("follow_up_needed", {
-    is: "Yes",
-    then: (schema) => schema.required("Follow up notes are required when follow up is needed"),
-    otherwise: (schema) => schema.optional(),
-  }),
+  follow_up_needed: yup
+    .string()
+    .oneOf(["Yes", "No"])
+    .required("Follow up needed is required"),
+  follow_up_date: yup
+    .string()
+    .optional()
+    .when("follow_up_needed", {
+      is: "Yes",
+      then: (schema) =>
+        schema.required("Follow up date is required when follow up is needed"),
+      otherwise: (schema) => schema.optional(),
+    }),
+  follow_up_notes: yup
+    .string()
+    .optional()
+    .when("follow_up_needed", {
+      is: "Yes",
+      then: (schema) =>
+        schema.required(
+          "Follow up notes are required when follow up is needed"
+        ),
+      otherwise: (schema) => schema.optional(),
+    }),
 });
 
 type FormValues = yup.InferType<typeof schema>;
-
-
 
 interface CreateWoundRecordDialogProps {
   children: React.ReactNode;
 }
 
-export default function CreateWoundRecordDialog({ children }: CreateWoundRecordDialogProps) {
+export default function CreateWoundRecordDialog({
+  children,
+}: CreateWoundRecordDialogProps) {
   const [open, setOpen] = useState(false);
   const [step, setStep] = useState(1);
   const toast = useToastHandler();
@@ -108,6 +164,8 @@ export default function CreateWoundRecordDialog({ children }: CreateWoundRecordD
       follow_up_notes: undefined,
     },
   });
+
+  // console.log(errors);
 
   // Options for dropdowns based on API documentation
   const exudateAmountOptions = [
@@ -188,8 +246,10 @@ export default function CreateWoundRecordDialog({ children }: CreateWoundRecordD
         affecting_factors_tags: data.affecting_factors_tags,
         infection_signs_tags: data.infection_signs_tags,
         edges_description_tags: data.edges_description_tags,
-        follow_up_date: data.follow_up_needed === "Yes" ? (data.follow_up_date || "") : "",
-        follow_up_notes: data.follow_up_needed === "Yes" ? (data.follow_up_notes || "") : "",
+        follow_up_date:
+          data.follow_up_needed === "Yes" ? data.follow_up_date || "" : "",
+        follow_up_notes:
+          data.follow_up_needed === "Yes" ? data.follow_up_notes || "" : "",
       };
 
       await createWoundRecordMutation.mutateAsync(payload);
@@ -212,6 +272,7 @@ export default function CreateWoundRecordDialog({ children }: CreateWoundRecordD
   };
 
   const handleDialogSubmit = () => {
+    console.log(step)
     if (step < 3) {
       nextStep();
     } else {
@@ -229,12 +290,19 @@ export default function CreateWoundRecordDialog({ children }: CreateWoundRecordD
           </DialogTitle>
         </DialogHeader>
 
-        <Forge control={control} onSubmit={handleSubmit} ref={formRef} className="space-y-6">
+        <Forge
+          control={control}
+          onSubmit={handleSubmit}
+          ref={formRef}
+          className="space-y-6"
+        >
           {/* Step 1: Basic Information */}
           {step === 1 && (
             <div className="space-y-6">
-              <h3 className="text-lg font-medium text-gray-700">Basic Information</h3>
-              
+              <h3 className="text-lg font-medium text-gray-700">
+                Basic Information
+              </h3>
+
               <div className="grid grid-cols-2 gap-4">
                 <Forger
                   name="patient_id"
@@ -243,7 +311,7 @@ export default function CreateWoundRecordDialog({ children }: CreateWoundRecordD
                   placeholder="Select Patient"
                   options={patients}
                 />
-                
+
                 <Forger
                   name="date_recorded"
                   component={TextDateInput}
@@ -344,8 +412,10 @@ export default function CreateWoundRecordDialog({ children }: CreateWoundRecordD
           {/* Step 2: Overall Assessment */}
           {step === 2 && (
             <div className="space-y-6">
-              <h3 className="text-lg font-medium text-gray-700">Overall Assessment</h3>
-              
+              <h3 className="text-lg font-medium text-gray-700">
+                Overall Assessment
+              </h3>
+
               <div className="grid grid-cols-2 gap-4">
                 <Forger
                   name="wound_condition_overall"
@@ -374,8 +444,10 @@ export default function CreateWoundRecordDialog({ children }: CreateWoundRecordD
           {/* Step 3: Dressing and Follow Up */}
           {step === 3 && (
             <div className="space-y-6">
-              <h3 className="text-lg font-medium text-gray-700">Dressing and Follow Up</h3>
-              
+              <h3 className="text-lg font-medium text-gray-700">
+                Dressing and Follow Up
+              </h3>
+
               <div className="grid grid-cols-2 gap-4">
                 <Forger
                   name="dressing_type"

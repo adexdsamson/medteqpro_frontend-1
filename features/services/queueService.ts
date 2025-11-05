@@ -1,7 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { getRequest, postRequest, putRequest, deleteRequest } from '@/lib/axiosInstance';
-import { format } from 'date-fns';
+import { useMutation, useQuery } from "@tanstack/react-query";
+import {
+  getRequest,
+  postRequest,
+  deleteRequest,
+  patchRequest,
+} from "@/lib/axiosInstance";
+import { format } from "date-fns";
 
 // Types
 export type QueueEntry = {
@@ -32,44 +37,50 @@ export type AddQueueEntryRequest = {
   patient: string;
   hospital_staff: string;
   purpose: string;
-  priority: 'high' | 'medium' | 'low' | 'urgent';
+  priority: "high" | "medium" | "low" | "urgent";
   estimated_waiting_time: number;
 };
 
 // API functions
 const getQueueEntries = async () => {
   const response = await getRequest({
-    url: 'queue-management/'
+    url: "queue-management/",
   });
   return response.data;
 };
 
 const getQueueOverview = async () => {
   const response = await getRequest({
-    url: 'queue-management/overview/'
+    url: "queue-management/overview/",
   });
   return response.data;
 };
 
 const addQueueEntry = async (entry: AddQueueEntryRequest) => {
   const response = await postRequest({
-    url: 'queue-management/add-patient/',
-    payload: entry
+    url: "queue-management/add-patient/",
+    payload: entry,
   });
   return response.data;
 };
 
-const updateQueueStatus = async ({ queue_id, status }: { queue_id: string; status: string }) => {
-  const response = await putRequest({
+const updateQueueStatus = async ({
+  queue_id,
+  status,
+}: {
+  queue_id: string;
+  status: string;
+}) => {
+  const response = await patchRequest({
     url: `queue-management/update-status/${queue_id}/`,
-    payload: { status }
+    payload: { status },
   });
   return response.data;
 };
 
 const removeQueueEntry = async (id: string) => {
   const response = await deleteRequest({
-    url: `queue-management/${id}/`
+    url: `queue-management/${id}/`,
   });
   return response.data;
 };
@@ -78,7 +89,7 @@ const removeQueueEntry = async (id: string) => {
 export const formatQueueDate = (dateString: string) => {
   try {
     const date = new Date(dateString);
-    return format(date, 'MMM dd, yyyy h:mm a');
+    return format(date, "MMM dd, yyyy h:mm a");
   } catch {
     return dateString;
   }
@@ -87,15 +98,15 @@ export const formatQueueDate = (dateString: string) => {
 // React Query hooks
 export const useGetQueueEntries = () => {
   return useQuery<ApiResponse<QueueEntry[]>, ApiResponseError>({
-    queryKey: ['queue'], 
-    queryFn: getQueueEntries
+    queryKey: ["queue"],
+    queryFn: getQueueEntries,
   });
 };
 
 export const useGetQueueOverview = () => {
   return useQuery<ApiResponse<any>, ApiResponseError>({
-    queryKey: ['queueOverview'], 
-    queryFn: getQueueOverview
+    queryKey: ["queueOverview"],
+    queryFn: getQueueOverview,
   });
 };
 
@@ -105,20 +116,22 @@ export const useAddQueueEntry = () => {
     ApiResponseError,
     AddQueueEntryRequest
   >({
-    mutationFn: (entry) => addQueueEntry(entry)
+    mutationFn: (entry) => addQueueEntry(entry),
   });
 };
 
 export const useUpdateQueueStatus = () => {
-  return useMutation<ApiResponse<any>, ApiResponseError, { queue_id: string; status: string }>({
-    mutationFn: (params) => updateQueueStatus(params)
+  return useMutation<
+    ApiResponse<any>,
+    ApiResponseError,
+    { queue_id: string; status: string }
+  >({
+    mutationFn: (params) => updateQueueStatus(params),
   });
 };
 
 export const useRemoveQueueEntry = () => {
-  return useMutation<ApiResponse<void>, ApiResponseError, string>(
-    {
-      mutationFn: (id) => removeQueueEntry(id)
-    }
-  );
+  return useMutation<ApiResponse<void>, ApiResponseError, string>({
+    mutationFn: (id) => removeQueueEntry(id),
+  });
 };

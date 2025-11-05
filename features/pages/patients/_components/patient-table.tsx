@@ -48,6 +48,19 @@ export const columns: ColumnDef<PatientListResponse>[] = [
       const patient = row.original;
       const role = storeFunctions.getState().user?.role;
 
+      // Hide navigation action for front desk role while keeping share dialog
+      if (String(role).toLowerCase() === "front_desk") {
+        return (
+          <div className="flex items-center gap-1">
+            <PatientShareDialog
+              patientId={patient.id}
+              patientUserId={patient.user_id}
+              fullName={patient.full_name}
+            />
+          </div>
+        );
+      }
+
       if (!hasPatientsRoute(role)) {
         return (
           <Button
