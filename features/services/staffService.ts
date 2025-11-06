@@ -159,20 +159,17 @@ export type StaffPermissionRole =
   | "admin";
 
 export type PermissionCategory =
-  | "create_patient"
-  | "patient"
-  | "wound_care"
-  | "opa_record"
+  | "patient_management"
+  | "wound_care_management"
+  | "ora_management"
   | "bed_management"
   | "staff_management"
   | "payroll_management"
-  | "lab_result"
-  | "laboratory"
-  | "lab_draft"
-  | "pickup"
-  | "internal_pharmacy"
-  | "queuing_system"
-  | "appointment";
+  | "lab_management"
+  | "pickup_management"
+  | "internal_pharmacy_management"
+  | "queue_management"
+  | "appointment_management"; 
 
 export interface StaffPermissions {
   id: string; // staff id

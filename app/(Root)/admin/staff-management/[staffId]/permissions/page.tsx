@@ -24,20 +24,25 @@ const ROLE_CHIPS: { key: StaffPermissions["role"]; label: string }[] = [
 ];
 
 const PERMISSION_LABELS: { key: PermissionCategory; label: string }[] = [
-  { key: "create_patient", label: "Create a New Patient" },
-  { key: "patient", label: "Patient" },
-  { key: "wound_care", label: "Wound Care" },
-  { key: "opa_record", label: "OPA Record" },
+  { key: "patient_management", label: "Patient Management" },
+  { key: "wound_care_management", label: "Wound Care Management" },
+  { key: "ora_management", label: "OPA Record Management" },
   { key: "bed_management", label: "Bed Management" },
   { key: "staff_management", label: "Staff Management" },
   { key: "payroll_management", label: "Payroll Management" },
-  { key: "lab_result", label: "Lab Result" },
-  { key: "laboratory", label: "Laboratory" },
-  { key: "lab_draft", label: "Lab Draft" },
-  { key: "pickup", label: "Pick Up" },
-  { key: "internal_pharmacy", label: "Internal Pharmacy" },
-  { key: "queuing_system", label: "Queuing System" },
-  { key: "appointment", label: "Appointment" },
+  { key: "lab_management", label: "Laboratory Management" },
+  { key: "pickup_management", label: "Pick Up Management" },
+  {
+    key: "internal_pharmacy_management",
+    label: "Internal Pharmacy Management",
+  },
+  { key: "pickup_management", label: "Pick Up Management" },
+  {
+    key: "internal_pharmacy_management",
+    label: "Internal Pharmacy Management",
+  },
+  { key: "queue_management", label: "Queuing System" },
+  { key: "appointment_management", label: "Appointment Management" },
 ];
 
 export default function StaffPermissionPage() {
@@ -51,21 +56,20 @@ export default function StaffPermissionPage() {
   // Extract the API payload (Api<StaffPermissions> -> data: StaffPermissions)
   const apiData = data?.data?.data;
 
-  const [permissions, setPermissions] = useState<Record<PermissionCategory, boolean>>({
-    create_patient: false,
-    patient: false,
-    wound_care: false,
-    opa_record: false,
+  const [permissions, setPermissions] = useState<
+    Record<PermissionCategory, boolean>
+  >({
+    patient_management: false,
+    wound_care_management: false,
+    ora_management: false,
     bed_management: false,
     staff_management: false,
     payroll_management: false,
-    lab_result: false,
-    laboratory: false,
-    lab_draft: false,
-    pickup: false,
-    internal_pharmacy: false,
-    queuing_system: false,
-    appointment: false,
+    lab_management: false,
+    pickup_management: false,
+    internal_pharmacy_management: false,
+    queue_management: false,
+    appointment_management: false,
   });
 
   const activeRole = apiData?.role;
@@ -124,7 +128,10 @@ export default function StaffPermissionPage() {
             text="Save permission changes for this staff?"
             onConfirm={handleSave}
             trigger={
-              <Button className="bg-blue-600 hover:bg-blue-700 text-white" loading={isPending}>
+              <Button
+                className="bg-blue-600 hover:bg-blue-700 text-white"
+                loading={isPending}
+              >
                 Done
               </Button>
             }
@@ -135,14 +142,14 @@ export default function StaffPermissionPage() {
         <div className="bg-white border rounded-md overflow-hidden">
           <div className="flex items-center justify-between px-4 py-3 border-b">
             <span className="text-sm font-medium">All</span>
-            <Switch
-              checked={allEnabled}
-              onCheckedChange={handleToggleAll}
-            />
+            <Switch checked={allEnabled} onCheckedChange={handleToggleAll} />
           </div>
 
           {PERMISSION_LABELS.map(({ key, label }) => (
-            <div key={key} className="flex items-center justify-between px-4 py-3 border-b last:border-b-0">
+            <div
+              key={key}
+              className="flex items-center justify-between px-4 py-3 border-b last:border-b-0"
+            >
               <span className="text-sm">{label}</span>
               <Switch
                 checked={permissions[key]}

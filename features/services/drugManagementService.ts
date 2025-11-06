@@ -3,6 +3,7 @@
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { getRequest, postRequest, deleteRequest } from "@/lib/axiosInstance";
 import { ApiResponse, ApiResponseError, ApiResponseList } from "@/types";
+import { AxiosResponse } from "axios";
 
 // =====================
 // Enums and Utility Types
@@ -165,6 +166,8 @@ export type DrugOrder = {
 };
 
 export type DrugOrdersOverview = {
+  total_administered_quantity: number;
+  total_current_stock: number;
   total_completed_orders: number;
   total_pending_pickups: number;
   total_cancelled_pickups: number;
@@ -294,11 +297,11 @@ export const useGetDrugOrders = (options?: {
 };
 
 export const useGetDrugOrdersOverview = () => {
-  return useQuery<ApiResponse<DrugOrdersOverview>, ApiResponseError>({
+  return useQuery<AxiosResponse<DrugOrdersOverview>, ApiResponseError>({
     queryKey: ["drug-orders-overview"],
     queryFn: async () =>
       await getRequest({
-        url: `drug-management/hospital/drug-orders/overview/`,
+        url: `drug-management/hospital/drugs/overview/`,
       }),
     refetchOnWindowFocus: false,
   });

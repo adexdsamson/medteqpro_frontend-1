@@ -316,14 +316,14 @@ export const moduleConfigs: ModuleConfig[] = [
         href: "/dashboard",
       },
       {
-        label: "Laboratory",
-        icon: FlaskConical,
-        href: "/laboratory",
-      },
-      {
         label: "Queuing System",
         icon: Activity,
         href: "/queuing-system",
+      },
+      {
+        label: "Laboratory",
+        icon: FlaskConical,
+        href: "/laboratory",
       },
       {
         label: "Appointment",

@@ -143,19 +143,19 @@ const InternalPharmacyPage = () => {
     useGetDrugOrdersOverview();
     
   const overviewStats = useMemo(() => {
-    const overview = overviewResp?.data?.data;
+    const overview = overviewResp?.data;
     if (overview) {
       return {
-        totalCurrentStock: 22300, // Keep static for now as no API endpoint for this
-        totalAdministered: 1345, // Keep static for now as no API endpoint for this
+        totalCurrentStock: overview.total_current_stock, 
+        totalAdministered: overview.total_administered_quantity, 
         totalCompletedOrders: overview.total_completed_orders,
-        totalPendingPickups: overview.total_pending_pickups,
-        totalCancelledPickups: overview.total_cancelled_pickups,
+        totalPendingPickups: overview.total_pending_pickups ?? 0,
+        totalCancelledPickups: overview.total_cancelled_pickups ?? 0,
       };
     }
     return {
-      totalCurrentStock: 22300,
-      totalAdministered: 1345,
+      totalCurrentStock: 0,
+      totalAdministered: 0,
       totalCompletedOrders: 0,
       totalPendingPickups: 0,
       totalCancelledPickups: 0,
@@ -515,7 +515,7 @@ const InternalPharmacyPage = () => {
             <Card className="bg-white p-6">
               <div className="text-center">
                 <H3 className="text-2xl font-bold text-gray-900">
-                  {overviewStats.totalCurrentStock.toLocaleString()}
+                  {overviewStats.totalCurrentStock?.toLocaleString()}
                 </H3>
                 <P className="text-sm text-gray-600 mt-1">
                   Total Current Stock
@@ -526,7 +526,7 @@ const InternalPharmacyPage = () => {
             <Card className="bg-white p-6">
               <div className="text-center">
                 <H3 className="text-2xl font-bold text-gray-900">
-                  {overviewStats.totalAdministered.toLocaleString()}
+                  {overviewStats.totalAdministered?.toLocaleString()}
                 </H3>
                 <P className="text-sm text-gray-600 mt-1">Total Administered</P>
               </div>
@@ -535,7 +535,7 @@ const InternalPharmacyPage = () => {
             <Card className="bg-white p-6">
               <div className="text-center">
                 <H3 className="text-2xl font-bold text-gray-900">
-                  {overviewStats.totalCompletedOrders.toLocaleString()}
+                  {overviewStats.totalCompletedOrders?.toLocaleString()}
                 </H3>
                 <P className="text-sm text-gray-600 mt-1">
                   Total Completed Orders
@@ -546,7 +546,7 @@ const InternalPharmacyPage = () => {
             <Card className="bg-white p-6">
               <div className="text-center">
                 <H3 className="text-2xl font-bold text-gray-900">
-                  {overviewStats.totalPendingPickups.toLocaleString()}
+                  {overviewStats.totalPendingPickups?.toLocaleString()}
                 </H3>
                 <P className="text-sm text-gray-600 mt-1">
                   Total Pending Pickups

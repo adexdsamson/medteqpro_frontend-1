@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import {
   Sidebar,
@@ -67,7 +67,13 @@ export function AppSidebar({ moduleKey }: AppSidebarProps) {
                     asChild
                   >
                     <Link href={getModulePath(item.href)}>
-                      <item.icon className={`h-5 w-5 ${isActivePath(item.href) ? "text-[#118795]":"text-[#9CA6CB]"}`} />
+                      <item.icon
+                        className={`h-5 w-5 ${
+                          isActivePath(item.href)
+                            ? "text-[#118795]"
+                            : "text-[#9CA6CB]"
+                        }`}
+                      />
                       <span>{item.label}</span>
                     </Link>
                   </SidebarMenuButton>
