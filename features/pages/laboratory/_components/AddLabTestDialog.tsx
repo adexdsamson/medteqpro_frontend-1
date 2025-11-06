@@ -202,7 +202,7 @@ export const AddLabTestDialog: React.FC<AddLabTestDialogProps> = ({
         </DialogHeader>
 
         <div className="space-y-4">
-          <Forge {...{ control, onSubmit: handleSubmit, ref: formRef, debug: true }}>
+          <Forge {...{ control, onSubmit: handleSubmit, ref: formRef, }}>
             <div className="grid grid-cols-2 gap-4">
               <Forger
                 name="patient"

@@ -22,7 +22,7 @@ export default function PatientDetailPage() {
   const params = useParams();
   const patientId = params.patientId as string;
 
-  const { data: patientData, isLoading, error } = usePatientDetails(patientId);
+  const { data: patientData, isLoading, error } = usePatientDetails(patientId ?? params?.id);
 
   // Note: The usePatientDetails returns PatientType, but we need PatientDetailResponse
   // For now, we'll use mock data structure that matches our components

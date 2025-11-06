@@ -8,13 +8,28 @@ import { medicalTestColumns } from './medical-test-columns';
 import  PatientContactCard  from './PatientContactCard';
 import { usePatientDetails } from '@/features/services/patientService';
 import AddLabTestDialog from '@/features/pages/laboratory/_components/AddLabTestDialog';
+// import AddTestTypeDialog from '@/features/pages/laboratory/_components/AddTestTypeDialog';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Plus } from 'lucide-react';
 
+/**
+ * MedicalTestSection
+ *
+ * Renders the patient medical tests tab, including the test results table,
+ * patient contact card, and controls to order a new lab test. Adds a sibling
+ * button to trigger the Create Test Type dialog beside the Order Test button
+ * for quick access when a required test type is missing.
+ *
+ * @returns Patient medical tests section UI with action controls
+ * @example
+ * // Used within PatientDetailPage tab configuration
+ * <MedicalTestSection />
+ */
 export default function MedicalTestSection() {
   const params = useParams();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  // const [isTestTypeDialogOpen, setIsTestTypeDialogOpen] = useState(false);
   const patientId = params.patientId as string;
 
   // Fetch medical test data
@@ -64,19 +79,29 @@ export default function MedicalTestSection() {
 
   return (
     <div className="space-y-6">
-      {/* Header with Order Test button */}
+      {/* Header with Order Test and Create Test Type buttons */}
       <div className="flex justify-between items-center">
         <h3 className="text-lg font-semibold text-blue-600">Medical Test</h3>
-        <Button onClick={() => setIsDialogOpen(true)} className="bg-blue-600 hover:bg-blue-700">
-          <Plus className="mr-2 h-4 w-4" />
-          Order Test
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button onClick={() => setIsDialogOpen(true)} className="bg-blue-600 hover:bg-blue-700">
+            <Plus className="mr-2 h-4 w-4" />
+            Order Test
+          </Button>
+          {/* <Button onClick={() => setIsTestTypeDialogOpen(true)} className="bg-blue-600 hover:bg-blue-700">
+            <Plus className="mr-2 h-4 w-4" />
+            Create Test Type
+          </Button> */}
+        </div>
         <AddLabTestDialog 
           open={isDialogOpen}
           onOpenChange={setIsDialogOpen}
           patientId={patientId}
           onSuccess={handleTestCreated}
-        /> 
+        />
+        {/* <AddTestTypeDialog 
+          open={isTestTypeDialogOpen}
+          onOpenChange={setIsTestTypeDialogOpen}
+        /> */}
       </div>
 
       {/* Two-column layout */}
