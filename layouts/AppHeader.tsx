@@ -21,6 +21,16 @@ import { useNotificationsList } from "@/features/services/notificationsService";
 import type { Notification } from "@/features/services/notificationsService";
 import { useGetProfile } from "@/features/services/profileService";
 
+/**
+ * AppHeader
+ *
+ * Top application header showing the current date, notifications, and user profile.
+ * Formats the user role by replacing underscores with spaces for readability.
+ *
+ * @returns {JSX.Element} The application header UI.
+ * @example
+ * <AppHeader />
+ */
 export function AppHeader() {
   // Use our custom hook to access the current module configuration
   const { userProfile } = useModule();
@@ -32,7 +42,13 @@ export function AppHeader() {
   // No router usage in header after removing dropdown
 
   // Get current date in the format: Monday, 2 April 2024
-  const getCurrentDate = () => {
+  /**
+   * Get a formatted current date string.
+   * @returns {string} Formatted date like "Monday, 2 April 2024".
+   * @example
+   * const today = getCurrentDate();
+   */
+  const getCurrentDate = (): string => {
     const date = new Date();
     return date.toLocaleDateString("en-US", {
       weekday: "long",
@@ -148,7 +164,7 @@ export function AppHeader() {
               Hi, {userProfile?.first_name + " " + userProfile?.last_name}
             </p>
             <p className="text-xs text-muted-foreground truncate max-w-[120px] lg:max-w-none">
-              {userProfile?.role}
+              {formatRoleLabel(userProfile?.role)}
             </p>
           </div>
         </div>
@@ -156,3 +172,15 @@ export function AppHeader() {
     </header>
   );
 }
+  /**
+   * Format a role label by replacing underscores with spaces.
+   * Keeps the original casing provided by the backend.
+   *
+   * @param {string | null | undefined} role - Raw role value (e.g., "lab_scientist").
+   * @returns {string} Human-friendly role label (e.g., "lab scientist").
+   * @example
+   * formatRoleLabel('front_desk'); // 'front desk'
+   */
+  function formatRoleLabel(role?: string | null): string {
+    return String(role ?? "").replace(/_/g, " ");
+  }

@@ -142,12 +142,14 @@ export default function QueuingSystemPage() {
       <div className="p-6 space-y-6 min-h-screen w-full bg-gray-50">
         {/* Timer and Add to Queue button */}
         <div className="flex justify-end items-center">
-         
-          
-          {sessionActive ? (
+          {/* Hide Add to Queue for doctor role */}
+          {sessionActive && !isDoctor && (
             <AddToQueueDialog onAddToQueue={handleAddToQueue} />
-          ) : (
-            <Button 
+          )}
+
+          {/* Start New Session remains available when session is inactive */}
+          {!sessionActive && (
+            <Button
               className="bg-blue-700 hover:bg-blue-800"
               onClick={() => setSessionActive(true)}
             >
@@ -156,20 +158,22 @@ export default function QueuingSystemPage() {
           )}
         </div>
         
-        {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
-          <StatCard
-            title="Number on Queue"
-            value={queueData.length}
-            icon={<Users className="h-5 w-5 text-blue-500" />}
-          />
-          <StatCard
-            title="Patients Attended To"
-            value={patientsAttended}
-            icon={<Users className="h-5 w-5 text-blue-500" />}
-          />
-          <AISuggestionCard />
-        </div>
+        {/* Stats & AI Cards - hidden for doctor role */}
+        {!isDoctor && (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
+            <StatCard
+              title="Number on Queue"
+              value={queueData.length}
+              icon={<Users className="h-5 w-5 text-blue-500" />}
+            />
+            <StatCard
+              title="Patients Attended To"
+              value={patientsAttended}
+              icon={<Users className="h-5 w-5 text-blue-500" />}
+            />
+            <AISuggestionCard />
+          </div>
+        )}
         
         {/* Display Button */}
         {/* <div className="flex justify-end mt-4">
